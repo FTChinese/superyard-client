@@ -124,7 +124,6 @@ export class LoginComponent implements OnInit {
   }
 
   clearFeedback() {
-    console.log('input clicked');
     this.nameInvalid = '';
     this.pwInvalid = '';
   }

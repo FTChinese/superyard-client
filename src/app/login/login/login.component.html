@@ -17,7 +17,7 @@
         <div class="form-group">
           <label class="form-label" for="password">Password</label>
 
-          <input class="form-control" type="text" id="password" formControlName="password" required (click)="clearFeedback"/>
+          <input class="form-control" type="password" id="password" formControlName="password" required (click)="clearFeedback"/>
 
           <app-feedback-invalid *ngIf="pwInvalid">{{pwInvalid}}</app-feedback-invalid>
         </div>
