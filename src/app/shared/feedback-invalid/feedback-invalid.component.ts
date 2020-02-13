@@ -5,5 +5,5 @@ import { Component, Input } from '@angular/core';
   template: `<div class="o-forms-input__error">{{message}}</div>`,
 })
 export class FeedbackInvalidComponent {
-  @Input() message: string
+  @Input() message: string;
 }

@@ -1,13 +1,12 @@
 import { Component, OnInit, ComponentFactoryResolver, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { AccountService } from '../core/account.service';
-import { FlashDirective } from '../core/flash.directive';
-import { FlashComponent } from "../flash/flash.component";
-import { ICMSAccount } from '../models/staff';
-import { IApiErrorBody } from "../models/errors"
-
-
+import { FlashDirective } from '../../shared/flash.directive';
+import { FlashComponent } from '../../shared/flash/flash.component';
+import { ICMSAccount } from '../../models/staff';
+import { IApiErrorBody } from '../../models/errors';
+import { AuthService } from '../auth.service';
+import { Router, NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +27,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private accountService: AccountService,
+    private authService: AuthService,
+    private router: Router,
     private componentFactoryResolver: ComponentFactoryResolver,
   ) { }
 
@@ -52,11 +52,21 @@ export class LoginComponent implements OnInit {
 
     this.loginForm.disable();
 
-    this.accountService
+    this.authService
       .login(this.loginForm.value)
       .subscribe({
         next: (data: ICMSAccount) => {
           console.log(data);
+          if (this.authService.isLoggedIn) {
+            const redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : '/';
+
+            const navigationExtras: NavigationExtras = {
+              queryParamsHandling: 'preserve',
+              preserveFragment: true,
+            };
+
+            this.router.navigateByUrl(redirect, navigationExtras);
+          }
         },
         error: (err: HttpErrorResponse) => {
           this.loginForm.enable();

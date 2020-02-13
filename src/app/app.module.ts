@@ -5,32 +5,31 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AccountService } from "./core/account.service";
 import { TopBarComponent } from './top-bar/top-bar.component';
-import { FlashComponent } from './flash/flash.component';
-import { FeedbackInvalidComponent } from './feedback-invalid/feedback-invalid.component';
-import { FlashDirective } from './core/flash.directive';
-import { LoginModule } from './login/login.module';
+import { AuthModule } from './auth/auth.module';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { SharedModule } from './shared/shared.module';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TopBarComponent,
-    FlashComponent,
-    FeedbackInvalidComponent,
-    FlashDirective
+    PageNotFoundComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
-    LoginModule,
+    AuthModule,
     AppRoutingModule,
+    SharedModule,
   ],
-  providers: [AccountService],
+  providers: [],
   bootstrap: [AppComponent],
   entryComponents: [
-    FlashComponent,
+    // FlashComponent,
   ]
 })
 export class AppModule { }
