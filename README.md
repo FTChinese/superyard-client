@@ -29,3 +29,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Template Inheritance
 
 It seems Angular does not have the concept of template inheritance as the serve-side jinja2-linke template engines. I'm using nested `RouteOutlet` to acheive the same result. See this article [How to reuse common layouts in Angular using Router](https://medium.com/angular-in-depth/angular-routing-reusing-common-layout-for-pages-from-different-modules-440a23f86b57)
+
+## Login Status Persistence
+
+On server-side, you saves user account data in cookie (either via plain cookie or session data).
