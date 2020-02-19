@@ -6,7 +6,9 @@ import { FooterComponent } from './footer/footer.component';
 import { LayoutModule } from './layout/layout.module';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
-import { ReaderModule } from './reader/reader.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatMenuModule} from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { ReaderModule } from './reader/reader.module';
     HttpClientModule,
     LayoutModule,
     AppRoutingModule,
-    ReaderModule,
+    BrowserAnimationsModule,
+    MatMenuModule,
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
