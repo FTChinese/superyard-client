@@ -6,7 +6,12 @@ import { HomeComponent } from './home/home.component';
 import { AuthGuard } from '../auth/auth.guard';
 import { MainLayoutComponent } from './main-layout/main-layout.component';
 
-
+/**
+ * Lazy loading every module.
+ * The layout module acts like template inheritance in tranditional
+ * server-side rendering engine.
+ * @see https://medium.com/angular-in-depth/angular-routing-reusing-common-layout-for-pages-from-different-modules-440a23f86b57
+ */
 const routes: Routes = [
   {
     path: '',
