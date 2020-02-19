@@ -37,6 +37,17 @@ const routes: Routes = [
     ]
   },
   {
+    path: '',
+    component: MainLayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'readers',
+        loadChildren: () => import('../reader/reader.module').then(m => m.ReaderModule),
+      }
+    ]
+  },
+  {
     path: '**',
     component: PageNotFoundComponent,
   }

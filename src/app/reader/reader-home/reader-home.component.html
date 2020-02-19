@@ -1,0 +1,47 @@
+<h2>Find a Reader</h2>
+
+<div class="row">
+  <div class="col-md-12 col-lg-6">
+
+    <form (ngSubmit)="onSubmit()">
+
+      <div class="form-group">
+
+        <div class="input-group">
+          <input class="form-control"
+            id="searchBox"
+            type="search"
+            [formControl]="searchControl"
+            required
+            placeholder="Email or wehchat name">
+
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-primary">Search</button>
+          </div>
+
+        </div>
+
+      </div>
+    </form>
+
+    <div *ngIf="inputInvalid">{{inputInvalid}}</div>
+
+    <ul class="list-group" *ngIf="accountList">
+      <li *ngFor="let item of accountList"
+        (click)="loadAccount(item)"
+        class="list-group-item">
+        {{ item.name }}
+        <a [routerLink]="['/readers', item.kind, item.id]">More...</a>
+
+        Preview ->
+      </li>
+    </ul>
+  </div>
+
+  <div class="col-md-12 col-lg-6">
+    <pre *ngIf="account">{{ account | async | json }}</pre>
+  </div>
+</div>
+
+
+

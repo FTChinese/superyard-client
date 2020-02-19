@@ -11,9 +11,18 @@ export class AuthService {
 
   account: ICMSAccount | null = null;
   redirectUrl: string;
+  private storeKey = 'syCurrentUser';
 
   get isLoggedIn(): boolean {
-    return !!this.account;
+    if (this.account) {
+      return true;
+    }
+    const val = localStorage.getItem(this.storeKey);
+    if (val) {
+      this.account = JSON.parse(val);
+      return true;
+    }
+    return false;
   }
 
   constructor(
@@ -27,11 +36,15 @@ export class AuthService {
         credentials,
       )
       .pipe(
-        tap(val => this.account = val)
+        tap(val => {
+          this.account = val;
+          localStorage.setItem(this.storeKey, JSON.stringify(val));
+        })
       );
   }
 
   logout(): void {
     this.account = null;
+    localStorage.removeItem(this.storeKey);
   }
 }

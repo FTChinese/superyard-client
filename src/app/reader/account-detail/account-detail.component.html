@@ -1,0 +1,43 @@
+<table *ngIf="accountRows" class="table">
+  <caption>Account</caption>
+  <tbody>
+    <tr *ngFor="let row of accountRows">
+      <th scope="row">{{ row.head }}</th>
+      <td>{{ row.data }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<table *ngIf="memberRows" class="table">
+  <caption>Membership</caption>
+  <tbody>
+    <tr *ngFor="let row of memberRows">
+      <th scope="row">{{ row.head }}</th>
+      <td>{{ row.data }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="isFtc" class="pb-3">
+  <h5><a (click)="loadFtcProfile()">FTC Profile</a></h5>
+  <table *ngIf="ftcProfileRows" class="table">
+    <tbody>
+      <tr *ngFor="let row of ftcProfileRows">
+        <th scope="row">{{ row.head }}</th>
+        <td>{{ row.data }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="hasWechat" class="pb-3">
+  <h5><a (click)="loadWxUserInfo()">Wechat Userinfo</a></h5>
+  <table *ngIf="wxProfileRows" class="table">
+    <tbody>
+      <tr *ngFor="let row of wxProfileRows">
+        <th scope="row">{{ row.head }}</th>
+        <td>{{ row.data }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
