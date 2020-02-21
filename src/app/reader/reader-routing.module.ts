@@ -15,7 +15,7 @@ const routes: Routes = [
     data: { kind: 'ftc' }
   },
   {
-    path: 'wx/:id',
+    path: 'wechat/:id',
     component: AccountDetailComponent,
     data: { kind: 'wechat' }
   }
