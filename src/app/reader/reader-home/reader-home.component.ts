@@ -6,6 +6,7 @@ import { AccountItem } from '../account-item';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IBaseReader, IReaderAccount } from 'src/app/models/reader';
 import { Observable } from 'rxjs';
+import { parseErrorResponse } from 'src/app/models/errors';
 
 @Component({
   selector: 'app-reader-home',
@@ -19,7 +20,7 @@ export class ReaderHomeComponent implements OnInit {
 
   searchControl = new FormControl('', [Validators.required, Validators.email]);
 
-  inputInvalid: string;
+  errMsg: string;
 
   account: Observable<IReaderAccount>;
 
@@ -32,11 +33,13 @@ export class ReaderHomeComponent implements OnInit {
 
   onSubmit() {
     if (this.searchControl.invalid && this.searchControl.errors.required) {
-      this.inputInvalid = 'Search value required';
+      this.errMsg = 'Search value required';
       return;
     }
 
     const kind: AccountKind = (this.searchControl.errors && this.searchControl.errors.email) ? 'wechat' : 'ftc';
+
+    console.log('Searching account kind: ' + kind);
 
     this.readerService.search(this.searchControl.value, kind)
     .subscribe({
@@ -58,10 +61,19 @@ export class ReaderHomeComponent implements OnInit {
           };
         });
       },
-      error: (err: HttpErrorResponse) => {
-        console.log(err);
+      error: (errResp: HttpErrorResponse) => {
+        console.log(errResp);
+
+        const err = parseErrorResponse(errResp);
+
+        if (err.notFound) {
+          this.accountList = [];
+          return;
+        }
+
+        this.errMsg = err.message;
       }
-    })
+    });
   }
 
   loadAccount(item: AccountItem) {

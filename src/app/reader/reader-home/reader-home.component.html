@@ -24,9 +24,11 @@
       </div>
     </form>
 
-    <div *ngIf="inputInvalid">{{inputInvalid}}</div>
+    <div *ngIf="errMsg">{{errMsg}}</div>
 
-    <ul class="list-group" *ngIf="accountList">
+    <p *ngIf="accountList && accountList.length == 0">No results.</p>
+
+    <ul class="list-group" *ngIf="accountList && accountList.length > 0">
       <li *ngFor="let item of accountList"
         (click)="loadAccount(item)"
         class="list-group-item">
