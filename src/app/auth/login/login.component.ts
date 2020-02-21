@@ -4,7 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { FlashDirective } from '../../shared/flash.directive';
 import { FlashComponent } from '../../shared/flash/flash.component';
 import { ICMSAccount } from '../../models/staff';
-import { IApiErrorBody } from '../../models/errors';
+import { parseErrorResponse } from '../../models/errors';
 import { AuthService } from '../auth.service';
 import { Router, NavigationExtras } from '@angular/router';
 
@@ -79,43 +79,25 @@ export class LoginComponent implements OnInit {
   private handleLoginError(errResp: HttpErrorResponse) {
     console.log(errResp);
 
-    // Client-side error
-    if (errResp.error instanceof ErrorEvent) {
-      console.log('Client side error');
-      this.loadFlash(errResp.error.message);
+    const err = parseErrorResponse(errResp);
+
+    if (err.notFound) {
+      this.loadFlash('Invalid credentials');
       return;
     }
 
-    if (typeof(errResp.error) === 'string') {
-      this.loadFlash(errResp.error);
+    if (err.unprocessable) {
+      if (err.unprocessable.param === 'userName') {
+        this.nameInvalid = err.message;
+      }
+
+      if (err.unprocessable.param === 'password') {
+        this.pwInvalid = err.message;
+      }
       return;
     }
 
-    const errBody = errResp.error as IApiErrorBody<'userName' | 'password'>;
-
-    console.log('Api error body:', errBody);
-
-    // Server-side error
-    switch (errResp.status) {
-      case 404:
-        console.log('Invalid credentials');
-        this.loadFlash('邮箱或密码错误');
-        break;
-
-      case 422:
-        console.log('Server side validation failed');
-        if (errBody.param === 'userName') {
-          this.nameInvalid = errBody.message;
-        }
-
-        if (errBody.param === 'password') {
-          this.pwInvalid = errBody.message;
-        }
-        break;
-
-      default:
-        this.loadFlash(errBody.message);
-    }
+    this.loadFlash(err.message);
   }
 
   private loadFlash(msg: string) {
