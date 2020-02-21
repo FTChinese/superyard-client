@@ -4,6 +4,8 @@ import { ReaderService } from '../reader.service';
 import { switchMap } from 'rxjs/operators';
 import { IReaderAccount, IWxProfile, IFtcProfile } from 'src/app/models/reader';
 import { TableRow } from '../account-item';
+import { zip } from 'rxjs';
+import { AccountKind } from 'src/app/models/enums';
 
 @Component({
   selector: 'app-account-detail',
@@ -32,41 +34,48 @@ export class AccountDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.paramMap.pipe(
-      switchMap(params => {
-        const id = params.get('id');
-        return this.readerService.loadFtcAccount(id)
-      })
-    )
-    .subscribe({
-      next: data => {
-        console.log(data);
-        this.currentReader = data;
-        this.accountRows = [
-          { head: 'Ftc ID', data: data.ftcId },
-          { head: 'Wechat Union ID', data: data.unionId },
-          { head: 'Stripe Customer ID', data: data.stripeId },
-          { head: 'Email', data: data.email },
-          { head: 'User name', data: data.userName },
-          { head: 'Wechat nickname', data: data.nickname },
-          { head: 'Kind', data: data.kind },
-        ];
-        this.memberRows = [
-          { head: 'ID', data: data.membership.id },
-          { head: 'Tier', data: data.membership.tier },
-          { head: 'Billing Cycle', data: data.membership.cycle },
-          { head: 'Expiration Date', data: data.membership.expireDate },
-          { head: 'Payment Method', data: data.membership.payMethod },
-          { head: 'Stripe Subscription ID', data: data.membership.stripeSubId },
-          { head: 'Auto Renwal', data: `${data.membership.autoRenewal}` },
-          { head: 'Apple Original Transaction ID', data: data.membership.appleSubId },
-          { head: 'VIP', data: `${data.membership.vip}`},
-        ]
-      },
-      error: err => {
-        console.log(err)
-      }
-    });
+    zip(this.route.data, this.route.paramMap)
+      .pipe(
+        switchMap(([data, params]) => {
+          const kind = data['kind'] as AccountKind;
+          const id = params.get('id');
+
+          if (kind === 'ftc') {
+            return this.readerService.loadFtcAccount(id);
+          } else {
+            return this.readerService.loadWxAccount(id);
+          }
+        })
+      )
+      .subscribe({
+        next: data => {
+          console.log(data);
+          this.currentReader = data;
+          this.accountRows = [
+            { head: 'Ftc ID', data: data.ftcId },
+            { head: 'Wechat Union ID', data: data.unionId },
+            { head: 'Stripe Customer ID', data: data.stripeId },
+            { head: 'Email', data: data.email },
+            { head: 'User name', data: data.userName },
+            { head: 'Wechat nickname', data: data.nickname },
+            { head: 'Kind', data: data.kind },
+          ];
+          this.memberRows = [
+            { head: 'ID', data: data.membership.id },
+            { head: 'Tier', data: data.membership.tier },
+            { head: 'Billing Cycle', data: data.membership.cycle },
+            { head: 'Expiration Date', data: data.membership.expireDate },
+            { head: 'Payment Method', data: data.membership.payMethod },
+            { head: 'Stripe Subscription ID', data: data.membership.stripeSubId },
+            { head: 'Auto Renwal', data: `${data.membership.autoRenewal}` },
+            { head: 'Apple Original Transaction ID', data: data.membership.appleSubId },
+            { head: 'VIP', data: `${data.membership.vip}`},
+          ]
+        },
+        error: err => {
+          console.log(err)
+        }
+      });
   }
 
   loadFtcProfile() {
