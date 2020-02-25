@@ -1,5 +1,5 @@
+<h2>Account</h2>
 <table *ngIf="accountRows" class="table">
-  <caption>Account</caption>
   <tbody>
     <tr *ngFor="let row of accountRows">
       <th scope="row">{{ row.head }}</th>
@@ -8,36 +8,25 @@
   </tbody>
 </table>
 
-<table *ngIf="memberRows" class="table">
-  <caption>Membership</caption>
-  <tbody>
-    <tr *ngFor="let row of memberRows">
-      <th scope="row">{{ row.head }}</th>
-      <td>{{ row.data }}</td>
-    </tr>
-  </tbody>
-</table>
+<ng-container *ngIf="currentReader">
+  <app-edit-membership *ngIf="currentReader.membership.id; else createMember" [reader]="currentReader"></app-edit-membership>
 
-<div *ngIf="isFtc" class="pb-3">
-  <h5><a (click)="loadFtcProfile()">FTC Profile</a></h5>
-  <table *ngIf="ftcProfileRows" class="table">
-    <tbody>
-      <tr *ngFor="let row of ftcProfileRows">
-        <th scope="row">{{ row.head }}</th>
-        <td>{{ row.data }}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+  <ng-template #createMember>
+    <div>This user is not a member yet. You can
+      <button class="btn btn-link" (click)="onToggleForm(true)">Create</button>
+      it if the data is missing or incorrect.
+    </div>
+    <app-edit-membership *ngIf="showCreateForm" [reader]="currentReader" (toggleForm)="onToggleForm($event)"></app-edit-membership>
+  </ng-template>
+</ng-container>
 
-<div *ngIf="hasWechat" class="pb-3">
-  <h5><a (click)="loadWxUserInfo()">Wechat Userinfo</a></h5>
-  <table *ngIf="wxProfileRows" class="table">
-    <tbody>
-      <tr *ngFor="let row of wxProfileRows">
-        <th scope="row">{{ row.head }}</th>
-        <td>{{ row.data }}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+
+<!-- <ul *ngIf="currentReader">
+  <li>
+    <a routerLink="./profile">Profile</a>
+  </li>
+</ul> -->
+
+<!-- <router-outlet></router-outlet> -->
+
+

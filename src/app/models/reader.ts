@@ -27,9 +27,10 @@ export interface IMembership {
   tier: Tier | null;
   cycle: Cycle | null;
   expireDate: string | null;
-  payMethod: PaymentMethod | null;
+  paymentMethod: PaymentMethod | null;
   autoRenewal: boolean | null;
   stripeSubId: string | null;
+  stripePlanId: string | null;
   status: SubStatus | null;
   appleSubId: string | null;
   vip: boolean;

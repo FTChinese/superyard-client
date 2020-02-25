@@ -1,0 +1,103 @@
+<h2>{{hasSub ? 'Modify' : 'Create'}} Subscription</h2>
+
+<form [formGroup]="subsForm"
+  (ngSubmit)="onSubmit()">
+
+  <div class="form-group">
+    <label class="form-label" for="tier">Tier</label>
+    <select
+      class="form-control"
+      id="tier"
+      formControlName="tier"
+      required>
+      <option value="standard">Standard Edition</option>
+      <option value="premium">Premium Edition</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label" for="">Billing Cycle</label>
+    <select
+      class="form-control"
+      id="cycle"
+      formControlName="cycle"
+      required>
+        <option value="month">Monthly</option>
+        <option value="year">Yearly</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label" for="expireDate">Expiration Date</label>
+    <input class="form-control"
+      type="date"
+      id="expireDate"
+      formControlName="expireDate"
+      required>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label" for="payMethod">Payment Method</label>
+    <select
+      class="form-control"
+      formControlName="paymentMethod"
+      id="payMethod">
+        <option value="alipay">Ali</option>
+        <option value="wechat">Wechat</option>
+        <option value="stripe">Stripe</option>
+        <option value="apple">Apple IAP</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label" for="stripeSubId">Stripe Subscription ID</label>
+    <input class="form-control"
+      type="text"
+      id="stripeSubId"
+      formControlName="stripeSubId">
+  </div>
+
+  <div class="form-group">
+    <label class="form-label" for="stripePlanId">Stripe Plan ID</label>
+    <input class="form-control"
+      type="text"
+      id="stripePlanId"
+      formControlName="stripePlanId">
+  </div>
+
+  <div class="form-group">
+    <div class="form-check">
+      <input class="form-check-input"
+        type="checkbox"
+        id="autoRenewal"
+        formControlName="autoRenewal">
+      <label class="form-check-label" for="autoRenewal">Auto Renewal</label>
+    </div>
+    <small class="form-text text-muted">Only applicable to payment methods with auto renewal support.</small>
+  </div>
+
+
+  <div class="form-group">
+    <label class="form-label" for="appleSubId">Apple Original Transaction ID</label>
+    <input class="form-control"
+      type="text"
+      id="appleSubId"
+      formControlName="appleSubId">
+  </div>
+
+  <div class="form-group">
+    <label class="form-label" for="status">Status</label>
+
+    <select class="form-control"
+      id="status"
+      formControlName="status">
+      <option value="">---</option>
+      <ng-container *ngFor="let option of statusOptions">
+        <option value="{{option.value}}">{{option.text}}</option>
+      </ng-container>
+    </select>
+  </div>
+
+  <button class="btn btn-primary" type="submit" [disabled]="!subsForm.valid">Save</button>
+  <button class="btn" type="button" (click)="cancel()">Cancel</button>
+</form>

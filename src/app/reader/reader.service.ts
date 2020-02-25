@@ -1,13 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IBaseReader, IReaderAccount, IFtcProfile, IActivity, IWxProfile, IWxLogin } from '../models/reader';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { AccountKind } from '../models/enums';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReaderService {
+
+  private membershipIdSource = new Subject<string>();
+
+  // Child subscribe to it.
+  membershipId = this.membershipIdSource.asObservable();
+
+  // Parent pass the membership id.
+  modifyMembership(id: string) {
+    this.membershipIdSource.next(id);
+  }
 
   constructor(private http: HttpClient) { }
 

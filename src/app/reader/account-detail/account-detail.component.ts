@@ -16,9 +16,7 @@ export class AccountDetailComponent implements OnInit {
 
   currentReader: IReaderAccount;
   accountRows: TableRow[];
-  memberRows: TableRow[];
-  ftcProfileRows: TableRow[];
-  wxProfileRows: TableRow[];
+  showCreateForm = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -37,7 +35,7 @@ export class AccountDetailComponent implements OnInit {
     zip(this.route.data, this.route.paramMap)
       .pipe(
         switchMap(([data, params]) => {
-          const kind = data['kind'] as AccountKind;
+          const kind = data.kind as AccountKind;
           const id = params.get('id');
 
           if (kind === 'ftc') {
@@ -50,6 +48,10 @@ export class AccountDetailComponent implements OnInit {
       .subscribe({
         next: data => {
           console.log(data);
+          if (data.membership.id) {
+
+          }
+
           this.currentReader = data;
           this.accountRows = [
             { head: 'Ftc ID', data: data.ftcId },
@@ -60,22 +62,17 @@ export class AccountDetailComponent implements OnInit {
             { head: 'Wechat nickname', data: data.nickname },
             { head: 'Kind', data: data.kind },
           ];
-          this.memberRows = [
-            { head: 'ID', data: data.membership.id },
-            { head: 'Tier', data: data.membership.tier },
-            { head: 'Billing Cycle', data: data.membership.cycle },
-            { head: 'Expiration Date', data: data.membership.expireDate },
-            { head: 'Payment Method', data: data.membership.payMethod },
-            { head: 'Stripe Subscription ID', data: data.membership.stripeSubId },
-            { head: 'Auto Renwal', data: `${data.membership.autoRenewal}` },
-            { head: 'Apple Original Transaction ID', data: data.membership.appleSubId },
-            { head: 'VIP', data: `${data.membership.vip}`},
-          ]
         },
         error: err => {
-          console.log(err)
+          console.log(err);
         }
       });
+  }
+
+  // Create/Destroy for to create subscritpion.
+  onToggleForm(on: boolean) {
+    console.log('Toggle form event: ' + on);
+    this.showCreateForm = on;
   }
 
   loadFtcProfile() {
@@ -83,12 +80,6 @@ export class AccountDetailComponent implements OnInit {
       .subscribe({
         next: (data: IFtcProfile) => {
           console.log(data);
-          this.ftcProfileRows = Object.entries(data).map(([key, value]) => {
-            return {
-              head: key,
-              data: value,
-            }
-          })
         },
         error: err => {
           console.log(err);
@@ -105,12 +96,6 @@ export class AccountDetailComponent implements OnInit {
     .subscribe({
       next: (data: IWxProfile) => {
         console.log(data);
-        this.wxProfileRows = Object.entries(data).map(([key, value]) => {
-          return {
-            head: key,
-            data: value,
-          }
-        })
       },
       error: err => {
         console.log(err);
