@@ -53,6 +53,17 @@ const routes: Routes = [
     ]
   },
   {
+    path: '',
+    component: MainLayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'android',
+        loadChildren: () => import('../android/android.module').then(m => m.AndroidModule),
+      }
+    ]
+  },
+  {
     path: '**',
     component: PageNotFoundComponent,
   }
