@@ -4,15 +4,21 @@ import { FlashComponent } from './flash/flash.component';
 import { FeedbackInvalidComponent } from './feedback-invalid/feedback-invalid.component';
 import { FlashDirective } from './flash.directive';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MarkedPipe } from './marked.pipe';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
     FlashComponent,
     FlashDirective,
     FeedbackInvalidComponent,
+    MarkedPipe,
+    SearchComponent,
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule,
+    // FormsModule,
   ],
   exports: [
     CommonModule,
@@ -21,6 +27,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FlashComponent,
     FlashDirective,
     FeedbackInvalidComponent,
+    MarkedPipe,
+    SearchComponent,
   ]
 })
 export class SharedModule { }
