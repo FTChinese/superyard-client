@@ -1,7 +1,7 @@
 <h2>Find a Reader</h2>
 
 <div class="row">
-  <div class="col-md-12 col-lg-6">
+  <div class="col-md-12 col-lg-8">
 
     <form (ngSubmit)="onSubmit()">
 
@@ -40,7 +40,7 @@
     </ul>
   </div>
 
-  <div class="col-md-12 col-lg-6">
+  <div class="col-md-12 col-lg-4">
     <pre *ngIf="account">{{ account | async | json }}</pre>
   </div>
 </div>

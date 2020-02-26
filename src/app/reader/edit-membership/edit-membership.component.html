@@ -1,4 +1,14 @@
-<h2>{{hasSub ? 'Modify' : 'Create'}} Subscription</h2>
+<div class="d-flex justify-content-between mb-3 mt-3">
+  <ng-container *ngIf="hasSub; else titleCreate">
+    <h2>Subscription</h2>
+    <div>
+        <button type="button" class="btn btn-primary" (click)="edit()">Edit</button>
+    </div>
+  </ng-container>
+  <ng-template #titleCreate>
+    <h2>Create Subscription</h2>
+  </ng-template>
+</div>
 
 <form [formGroup]="subsForm"
   (ngSubmit)="onSubmit()">

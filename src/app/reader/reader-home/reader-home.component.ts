@@ -52,7 +52,7 @@ export class ReaderHomeComponent implements OnInit {
               id: val.ftcId,
               name: val.email,
               kind: val.kind,
-            }
+            };
           }
           return {
             id: val.unionId,
@@ -77,7 +77,7 @@ export class ReaderHomeComponent implements OnInit {
   }
 
   loadAccount(item: AccountItem) {
-    this.account = (item.kind == "ftc")
+    this.account = (item.kind === 'ftc')
       ? this.readerService.loadFtcAccount(item.id)
       : this.readerService.loadWxAccount(item.id);
   }

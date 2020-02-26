@@ -85,16 +85,21 @@ export class EditMembershipComponent implements OnInit {
   ngOnInit(): void {
     if (this.hasSub) {
       this.subsForm.patchValue(Object.assign({}, this.reader.membership));
+      this.subsForm.disable();
     }
   }
 
   onSubmit() {
     console.log(this.subsForm.value);
-    // this.subsForm.disable();
+    this.subsForm.disable();
+  }
+
+  edit() {
+    this.subsForm.enable();
   }
 
   cancel() {
-    console.log('Cancel form')
+    console.log('Cancel form');
     if (this.hasSub) {
       this.subsForm.disable();
     } else {
