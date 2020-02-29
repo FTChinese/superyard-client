@@ -4,4 +4,9 @@
 
 <app-search [placeHolder]="placeHolder" (submitted)="onSearch($event)"></app-search>
 
-<button type="button" class="btn btn-outline-primary">Or pull data directly from GitHub's latest release</button>
+<div class="mb-3">
+  <button type="button" class="btn btn-link" (click)="getLatestRelease()">Or pull data directly from GitHub's latest release</button>
+</div>
+
+
+<app-edit-release *ngIf="release" [release]="release" (submitted)="onSubmit"></app-edit-release>

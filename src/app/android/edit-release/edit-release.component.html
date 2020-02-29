@@ -1,1 +1,48 @@
-<p>edit-release works!</p>
+<form [formGroup]="releaseForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label class="form-label" for="versionName">Version Name</label>
+    <input class="form-control"
+      id="versionName"
+      type="text"
+      formControlName="versionName"
+      required
+      readonly>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label"
+      for="versionCode">Version Code</label>
+
+    <input class="form-control"
+      id="versionCode"
+      type="number"
+      formControlName="versionCode"
+      required
+      readonly>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label"
+      for="body">Description about this release (optional)</label>
+    <textarea class="form-control"
+      formControlName="body"
+      id="body"
+      rows="10"></textarea>
+
+    <small class="form-text text-muted">It will be visible to end users. Markdown supported.</small>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label"
+      for="apkUrl">APK Donwload URL (required)</label>
+
+    <input class="form-control"
+      id="apkUrl"
+      type="url"
+      formControlName="apkUrl"
+      required>
+  </div>
+
+  <button class="btn btn-primary" type="submit" [disabled]="!releaseForm.valid">Save</button>
+  <a class="btn" type="button btn-link" routerLink="../">Cancel</a>
+</form>
