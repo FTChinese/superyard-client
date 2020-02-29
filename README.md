@@ -14,7 +14,9 @@ npm install
 npm run start
 ```
 
-It is written in TypeScript and run directly with `ts-node`. 
+It is written in TypeScript and run directly with `ts-node`.
+
+When using the mocking API, you can login with any username and password you like.
 
 ## Development server
 
