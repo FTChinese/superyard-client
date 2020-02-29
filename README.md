@@ -2,6 +2,20 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.1.
 
+## Mocking API
+
+A mocking API is provided in the `server` directory. This is a fully-fledged Koa-based app independent of the Angular app.
+
+To run it,
+
+```sh
+cd server
+npm install
+npm run start
+```
+
+It is written in TypeScript and run directly with `ts-node`. 
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
