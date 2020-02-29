@@ -25,6 +25,18 @@ export class AuthService {
     return false;
   }
 
+  get displayName(): string {
+    if (!this.account) {
+      return '';
+    }
+
+    if (this.account.displayName) {
+      return this.account.displayName;
+    }
+
+    return this.account.userName;
+  }
+
   constructor(
     private http: HttpClient,
   ) {}
