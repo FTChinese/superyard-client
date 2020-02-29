@@ -13,6 +13,13 @@ export class AndroidService {
     private http: HttpClient,
   ) { }
 
+  ghLatest(): Observable<IRelease> {
+    return this.http.get<IRelease>('/api/android/gh/latest');
+  }
+
+  ghRelease(tag: string): Observable<IRelease> {
+    return this.http.get<IRelease>(`/api/android/gh/tags/${tag}`);
+  }
   /**
    * @description Checks whether the specified version exists in database.
    */
