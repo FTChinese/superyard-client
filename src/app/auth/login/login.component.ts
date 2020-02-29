@@ -86,12 +86,12 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    if (err.unprocessable) {
-      if (err.unprocessable.param === 'userName') {
+    if (err.invalid) {
+      if (err.invalid.field === 'userName') {
         this.nameInvalid = err.message;
       }
 
-      if (err.unprocessable.param === 'password') {
+      if (err.invalid.field === 'password') {
         this.pwInvalid = err.message;
       }
       return;
