@@ -2,6 +2,7 @@ import Router from 'koa-router';
 import Chance from 'chance';
 import { DateTime } from 'luxon';
 import { IRelease } from '../models/android';
+import { IApiErrorBody } from '../models/errors';
 
 const chance = new Chance();
 const router = new Router();
@@ -59,8 +60,22 @@ router.get('/releases', (ctx, next) => {
     ctx.body = Array.from(db.values());
 });
 
-router.post('/release', (ctx, next) => {
+router.post('/releases', (ctx, next) => {
   const release: IRelease = ctx.request.body;
+  if (db.has(release.versionName)) {
+    ctx.status = 422;
+    const body: IApiErrorBody = {
+      message: 'Duplicate version',
+      error: {
+        field: 'versionName',
+        code: 'already_exists',
+      },
+    };
+
+    ctx.body = body;
+    return;
+  }
+
   db.set(release.versionName, release);
 
   ctx.status = 204;
