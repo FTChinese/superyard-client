@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Validators } from '@angular/forms';
 import { AccountKind } from 'src/app/models/enums';
 import { ReaderService } from '../reader.service';
 import { AccountItem } from '../account-item';
@@ -21,8 +21,6 @@ export class ReaderHomeComponent {
   notFound = false;
   accountList: AccountItem[];
 
-  searchControl = new FormControl('', [Validators.required, Validators.email]);
-
   errMsg: string;
 
   account: Observable<IReaderAccount>;
@@ -33,6 +31,8 @@ export class ReaderHomeComponent {
   ) {
     this.searchService.valueSubmitted$.pipe(
       switchMap(control => {
+        console.log(control);
+
         const invalid = Validators.email(control);
 
         const kind: AccountKind = (invalid && invalid.email)
@@ -41,7 +41,7 @@ export class ReaderHomeComponent {
 
         console.log('Searching account kind: ' + kind);
 
-        return this.readerService.search(this.searchControl.value, kind);
+        return this.readerService.search(control.value, kind);
       })
     ).subscribe({
       next: (data: IBaseReader[]) => {
