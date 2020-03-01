@@ -4,7 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { FlashDirective } from '../../shared/flash.directive';
 import { FlashComponent } from '../../shared/flash/flash.component';
 import { ICMSAccount } from '../../models/staff';
-import { parseErrorResponse } from '../../models/errors';
+import { RequestError } from '../../models/request-result';
 import { AuthService } from '../auth.service';
 import { Router, NavigationExtras } from '@angular/router';
 
@@ -79,7 +79,7 @@ export class LoginComponent implements OnInit {
   private handleLoginError(errResp: HttpErrorResponse) {
     console.log(errResp);
 
-    const err = parseErrorResponse(errResp);
+    const err = RequestError.fromResponse(errResp);
 
     if (err.notFound) {
       this.loadFlash('Invalid credentials');
