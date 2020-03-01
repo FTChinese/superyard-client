@@ -12,17 +12,7 @@ export interface IApiErrorBody {
   error?: ValidationError;
 }
 
-interface HttpError {
-  statusCode: number;
-  message: string;
-  notFound?: boolean;
-  unprocessable?: {
-    param: string;
-    code: 'missing' | 'missing_field' | 'invalid' | 'already_exists';
-  };
-}
-
-class RequstError {
+export class RequestError {
   readonly statusCode: number;
   readonly message: string;
   readonly invalid?: ValidationError;
@@ -54,7 +44,29 @@ class RequstError {
 
     return {[this.invalid.field]: this.message};
   }
+
+  static fromResponse(errResp: HttpErrorResponse): RequestError {
+    /**
+     * interface ErrorEvent extends Event {
+     *  readonly colno: number;
+     *  readonly error: any;
+     *  readonly filename: string;
+     *  readonly lineno: number;
+     *  readonly message: string;
+     * }
+     */
+    if (errResp.error instanceof ErrorEvent) {
+      return new RequestError(errResp.status, errResp.error.message);
+    }
+
+    if (typeof(errResp.error) === 'string') {
+      return new RequestError(errResp.status, errResp.error);
+    }
+
+    return new RequestError(errResp.status, errResp.error);
+  }
 }
+
 /**
  * Two types of errors can occur. The server backend might reject the
  * request, returning an HTTP response with a status code such as 404
@@ -81,7 +93,7 @@ class RequstError {
  * If the error neither come from Angular nor from API, for example, the server
  * is down, then the `error` field will a string.
  */
-export function parseErrorResponse(errResp: HttpErrorResponse): RequstError {
+export function parseErrorResponse(errResp: HttpErrorResponse): RequestError {
   /**
    * interface ErrorEvent extends Event {
    *  readonly colno: number;
@@ -92,12 +104,20 @@ export function parseErrorResponse(errResp: HttpErrorResponse): RequstError {
    * }
    */
   if (errResp.error instanceof ErrorEvent) {
-    return new RequstError(errResp.status, errResp.error.message);
+    return new RequestError(errResp.status, errResp.error.message);
   }
 
   if (typeof(errResp.error) === 'string') {
-    return new RequstError(errResp.status, errResp.error);
+    return new RequestError(errResp.status, errResp.error);
   }
 
-  return new RequstError(errResp.status, errResp.error);
+  return new RequestError(errResp.status, errResp.error);
+}
+
+/**
+ * Unify API reponse in a single type.
+ */
+export interface RequestResult<T> {
+  body?: T;
+  error?: RequestError;
 }
