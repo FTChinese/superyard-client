@@ -3,26 +3,7 @@
 <div class="row">
   <div class="col-md-12 col-lg-8">
 
-    <form (ngSubmit)="onSubmit()">
-
-      <div class="form-group">
-
-        <div class="input-group">
-          <input class="form-control"
-            id="searchBox"
-            type="search"
-            [formControl]="searchControl"
-            required
-            placeholder="Email or wehchat name">
-
-          <div class="input-group-append">
-            <button type="submit" class="btn btn-primary">Search</button>
-          </div>
-
-        </div>
-
-      </div>
-    </form>
+    <app-search [placeHolder]="'Email or wehchat name'"></app-search>
 
     <div *ngIf="errMsg">{{errMsg}}</div>
 

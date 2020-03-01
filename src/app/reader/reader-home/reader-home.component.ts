@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { AccountKind } from 'src/app/models/enums';
 import { ReaderService } from '../reader.service';
@@ -6,14 +6,17 @@ import { AccountItem } from '../account-item';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IBaseReader, IReaderAccount } from 'src/app/models/reader';
 import { Observable } from 'rxjs';
-import { parseErrorResponse } from 'src/app/models/errors';
+import { RequestError } from '../../models/request-result';
+import { SearchService } from '../../shared/search.service';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-reader-home',
   templateUrl: './reader-home.component.html',
-  styleUrls: ['./reader-home.component.scss']
+  styleUrls: ['./reader-home.component.scss'],
+  providers: [SearchService],
 })
-export class ReaderHomeComponent implements OnInit {
+export class ReaderHomeComponent {
 
   notFound = false;
   accountList: AccountItem[];
@@ -26,23 +29,21 @@ export class ReaderHomeComponent implements OnInit {
 
   constructor(
     private readerService: ReaderService,
-  ) { }
+    private searchService: SearchService,
+  ) {
+    this.searchService.valueSubmitted$.pipe(
+      switchMap(control => {
+        const invalid = Validators.email(control);
 
-  ngOnInit(): void {
-  }
+        const kind: AccountKind = (invalid && invalid.email)
+          ? 'wechat'
+          : 'ftc';
 
-  onSubmit() {
-    if (this.searchControl.invalid && this.searchControl.errors.required) {
-      this.errMsg = 'Search value required';
-      return;
-    }
+        console.log('Searching account kind: ' + kind);
 
-    const kind: AccountKind = (this.searchControl.errors && this.searchControl.errors.email) ? 'wechat' : 'ftc';
-
-    console.log('Searching account kind: ' + kind);
-
-    this.readerService.search(this.searchControl.value, kind)
-    .subscribe({
+        return this.readerService.search(this.searchControl.value, kind);
+      })
+    ).subscribe({
       next: (data: IBaseReader[]) => {
         console.log(data);
         this.account = null;
@@ -64,7 +65,7 @@ export class ReaderHomeComponent implements OnInit {
       error: (errResp: HttpErrorResponse) => {
         console.log(errResp);
 
-        const err = parseErrorResponse(errResp);
+        const err = RequestError.fromResponse(errResp);
 
         if (err.notFound) {
           this.accountList = [];
