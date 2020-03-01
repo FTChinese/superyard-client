@@ -1,38 +1,60 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
+import { Component } from '@angular/core';
 import { AndroidService } from '../android.service';
 import { IRelease } from 'src/app/models/android';
+import { ReleaseService } from '../release.service';
+import { IReleaseBase } from 'server/src/models/android';
+import { RequestError } from 'src/app/models/request-result';
+import { SearchService } from 'src/app/shared/search.service';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-release',
   templateUrl: './create-release.component.html',
-  styleUrls: ['./create-release.component.scss']
+  styleUrls: ['./create-release.component.scss'],
+  providers: [ReleaseService, SearchService],
 })
-export class CreateReleaseComponent implements OnInit {
-  placeHolder = 'v1.0.0';
+export class CreateReleaseComponent {
+
   release: IRelease;
 
   constructor(
     private service: AndroidService,
-  ) { }
+    private releaseService: ReleaseService,
+    private searchService: SearchService,
+  ) {
+    this.releaseService.formSubmitted$.subscribe(
+      data => this.createRelease(data)
+    );
 
-  ngOnInit(): void {
+    this.searchService.valueSubmitted$.pipe(
+      switchMap(control => {
+        console.log(control);
+        return this.service.ghRelease(control.value);
+      })
+    ).subscribe({
+      next: data => {
+        console.log(data);
+        this.release = data;
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
   }
 
-  onSearch(control: AbstractControl) {
-    console.log(control);
+  // onSearch(control: AbstractControl) {
 
-    this.service.ghRelease(control.value)
-      .subscribe({
-        next: data => {
-          console.log(data);
-          this.release = data;
-        },
-        error: err => {
-          console.log(err);
-        }
-      });
-  }
+  //   this.service.ghRelease(control.value)
+  //     .subscribe({
+  //       next: data => {
+  //         console.log(data);
+  //         this.release = data;
+  //       },
+  //       error: err => {
+  //         console.log(err);
+  //       }
+  //     });
+  // }
 
   getLatestRelease() {
     this.service.ghLatest()
@@ -42,7 +64,12 @@ export class CreateReleaseComponent implements OnInit {
       });
   }
 
-  onSubmit(release: IRelease) {
+  createRelease(release: IReleaseBase) {
     console.log(release);
+    this.service.createRelease(release)
+      .subscribe({
+        next: ok => console.log(ok),
+        error: err => this.releaseService.sendError(RequestError.fromResponse(err)),
+      });
   }
 }

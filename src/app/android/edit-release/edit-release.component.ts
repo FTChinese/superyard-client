@@ -1,13 +1,14 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { IRelease } from 'src/app/models/android';
 import { FormBuilder, Validators } from '@angular/forms';
+import { ReleaseService } from '../release.service';
 
 @Component({
   selector: 'app-edit-release',
   templateUrl: './edit-release.component.html',
   styleUrls: ['./edit-release.component.scss']
 })
-export class EditReleaseComponent implements OnInit {
+export class EditReleaseComponent {
   // tslint:disable-next-line:variable-name
   private _release: IRelease;
 
@@ -27,7 +28,7 @@ export class EditReleaseComponent implements OnInit {
     return this._release;
   }
 
-  @Output() sumitted: EventEmitter<IRelease>;
+  // @Output() sumitted: EventEmitter<IRelease>;
 
   releaseForm = this.formBuilder.group({
     versionName: ['', [Validators.required]],
@@ -38,22 +39,18 @@ export class EditReleaseComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-  ) { }
-
-  ngOnInit(): void {
-    this.releaseForm.patchValue({
-      versionName: this.release.versionName,
-      versionCode: this.release.versionCode,
-      body: this.release.body,
-      apkUrl: this.release.apkUrl,
-    });
+    private releaseService: ReleaseService,
+  ) {
+    // Waiting to show any HTTP request errors.
+    this.releaseService.errorReceived$.subscribe(
+      reqErr => {
+        console.log(reqErr);
+      }
+    );
   }
 
+  // Pass form data to parent host using service.
   onSubmit() {
-    this.sumitted.emit(this.releaseForm.value);
-  }
-
-  cancel() {
-
+    this.releaseService.submitForm(this.releaseForm.value);
   }
 }
