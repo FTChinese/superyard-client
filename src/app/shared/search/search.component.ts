@@ -1,5 +1,6 @@
-import { Component, Output, Input, EventEmitter } from '@angular/core';
-import { Validators, FormControl, FormGroup, AbstractControl } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { Validators, FormControl, FormGroup } from '@angular/forms';
+import { SearchService } from '../search.service';
 
 @Component({
   selector: 'app-search',
@@ -9,13 +10,20 @@ import { Validators, FormControl, FormGroup, AbstractControl } from '@angular/fo
 export class SearchComponent {
 
   @Input() placeHolder = 'Enter a value to search';
-  @Output() submitted = new EventEmitter<AbstractControl>();
+  // @Output() submitted = new EventEmitter<AbstractControl>();
 
-  searchForm = new FormGroup({
+  form = new FormGroup({
     search: new FormControl('', Validators.required),
   });
 
+  constructor(
+    private service: SearchService,
+  ) { }
+
+  // Form submit handler. The FromControl is passed so that host
+  // could perform further data process.
   onSubmit() {
-    this.submitted.emit(this.searchForm.get('search'));
+    // this.submitted.emit(this.search);
+    this.service.submitForm(this.form.get('search'));
   }
 }
