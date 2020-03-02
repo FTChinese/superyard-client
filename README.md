@@ -18,6 +18,16 @@ It is written in TypeScript and run directly with `ts-node`.
 
 When using the mocking API, you can login with any username and password you like.
 
+### Login
+
+To test login failure, use those usernames:
+
+* `not_found` for incorrect credentials of 400 Not Found;
+* `invalid_username` for invalid username of http status 422;
+* `invalid_password` for invalid password reponse.
+
+See `server/src/routes/mode.ts`
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
