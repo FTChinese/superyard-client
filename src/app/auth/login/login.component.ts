@@ -1,15 +1,10 @@
 import { Component} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ICMSAccount } from '../../models/staff';
+import { ICMSAccount, ILogin } from '../../models/staff';
 import { RequestError } from '../../models/request-result';
 import { AuthService } from '../auth.service';
 import { Router, NavigationExtras } from '@angular/router';
-
-interface FormErrors {
-  userName?: string;
-  password?: string;
-}
 
 @Component({
   selector: 'app-login',
@@ -24,7 +19,7 @@ export class LoginComponent {
   });
 
 
-  formErr: FormErrors = {};
+  formErr: Partial<ILogin> = {};
   errMsg: string;
 
   constructor(
