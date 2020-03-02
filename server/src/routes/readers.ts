@@ -1,10 +1,8 @@
 import Router from 'koa-router';
 import Chance from 'chance';
-import validator from 'validator';
 import { DateTime } from 'luxon';
-import { IBaseReader, IMembership, IReaderAccount } from '../models/reader';
-import { IApiErrorBody } from '../models/errors';
-import { AccountKind, Tier, Cycle } from '../models/enums';
+import { IBaseReader, IMembership, IReaderAccount } from '../../../src/app/models/reader';
+import { AccountKind, Tier, Cycle } from '../../../src/app/models/enums';
 
 interface IQuery {
   q: string;

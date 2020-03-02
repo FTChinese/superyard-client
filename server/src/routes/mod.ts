@@ -2,8 +2,8 @@ import Router from 'koa-router';
 import Chance from 'chance';
 import android from './android';
 import readers from './readers';
-import { ILogin, ICMSAccount } from '../models/staff';
-import { IApiErrorBody } from '../models/errors';
+import { ILogin, ICMSAccount } from '../../../src/app/models/staff';
+import { IApiErrorBody } from '../../../src/app/models/request-result';
 
 const chance = new Chance();
 const router = new Router({
