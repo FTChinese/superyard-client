@@ -107,6 +107,10 @@ function loadAnAccount(id: string): IReaderAccount | null {
   };
 }
 
+/**
+ * @description
+ * /search?q=<keyword>&kind<ftc|wechat>
+ */
 router.get('/search', (ctx, next) => {
   const query: IQuery = ctx.request.query;
 
