@@ -2,7 +2,7 @@
   <div class="container d-flex justify-content-between">
     <a class="navbar-brand" href="/">FTC CMS</a>
 
-    <div class="d-flx align-items-center">
+    <div class="d-flx align-items-center" *ngIf="authService.isLoggedIn">
       <a class="" routerLink="/settings">{{authService.displayName}}</a>
 
       <button class="btn btn-link" (click)="logout()">Logout</button>

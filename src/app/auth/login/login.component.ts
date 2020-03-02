@@ -1,50 +1,48 @@
-import { Component, OnInit, ComponentFactoryResolver, ViewChild } from '@angular/core';
+import { Component} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { FlashDirective } from '../../shared/flash.directive';
-import { FlashComponent } from '../../shared/flash/flash.component';
 import { ICMSAccount } from '../../models/staff';
 import { RequestError } from '../../models/request-result';
 import { AuthService } from '../auth.service';
 import { Router, NavigationExtras } from '@angular/router';
+
+interface FormErrors {
+  userName?: string;
+  password?: string;
+}
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
   loginForm = this.formBuilder.group({
     userName: ['', [Validators.required]],
     password: ['', Validators.required],
   });
 
-  nameInvalid: string;
-  pwInvalid: string;
 
-  @ViewChild(FlashDirective, {static: true}) flashHost: FlashDirective;
+  formErr: FormErrors = {};
+  errMsg: string;
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private componentFactoryResolver: ComponentFactoryResolver,
   ) { }
-
-  ngOnInit(): void {
-  }
 
   onSubmit() {
     if (this.loginForm.invalid) {
       const nameErr = this.loginForm.getError('required', 'userName');
       if (nameErr) {
-        this.nameInvalid = 'User name is required';
+        this.formErr.userName = 'User name is required';
       }
 
       const pwErr = this.loginForm.getError('required', 'password');
       if (pwErr) {
-        this.pwInvalid = 'Invalid password';
+        this.formErr.password = 'Invalid password';
       }
 
       return;
@@ -72,7 +70,6 @@ export class LoginComponent implements OnInit {
           this.loginForm.enable();
           this.handleLoginError(err);
         },
-        complete: () => console.log('complete'),
       });
   }
 
@@ -81,42 +78,25 @@ export class LoginComponent implements OnInit {
 
     const err = RequestError.fromResponse(errResp);
 
+    console.log(err);
+
     if (err.notFound) {
-      this.loadFlash('Invalid credentials');
+      // this.loadFlash('Invalid credentials');
+      this.errMsg = 'Invalid credentials';
       return;
     }
 
     if (err.invalid) {
-      if (err.invalid.field === 'userName') {
-        this.nameInvalid = err.message;
-      }
-
-      if (err.invalid.field === 'password') {
-        this.pwInvalid = err.message;
-      }
+      this.formErr = err.invalidObject;
+      console.log(this.formErr);
       return;
     }
 
-    this.loadFlash(err.message);
-  }
-
-  private loadFlash(msg: string) {
-    const factory = this.componentFactoryResolver.resolveComponentFactory(FlashComponent);
-
-    const viewContainerRef = this.flashHost.viewContainerRef;
-    viewContainerRef.clear();
-
-    const flashComponentRef = viewContainerRef.createComponent(factory);
-
-    flashComponentRef.instance.message = msg;
-
-    flashComponentRef.instance.closed.subscribe(() => {
-      viewContainerRef.clear();
-    });
+    // Fallback to any other errors.
+    this.errMsg = err.message;
   }
 
   clearFeedback() {
-    this.nameInvalid = '';
-    this.pwInvalid = '';
+    this.formErr = {};
   }
 }

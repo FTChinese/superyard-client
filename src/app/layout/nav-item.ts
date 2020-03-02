@@ -21,8 +21,8 @@ export const navigation: INavItem[] = [
     href: '/readers',
   },
   {
-    name: 'Statistics',
-    href: '/stats',
+    name: 'Corporate Customer',
+    href: '/corop',
   },
   {
     name: 'Android',
