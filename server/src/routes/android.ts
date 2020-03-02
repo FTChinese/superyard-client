@@ -1,7 +1,7 @@
 import Router from 'koa-router';
 import Chance from 'chance';
 import { DateTime } from 'luxon';
-import { IRelease } from '../models/android';
+import { IRelease, IReleaseBase } from '../models/android';
 import { IApiErrorBody } from '../models/errors';
 
 const chance = new Chance();
@@ -17,7 +17,7 @@ function generateSemVer(): string {
 }
 
 function generateISOTime(): string {
-  return DateTime.fromJSDate(chance.date()).toISOTime({
+  return DateTime.fromJSDate(chance.date()).toISO({
     suppressMilliseconds: true,
   });
 }
@@ -81,7 +81,7 @@ router.post('/releases', (ctx, next) => {
   ctx.status = 204;
 });
 
-router.get('/release/:tag', (ctx, next) => {
+router.get('/releases/:tag', (ctx, next) => {
   const tag: string = ctx.params.tag;
 
   if (db.has(tag)) {
@@ -90,6 +90,31 @@ router.get('/release/:tag', (ctx, next) => {
   }
 
   ctx.status = 404;
+});
+
+router.patch('/releases/:tag', (ctx, next) => {
+  const tag: string = ctx.params.tag;
+  const release: IReleaseBase = ctx.request.body;
+
+  const current = db.get(tag);
+
+  if (!current) {
+    console.log('Cannot update a release: not found');
+    ctx.status = 404;
+    return;
+  }
+
+  console.log('Updating release: %o', current);
+  db.set(
+    tag,
+    {
+      ...release,
+      createdAt: current.createdAt,
+      updatedAt: DateTime.utc().toISO({ suppressMilliseconds: true })
+    }
+  );
+
+  ctx.status = 204;
 });
 
 export default router;

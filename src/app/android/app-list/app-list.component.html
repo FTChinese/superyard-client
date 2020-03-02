@@ -3,7 +3,7 @@
 <div class="pb-3" *ngFor="let release of releases">
   <div class="release-header">
     <h3>
-      <a [routerLink]="['./', release.versionName]">{{release.versionName}}</a>
+      <a [routerLink]="['./releases', release.versionName]">{{release.versionName}}</a>
     </h3>
     <p class="text-muted">Released on {{release.createdAt}}</p>
   </div>

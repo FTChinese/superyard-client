@@ -58,7 +58,7 @@ export class AndroidService {
   }
 
   updateRelease(release: IReleaseBase): Observable<boolean> {
-    return this.http.post<IReleaseBase>(
+    return this.http.patch<IReleaseBase>(
       `/api/android/releases/${release.versionName}`,
       release,
       {
