@@ -3,11 +3,34 @@ import Chance from 'chance';
 import android from './android';
 import readers from './readers';
 import { ILogin, ICMSAccount } from '../models/staff';
+import { IApiErrorBody } from '../models/errors';
 
 const chance = new Chance();
 const router = new Router({
   prefix: '/api'
 });
+
+interface InvalidResp {
+  userName: IApiErrorBody;
+  password: IApiErrorBody;
+}
+
+const invalids: InvalidResp = {
+  userName: {
+    message: 'Invalid username',
+    error: {
+      field: 'userName',
+      code: 'missing_field'
+    }
+  },
+  password: {
+    message: 'Invalid password',
+    error: {
+      field: 'password',
+      code: 'missing_field',
+    }
+  }
+};
 
 /**
  * @description Login. Use password `12345678` to test wrong credentials.
@@ -16,8 +39,21 @@ const router = new Router({
  */
 router.post('/login', (ctx, next) => {
   const credentials: ILogin = ctx.request.body;
-  if (credentials.password === '12345678') {
+
+  if (credentials.userName === 'not_found') {
     ctx.status = 404;
+    return;
+  }
+
+  if (credentials.userName === 'invalid_username') {
+    ctx.status = 422;
+    ctx.body = invalids.userName;
+    return;
+  }
+
+  if (credentials.userName === 'invalid_password') {
+    ctx.status = 422;
+    ctx.body = invalids.password;
     return;
   }
 
