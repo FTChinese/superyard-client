@@ -1,5 +1,7 @@
 import Router from 'koa-router';
 import Chance from 'chance';
+import staff from './staff';
+import apiAccess from './api-access';
 import android from './android';
 import readers from './readers';
 import { ILogin, ICMSAccount } from '../../../src/app/models/staff';
@@ -70,6 +72,8 @@ router.post('/login', (ctx, next) => {
   ctx.body = account;
 });
 
+router.use('/staff', staff.routes());
+router.use('/oauth', apiAccess.routes());
 router.use('/readers', readers.routes());
 router.use('/android', android.routes());
 
