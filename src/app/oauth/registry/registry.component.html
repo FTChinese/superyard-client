@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-md-12 col-lg-8">
+    <router-outlet></router-outlet>
+  </div>
+
+  <div class="col-md-12 col-lg-4">
+    <p>To access any FTC restful API, the request must present a valid OAuth access token. Do not mix the usage the app tokens with personal keys. Personal keys are meant to be used by humans to access the API endpoints manually.</p>
+
+    <h5>App Token Usage</h5>
+    <p>Set the Authorization HTTP request header:</p>
+    <p>
+      <code>Authorization: Bearer access_token</code>
+    </p>
+
+    <h5>Personal Key Usage</h5>
+    <p>
+      <code>http://api.ftchinese.com/v1/stories/001084835?access_token=your_access_token</code>
+    </p>
+  </div>
+</div>
+
