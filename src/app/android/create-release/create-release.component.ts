@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { AndroidService } from '../android.service';
-import { IRelease } from 'src/app/models/android';
+import { IRelease, IReleaseBase } from '../../models/android';
 import { ReleaseService } from '../release.service';
-import { IReleaseBase } from 'server/src/models/android';
-import { RequestError } from 'src/app/models/request-result';
-import { SearchService } from 'src/app/shared/search.service';
+import { RequestError } from '../../models/request-result';
+import { SearchService } from '../../shared/search.service';
 import { switchMap } from 'rxjs/operators';
 
 @Component({
