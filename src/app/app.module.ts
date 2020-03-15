@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { OauthModule } from './oauth/oauth.module';
 import { AdminModule } from './admin/admin.module';
 import { SettingsModule } from './settings/settings.module';
+import { CorpModule } from './corp/corp.module';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { SettingsModule } from './settings/settings.module';
     OauthModule,
     AdminModule,
     SettingsModule,
+    CorpModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
