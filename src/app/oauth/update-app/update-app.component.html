@@ -1,1 +1,3 @@
-<p>update-app works!</p>
+<h2>Edit <span *ngIf="app">{{app.name}}</span></h2>
+
+<app-app-form *ngIf="app" [app]="app"></app-app-form>

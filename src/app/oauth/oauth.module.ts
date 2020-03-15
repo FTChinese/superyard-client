@@ -10,6 +10,7 @@ import { TokenListComponent } from './token-list/token-list.component';
 import { KeyListComponent } from './key-list/key-list.component';
 import { NewKeyComponent } from './new-key/new-key.component';
 import { AppListComponent } from './app-list/app-list.component';
+import { AppFormComponent } from './app-form/app-form.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { AppListComponent } from './app-list/app-list.component';
     TokenListComponent,
     KeyListComponent,
     NewKeyComponent,
-    AppListComponent
+    AppListComponent,
+    AppFormComponent
   ],
   imports: [
     CommonModule,
