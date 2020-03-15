@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule} from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { OauthModule } from './oauth/oauth.module';
+import { AdminModule } from './admin/admin.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { OauthModule } from './oauth/oauth.module';
     MatMenuModule,
     MatIconModule,
     OauthModule,
+    AdminModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
