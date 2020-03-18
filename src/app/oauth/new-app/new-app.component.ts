@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IApiApp } from 'src/app/models/oauth';
 import { AppFormService } from '../app-form.service';
-import { OauthService } from '../oauth.service';
+import { OAuthService } from '../oauth.service';
 
 @Component({
   selector: 'app-new-app',
@@ -14,7 +14,7 @@ export class NewAppComponent implements OnInit {
   app: IApiApp;
 
   constructor(
-    private oauthService: OauthService,
+    private oauthService: OAuthService,
     private formService: AppFormService,
   ) {
     this.formService
