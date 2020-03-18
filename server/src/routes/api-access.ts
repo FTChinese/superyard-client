@@ -63,16 +63,33 @@ async function generatePersonalKey(staffName: string): Promise<IApiAccess> {
   };
 }
 
+function createAppStore(): Map<string, IApiApp> {
+  const store = new Map<string, IApiApp>();
+
+
+
+  return store;
+}
+
 const appStore = new Map<string, IApiApp>();
 const tokenStore = new Map<number, IApiAccess>();
 
-router.get('/apps', (ctx, next) => {
+router.get('/apps', async (ctx, next) => {
+
+  // Prepopulate some data if empty.
+  if (appStore.size === 0) {
+    for (let i = 0; i < 5; i++) {
+      const app = await generateApp();
+      appStore.set(app.clientId, app);
+    }
+  }
+
   const data = Array.from(appStore.values());
 
   ctx.body = data;
 });
 
-router.post('/apps', (ctx, next) => {
+router.post('/apps', async (ctx, next) => {
   const app: IApiApp = ctx.request.body;
 
   appStore.set(app.clientId, app);
@@ -80,7 +97,7 @@ router.post('/apps', (ctx, next) => {
   ctx.status = 204;
 });
 
-router.get('/apps/:id', (ctx, next) => {
+router.get('/apps/:id', async (ctx, next) => {
   const id = ctx.params.id;
 
   const app = appStore.get(id);
@@ -93,14 +110,14 @@ router.get('/apps/:id', (ctx, next) => {
   ctx.body = app;
 });
 
-router.patch('/apps/:id', (ctx, next) => {
+router.patch('/apps/:id', async (ctx, next) => {
   const app: IApiApp = ctx.request.body;
   appStore.set(app.clientId, app);
 
   ctx.status = 204;
 });
 
-router.delete('/apps/:id', (ctx, next) => {
+router.delete('/apps/:id', async (ctx, next) => {
   const id = ctx.params.id;
 
   appStore.delete(id);
@@ -108,7 +125,7 @@ router.delete('/apps/:id', (ctx, next) => {
   ctx.status = 204;
 });
 
-router.get('/keys', (ctx, next) => {
+router.get('/keys', async (ctx, next) => {
   const clientId = ctx.query.client_id;
   const staffName = ctx.query.staff_name;
 
@@ -126,7 +143,7 @@ router.get('/keys', (ctx, next) => {
   ctx.status = 404;
 });
 
-router.post('/keys', (ctx, next) => {
+router.post('/keys', async (ctx, next) => {
   const key: IApiAccess = ctx.request.body;
   key.id = chance.integer();
 
@@ -135,7 +152,7 @@ router.post('/keys', (ctx, next) => {
   ctx.status = 204;
 });
 
-router.delete('/keys/:id', (ctx, next) => {
+router.delete('/keys/:id', async (ctx, next) => {
   const id = ctx.params.id;
 
   tokenStore.delete(id);

@@ -8,7 +8,7 @@
 
 <div class="border-bottom mb-3 pb-2" *ngFor="let app of apps">
   <h5>
-    <a href="">{{app.name}}</a>
+    <a [routerLink]="['./', app.clientId]">{{app.name}}</a>
     <span *ngIf="!app.isActive">[Deprecated]</span>
   </h5>
 
