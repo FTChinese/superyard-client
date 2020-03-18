@@ -63,14 +63,6 @@ async function generatePersonalKey(staffName: string): Promise<IApiAccess> {
   };
 }
 
-function createAppStore(): Map<string, IApiApp> {
-  const store = new Map<string, IApiApp>();
-
-
-
-  return store;
-}
-
 const appStore = new Map<string, IApiApp>();
 const tokenStore = new Map<number, IApiAccess>();
 
