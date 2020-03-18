@@ -1,34 +1,41 @@
 import Router from 'koa-router';
 import Chance from 'chance';
-import { DateTime } from 'luxon';
 import slug from 'slug';
 import { hex } from '../random';
-import { IApiApp, IApiAccess } from '../../../src/app/models/oauth';
-import { async } from 'rxjs/internal/scheduler/async';
+import { isoNow } from '../time';
+import { IApiApp, IApiAccess, IAppBase } from '../../../src/app/models/oauth';
 
 const chance = new Chance();
 const router = new Router();
 
-async function generateApp(): Promise<IApiApp> {
+function mockAppFormData(): IAppBase {
   const name = chance.name();
   const slugName = slug(name);
-  const clientId = await hex(10);
-  const clientSecret = await hex(32);
 
   return {
     name,
     slug: slugName,
-    clientId,
-    clientSecret,
     repoUrl: chance.url(),
     description: chance.paragraph(),
     homeUrl: chance.url(),
     callbackUrl: null,
-    isActive: true,
-    createdAt: DateTime.utc().toISO({ suppressMilliseconds: true }),
-    updatedAt: DateTime.utc().toISO({ suppressMilliseconds: true }),
-    ownedBy: chance.word(),
   };
+}
+
+async function createApp(baseApp: IAppBase): Promise<IApiApp> {
+  return {
+    ...baseApp,
+    clientId: await hex(10),
+    clientSecret: await hex(32),
+    isActive: true,
+    createdAt: isoNow(),
+    updatedAt: isoNow(),
+    ownedBy: '',
+  };
+}
+
+async function generateApp(): Promise<IApiApp> {
+  return createApp(mockAppFormData());
 }
 
 async function generateAppAccess(app: IApiApp): Promise<IApiAccess> {
@@ -41,8 +48,8 @@ async function generateAppAccess(app: IApiApp): Promise<IApiAccess> {
     description: null,
     createdBy: chance.name(),
     clientId: app.clientId,
-    createdAt: DateTime.utc().toISO({ suppressMilliseconds: true }),
-    updatedAt: DateTime.utc().toISO({ suppressMilliseconds: true }),
+    createdAt: isoNow(),
+    updatedAt: isoNow(),
     lastUsedAt: null,
   };
 }
@@ -57,8 +64,8 @@ async function generatePersonalKey(staffName: string): Promise<IApiAccess> {
     description: null,
     createdBy: staffName,
     clientId: null,
-    createdAt: DateTime.utc().toISO({ suppressMilliseconds: true }),
-    updatedAt: DateTime.utc().toISO({ suppressMilliseconds: true }),
+    createdAt: isoNow(),
+    updatedAt: isoNow(),
     lastUsedAt: null,
   };
 }
@@ -82,7 +89,8 @@ router.get('/apps', async (ctx, next) => {
 });
 
 router.post('/apps', async (ctx, next) => {
-  const app: IApiApp = ctx.request.body;
+  const baseApp: IAppBase = ctx.request.body;
+  const app = await createApp(baseApp);
 
   appStore.set(app.clientId, app);
 
@@ -103,8 +111,20 @@ router.get('/apps/:id', async (ctx, next) => {
 });
 
 router.patch('/apps/:id', async (ctx, next) => {
-  const app: IApiApp = ctx.request.body;
-  appStore.set(app.clientId, app);
+  const clientId = ctx.params.id;
+  const app = appStore.get(clientId);
+
+  if (!app) {
+    ctx.status = 404;
+    return;
+  }
+
+  const baseApp: IAppBase = ctx.request.body;
+
+  Object.assign(app, baseApp);
+  app.updatedAt = isoNow();
+
+  appStore.set(clientId, app);
 
   ctx.status = 204;
 });
@@ -112,7 +132,11 @@ router.patch('/apps/:id', async (ctx, next) => {
 router.delete('/apps/:id', async (ctx, next) => {
   const id = ctx.params.id;
 
-  appStore.delete(id);
+  const app = appStore.get(id);
+  if (app) {
+    app.isActive = false;
+    appStore.set(id, app);
+  }
 
   ctx.status = 204;
 });

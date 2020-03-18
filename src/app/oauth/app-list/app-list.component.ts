@@ -17,6 +17,7 @@ export class AppListComponent implements OnInit {
   ngOnInit(): void {
     this.oauthService.listApps().subscribe({
       next: data => {
+        console.log(data);
         this.apps = data;
       },
       error: err => {

@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { IApiApp, IApiAccess } from '../models/oauth';
+import { IApiApp, IApiAccess, IAppBase } from '../models/oauth';
 import { switchMap } from 'rxjs/operators';
-
-type AppForm = Pick<IApiApp, 'name' | 'slug' | 'repoUrl' | 'description' | 'homeUrl' | 'callbackUrl'>;
 
 @Injectable({
   providedIn: 'root'
@@ -30,9 +28,9 @@ export class OAuthService {
     return this.http.get<IApiApp[]>(this.urlApps);
   }
 
-  createApp(app: AppForm): Observable<boolean> {
+  createApp(app: IAppBase): Observable<boolean> {
     return this.http
-      .post<AppForm>(
+      .post<IAppBase>(
         this.urlApps,
         app,
         {
@@ -48,8 +46,8 @@ export class OAuthService {
     return this.http.get<IApiApp>(this.urlAppOf(clientId));
   }
 
-  updateApp(clientId: string, app: AppForm): Observable<boolean> {
-    return this.http.post<AppForm>(
+  updateApp(clientId: string, app: IAppBase): Observable<boolean> {
+    return this.http.post<IAppBase>(
       this.urlAppOf(clientId),
       app,
       {

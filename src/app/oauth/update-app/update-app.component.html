@@ -1,26 +1,31 @@
-<h2>{{app.name}}</h2>
+<ng-container *ngIf="app">
+  <h2>{{app.name}}</h2>
 
-<div class="border-bottom pb-2 mb-2">
-  <dl>
-    <dt>Created by</dt>
-    <dd>{{ app.ownedBy }}</dd>
+  <div class="border-bottom pb-2 mb-2">
+    <dl>
+      <dt>Created by</dt>
+      <dd>{{ app.ownedBy }}</dd>
 
-    <dt>Created at</dt>
-    <dd>{{ app.createdAt }}</dd>
+      <dt>Created at</dt>
+      <dd>{{ app.createdAt }}</dd>
 
-    <dt>Last updated</dt>
-    <dd>{{ app.updatedAt }}</dd>
-  </dl>
-</div>
+      <dt>Last updated</dt>
+      <dd>{{ app.updatedAt }}</dd>
+    </dl>
+  </div>
 
-<div class="border-bottom pb-2 mb-2">
-  <dl>
-    <dt>Client ID</dt>
-    <dd><code>{{ app.clientId}}</code></dd>
+  <div class="border-bottom pb-2 mb-2">
+    <dl>
+      <dt>Client ID</dt>
+      <dd><code>{{ app.clientId}}</code></dd>
 
-    <dt>Client Secret</dt>
-    <dd><code>{{ app.clientSecret }}</code></dd>
-  </dl>
-</div>
+      <dt>Client Secret</dt>
+      <dd><code>{{ app.clientSecret }}</code></dd>
+    </dl>
+  </div>
 
-<app-app-form *ngIf="app" [app]="app"></app-app-form>
+  <app-app-form [app]="app"></app-app-form>
+</ng-container>
+
+
+

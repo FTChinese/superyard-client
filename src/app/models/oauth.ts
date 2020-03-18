@@ -1,18 +1,23 @@
 import { ApiKeyUsage } from './enums';
 
-export interface IApiApp {
+// IAppBase contains user submitted data only.
+// Backedn will add extra meta fields.
+export interface IAppBase {
   name: string;
   slug: string;
-  clientId: string;
-  clientSecret: string;
   repoUrl: string;
   description: string | null;
   homeUrl: string | null;
   callbackUrl: string | null;
-  isActive: boolean;
-  createdAt: string;
+}
+
+export interface IApiApp extends IAppBase {
+  clientId: string;
+  clientSecret: string; // client id and secret are generated on server
+  isActive: boolean; // Any new app is active by default unless it is deleted alter.
+  createdAt: string; // The creation time
   updatedAt: string;
-  ownedBy: string;
+  ownedBy: string; // The current loggedin user's name.
 }
 
 export interface IApiAccess {

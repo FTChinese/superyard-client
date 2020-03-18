@@ -27,11 +27,11 @@ const routes: Routes = [
         component: NewAppComponent,
       },
       {
-        path: ':id',
+        path: ':clientId',
         component: UpdateAppComponent,
       },
       {
-        path: ':id/tokens',
+        path: ':clientId/tokens',
         component: TokenListComponent,
       }
     ]

@@ -52,10 +52,11 @@
   <div class="form-group">
     <label class="form-label" for="description">Application description</label>
 
-    <input class="form-control"
-      type="text"
-      id="description"
-      formControlName="description" maxlength="512">
+    <textarea class="form-control"
+      formControlName="description"
+      maxlength="512"
+      rows="5"></textarea>
+
     <small class="form-text text-muted">Optional but recommended. Max 512 characters</small>
   </div>
 
