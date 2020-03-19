@@ -3,7 +3,7 @@ import Chance from 'chance';
 import slug from 'slug';
 import { hex } from '../random';
 import { isoNow } from '../time';
-import { IApiApp, IApiAccess, IAppBase } from '../../../src/app/models/oauth';
+import { IApiApp, IAccessToken, IAppBase } from '../../../src/app/models/oauth';
 
 const chance = new Chance();
 const router = new Router();
@@ -38,7 +38,7 @@ async function generateApp(): Promise<IApiApp> {
   return createApp(mockAppFormData());
 }
 
-async function generateAppAccess(app: IApiApp): Promise<IApiAccess> {
+async function generateAppAccess(app: IApiApp): Promise<IAccessToken> {
   return {
     id: chance.integer(),
     token: await hex(20),
@@ -54,7 +54,7 @@ async function generateAppAccess(app: IApiApp): Promise<IApiAccess> {
   };
 }
 
-async function generatePersonalKey(staffName: string): Promise<IApiAccess> {
+async function generatePersonalKey(staffName: string): Promise<IAccessToken> {
   return {
     id: chance.integer(),
     token: await hex(20),
@@ -71,7 +71,7 @@ async function generatePersonalKey(staffName: string): Promise<IApiAccess> {
 }
 
 const appStore = new Map<string, IApiApp>();
-const tokenStore = new Map<number, IApiAccess>();
+const tokenStore = new Map<number, IAccessToken>();
 
 router.get('/apps', async (ctx, next) => {
 
@@ -160,7 +160,7 @@ router.get('/keys', async (ctx, next) => {
 });
 
 router.post('/keys', async (ctx, next) => {
-  const key: IApiAccess = ctx.request.body;
+  const key: IAccessToken = ctx.request.body;
   key.id = chance.integer();
 
   tokenStore.set(key.id, key);

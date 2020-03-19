@@ -20,15 +20,20 @@ export interface IApiApp extends IAppBase {
   ownedBy: string; // The current loggedin user's name.
 }
 
-export interface IApiAccess {
+// Form data submitted to create access token for an app.
+export interface ITokenBase {
+  description: string | null;
+  createdBy: string;
+  clientId: string | null;
+}
+
+// Access token / Personal access key returned from server.
+export interface IAccessToken extends ITokenBase {
   id: number;
   token: string;
   usage: ApiKeyUsage;
   isActive: boolean;
   expiresIn: number | null;
-  clientId: string | null;
-  description: string | null;
-  createdBy: string;
   createdAt: string;
   updatedAt: string;
   lastUsedAt: string | null;
