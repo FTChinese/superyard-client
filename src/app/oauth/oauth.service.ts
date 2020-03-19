@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { IApiApp, IApiAccess, IAppBase } from '../models/oauth';
+import { IApiApp, IAccessToken, IAppBase, ITokenBase, IPersonalKey } from '../models/oauth';
 import { switchMap } from 'rxjs/operators';
+import { ICMSAccount } from '../models/staff';
 
 @Injectable({
   providedIn: 'root'
@@ -71,7 +72,29 @@ export class OAuthService {
     );
   }
 
-  listAppTokens(clientId: string): Observable<IApiAccess[]> {
-    return this.http.get<IApiAccess[]>(this.urlTokens);
+  listAppTokens(clientId: string): Observable<IAccessToken[]> {
+    return this.http.get<IAccessToken[]>(this.urlTokens, {
+      params: new HttpParams().set('clientId', clientId),
+    });
+  }
+
+  // Create an access token for an app or person.
+  createToken(token: ITokenBase): Observable<boolean> {
+    return this.http.post<ITokenBase>(
+        this.urlTokens,
+        token,
+        {
+          observe: 'response'
+        }
+      )
+      .pipe(
+        switchMap(resp => of(resp.status === 204))
+      );
+  }
+
+  listPersonalKeys(account: ICMSAccount): Observable<IAccessToken[]> {
+    return this.http.get<IAccessToken[]>(this.urlTokens, {
+      params: new HttpParams().set('staff_name', account.userName)
+    });
   }
 }
