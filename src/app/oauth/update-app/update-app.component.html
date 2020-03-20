@@ -1,31 +1,81 @@
-<ng-container *ngIf="app">
-  <h2>{{app.name}}</h2>
+<div class="row">
+  <div class="col-md-12 col-lg-8 pb-3">
+    <ng-container *ngIf="app">
+      <h2>{{app.name}}</h2>
 
-  <div class="border-bottom pb-2 mb-2">
-    <dl>
-      <dt>Created by</dt>
-      <dd>{{ app.ownedBy }}</dd>
+      <div class="border-bottom pb-2 mb-2">
+        <dl>
+          <dt>Created by</dt>
+          <dd>{{ app.ownedBy }}</dd>
 
-      <dt>Created at</dt>
-      <dd>{{ app.createdAt }}</dd>
+          <dt>Created at</dt>
+          <dd>{{ app.createdAt }}</dd>
 
-      <dt>Last updated</dt>
-      <dd>{{ app.updatedAt }}</dd>
-    </dl>
+          <dt>Last updated</dt>
+          <dd>{{ app.updatedAt }}</dd>
+        </dl>
+      </div>
+
+      <div class="border-bottom pb-2 mb-2">
+        <dl>
+          <dt>Client ID</dt>
+          <dd><code>{{ app.clientId}}</code></dd>
+
+          <dt>Client Secret</dt>
+          <dd><code>{{ app.clientSecret }}</code></dd>
+        </dl>
+      </div>
+
+      <app-app-form [app]="app"></app-app-form>
+    </ng-container>
+
   </div>
 
-  <div class="border-bottom pb-2 mb-2">
-    <dl>
-      <dt>Client ID</dt>
-      <dd><code>{{ app.clientId}}</code></dd>
+  <div class="col-md-12 col-lg-4">
+    <h5 class="border-bottom">Access Tokens</h5>
+    <p>Set the Authorization HTTP request header:</p>
+    <p>
+      <code>Authorization: Bearer access_token</code>
+    </p>
+    <p>DO NOT commit any of the tokens to a public repo! For web apps you can store them as envrionment variables on the server; for native apps you can inject theme at build time.</p>
+    <p>Think twice before deleting any of them. It's recommended that each token is only used by a single app. If you deleted an access token that is still used by an app, that app might become useless since it could never access APIs.</p>
 
-      <dt>Client Secret</dt>
-      <dd><code>{{ app.clientSecret }}</code></dd>
-    </dl>
+    <h5 class="border-bottom">Generate a new token</h5>
+    <form accept-charset="UTF-8" method="post">
+      <div class="form-group">
+        <label class="form-label" for="description">Description</label>
+        <input class="form-control"
+          type="text"
+          id="description"
+          name="token[description]"
+          placeholder="What's this token for?"
+          maxlength="256"
+          required="">
+        <small class="form-text text-muted">Required. Max 256 characters</small>
+      </div>
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-primary" type="submit">Generate</button>
+      </div>
+    </form>
+
+    <div class="list-group">
+
+      <div class="list-group-item" *ngFor="let item of tokens">
+        <h5><code>{{item.token}}</code></h5>
+
+        <p *ngIf="item.description">{{item.description}}</p>
+
+        <div>Created at: {{ item.createdAt }}</div>
+
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+    </div>
+
   </div>
+</div>
 
-  <app-app-form [app]="app"></app-app-form>
-</ng-container>
 
 
 
