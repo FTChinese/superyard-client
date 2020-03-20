@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { IApiApp, IAccessToken, IAppBase, ITokenBase, IPersonalKey } from '../models/oauth';
+import { IApiApp, IAccessToken, IAppBase, ITokenBase } from '../models/oauth';
 import { switchMap } from 'rxjs/operators';
 import { ICMSAccount } from '../models/staff';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,7 @@ export class OAuthService {
 
   constructor(
     private http: HttpClient,
+    private authService: AuthService,
   ) { }
 
   listApps(): Observable<IApiApp[]> {
@@ -73,13 +75,18 @@ export class OAuthService {
   }
 
   listAppTokens(clientId: string): Observable<IAccessToken[]> {
-    return this.http.get<IAccessToken[]>(this.urlTokens, {
-      params: new HttpParams().set('clientId', clientId),
-    });
+    return this.http.get<IAccessToken[]>(
+      this.urlTokens,
+      {
+        params: new HttpParams().set('clientId', clientId),
+      }
+    );
   }
 
   // Create an access token for an app or person.
   createToken(token: ITokenBase): Observable<boolean> {
+    token.createdBy = this.authService.account.userName;
+
     return this.http.post<ITokenBase>(
         this.urlTokens,
         token,
@@ -92,9 +99,12 @@ export class OAuthService {
       );
   }
 
-  listPersonalKeys(account: ICMSAccount): Observable<IAccessToken[]> {
-    return this.http.get<IAccessToken[]>(this.urlTokens, {
-      params: new HttpParams().set('staff_name', account.userName)
-    });
+  listPersonalKeys(): Observable<IAccessToken[]> {
+    return this.http.get<IAccessToken[]>(
+      this.urlTokens,
+      {
+        params: new HttpParams().set('staff_name', this.authService.account.userName)
+      }
+    );
   }
 }
