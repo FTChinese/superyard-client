@@ -13,10 +13,17 @@ export interface ICMSAccount {
   groupMembers: number;
 }
 
-export interface Profile extends ICMSAccount {
-  createdAt: string
-  deactiveatedAt: string;
-  updatedAt: string;
-  lastLoginAt: string;
-  lastLoginIp: string;
+export interface IProfile extends ICMSAccount {
+  createdAt: string | null;
+  deactiveatedAt: string | null;
+  updatedAt: string | null;
+  lastLoginAt: string | null;
+  lastLoginIp: string | null;
+}
+
+export type IProfileForm = Pick<ICMSAccount, 'email' | 'displayName'>;
+
+export interface IPasswords {
+  oldPassword: string; // Old password for validation
+  newPassword: string; // new password
 }

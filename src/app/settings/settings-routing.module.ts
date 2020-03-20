@@ -1,17 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ProfileComponent } from './profile/profile.component';
-import { PasswordComponent } from './password/password.component';
 
 
 const routes: Routes = [
   {
-    path: 'profile',
+    path: '',
     component: ProfileComponent,
-  },
-  {
-    path: 'password',
-    component: PasswordComponent,
   },
 ];
 

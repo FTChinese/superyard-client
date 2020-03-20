@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ILogin, ICMSAccount } from '../models/staff';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { ILogin, ICMSAccount, IProfile, IPasswords, IProfileForm } from '../models/staff';
+import { Observable, of } from 'rxjs';
+import { tap, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -58,5 +58,35 @@ export class AuthService {
   logout(): void {
     this.account = null;
     localStorage.removeItem(this.storeKey);
+  }
+
+  loadProfile(): Observable<IProfile> {
+    return this.http.get<IProfile>(`/api/staff/${this.account.id}`);
+  }
+
+  updateProfile(formData: IProfileForm): Observable<boolean> {
+    return this.http.patch<IProfileForm>(
+        `/api/staff/${this.account.id}`,
+        formData,
+        {
+          observe: 'response',
+        }
+      )
+      .pipe(
+        switchMap(resp => of(resp.status === 204))
+      );
+  }
+
+  changePassword(pws: IPasswords): Observable<boolean> {
+    return this.http.patch<IPasswords>(
+        `/api/staff/${this.account.id}/password`,
+        pws,
+        {
+          observe: 'response',
+        }
+      )
+      .pipe(
+        switchMap(resp => of(resp.status === 204))
+      );
   }
 }
