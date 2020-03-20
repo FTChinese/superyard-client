@@ -3,7 +3,9 @@ import Chance from 'chance';
 import slug from 'slug';
 import { hex } from '../random';
 import { isoNow } from '../time';
-import { IApiApp, IAccessToken, IAppBase } from '../../../src/app/models/oauth';
+import { IApiApp, IAccessToken, IAppBase, ITokenBase } from '../../../src/app/models/oauth';
+import { async } from 'rxjs/internal/scheduler/async';
+import { ApiKeyUsage } from '../../../src/app/models/enums';
 
 const chance = new Chance();
 const router = new Router();
@@ -38,32 +40,14 @@ async function generateApp(): Promise<IApiApp> {
   return createApp(mockAppFormData());
 }
 
-async function generateAppAccess(app: IApiApp): Promise<IAccessToken> {
+async function createToken(baseToken: ITokenBase, usage: ApiKeyUsage): Promise<IAccessToken> {
   return {
+    ...baseToken,
     id: chance.integer(),
     token: await hex(20),
     isActive: true,
     expiresIn: null,
-    usage: 'app',
-    description: null,
-    createdBy: chance.name(),
-    clientId: app.clientId,
-    createdAt: isoNow(),
-    updatedAt: isoNow(),
-    lastUsedAt: null,
-  };
-}
-
-async function generatePersonalKey(staffName: string): Promise<IAccessToken> {
-  return {
-    id: chance.integer(),
-    token: await hex(20),
-    isActive: true,
-    expiresIn: null,
-    usage: 'personal',
-    description: null,
-    createdBy: staffName,
-    clientId: null,
+    usage,
     createdAt: isoNow(),
     updatedAt: isoNow(),
     lastUsedAt: null,
@@ -146,12 +130,18 @@ router.get('/keys', async (ctx, next) => {
   const staffName = ctx.query.staff_name;
 
   if (clientId) {
-    ctx.body = Array.from(tokenStore.values()).filter(t => t.clientId === clientId);
+    ctx.body = Array.from(tokenStore.values())
+      .filter(t => {
+        return t.clientId === clientId && t.usage === 'app';
+      });
     return;
   }
 
   if (staffName) {
-    ctx.body = Array.from(tokenStore.values()).filter(t => t.createdBy === staffName);
+    ctx.body = Array.from(tokenStore.values())
+      .filter(t => {
+        return t.createdBy === staffName && t.usage === 'personal';
+      });
 
     return;
   }
@@ -160,8 +150,9 @@ router.get('/keys', async (ctx, next) => {
 });
 
 router.post('/keys', async (ctx, next) => {
-  const key: IAccessToken = ctx.request.body;
-  key.id = chance.integer();
+  const baseToken: ITokenBase = ctx.request.body;
+
+  const key = await createToken(baseToken, 'personal');
 
   tokenStore.set(key.id, key);
 
