@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IApiAccess, IApiApp } from 'src/app/models/oauth';
+import { IAccessToken, IApiApp } from 'src/app/models/oauth';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AppFormService } from '../app-form.service';
 

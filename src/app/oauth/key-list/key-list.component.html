@@ -1,1 +1,48 @@
-<p>key-list works!</p>
+<div class="row">
+  <div class="col-md-12 col-lg-8 mb-5">
+    <h2 class="">Personal Access Token</h2>
+
+    <div class="list-group">
+
+      <div class="list-group-item" *ngFor="let key of keys">
+        <h5><code>{{key.token}}</code></h5>
+
+        <p *ngIf="key.description">{{key.description}}</p>
+
+        <div class="text-muted">Created at: {{ key.createdAt }}</div>
+
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-md-12 col-lg-4">
+
+    <h5 class="border-bottom">Usage</h5>
+    <p>Personal keys are meant to be used manually to access API endpoints. They might be short-lived and can be deleted any moment. DO not use your personal key as an app's access token as the later should not be deleted indiscreetly.</p>
+    <p>
+      <code>http://api.ftchinese.com/v1/stories/001084835?access_token=your_access_token</code>
+    </p>
+
+    <h5 class="border-bottom">Generate a new key</h5>
+    <form [formGroup]="keyForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label class="form-label" for="description">Description</label>
+        <input class="form-control"
+          type="text"
+          id="description"
+          formControlName="description"
+          placeholder="What's this token for?"
+          maxlength="256"
+          required="">
+        <small class="form-text text-muted">Required. Max 256 characters</small>
+      </div>
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-primary" type="submit">Generate</button>
+      </div>
+    </form>
+  </div>
+</div>

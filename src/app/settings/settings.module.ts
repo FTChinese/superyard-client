@@ -3,13 +3,16 @@ import { CommonModule } from '@angular/common';
 
 import { SettingsRoutingModule } from './settings-routing.module';
 import { ProfileComponent } from './profile/profile.component';
-import { PasswordComponent } from './password/password.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
-  declarations: [ProfileComponent, PasswordComponent],
+  declarations: [
+    ProfileComponent,
+  ],
   imports: [
     CommonModule,
+    SharedModule,
     SettingsRoutingModule
   ]
 })

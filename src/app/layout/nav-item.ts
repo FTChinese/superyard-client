@@ -21,11 +21,15 @@ export const navigation: INavItem[] = [
     href: '/readers',
   },
   {
-    name: 'Corporate Customer',
-    href: '/corop',
+    name: 'B2B Subscription',
+    href: '/b2b',
   },
   {
     name: 'Android',
     href: '/android',
   },
+  {
+    name: 'Settings',
+    href: '/settings',
+  }
 ];
