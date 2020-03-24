@@ -5,7 +5,7 @@ import { hex } from '../random';
 import { isoNow } from '../time';
 import { IApiApp, IAccessToken, IAppBase, ITokenBase } from '../../../src/app/models/oauth';
 import { async } from 'rxjs/internal/scheduler/async';
-import { ApiKeyUsage } from '../../../src/app/models/enums';
+import { ApiKeyKind } from '../../../src/app/models/enums';
 
 const chance = new Chance();
 const router = new Router();
@@ -40,14 +40,14 @@ async function generateApp(): Promise<IApiApp> {
   return createApp(mockAppFormData());
 }
 
-async function createToken(baseToken: ITokenBase, usage: ApiKeyUsage): Promise<IAccessToken> {
+async function createToken(baseToken: ITokenBase, usage: ApiKeyKind): Promise<IAccessToken> {
   return {
     ...baseToken,
     id: chance.integer(),
     token: await hex(20),
     isActive: true,
     expiresIn: null,
-    usage,
+    kind: usage,
     createdAt: isoNow(),
     updatedAt: isoNow(),
     lastUsedAt: null,
@@ -153,7 +153,7 @@ router.get('/keys', async (ctx, next) => {
   if (clientId) {
     ctx.body = Array.from(tokenStore.values())
       .filter(t => {
-        return t.clientId === clientId && t.usage === 'app';
+        return t.clientId === clientId && t.kind === 'app';
       });
     return;
   }
@@ -161,7 +161,7 @@ router.get('/keys', async (ctx, next) => {
   if (staffName) {
     ctx.body = Array.from(tokenStore.values())
       .filter(t => {
-        return t.createdBy === staffName && t.usage === 'personal';
+        return t.createdBy === staffName && t.kind === 'personal';
       });
 
     return;
