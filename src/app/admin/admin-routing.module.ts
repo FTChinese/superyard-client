@@ -10,6 +10,11 @@ import { SearchResultsComponent } from './search-results/search-results.componen
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'staff',
+    pathMatch: 'full',
+  },
+  {
     path: 'staff',
     component: SearchStaffComponent,
     children: [
