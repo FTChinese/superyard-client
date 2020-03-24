@@ -57,6 +57,10 @@ async function createToken(baseToken: ITokenBase, usage: ApiKeyUsage): Promise<I
 const appStore = new Map<string, IApiApp>();
 const tokenStore = new Map<number, IAccessToken>();
 
+/**
+ * @description Get a list of apps.
+ * /apps?page=<int>&per_page=<int>
+ */
 router.get('/apps', async (ctx, next) => {
 
   // Prepopulate some data if empty.
@@ -72,6 +76,9 @@ router.get('/apps', async (ctx, next) => {
   ctx.body = data;
 });
 
+/**
+ * @description Create a new app
+ */
 router.post('/apps', async (ctx, next) => {
   const baseApp: IAppBase = ctx.request.body;
   const app = await createApp(baseApp);
@@ -81,6 +88,9 @@ router.post('/apps', async (ctx, next) => {
   ctx.status = 204;
 });
 
+/**
+ * @description Get a specific app
+ */
 router.get('/apps/:id', async (ctx, next) => {
   const id = ctx.params.id;
 
@@ -94,6 +104,9 @@ router.get('/apps/:id', async (ctx, next) => {
   ctx.body = app;
 });
 
+/**
+ * @description Update an app
+ */
 router.patch('/apps/:id', async (ctx, next) => {
   const clientId = ctx.params.id;
   const app = appStore.get(clientId);
@@ -113,6 +126,9 @@ router.patch('/apps/:id', async (ctx, next) => {
   ctx.status = 204;
 });
 
+/**
+ * @description Deactivate an app
+ */
 router.delete('/apps/:id', async (ctx, next) => {
   const id = ctx.params.id;
 
@@ -125,6 +141,11 @@ router.delete('/apps/:id', async (ctx, next) => {
   ctx.status = 204;
 });
 
+/**
+ * @description Get a list access tokens.
+ * /api/keys?client_id=<string>&page=<number>&per_page=<number>
+ * /api/keys?staff_name=<string>&page=<number>&per_page=<number>
+ */
 router.get('/keys', async (ctx, next) => {
   const clientId = ctx.query.client_id;
   const staffName = ctx.query.staff_name;
@@ -149,6 +170,9 @@ router.get('/keys', async (ctx, next) => {
   ctx.status = 404;
 });
 
+/**
+ * @description Create a new key.
+ */
 router.post('/keys', async (ctx, next) => {
   const baseToken: ITokenBase = ctx.request.body;
 
@@ -159,6 +183,9 @@ router.post('/keys', async (ctx, next) => {
   ctx.status = 204;
 });
 
+/**
+ * @description Delete a key owned by a staff.
+ */
 router.delete('/keys/:id', async (ctx, next) => {
   const id = ctx.params.id;
 
