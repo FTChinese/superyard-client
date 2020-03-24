@@ -1,3 +1,12 @@
-<app-search [placeHolder]="'User name'"></app-search>
-<p>You can find an employee by searching user name, or create one if it is not found.</p>
-<p><a routerLink="../staff">View all staff</a></p>
+<div class="row">
+  <div class="col-md-12 col-lg-8">
+    <app-search [placeHolder]="'User name'"></app-search>
+    <router-outlet></router-outlet>
+  </div>
+
+  <div class="col-md-12 col-lg-4">
+  </div>
+</div>
+
+
+
