@@ -1,4 +1,4 @@
-import { ApiKeyUsage } from './enums';
+import { ApiKeyKind } from './enums';
 
 // IAppBase contains user submitted data only.
 // Backedn will add extra meta fields.
@@ -31,7 +31,7 @@ export interface ITokenBase {
 export interface IAccessToken extends ITokenBase {
   id: number;
   token: string;
-  usage: ApiKeyUsage;
+  kind: ApiKeyKind;
   isActive: boolean;
   expiresIn: number | null;
   createdAt: string;
