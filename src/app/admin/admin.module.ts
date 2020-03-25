@@ -9,10 +9,11 @@ import { CreateUserComponent } from './create-user/create-user.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
 import { UserFormComponent } from './user-form/user-form.component';
 import { SearchStaffComponent } from './search-staff/search-staff.component';
+import { SearchResultsComponent } from './search-results/search-results.component';
 
 
 @NgModule({
-  declarations: [StaffListComponent, AdminHomeComponent, CreateUserComponent, UpdateUserComponent, UserFormComponent, SearchStaffComponent],
+  declarations: [StaffListComponent, AdminHomeComponent, CreateUserComponent, UpdateUserComponent, UserFormComponent, SearchStaffComponent, SearchResultsComponent],
   imports: [
     CommonModule,
     SharedModule,

@@ -4,6 +4,7 @@ import { AppFormService } from '../app-form.service';
 import { OAuthService } from '../oauth.service';
 import { switchMap } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-new-app',
@@ -11,9 +12,11 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./new-app.component.scss'],
   providers: [AppFormService],
 })
-export class NewAppComponent implements OnInit {
+export class NewAppComponent {
 
   app: IApiApp;
+
+  errMsg: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,11 +37,13 @@ export class NewAppComponent implements OnInit {
           console.log(ok);
           router.navigate(['../'], { relativeTo: this.route });
         },
-        error: err => console.log(err),
+        error: (err: HttpErrorResponse) => {
+          console.log(err);
+        },
       });
   }
 
-  ngOnInit(): void {
-  }
+  private handleError(errResp: HttpErrorResponse) {
 
+  }
 }

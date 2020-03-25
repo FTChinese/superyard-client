@@ -4,6 +4,7 @@ import staff from './staff';
 import apiAccess from './api-access';
 import android from './android';
 import readers from './readers';
+import search from './search';
 import { ILogin, ICMSAccount } from '../../../src/app/models/staff';
 import { IApiErrorBody } from '../../../src/app/models/request-result';
 
@@ -76,6 +77,7 @@ router.use('/staff', staff.routes());
 router.use('/oauth', apiAccess.routes());
 router.use('/readers', readers.routes());
 router.use('/android', android.routes());
+router.use('/search', search.routes());
 
 console.log(router.stack.map(layer => layer.path));
 

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { IApiApp } from 'src/app/models/oauth';
 import { OAuthService } from '../oauth.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { RequestError } from 'src/app/models/request-result';
 
 @Component({
   selector: 'app-app-list',
@@ -9,6 +11,8 @@ import { OAuthService } from '../oauth.service';
 })
 export class AppListComponent implements OnInit {
   apps: IApiApp[];
+
+  errMsg: string;
 
   constructor(
     private oauthService: OAuthService,
@@ -20,9 +24,16 @@ export class AppListComponent implements OnInit {
         console.log(data);
         this.apps = data;
       },
-      error: err => {
+      error: (err: HttpErrorResponse) => {
         console.log(err);
+        this.handleError(err);
       }
     });
+  }
+
+  private handleError(errResp: HttpErrorResponse) {
+    const err = RequestError.fromResponse(errResp);
+
+    this.errMsg = err.message;
   }
 }

@@ -5,36 +5,43 @@ import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { SearchStaffComponent } from './search-staff/search-staff.component';
+import { SearchResultsComponent } from './search-results/search-results.component';
 
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'search',
+    redirectTo: 'staff',
     pathMatch: 'full',
   },
   {
-    path: '',
-    component: AdminHomeComponent,
+    path: 'staff',
+    component: SearchStaffComponent,
     children: [
       {
-        path: 'search',
-        component: SearchStaffComponent,
+        path: '',
+        component: StaffListComponent,
       },
       {
-        path: 'staff/new',
-        component: CreateUserComponent,
+        path: 'search-results',
+        component: SearchResultsComponent,
       },
-      {
-        path: 'staff/:id',
-        component: UpdateUserComponent,
-      }
     ]
   },
   {
     path: 'staff',
-    component: StaffListComponent,
-  },
+    component: AdminHomeComponent,
+    children: [
+      {
+        path: 'new',
+        component: CreateUserComponent,
+      },
+      {
+        path: ':id',
+        component: UpdateUserComponent,
+      }
+    ]
+  }
 ];
 
 @NgModule({

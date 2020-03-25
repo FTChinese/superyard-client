@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IProfile } from 'src/app/models/staff';
 
 @Component({
   selector: 'app-staff-list',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./staff-list.component.scss']
 })
 export class StaffListComponent implements OnInit {
+
+  profiles: IProfile[];
 
   constructor() { }
 

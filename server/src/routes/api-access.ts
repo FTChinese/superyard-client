@@ -5,7 +5,7 @@ import { hex } from '../random';
 import { isoNow } from '../time';
 import { IApiApp, IAccessToken, IAppBase, ITokenBase } from '../../../src/app/models/oauth';
 import { async } from 'rxjs/internal/scheduler/async';
-import { ApiKeyUsage } from '../../../src/app/models/enums';
+import { ApiKeyKind } from '../../../src/app/models/enums';
 
 const chance = new Chance();
 const router = new Router();
@@ -40,14 +40,14 @@ async function generateApp(): Promise<IApiApp> {
   return createApp(mockAppFormData());
 }
 
-async function createToken(baseToken: ITokenBase, usage: ApiKeyUsage): Promise<IAccessToken> {
+async function createToken(baseToken: ITokenBase, usage: ApiKeyKind): Promise<IAccessToken> {
   return {
     ...baseToken,
     id: chance.integer(),
     token: await hex(20),
     isActive: true,
     expiresIn: null,
-    usage,
+    kind: usage,
     createdAt: isoNow(),
     updatedAt: isoNow(),
     lastUsedAt: null,
@@ -57,6 +57,10 @@ async function createToken(baseToken: ITokenBase, usage: ApiKeyUsage): Promise<I
 const appStore = new Map<string, IApiApp>();
 const tokenStore = new Map<number, IAccessToken>();
 
+/**
+ * @description Get a list of apps.
+ * /apps?page=<int>&per_page=<int>
+ */
 router.get('/apps', async (ctx, next) => {
 
   // Prepopulate some data if empty.
@@ -72,6 +76,9 @@ router.get('/apps', async (ctx, next) => {
   ctx.body = data;
 });
 
+/**
+ * @description Create a new app
+ */
 router.post('/apps', async (ctx, next) => {
   const baseApp: IAppBase = ctx.request.body;
   const app = await createApp(baseApp);
@@ -81,6 +88,9 @@ router.post('/apps', async (ctx, next) => {
   ctx.status = 204;
 });
 
+/**
+ * @description Get a specific app
+ */
 router.get('/apps/:id', async (ctx, next) => {
   const id = ctx.params.id;
 
@@ -94,6 +104,9 @@ router.get('/apps/:id', async (ctx, next) => {
   ctx.body = app;
 });
 
+/**
+ * @description Update an app
+ */
 router.patch('/apps/:id', async (ctx, next) => {
   const clientId = ctx.params.id;
   const app = appStore.get(clientId);
@@ -113,6 +126,9 @@ router.patch('/apps/:id', async (ctx, next) => {
   ctx.status = 204;
 });
 
+/**
+ * @description Deactivate an app
+ */
 router.delete('/apps/:id', async (ctx, next) => {
   const id = ctx.params.id;
 
@@ -125,6 +141,11 @@ router.delete('/apps/:id', async (ctx, next) => {
   ctx.status = 204;
 });
 
+/**
+ * @description Get a list access tokens.
+ * /api/keys?client_id=<string>&page=<number>&per_page=<number>
+ * /api/keys?staff_name=<string>&page=<number>&per_page=<number>
+ */
 router.get('/keys', async (ctx, next) => {
   const clientId = ctx.query.client_id;
   const staffName = ctx.query.staff_name;
@@ -132,7 +153,7 @@ router.get('/keys', async (ctx, next) => {
   if (clientId) {
     ctx.body = Array.from(tokenStore.values())
       .filter(t => {
-        return t.clientId === clientId && t.usage === 'app';
+        return t.clientId === clientId && t.kind === 'app';
       });
     return;
   }
@@ -140,7 +161,7 @@ router.get('/keys', async (ctx, next) => {
   if (staffName) {
     ctx.body = Array.from(tokenStore.values())
       .filter(t => {
-        return t.createdBy === staffName && t.usage === 'personal';
+        return t.createdBy === staffName && t.kind === 'personal';
       });
 
     return;
@@ -149,6 +170,9 @@ router.get('/keys', async (ctx, next) => {
   ctx.status = 404;
 });
 
+/**
+ * @description Create a new key.
+ */
 router.post('/keys', async (ctx, next) => {
   const baseToken: ITokenBase = ctx.request.body;
 
@@ -159,6 +183,9 @@ router.post('/keys', async (ctx, next) => {
   ctx.status = 204;
 });
 
+/**
+ * @description Delete a key owned by a staff.
+ */
 router.delete('/keys/:id', async (ctx, next) => {
   const id = ctx.params.id;
 
