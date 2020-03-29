@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { ILogin, StaffAccount, IProfile, IPasswords, IProfileForm } from '../models/staff';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ILogin, StaffAccount, IProfile, IPasswords, IProfileForm, JWTAccount } from '../models/staff';
 import { Observable, of } from 'rxjs';
 import { tap, switchMap } from 'rxjs/operators';
 
@@ -9,20 +9,36 @@ import { tap, switchMap } from 'rxjs/operators';
 })
 export class AuthService {
 
-  account: StaffAccount | null = null;
+  account: JWTAccount | null = null;
   redirectUrl: string;
-  private storeKey = 'syCurrentUser';
+  private storeKey = 'sy_user';
 
   get isLoggedIn(): boolean {
-    if (this.account) {
-      return true;
+    if (!this.account) {
+      const val = localStorage.getItem(this.storeKey);
+      if (val) {
+        this.account = JSON.parse(val);
+      }
     }
-    const val = localStorage.getItem(this.storeKey);
-    if (val) {
-      this.account = JSON.parse(val);
-      return true;
+
+    if (!this.account) {
+      return false;
     }
-    return false;
+
+    if (this.isExpired(this.account)) {
+      return false;
+    }
+    return true;
+  }
+
+  private isExpired(account: JWTAccount): boolean {
+    return (Date.now() / 1000) > account.expiresAt;
+  }
+
+  get authHeader(): HttpHeaders {
+    return new HttpHeaders({
+      Authorization: `Bearer ${this.account.token}`
+    });
   }
 
   get displayName(): string {
@@ -41,9 +57,9 @@ export class AuthService {
     private http: HttpClient,
   ) {}
 
-  login(credentials: ILogin): Observable<StaffAccount> {
+  login(credentials: ILogin): Observable<JWTAccount> {
     return this.http
-      .post<StaffAccount>(
+      .post<JWTAccount>(
         '/api/login',
         credentials,
       )
@@ -61,7 +77,9 @@ export class AuthService {
   }
 
   loadProfile(): Observable<IProfile> {
-    return this.http.get<IProfile>(`/api/staff/${this.account.id}`);
+    return this.http.get<IProfile>(`/api/settings/profile`, {
+      headers: this.authHeader
+    });
   }
 
   updateProfile(formData: IProfileForm): Observable<boolean> {
@@ -79,10 +97,11 @@ export class AuthService {
 
   changePassword(pws: IPasswords): Observable<boolean> {
     return this.http.patch<IPasswords>(
-        `/api/staff/${this.account.id}/password`,
+        `/api/account/password`,
         pws,
         {
           observe: 'response',
+          headers: this.authHeader,
         }
       )
       .pipe(

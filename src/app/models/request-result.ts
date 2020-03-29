@@ -41,8 +41,11 @@ export class RequestError {
     if (!this.invalid) {
       return null;
     }
-
-    return {[this.invalid.field]: this.message};
+    const name = this.invalid.field;
+    const value = this.message;
+    const o = {};
+    o[name] = value;
+    return o;
   }
 
   static fromResponse(errResp: HttpErrorResponse): RequestError {
