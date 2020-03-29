@@ -5,6 +5,7 @@ import { FeedbackInvalidComponent } from './feedback-invalid/feedback-invalid.co
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MarkedPipe } from './marked.pipe';
 import { SearchComponent } from './search/search.component';
+import { ToastComponent } from './toast/toast.component';
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import { SearchComponent } from './search/search.component';
     FeedbackInvalidComponent,
     MarkedPipe,
     SearchComponent,
+    ToastComponent,
   ],
   imports: [
     CommonModule,
@@ -23,6 +25,7 @@ import { SearchComponent } from './search/search.component';
     FormsModule,
     ReactiveFormsModule,
     FlashComponent,
+    ToastComponent,
     FeedbackInvalidComponent,
     MarkedPipe,
     SearchComponent,

@@ -1,21 +1,18 @@
-import { Component, Input} from '@angular/core';
+import { Component, Input, Output, EventEmitter} from '@angular/core';
+import { AlertType } from '../alert';
 
 @Component({
   selector: 'app-flash',
-  template: `
-  <ng-container *ngIf="message">
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <span>{{ message }}</span>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="close()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-  </ng-container>`,
+  templateUrl: './flash.component.html'
 })
 export class FlashComponent  {
   @Input() message: string;
+  @Input() type: AlertType = 'danger';
+  @Input() dismissible = true;
+
+  @Output() dismiss = new EventEmitter<void>();
 
   close() {
-    this.message = null;
+    this.dismiss.emit();
   }
 }

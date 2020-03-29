@@ -5,6 +5,7 @@ import { OAuthService } from '../oauth.service';
 import { switchMap } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { RequestError } from 'src/app/models/request-result';
 
 @Component({
   selector: 'app-new-app',
@@ -15,7 +16,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class NewAppComponent {
 
   app: IApiApp;
-
   errMsg: string;
 
   constructor(
@@ -39,11 +39,17 @@ export class NewAppComponent {
         },
         error: (err: HttpErrorResponse) => {
           console.log(err);
+          this.handleError(err);
         },
       });
   }
 
   private handleError(errResp: HttpErrorResponse) {
+    const err = RequestError.fromResponse(errResp);
+    this.errMsg = err.message;
+  }
 
+  onDismiss() {
+    this.errMsg = null;
   }
 }
