@@ -16,7 +16,6 @@ import { RequestError } from 'src/app/models/request-result';
 export class NewAppComponent {
 
   app: IApiApp;
-  errMsg: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,6 +27,8 @@ export class NewAppComponent {
       .formSubmitted$
       .pipe(
         switchMap(formData => {
+          console.log('Creating a new app...');
+          console.log(formData);
           return this.oauthService
             .createApp(formData);
         })
@@ -38,18 +39,8 @@ export class NewAppComponent {
           router.navigate(['../'], { relativeTo: this.route });
         },
         error: (err: HttpErrorResponse) => {
-          console.log(err);
-          this.handleError(err);
+          this.formService.sendError(RequestError.fromResponse(err));
         },
       });
-  }
-
-  private handleError(errResp: HttpErrorResponse) {
-    const err = RequestError.fromResponse(errResp);
-    this.errMsg = err.message;
-  }
-
-  onDismiss() {
-    this.errMsg = null;
   }
 }

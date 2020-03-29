@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IAccessToken, IApiApp } from 'src/app/models/oauth';
+import { IApiApp, IAppBase } from 'src/app/models/oauth';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AppFormService } from '../app-form.service';
 
@@ -10,8 +10,8 @@ import { AppFormService } from '../app-form.service';
 })
 export class AppFormComponent implements OnInit {
 
-  // tslint:disable-next-line:variable-name
-  private _app: IApiApp;
+  formErr: Partial<IAppBase> = {};
+  errMsg: string;
 
   @Input()
   set app(app: IApiApp) {
@@ -29,7 +29,7 @@ export class AppFormComponent implements OnInit {
     name: ['', [Validators.required]],
     slug: [''],
     repoUrl: ['', [Validators.required]],
-    homeUrl: [null, Validators.required],
+    homeUrl: [null],
     description: [null],
     callbackUrl: [null],
   });
@@ -58,12 +58,47 @@ export class AppFormComponent implements OnInit {
 
     this.formService
       .errorReceived$
-      .subscribe(reqErr => console.log(reqErr));
+      .subscribe(reqErr => {
+        console.log(reqErr);
+
+        this.appForm.enable();
+
+        if (reqErr.invalid) {
+          this.formErr = reqErr.invalidObject;
+
+          return;
+        }
+
+        this.errMsg = reqErr.message;
+      });
   }
 
   onSubmit() {
+    console.log(this.appForm.value);
+
+    if (this.appForm.invalid) {
+      if (this.appForm.getError('required', 'name')) {
+        this.formErr.name = 'App name is required';
+      }
+
+      if (this.appForm.getError('required', 'repoUrl')) {
+        this.formErr.repoUrl = 'Please supply the source code url of this app';
+      }
+
+      return;
+    }
+
     this.formService.submitForm(this.appForm.value);
+
+    // NOTE: must not put this line before submite data;
+    // otherwise the form data is empty.
+    this.appForm.disable();
   }
+
+  onDismiss() {
+    this.errMsg = null;
+  }
+
 }
 
 
