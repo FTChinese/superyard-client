@@ -1,7 +1,7 @@
-<h2 class="text-center">Login</h2>
+<h2 class="text-center">Superyard Login</h2>
 
 <!-- <ng-template appFlash></ng-template> -->
-<app-flash [message]="errMsg"></app-flash>
+<app-flash *ngIf="errMsg" [message]="errMsg"></app-flash>
 
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <div class="form-group">

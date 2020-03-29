@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ILogin, ICMSAccount, IProfile, IPasswords, IProfileForm } from '../models/staff';
+import { ILogin, StaffAccount, IProfile, IPasswords, IProfileForm } from '../models/staff';
 import { Observable, of } from 'rxjs';
 import { tap, switchMap } from 'rxjs/operators';
 
@@ -9,7 +9,7 @@ import { tap, switchMap } from 'rxjs/operators';
 })
 export class AuthService {
 
-  account: ICMSAccount | null = null;
+  account: StaffAccount | null = null;
   redirectUrl: string;
   private storeKey = 'syCurrentUser';
 
@@ -41,9 +41,9 @@ export class AuthService {
     private http: HttpClient,
   ) {}
 
-  login(credentials: ILogin): Observable<ICMSAccount> {
+  login(credentials: ILogin): Observable<StaffAccount> {
     return this.http
-      .post<ICMSAccount>(
+      .post<StaffAccount>(
         '/api/login',
         credentials,
       )

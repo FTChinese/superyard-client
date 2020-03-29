@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { IApiApp, IAccessToken, IAppBase, ITokenBase } from '../models/oauth';
 import { switchMap } from 'rxjs/operators';
-import { ICMSAccount } from '../models/staff';
+import { StaffAccount } from '../models/staff';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable({

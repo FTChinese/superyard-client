@@ -1,7 +1,7 @@
 import { Component} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ICMSAccount, ILogin } from '../../models/staff';
+import { StaffAccount, ILogin } from '../../models/staff';
 import { RequestError } from '../../models/request-result';
 import { AuthService } from '../auth.service';
 import { Router, NavigationExtras } from '@angular/router';
@@ -48,7 +48,7 @@ export class LoginComponent {
     this.authService
       .login(this.loginForm.value)
       .subscribe({
-        next: (data: ICMSAccount) => {
+        next: (data: StaffAccount) => {
           console.log(data);
           if (this.authService.isLoggedIn) {
             const redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : '/';

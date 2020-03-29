@@ -3,17 +3,25 @@ export interface ILogin {
   password: string;
 }
 
-export interface ICMSAccount {
-  id: string;
+export interface BaseAccount {
   userName: string;
   email: string | null;
-  isActive: boolean;
   displayName: string | null;
   department: string | null;
   groupMembers: number;
 }
 
-export interface IProfile extends ICMSAccount {
+export interface StaffAccount extends BaseAccount {
+  id: string;
+  isActive: boolean;
+}
+
+export interface JWTAccount extends StaffAccount {
+  expiresAt: number;
+  token: string;
+}
+
+export interface IProfile extends StaffAccount {
   createdAt: string | null;
   deactiveatedAt: string | null;
   updatedAt: string | null;
@@ -21,7 +29,7 @@ export interface IProfile extends ICMSAccount {
   lastLoginIp: string | null;
 }
 
-export type IProfileForm = Pick<ICMSAccount, 'email' | 'displayName'>;
+export type IProfileForm = Pick<StaffAccount, 'email' | 'displayName'>;
 
 export interface IPasswords {
   oldPassword: string; // Old password for validation

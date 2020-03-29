@@ -5,7 +5,7 @@ import apiAccess from './api-access';
 import android from './android';
 import readers from './readers';
 import search from './search';
-import { ILogin, ICMSAccount } from '../../../src/app/models/staff';
+import { ILogin, StaffAccount } from '../../../src/app/models/staff';
 import { IApiErrorBody } from '../../../src/app/models/request-result';
 
 const chance = new Chance();
@@ -60,7 +60,7 @@ router.post('/login', (ctx, next) => {
     return;
   }
 
-  const account: ICMSAccount = {
+  const account: StaffAccount = {
     id: `stf_${chance.string({length: 12})}`,
     userName: credentials.userName,
     email: `${credentials.userName}@ftchinese.com`,
