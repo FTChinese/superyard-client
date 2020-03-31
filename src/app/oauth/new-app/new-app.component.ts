@@ -5,6 +5,7 @@ import { OAuthService } from '../oauth.service';
 import { switchMap } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { RequestError } from 'src/app/models/request-result';
 
 @Component({
   selector: 'app-new-app',
@@ -16,8 +17,6 @@ export class NewAppComponent {
 
   app: IApiApp;
 
-  errMsg: string;
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -28,6 +27,8 @@ export class NewAppComponent {
       .formSubmitted$
       .pipe(
         switchMap(formData => {
+          console.log('Creating a new app...');
+          console.log(formData);
           return this.oauthService
             .createApp(formData);
         })
@@ -38,12 +39,8 @@ export class NewAppComponent {
           router.navigate(['../'], { relativeTo: this.route });
         },
         error: (err: HttpErrorResponse) => {
-          console.log(err);
+          this.formService.sendError(RequestError.fromResponse(err));
         },
       });
-  }
-
-  private handleError(errResp: HttpErrorResponse) {
-
   }
 }

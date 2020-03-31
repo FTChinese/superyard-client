@@ -1,6 +1,6 @@
 import Router from 'koa-router';
 import Chance from 'chance';
-import { IProfile, ICMSAccount } from '../../../src/app/models/staff';
+import { IProfile, StaffAccount } from '../../../src/app/models/staff';
 import { isoNow } from '../time';
 
 const pool = 'abcdedfghijklmnopqrstuvwxyz';
@@ -8,7 +8,7 @@ const pool = 'abcdedfghijklmnopqrstuvwxyz';
 const chance = new Chance();
 const router = new Router();
 
-function generateAccount(): ICMSAccount {
+function generateAccount(): StaffAccount {
   return {
     id: `stf_${chance.string({length: 12, pool})}`,
     userName: chance.word(),
@@ -20,7 +20,7 @@ function generateAccount(): ICMSAccount {
   };
 }
 
-function buildStaff(account: ICMSAccount): IProfile {
+function buildStaff(account: StaffAccount): IProfile {
   return {
     ...account,
     createdAt: isoNow(),
@@ -59,7 +59,7 @@ router.get('/', (ctx, next) => {
  * @description Create a staff
  */
 router.post('/', (ctx, next) => {
-  const account: ICMSAccount = ctx.request.body;
+  const account: StaffAccount = ctx.request.body;
 
   const profile = buildStaff(account);
 
@@ -98,7 +98,7 @@ router.patch('/:id', (ctx, next) => {
     return;
   }
 
-  const account: ICMSAccount = ctx.request.body;
+  const account: StaffAccount = ctx.request.body;
 
   Object.assign(profile, account);
 

@@ -9,6 +9,8 @@
       maxlength="256"
       required>
 
+      <app-feedback-invalid *ngIf="formErr.name" [message]="formErr.name"></app-feedback-invalid>
+
       <small class="form-text text-muted">Required. 1 ~ 256 alphanumerics.</small>
   </div>
 
@@ -32,6 +34,9 @@
       placeholder="Where could the source code be found?"
       maxlength="256"
       required="">
+
+    <app-feedback-invalid *ngIf="formErr.repoUrl" [message]="formErr.repoUrl"></app-feedback-invalid>
+
     <small class="form-text text-muted">Required. Must be valid url with max length of 256 characters</small>
   </div>
 
@@ -73,9 +78,11 @@
     <small class="form-text text-muted">Optional. Max 256 characters</small>
   </div>
 
+  <app-flash *ngIf="errMsg" [message]="errMsg" (dismiss)="onDismiss()"></app-flash>
+
   <div class="d-flex justify-content-between">
 
-    <button class="btn btn-primary" type="submit">Save</button>
+    <button class="btn btn-primary" type="submit" [disabled]="!appForm.valid">Save</button>
 
     <a routerLink="../" class="btn">Cancel</a>
 
