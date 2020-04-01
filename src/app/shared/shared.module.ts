@@ -5,7 +5,8 @@ import { FeedbackInvalidComponent } from './feedback-invalid/feedback-invalid.co
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MarkedPipe } from './marked.pipe';
 import { SearchComponent } from './search/search.component';
-import { ToastComponent } from './toast/toast.component';
+import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
+import { DynamicControlComponent } from './dynamic-control/dynamic-control.component';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { ToastComponent } from './toast/toast.component';
     FeedbackInvalidComponent,
     MarkedPipe,
     SearchComponent,
-    ToastComponent,
+    DynamicFormComponent,
+    DynamicControlComponent,
   ],
   imports: [
     CommonModule,
@@ -25,10 +27,10 @@ import { ToastComponent } from './toast/toast.component';
     FormsModule,
     ReactiveFormsModule,
     FlashComponent,
-    ToastComponent,
     FeedbackInvalidComponent,
     MarkedPipe,
     SearchComponent,
+    DynamicFormComponent,
   ]
 })
 export class SharedModule { }
