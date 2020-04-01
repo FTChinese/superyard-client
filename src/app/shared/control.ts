@@ -49,14 +49,14 @@ export class DynamicControl {
   type: InputType; // <input>'s type attribute.
   options: OptionElement[]; // <option> tag inside <select>.
 
-  constructor(options: ControlOptions) {
-    this.value = options.value || null;
-    this.key = options.key;
-    this.validators = options.validators;
+  constructor(opts: ControlOptions) {
+    this.value = opts.value || null;
+    this.key = opts.key;
+    this.validators = opts.validators;
 
-    this.label = options.label || '';
-    this.desc = options.desc || '';
-    this.placeholder = options.placeholder || '';
+    this.label = opts.label || '';
+    this.desc = opts.desc || '';
+    this.placeholder = opts.placeholder || '';
   }
 }
 
@@ -64,9 +64,9 @@ export class InputControl extends DynamicControl {
   controlType: ControlType = 'textbox';
   type: InputType;
 
-  constructor(options: InputControlOptions) {
-    super(options);
-    this.type = options.type;
+  constructor(opts: InputControlOptions) {
+    super(opts);
+    this.type = opts.type;
   }
 }
 
@@ -74,16 +74,16 @@ export class DropdownControl extends DynamicControl {
   controlType: ControlType = 'dropdown';
   options: OptionElement[] = [];
 
-  constructor(options: DropdownControlOptions) {
-    super(options);
-    this.options = options.options;
+  constructor(opts: DropdownControlOptions) {
+    super(opts);
+    this.options = opts.options;
   }
 }
 
 export class TextareaControl extends DynamicControl {
   controlType: ControlType = 'textarea';
 
-  constructor(options: ControlOptions) {
-    super(options);
+  constructor(opts: ControlOptions) {
+    super(opts);
   }
 }
