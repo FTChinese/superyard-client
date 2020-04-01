@@ -9,7 +9,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OauthModule } from './oauth/oauth.module';
 import { AdminModule } from './admin/admin.module';
 import { SettingsModule } from './settings/settings.module';
-import { CorpModule } from './corp/corp.module';
 
 @NgModule({
   declarations: [
@@ -25,12 +24,9 @@ import { CorpModule } from './corp/corp.module';
     OauthModule,
     AdminModule,
     SettingsModule,
-    CorpModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [
-    // FlashComponent,
-  ]
+  entryComponents: []
 })
 export class AppModule { }
