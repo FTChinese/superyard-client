@@ -12,11 +12,13 @@ import { Button } from '../button';
   providers: [ControlService],
 })
 export class DynamicFormComponent implements OnInit {
+  // Default button
   @Input() button: Button = {
     block: false,
     text: 'Save',
   };
-  @Input() controlConfigs: DynamicControl[] = [];
+
+  @Input() controls: DynamicControl[] = [];
   form: FormGroup;
 
   constructor(
@@ -25,7 +27,7 @@ export class DynamicFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.form = this.controlService.toFormGroup(this.controlConfigs);
+    this.form = this.controlService.toFormGroup(this.controls);
     this.formService.errorReceived$.subscribe(reqErr => {
       console.log(reqErr);
     });
@@ -35,5 +37,14 @@ export class DynamicFormComponent implements OnInit {
     const data = JSON.stringify(this.form.getRawValue());
     console.log(data);
     this.formService.submit(data);
+  }
+
+  setError() {
+    console.log('Setting error manually');
+    this.controls.forEach(ctrl => {
+      this.form.get(ctrl.key).setErrors({
+        already_exists: 'The same value already exists. Please use another one'
+      });
+    });
   }
 }

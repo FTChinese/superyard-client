@@ -8,15 +8,18 @@ import { FormGroup, AbstractControl } from '@angular/forms';
   styleUrls: ['./dynamic-control.component.scss']
 })
 export class DynamicControlComponent {
-  @Input() config: DynamicControl;
+  @Input() control: DynamicControl;
   @Input() form: FormGroup;
 
-  get isValid(): boolean {
-    return this.control.valid;
+  // The current FormControl instance.
+  get formControl(): AbstractControl {
+    return this.form.get(this.control.key);
   }
 
-  get control(): AbstractControl {
-    return this.form.get(this.config.key);
+  get isInvalid(): boolean {
+    console.log('Checking validity');
+    console.log(this.formControl.errors);
+    return this.formControl.invalid && (this.formControl.dirty || this.formControl.touched);
   }
 
   // {
@@ -42,12 +45,19 @@ export class DynamicControlComponent {
   //     requiredPattern: string,
   //     actualValue: string
   //   };
+  // API response errors:
+  //   minssing: string,
+  //   missing_field: string,
+  //   invalid: string,
+  //   already_exists: string,
   // }
   get errMsg(): string {
-    const errors = this.control.errors;
+    const errors = this.formControl.errors;
+
+    console.log(errors);
 
     if (errors.required) {
-      return `${this.config.label} is required`;
+      return `${this.control.label} is required`;
     }
 
     if (errors.email) {
@@ -72,6 +82,22 @@ export class DynamicControlComponent {
 
     if (errors.pattern) {
       return 'Pattern mismatched';
+    }
+
+    if (errors.missing) {
+      return 'The requesting resource does not exist, or is removed';
+    }
+
+    if (errors.missing_field) {
+      return `The value for ${this.control.label} is missing`;
+    }
+
+    if (errors.invalid) {
+      return errors.invalid;
+    }
+
+    if (errors.already_exists) {
+      return `The same value for ${this.control.label} already exists. Please use another one.`;
     }
 
     return '';

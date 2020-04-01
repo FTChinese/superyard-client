@@ -12,10 +12,10 @@ import { Button } from 'src/app/shared/button';
 })
 export class ForgotPasswordComponent implements OnInit {
 
-  controlConfigs: DynamicControl[] = [
+  dynamicControls: DynamicControl[] = [
     new InputControl({
       value: '',
-      key: 'name',
+      key: 'email',
       validators: [Validators.required, Validators.email, Validators.maxLength(64)],
       label: 'Email',
       placeholder: 'example@ftchinese.com',
