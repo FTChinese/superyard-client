@@ -19,6 +19,26 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: '', component: HomeComponent },
+      {
+        path: 'settings',
+        loadChildren: () => import('../settings/settings.module').then(m => m.SettingsModule),
+      },
+      {
+        path: 'admin',
+        loadChildren: () => import('../admin/admin.module').then(m => m.AdminModule),
+      },
+      {
+        path: 'oauth',
+        loadChildren: () => import('../oauth/oauth.module').then(m => m.OauthModule),
+      },
+      {
+        path: 'readers',
+        loadChildren: () => import('../reader/reader.module').then(m => m.ReaderModule),
+      },
+      {
+        path: 'android',
+        loadChildren: () => import('../android/android.module').then(m => m.AndroidModule),
+      }
     ]
   },
   {
@@ -28,70 +48,10 @@ const routes: Routes = [
       {
         path: 'login',
         loadChildren: () => import('../auth/auth.module').then(m => m.AuthModule),
-      }
-    ]
-  },
-  {
-    path: '',
-    component: CenterLayoutComponent,
-    children: [
+      },
       {
         path: 'forgot-password',
         loadChildren: () => import('../forgot-password/forgot-password.module').then(m => m.ForgotPasswordModule),
-      }
-    ]
-  },
-  {
-    path: '',
-    component: MainLayoutComponent,
-    children: [
-      {
-        path: 'settings',
-        loadChildren: () => import('../settings/settings.module').then(m => m.SettingsModule),
-      }
-    ]
-  },
-  {
-    path: '',
-    component: MainLayoutComponent,
-    canActivate: [AuthGuard],
-    children: [
-      {
-        path: 'admin',
-        loadChildren: () => import('../admin/admin.module').then(m => m.AdminModule),
-      },
-    ],
-  },
-  {
-    path: '',
-    component: MainLayoutComponent,
-    canActivate: [AuthGuard],
-    children: [
-      {
-        path: 'oauth',
-        loadChildren: () => import('../oauth/oauth.module').then(m => m.OauthModule),
-      }
-    ]
-  },
-  {
-    path: '',
-    component: MainLayoutComponent,
-    canActivate: [AuthGuard],
-    children: [
-      {
-        path: 'readers',
-        loadChildren: () => import('../reader/reader.module').then(m => m.ReaderModule),
-      }
-    ]
-  },
-  {
-    path: '',
-    component: MainLayoutComponent,
-    canActivate: [AuthGuard],
-    children: [
-      {
-        path: 'android',
-        loadChildren: () => import('../android/android.module').then(m => m.AndroidModule),
       }
     ]
   },
