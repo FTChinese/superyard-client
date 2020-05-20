@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { ControlService } from '../control.service';
 import { FormService } from '../form.service';
 import { Button } from '../button';
+import { RequestError } from 'src/app/models/request-result';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -37,14 +38,21 @@ export class DynamicFormComponent implements OnInit {
     const data = JSON.stringify(this.form.getRawValue());
     console.log(data);
     this.formService.submit(data);
+    this.form.disable();
   }
 
-  setError() {
+  setError(err: RequestError) {
     console.log('Setting error manually');
-    this.controls.forEach(ctrl => {
-      this.form.get(ctrl.key).setErrors({
-        already_exists: 'The same value already exists. Please use another one'
-      });
+    this.form.enable();
+    if (!err.unprocessable) {
+      return;
+    }
+
+    // Use the Unprocessable#field to find which field goes wrong.
+    // Use the Unprocessable#code as ValidationErrors' key,
+    // and API error response message as fallback error message.
+    this.form.get(err.unprocessable.field).setErrors({
+      [err.unprocessable.code]: err.message
     });
   }
 }

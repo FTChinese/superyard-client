@@ -1,52 +1,26 @@
 import { HttpErrorResponse } from '@angular/common/http';
 
-interface ValidationError {
-  field: string;
+// Server-side validation error.
+export interface Unprocessable {
+  field: string; // Which field goes wrong.
   code: 'missing' | 'missing_field' | 'invalid' | 'already_exists';
 }
 
-export interface IApiErrorBody {
+export interface ApiErrorPayload {
   message: string;
-  // param?: string;
-  // code?: 'missing' | 'missing_field' | 'invalid' | 'already_exists';
-  error?: ValidationError;
+  // Only exists for 422 Unprocessable.
+  error?: Unprocessable;
+}
+
+function isString(x: any): x is string {
+  return typeof x === 'string';
 }
 
 export class RequestError {
-  readonly statusCode: number;
   readonly message: string;
-  readonly invalid?: ValidationError;
+  readonly unprocessable?: Unprocessable;
 
-  constructor(statusCode: number, body: string | IApiErrorBody) {
-    this.statusCode = statusCode;
-
-    if (typeof body === 'string') {
-      this.message = body;
-      return;
-    }
-
-    this.message = body.message;
-    this.invalid = body.error;
-  }
-
-  get notFound(): boolean {
-    return this.statusCode === 404;
-  }
-
-  get unprocessable(): boolean {
-    return this.statusCode === 422;
-  }
-
-  get invalidObject(): {[k: string]: string} | null {
-    if (!this.invalid) {
-      return null;
-    }
-    const name = this.invalid.field;
-    const value = this.message;
-    const o = {};
-    o[name] = value;
-    return o;
-  }
+  readonly statusCode: number; // HTTP status code.
 
   /**
    * Two types of errors can occur. The server backend might reject the
@@ -88,11 +62,55 @@ export class RequestError {
       return new RequestError(errResp.status, errResp.error.message);
     }
 
-    if (typeof(errResp.error) === 'string') {
-      return new RequestError(errResp.status, errResp.error);
-    }
-
     return new RequestError(errResp.status, errResp.error);
   }
-}
 
+  constructor(statusCode: number, body: string | ApiErrorPayload) {
+    this.statusCode = statusCode;
+
+    if (isString(body)) {
+      this.message = body;
+      return;
+    }
+
+    this.message = body.message;
+    this.unprocessable = body.error;
+  }
+
+  get badRequest(): boolean {
+    return this.statusCode === 400;
+  }
+
+  get unauthorized(): boolean {
+    return this.statusCode === 401;
+  }
+
+  // 404 Not Found
+  get notFound(): boolean {
+    return this.statusCode === 404;
+  }
+
+  // 403 Fobidden.
+  get fobidden(): boolean {
+    return this.statusCode === 403;
+  }
+
+  get tooManyRequests(): boolean {
+    return this.statusCode === 429;
+  }
+
+  get serverError(): boolean {
+    return this.statusCode >= 500;
+  }
+
+  get invalidObject(): {[k: string]: string} | null {
+    if (!this.unprocessable) {
+      return null;
+    }
+    const name = this.unprocessable.field;
+    const value = this.message;
+    const o = {};
+    o[name] = value;
+    return o;
+  }
+}
