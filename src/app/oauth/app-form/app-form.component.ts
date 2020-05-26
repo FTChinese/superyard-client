@@ -63,7 +63,7 @@ export class AppFormComponent implements OnInit {
 
         this.appForm.enable();
 
-        if (reqErr.invalid) {
+        if (reqErr.unprocessable) {
           this.formErr = reqErr.invalidObject;
 
           return;
