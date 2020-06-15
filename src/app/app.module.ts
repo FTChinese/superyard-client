@@ -3,9 +3,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutModule } from './layout/layout.module';
-import { HttpClient } from '@angular/common/http';
-import { FooterComponent } from './layout/footer/footer.component';
-import { ToolbarComponent } from './layout/toolbar/toolbar.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -13,11 +11,9 @@ import { ToolbarComponent } from './layout/toolbar/toolbar.component';
   ],
   imports: [
     BrowserModule,
-    HttpClient,
+    HttpClientModule,
     LayoutModule,
     AppRoutingModule,
-    FooterComponent,
-    ToolbarComponent
   ],
   providers: [],
   bootstrap: [AppComponent],
