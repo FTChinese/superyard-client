@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CenterLayoutComponent } from './center-layout.component';
+import { AuthLayoutComponent } from './auth-layout.component';
 
-describe('CenterLayoutComponent', () => {
-  let component: CenterLayoutComponent;
-  let fixture: ComponentFixture<CenterLayoutComponent>;
+describe('AuthLayoutComponent', () => {
+  let component: AuthLayoutComponent;
+  let fixture: ComponentFixture<AuthLayoutComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CenterLayoutComponent ]
+      declarations: [ AuthLayoutComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CenterLayoutComponent);
+    fixture = TestBed.createComponent(AuthLayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

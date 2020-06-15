@@ -5,9 +5,10 @@
 
   <div class="d-flex justify-content-between">
 
-    <button class="btn btn-primary" [class.btn-block]="button.block" type="submit" [disabled]="!form.valid">{{button.text}}</button>
+    <button
+      [class]="button.classNames"
+      [type]="button.type"
+      [disabled]="!form.valid">{{button.text}}</button>
 
   </div>
-
-
 </form>

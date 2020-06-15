@@ -1,4 +1,6 @@
 export const sitemap = {
+  login: `login`,
+  forgotPassword: `forgot-password`,
   admin: 'admin',
   apn: 'apn',
   oauth: 'oauth',

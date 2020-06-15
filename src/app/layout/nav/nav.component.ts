@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Link } from 'src/app/shared/widget/link';
 import { sitemap } from '../sitemap';
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+  selector: 'app-nav',
+  templateUrl: './nav.component.html',
+  styleUrls: ['./nav.component.scss']
 })
-export class SidebarComponent implements OnInit {
+export class NavComponent implements OnInit {
 
   navItems: Link[] = [
     {

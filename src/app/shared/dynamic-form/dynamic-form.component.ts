@@ -13,13 +13,10 @@ import { RequestError } from 'src/app/data/schema/request-result';
   providers: [ControlService],
 })
 export class DynamicFormComponent implements OnInit {
-  // Default button
-  @Input() button: Button = {
-    block: false,
-    text: 'Save',
-  };
 
   @Input() controls: DynamicControl[] = [];
+  @Input() button: Button;
+
   form: FormGroup;
 
   constructor(
