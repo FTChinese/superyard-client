@@ -5,6 +5,7 @@ import { AuthGuard } from './core/guard/auth.guard';
 import { siteBaseUrl } from './layout/sitemap';
 import { AuthLayoutComponent } from './layout/auth-layout/auth-layout.component';
 import { PageNotFoundComponent } from './layout/page-not-found/page-not-found.component';
+import { HomeComponent } from './modules/home/home.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
     component: ContentLayoutComponent,
     canActivate: [AuthGuard],
     children: [
+      {
+        path: '',
+        component: HomeComponent,
+      },
       {
         path: siteBaseUrl.settings,
         loadChildren: () => import('./modules/settings/settings.module').then(m => m.SettingsModule),
@@ -44,10 +49,10 @@ const routes: Routes = [
       },
     ]
   },
-  // {
-  //   path: '**',
-  //   component: PageNotFoundComponent
-  // }
+  {
+    path: '**',
+    component: PageNotFoundComponent
+  }
 ];
 
 @NgModule({
