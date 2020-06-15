@@ -12,31 +12,31 @@ export class NavComponent implements OnInit {
   navItems: Link[] = [
     {
       name: 'Admin',
-      href: siteBaseUrl.admin,
+      href: '/' + siteBaseUrl.admin,
     },
     {
       name: 'Push Notification',
-      href: siteBaseUrl.apn,
+      href: '/' + siteBaseUrl.apn,
     },
     {
       name: 'API Access',
-      href: siteBaseUrl.oauth
+      href: '/' + siteBaseUrl.oauth
     },
     {
       name: 'Readers',
-      href: siteBaseUrl.readers,
+      href: '/' + siteBaseUrl.readers,
     },
     {
       name: 'B2B Subscription',
-      href: siteBaseUrl.b2b,
+      href: '/' + siteBaseUrl.b2b,
     },
     {
       name: 'Android',
-      href: siteBaseUrl.android,
+      href: '/' + siteBaseUrl.android,
     },
     {
       name: 'Settings',
-      href: siteBaseUrl.settings,
+      href: '/' + siteBaseUrl.settings,
     }
   ];
 
