@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AndroidService } from '../android.service';
+import { AndroidService } from '../../../data/service/android.service';
 import { IRelease, IReleaseBase } from '../../data/schema/android';
 import { ReleaseService } from '../release.service';
 import { RequestError } from '../../data/schema/request-result';

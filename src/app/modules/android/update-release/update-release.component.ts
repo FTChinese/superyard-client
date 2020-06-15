@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ReleaseService } from '../release.service';
-import { AndroidService } from '../android.service';
-import { IRelease } from '../../data/schema/android';
+import { AndroidService } from '../../../data/service/android.service';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
+import { IRelease } from 'src/app/data/schema/android';
 
 @Component({
   selector: 'app-update-release',

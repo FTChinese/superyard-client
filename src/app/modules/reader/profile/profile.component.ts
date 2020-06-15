@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TableRow } from '../account-item';
 import { ActivatedRoute } from '@angular/router';
-import { ReaderService } from '../reader.service';
-import { switchMap } from 'rxjs/operators';
-import { AccountKind } from 'src/app/data/schema/enums';
-import { zip } from 'rxjs';
+import { ReaderService } from '../../../data/service/reader.service';
 
 @Component({
   selector: 'app-profile',

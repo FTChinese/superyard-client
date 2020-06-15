@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, pipe } from 'rxjs';
-import { IRelease, IReleaseBase } from '../data/schema/android';
 import { switchMap } from 'rxjs/operators';
+import { IRelease, IReleaseBase } from '../schema/android';
 
 @Injectable({
   providedIn: 'root'

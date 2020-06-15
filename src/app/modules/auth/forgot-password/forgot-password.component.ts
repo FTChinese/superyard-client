@@ -23,10 +23,10 @@ export class ForgotPasswordComponent implements OnInit {
     }),
   ];
 
-  button: Button = {
-    block: true,
-    text: 'Send me a reset letter'
-  };
+  button: Button = Button
+    .primary()
+    .setBlock()
+    .setName('Send me a reset letter');
 
   constructor(
     private formService: FormService,

@@ -1,10 +1,10 @@
 import { Component} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { StaffAccount, ILogin } from '../../data/schema/staff';
-import { RequestError } from '../../data/schema/request-result';
-import { AuthService } from '../../core/service/auth.service';
 import { Router, NavigationExtras } from '@angular/router';
+import { ILogin, StaffAccount } from 'src/app/data/schema/staff';
+import { AuthService } from 'src/app/core/service/auth.service';
+import { RequestError } from 'src/app/data/schema/request-result';
 
 @Component({
   selector: 'app-login',

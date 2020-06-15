@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AndroidService } from '../android.service';
+import { AndroidService } from '../../../data/service/android.service';
 import { IRelease } from 'src/app/data/schema/android';
 
 @Component({

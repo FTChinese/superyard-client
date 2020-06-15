@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ReaderService } from '../reader.service';
+import { ReaderService } from '../../../data/service/reader.service';
 import { switchMap } from 'rxjs/operators';
 import { IReaderAccount, IWxProfile, IFtcProfile } from 'src/app/data/schema/reader';
 import { TableRow } from '../account-item';

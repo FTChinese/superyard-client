@@ -1,4 +1,5 @@
-import { AccountKind } from '../data/schema/enums';
+import { AccountKind } from 'src/app/data/schema/enums';
+
 
 export interface AccountItem {
   id: string;
