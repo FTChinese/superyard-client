@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Validators, FormControl, FormGroup } from '@angular/forms';
-import { SearchService } from '../search.service';
+import { SearchService } from '../service/search.service';
 
 @Component({
   selector: 'app-search',

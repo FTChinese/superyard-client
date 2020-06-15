@@ -3,7 +3,7 @@ import { AndroidService } from '../android.service';
 import { IRelease, IReleaseBase } from '../../models/android';
 import { ReleaseService } from '../release.service';
 import { RequestError } from '../../models/request-result';
-import { SearchService } from '../../shared/search.service';
+import { SearchService } from '../../shared/service/search.service';
 import { switchMap } from 'rxjs/operators';
 
 @Component({

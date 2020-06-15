@@ -7,7 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { IBaseReader, IReaderAccount } from 'src/app/models/reader';
 import { Observable } from 'rxjs';
 import { RequestError } from '../../models/request-result';
-import { SearchService } from '../../shared/search.service';
+import { SearchService } from '../../shared/service/search.service';
 import { switchMap } from 'rxjs/operators';
 
 @Component({
