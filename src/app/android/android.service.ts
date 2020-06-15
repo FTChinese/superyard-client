@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, pipe } from 'rxjs';
-import { IRelease, IReleaseBase } from '../models/android';
+import { IRelease, IReleaseBase } from '../data/schema/android';
 import { switchMap } from 'rxjs/operators';
 
 @Injectable({

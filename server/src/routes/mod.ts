@@ -5,8 +5,8 @@ import apiAccess from './api-access';
 import android from './android';
 import readers from './readers';
 import search from './search';
-import { ILogin, StaffAccount } from '../../../src/app/models/staff';
-import { IApiErrorBody } from '../../../src/app/models/request-result';
+import { ILogin, StaffAccount } from '../../../src/app/data/schema/staff';
+import { IApiErrorBody } from '../../../src/app/data/schema/request-result';
 
 const chance = new Chance();
 const router = new Router({

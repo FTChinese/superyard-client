@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { IReaderAccount } from 'src/app/models/reader';
-import { SubStatus } from 'src/app/models/enums';
+import { IReaderAccount } from 'src/app/data/schema/reader';
+import { SubStatus } from 'src/app/data/schema/enums';
 
 interface Option {
   value: SubStatus;

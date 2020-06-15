@@ -3,9 +3,9 @@ import Chance from 'chance';
 import slug from 'slug';
 import { hex } from '../random';
 import { isoNow } from '../time';
-import { IApiApp, IAccessToken, IAppBase, ITokenBase } from '../../../src/app/models/oauth';
+import { IApiApp, IAccessToken, IAppBase, ITokenBase } from '../../../src/app/data/schema/oauth';
 import { async } from 'rxjs/internal/scheduler/async';
-import { ApiKeyKind } from '../../../src/app/models/enums';
+import { ApiKeyKind } from '../../../src/app/data/schema/enums';
 
 const chance = new Chance();
 const router = new Router();

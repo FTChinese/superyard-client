@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { AccountKind } from 'src/app/models/enums';
+import { AccountKind } from 'src/app/data/schema/enums';
 import { ReaderService } from '../reader.service';
 import { AccountItem } from '../account-item';
 import { HttpErrorResponse } from '@angular/common/http';
-import { IBaseReader, IReaderAccount } from 'src/app/models/reader';
+import { IBaseReader, IReaderAccount } from 'src/app/data/schema/reader';
 import { Observable } from 'rxjs';
-import { RequestError } from '../../models/request-result';
+import { RequestError } from '../../data/schema/request-result';
 import { SearchService } from '../../shared/service/search.service';
 import { switchMap } from 'rxjs/operators';
 

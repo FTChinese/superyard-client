@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { IApiApp, IAccessToken, IAppBase, ITokenBase } from '../models/oauth';
+import { IApiApp, IAccessToken, IAppBase, ITokenBase } from '../data/schema/oauth';
 import { switchMap } from 'rxjs/operators';
-import { StaffAccount } from '../models/staff';
+import { StaffAccount } from '../data/schema/staff';
 import { AuthService } from '../core/service/auth.service';
 
 @Injectable({

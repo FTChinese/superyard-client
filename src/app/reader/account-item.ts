@@ -1,4 +1,4 @@
-import { AccountKind } from '../models/enums';
+import { AccountKind } from '../data/schema/enums';
 
 export interface AccountItem {
   id: string;

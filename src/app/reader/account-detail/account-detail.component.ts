@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ReaderService } from '../reader.service';
 import { switchMap } from 'rxjs/operators';
-import { IReaderAccount, IWxProfile, IFtcProfile } from 'src/app/models/reader';
+import { IReaderAccount, IWxProfile, IFtcProfile } from 'src/app/data/schema/reader';
 import { TableRow } from '../account-item';
 import { zip } from 'rxjs';
-import { AccountKind } from 'src/app/models/enums';
+import { AccountKind } from 'src/app/data/schema/enums';
 
 @Component({
   selector: 'app-account-detail',

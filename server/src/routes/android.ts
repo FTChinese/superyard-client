@@ -1,8 +1,8 @@
 import Router from 'koa-router';
 import Chance from 'chance';
 import { DateTime } from 'luxon';
-import { IRelease, IReleaseBase } from '../../../src/app/models/android';
-import { IApiErrorBody } from '../../../src/app/models/request-result';
+import { IRelease, IReleaseBase } from '../../../src/app/data/schema/android';
+import { IApiErrorBody } from '../../../src/app/data/schema/request-result';
 
 const chance = new Chance();
 const router = new Router();

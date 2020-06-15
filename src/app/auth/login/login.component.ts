@@ -1,8 +1,8 @@
 import { Component} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { StaffAccount, ILogin } from '../../models/staff';
-import { RequestError } from '../../models/request-result';
+import { StaffAccount, ILogin } from '../../data/schema/staff';
+import { RequestError } from '../../data/schema/request-result';
 import { AuthService } from '../../core/service/auth.service';
 import { Router, NavigationExtras } from '@angular/router';
 

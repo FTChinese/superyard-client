@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IAccessToken } from 'src/app/models/oauth';
+import { IAccessToken } from 'src/app/data/schema/oauth';
 import { OAuthService } from '../oauth.service';
 import { FormBuilder } from '@angular/forms';
 import { switchMap } from 'rxjs/operators';

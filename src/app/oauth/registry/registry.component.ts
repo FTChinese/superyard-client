@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IApiApp } from 'src/app/models/oauth';
+import { IApiApp } from 'src/app/data/schema/oauth';
 
 @Component({
   selector: 'app-registry',

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IProfile } from 'src/app/models/staff';
+import { IProfile } from 'src/app/data/schema/staff';
 
 @Component({
   selector: 'app-staff-list',

@@ -1,6 +1,6 @@
 import Router from 'koa-router';
 import Chance from 'chance';
-import { IProfile, StaffAccount } from '../../../src/app/models/staff';
+import { IProfile, StaffAccount } from '../../../src/app/data/schema/staff';
 import { isoNow } from '../time';
 
 const pool = 'abcdedfghijklmnopqrstuvwxyz';

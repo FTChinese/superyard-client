@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AndroidService } from '../android.service';
-import { IRelease } from 'src/app/models/android';
+import { IRelease } from 'src/app/data/schema/android';
 
 @Component({
   selector: 'app-app-list',

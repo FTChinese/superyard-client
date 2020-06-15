@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { RequestError } from '../models/request-result';
-import { IAppBase } from '../models/oauth';
+import { RequestError } from '../data/schema/request-result';
+import { IAppBase } from '../data/schema/oauth';
 
 @Injectable()
 export class AppFormService {

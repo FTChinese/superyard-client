@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { IApiApp } from 'src/app/models/oauth';
+import { IApiApp } from 'src/app/data/schema/oauth';
 import { OAuthService } from '../oauth.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { RequestError } from 'src/app/models/request-result';
+import { RequestError } from 'src/app/data/schema/request-result';
 
 @Component({
   selector: 'app-app-list',

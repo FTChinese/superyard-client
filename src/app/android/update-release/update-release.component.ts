@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReleaseService } from '../release.service';
 import { AndroidService } from '../android.service';
-import { IRelease } from '../../models/android';
+import { IRelease } from '../../data/schema/android';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 

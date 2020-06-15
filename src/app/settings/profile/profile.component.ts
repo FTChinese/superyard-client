@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IProfile } from 'src/app/models/staff';
+import { IProfile } from 'src/app/data/schema/staff';
 import { FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { AuthService } from 'src/app/core/service/auth.service';
 

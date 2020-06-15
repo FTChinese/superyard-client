@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { AndroidService } from '../android.service';
-import { IRelease, IReleaseBase } from '../../models/android';
+import { IRelease, IReleaseBase } from '../../data/schema/android';
 import { ReleaseService } from '../release.service';
-import { RequestError } from '../../models/request-result';
+import { RequestError } from '../../data/schema/request-result';
 import { SearchService } from '../../shared/service/search.service';
 import { switchMap } from 'rxjs/operators';
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { IReleaseBase } from '../models/android';
-import { RequestError } from '../models/request-result';
+import { IReleaseBase } from '../data/schema/android';
+import { RequestError } from '../data/schema/request-result';
 
 @Injectable()
 export class ReleaseService {

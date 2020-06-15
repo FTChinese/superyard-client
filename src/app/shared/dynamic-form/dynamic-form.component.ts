@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { ControlService } from '../service/control.service';
 import { FormService } from '../service/form.service';
 import { Button } from '../widget/button';
-import { RequestError } from 'src/app/models/request-result';
+import { RequestError } from 'src/app/data/schema/request-result';
 
 @Component({
   selector: 'app-dynamic-form',

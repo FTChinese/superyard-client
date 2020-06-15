@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IBaseReader, IReaderAccount, IFtcProfile, IActivity, IWxProfile, IWxLogin } from '../models/reader';
+import { IBaseReader, IReaderAccount, IFtcProfile, IActivity, IWxProfile, IWxLogin } from '../data/schema/reader';
 import { Observable, Subject } from 'rxjs';
-import { AccountKind } from '../models/enums';
+import { AccountKind } from '../data/schema/enums';
 
 @Injectable({
   providedIn: 'root'

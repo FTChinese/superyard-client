@@ -1,5 +1,5 @@
 import { Component, Input} from '@angular/core';
-import { IRelease } from 'src/app/models/android';
+import { IRelease } from 'src/app/data/schema/android';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ReleaseService } from '../release.service';
 

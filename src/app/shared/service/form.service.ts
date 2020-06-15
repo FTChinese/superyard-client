@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { RequestError } from '../../models/request-result';
+import { RequestError } from '../../data/schema/request-result';
 
 @Injectable()
 export class FormService {
