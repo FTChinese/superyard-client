@@ -17,4 +17,5 @@ export type PasswordResetForm = Pick<AccountFields, 'password' | 'confirmPasswor
 
 export type PasswordUpdateForm = Pick<AccountFields, 'oldPassword' | 'password' | 'confirmPassword'>;
 
+export type PasswordResetter = Pick<AccountFields, 'token' | 'password'>;
 export type PasswordsUpdater = Pick<AccountFields, 'oldPassword' | 'password'>;
