@@ -3,4 +3,5 @@ export type AlertType = 'success' | 'info' | 'warning' | 'danger' | 'primary' | 
 export interface Alert {
   type: AlertType;
   message: string;
+  dismissible: boolean;
 }
