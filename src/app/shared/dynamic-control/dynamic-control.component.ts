@@ -17,8 +17,6 @@ export class DynamicControlComponent {
   }
 
   get isInvalid(): boolean {
-    console.log('Checking validity');
-    console.log(this.formControl.errors);
     return this.formControl.invalid && (this.formControl.dirty || this.formControl.touched);
   }
 
