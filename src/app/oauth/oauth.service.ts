@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { IApiApp, IAccessToken, IAppBase, ITokenBase } from '../models/oauth';
 import { switchMap } from 'rxjs/operators';
 import { StaffAccount } from '../models/staff';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../core/service/auth.service';
 
 @Injectable({
   providedIn: 'root'

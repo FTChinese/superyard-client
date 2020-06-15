@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { StaffAccount, ILogin } from '../../models/staff';
 import { RequestError } from '../../models/request-result';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../core/service/auth.service';
 import { Router, NavigationExtras } from '@angular/router';
 
 @Component({

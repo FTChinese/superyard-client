@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ILogin, StaffAccount, IProfile, IPasswords, IProfileForm, JWTAccount } from '../models/staff';
+import { ILogin, StaffAccount, IProfile, IPasswords, IProfileForm, JWTAccount } from '../../models/staff';
 import { Observable, of } from 'rxjs';
 import { tap, switchMap } from 'rxjs/operators';
 
