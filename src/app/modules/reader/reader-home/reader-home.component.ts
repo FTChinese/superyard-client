@@ -8,6 +8,7 @@ import { IBaseReader, IReaderAccount } from 'src/app/data/schema/reader';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { SearchService } from 'src/app/shared/service/search.service';
+import { RequestError } from 'src/app/data/schema/request-result';
 
 @Component({
   selector: 'app-reader-home',

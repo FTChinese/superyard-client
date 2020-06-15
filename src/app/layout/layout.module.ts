@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { LayoutRoutingModule } from './layout-routing.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SharedModule } from '../shared/shared.module';
 import { ToolbarComponent } from './toolbar/toolbar.component';
@@ -24,7 +23,6 @@ import { NavComponent } from './nav/nav.component';
   ],
   imports: [
     CommonModule,
-    LayoutRoutingModule,
     SharedModule,
   ],
   exports: [

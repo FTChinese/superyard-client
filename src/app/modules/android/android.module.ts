@@ -5,9 +5,9 @@ import { AndroidRoutingModule } from './android-routing.module';
 import { AppListComponent } from './app-list/app-list.component';
 import { EditReleaseComponent } from './edit-release/edit-release.component';
 import { AndroidHomeComponent } from './android-home/android-home.component';
-import { SharedModule } from '../shared/shared.module';
 import { CreateReleaseComponent } from './create-release/create-release.component';
 import { UpdateReleaseComponent } from './update-release/update-release.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({

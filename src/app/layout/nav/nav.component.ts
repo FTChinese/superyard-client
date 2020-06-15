@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { sitemap } from '../sitemap';
+import { Link } from 'src/app/shared/widget/link';
 
 @Component({
   selector: 'app-nav',
