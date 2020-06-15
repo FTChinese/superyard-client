@@ -3,7 +3,7 @@ import { DynamicControl } from '../control';
 import { FormGroup } from '@angular/forms';
 import { ControlService } from '../control.service';
 import { FormService } from '../form.service';
-import { Button } from '../button';
+import { Button } from '../widget/button';
 import { RequestError } from 'src/app/models/request-result';
 
 @Component({

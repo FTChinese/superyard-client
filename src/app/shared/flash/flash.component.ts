@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter} from '@angular/core';
-import { AlertType } from '../alert';
+import { AlertType } from '../widget/alert';
 
 @Component({
   selector: 'app-flash',
