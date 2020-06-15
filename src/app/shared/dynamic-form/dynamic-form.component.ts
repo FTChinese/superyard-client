@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DynamicControl } from '../widget/control';
 import { FormGroup } from '@angular/forms';
-import { ControlService } from '../control.service';
-import { FormService } from '../form.service';
+import { ControlService } from '../service/control.service';
+import { FormService } from '../service/form.service';
 import { Button } from '../widget/button';
 import { RequestError } from 'src/app/models/request-result';
 

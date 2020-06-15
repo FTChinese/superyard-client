@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DynamicControl } from './widget/control';
+import { DynamicControl } from '../widget/control';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 
 @Injectable()
