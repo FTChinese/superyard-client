@@ -27,7 +27,7 @@ export class DynamicFormComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.controlService.toFormGroup(this.controls);
     this.formService.errorReceived$.subscribe(reqErr => {
-      console.log(reqErr);
+      this.setError(reqErr);
     });
   }
 
@@ -38,7 +38,7 @@ export class DynamicFormComponent implements OnInit {
     this.form.disable();
   }
 
-  setError(err: RequestError) {
+  private setError(err: RequestError) {
     console.log('Setting error manually');
     this.form.enable();
     if (!err.unprocessable) {
