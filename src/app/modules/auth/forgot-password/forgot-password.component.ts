@@ -33,6 +33,8 @@ export class ForgotPasswordComponent implements OnInit {
 
   loginLink = authUrls.login;
 
+  done = false;
+
   alert: Alert;
 
   private set alertMsg(v: string) {
@@ -51,6 +53,7 @@ export class ForgotPasswordComponent implements OnInit {
     this.formService.formSubmitted$.subscribe(data => {
       const formData: EmailForm = JSON.parse(data);
       console.log(formData);
+      this.done = true;
     });
   }
 
