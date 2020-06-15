@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Router } from '@angular/router';
-import { sitemap } from '../sitemap';
+import { siteBaseUrl, authUrls } from '../sitemap';
 
 @Component({
   selector: 'app-toolbar',
@@ -20,6 +20,6 @@ export class ToolbarComponent implements OnInit {
 
   logout() {
     this.authService.logout();
-    this.route.navigateByUrl(`/${sitemap.login}`);
+    this.route.navigateByUrl(`${authUrls.login}`);
   }
 }

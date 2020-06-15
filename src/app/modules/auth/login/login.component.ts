@@ -5,6 +5,7 @@ import { Router, NavigationExtras } from '@angular/router';
 import { ILogin, StaffAccount } from 'src/app/data/schema/staff';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { RequestError } from 'src/app/data/schema/request-result';
+import { authUrls } from 'src/app/layout/sitemap';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,8 @@ import { RequestError } from 'src/app/data/schema/request-result';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+
+  forgotPwUrl = authUrls.forgotPassword;
 
   loginForm = this.formBuilder.group({
     userName: ['', [Validators.required]],

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { sitemap } from '../sitemap';
+import { siteBaseUrl } from '../sitemap';
 import { Link } from 'src/app/shared/widget/link';
 
 @Component({
@@ -12,31 +12,31 @@ export class NavComponent implements OnInit {
   navItems: Link[] = [
     {
       name: 'Admin',
-      href: sitemap.admin,
+      href: siteBaseUrl.admin,
     },
     {
       name: 'Push Notification',
-      href: sitemap.apn,
+      href: siteBaseUrl.apn,
     },
     {
       name: 'API Access',
-      href: sitemap.oauth
+      href: siteBaseUrl.oauth
     },
     {
       name: 'Readers',
-      href: sitemap.readers,
+      href: siteBaseUrl.readers,
     },
     {
       name: 'B2B Subscription',
-      href: sitemap.b2b,
+      href: siteBaseUrl.b2b,
     },
     {
       name: 'Android',
-      href: sitemap.android,
+      href: siteBaseUrl.android,
     },
     {
       name: 'Settings',
-      href: sitemap.settings,
+      href: siteBaseUrl.settings,
     }
   ];
 

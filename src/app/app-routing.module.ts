@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ContentLayoutComponent } from './layout/content-layout/content-layout.component';
 import { AuthGuard } from './core/guard/auth.guard';
-import { sitemap } from './layout/sitemap';
+import { siteBaseUrl } from './layout/sitemap';
 import { AuthLayoutComponent } from './layout/auth-layout/auth-layout.component';
 import { PageNotFoundComponent } from './layout/page-not-found/page-not-found.component';
 
@@ -13,23 +13,23 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: sitemap.settings,
+        path: siteBaseUrl.settings,
         loadChildren: () => import('./modules/settings/settings.module').then(m => m.SettingsModule),
       },
       {
-        path: sitemap.admin,
+        path: siteBaseUrl.admin,
         loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule),
       },
       {
-        path: sitemap.oauth,
+        path: siteBaseUrl.oauth,
         loadChildren: () => import('./modules/oauth/oauth.module').then(m => m.OauthModule),
       },
       {
-        path: sitemap.readers,
+        path: siteBaseUrl.readers,
         loadChildren: () => import('./modules/reader/reader.module').then(m => m.ReaderModule),
       },
       {
-        path: sitemap.android,
+        path: siteBaseUrl.android,
         loadChildren: () => import('./modules/android/android.module').then(m => m.AndroidModule),
       }
     ]

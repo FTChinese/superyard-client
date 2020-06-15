@@ -1,6 +1,5 @@
-export const sitemap = {
-  login: `login`,
-  forgotPassword: `forgot-password`,
+export const siteBaseUrl = {
+  auth: 'auth',
   admin: 'admin',
   apn: 'apn',
   oauth: 'oauth',
@@ -9,3 +8,9 @@ export const sitemap = {
   android: 'android',
   settings: 'settings',
 };
+
+export const authUrls = {
+  login: `/${siteBaseUrl.auth}/login`,
+  forgotPassword: `/${siteBaseUrl.auth}/forgot-password`,
+};
+
