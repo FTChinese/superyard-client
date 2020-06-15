@@ -7,6 +7,7 @@ import { MarkedPipe } from './pipes/marked.pipe';
 import { SearchComponent } from './search/search.component';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 import { DynamicControlComponent } from './dynamic-control/dynamic-control.component';
+import { AlertComponent } from './alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { DynamicControlComponent } from './dynamic-control/dynamic-control.compo
     SearchComponent,
     DynamicFormComponent,
     DynamicControlComponent,
+    AlertComponent,
   ],
   imports: [
     CommonModule,
@@ -27,6 +29,7 @@ import { DynamicControlComponent } from './dynamic-control/dynamic-control.compo
     FormsModule,
     ReactiveFormsModule,
     FlashComponent,
+    AlertComponent,
     FeedbackInvalidComponent,
     MarkedPipe,
     SearchComponent,
