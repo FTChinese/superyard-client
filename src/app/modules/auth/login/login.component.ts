@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router, NavigationExtras } from '@angular/router';
@@ -10,6 +10,7 @@ import { DynamicControl, InputControl } from 'src/app/shared/widget/control';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
 import { switchMap } from 'rxjs/operators';
+import { Alert } from 'src/app/shared/widget/alert';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ import { switchMap } from 'rxjs/operators';
   styleUrls: ['./login.component.scss'],
   providers: [FormService],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
 
   dynamicControls: DynamicControl[] = [
     new InputControl({
@@ -41,11 +42,17 @@ export class LoginComponent {
     .setBlock()
     .setName('Login');
 
+  alert: Alert;
+
   forgotPwUrl = authUrls.forgotPassword;
 
-  formErr: Partial<ILogin> = {};
-  errMsg: string;
-  alertMsg: string;
+  private set alertMsg(v: string) {
+    this.alert = {
+      type: 'danger',
+      message: v,
+      dismissible: true,
+    };
+  }
 
   constructor(
     private authService: AuthService,
@@ -53,9 +60,10 @@ export class LoginComponent {
     private router: Router,
   ) { }
 
-  onSubmit() {
+  ngOnInit(): void {
     this.formService.formSubmitted$.pipe(
       switchMap(data => {
+        console.log('Credentials submitted');
         const credentials: ILogin = JSON.parse(data);
 
         return this.authService.login(credentials);
@@ -80,19 +88,19 @@ export class LoginComponent {
         const errResp = RequestError.fromResponse(err);
 
         console.log(err);
+        this.formService.sendError(errResp);
 
         if (errResp.notFound) {
           this.alertMsg = 'Invalid credentials';
           return;
         }
 
-        if (errResp.unprocessable) {
-          this.formService.sendError(RequestError.fromResponse(err));
-          return;
-        }
-
         this.alertMsg = errResp.message;
       },
     });
+  }
+
+  onDismissAlert() {
+    this.alert = null;
   }
 }

@@ -1,5 +1,10 @@
 <h2 class="text-center">Superyard Login</h2>
 
+<app-alert
+  *ngIf="alert"
+  [alert]="alert"
+  (dismissed)="onDismissAlert()"></app-alert>
+
 <app-dynamic-form
   [controls]="dynamicControls"
   [button]="button"></app-dynamic-form>
