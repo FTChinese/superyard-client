@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DynamicControl } from '../control';
+import { DynamicControl } from '../widget/control';
 import { FormGroup } from '@angular/forms';
 import { ControlService } from '../control.service';
 import { FormService } from '../form.service';

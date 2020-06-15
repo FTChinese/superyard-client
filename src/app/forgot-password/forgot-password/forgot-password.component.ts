@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormService } from 'src/app/shared/form.service';
 import { Validators } from '@angular/forms';
-import { InputControl, DynamicControl } from 'src/app/shared/control';
+import { InputControl, DynamicControl } from 'src/app/shared/widget/control';
 import { Button } from 'src/app/shared/widget/button';
 
 @Component({

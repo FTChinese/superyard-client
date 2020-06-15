@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { DynamicControl } from '../control';
+import { DynamicControl } from '../widget/control';
 import { FormGroup, AbstractControl } from '@angular/forms';
 
 @Component({
