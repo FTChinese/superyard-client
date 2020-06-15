@@ -6,95 +6,93 @@ import { ILogin, StaffAccount } from 'src/app/data/schema/staff';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { RequestError } from 'src/app/data/schema/request-result';
 import { authUrls } from 'src/app/layout/sitemap';
+import { DynamicControl, InputControl } from 'src/app/shared/widget/control';
+import { Button } from 'src/app/shared/widget/button';
+import { FormService } from 'src/app/shared/service/form.service';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  providers: [FormService],
 })
 export class LoginComponent {
 
+  dynamicControls: DynamicControl[] = [
+    new InputControl({
+      value: '',
+      key: 'userName',
+      validators: [Validators.required],
+      label: 'User name',
+      type: 'text',
+    }),
+    new InputControl({
+      value: '',
+      key: 'password',
+      validators: [Validators.required],
+      label: 'Password',
+      type: 'password',
+    })
+  ];
+
+  button: Button = Button
+    .primary()
+    .setBlock()
+    .setName('Login');
+
   forgotPwUrl = authUrls.forgotPassword;
-
-  loginForm = this.formBuilder.group({
-    userName: ['', [Validators.required]],
-    password: ['', Validators.required],
-  });
-
 
   formErr: Partial<ILogin> = {};
   errMsg: string;
+  alertMsg: string;
 
   constructor(
-    private formBuilder: FormBuilder,
     private authService: AuthService,
+    private formService: FormService,
     private router: Router,
   ) { }
 
   onSubmit() {
-    if (this.loginForm.invalid) {
-      const nameErr = this.loginForm.getError('required', 'userName');
-      if (nameErr) {
-        this.formErr.userName = 'User name is required';
-      }
+    this.formService.formSubmitted$.pipe(
+      switchMap(data => {
+        const credentials: ILogin = JSON.parse(data);
 
-      const pwErr = this.loginForm.getError('required', 'password');
-      if (pwErr) {
-        this.formErr.password = 'Invalid password';
-      }
+        return this.authService.login(credentials);
+      })
+    )
+    .subscribe({
+      next: data => {
+        console.log(data);
 
-      return;
-    }
+        if (this.authService.isLoggedIn) {
+          const redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : '/';
 
-    this.loginForm.disable();
+          const navigationExtras: NavigationExtras = {
+            queryParamsHandling: 'preserve',
+            preserveFragment: true,
+          };
 
-    this.authService
-      .login(this.loginForm.value)
-      .subscribe({
-        next: (data: StaffAccount) => {
-          console.log(data);
-          if (this.authService.isLoggedIn) {
-            const redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : '/';
+          this.router.navigateByUrl(redirect, navigationExtras);
+        }
+      },
+      error: err => {
+        const errResp = RequestError.fromResponse(err);
 
-            const navigationExtras: NavigationExtras = {
-              queryParamsHandling: 'preserve',
-              preserveFragment: true,
-            };
+        console.log(err);
 
-            this.router.navigateByUrl(redirect, navigationExtras);
-          }
-        },
-        error: (err: HttpErrorResponse) => {
-          this.loginForm.enable();
-          this.handleLoginError(err);
-        },
-      });
-  }
+        if (errResp.notFound) {
+          this.alertMsg = 'Invalid credentials';
+          return;
+        }
 
-  private handleLoginError(errResp: HttpErrorResponse) {
-    console.log(errResp);
+        if (errResp.unprocessable) {
+          this.formService.sendError(RequestError.fromResponse(err));
+          return;
+        }
 
-    const err = RequestError.fromResponse(errResp);
-
-    console.log(err);
-
-    if (err.notFound) {
-      // this.loadFlash('Invalid credentials');
-      this.errMsg = 'Invalid credentials';
-      return;
-    }
-
-    if (err.unprocessable) {
-      this.formErr = err.invalidObject;
-      console.log(this.formErr);
-      return;
-    }
-
-    // Fallback to any other errors.
-    this.errMsg = err.message;
-  }
-
-  clearFeedback() {
-    this.formErr = {};
+        this.alertMsg = errResp.message;
+      },
+    });
   }
 }
