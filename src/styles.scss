@@ -1,7 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~bootstrap/dist/css/bootstrap.css";
-@import "./assets/style/main.scss";
+@import "src/scss/main.scss";
 
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.modal {
+  display: block;
+  padding-right: 15px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  z-index: 1072;
+}
+
