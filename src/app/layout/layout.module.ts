@@ -9,21 +9,23 @@ import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
 import { JumboLayoutComponent } from './jumbo-layout/jumbo-layout.component';
 import { FooterComponent } from './footer/footer.component';
 import { NavComponent } from './nav/nav.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
   declarations: [
     ContentLayoutComponent,
+    JumboLayoutComponent,
+    AuthLayoutComponent,
+    NavComponent,
     PageNotFoundComponent,
     ToolbarComponent,
-    ContentLayoutComponent,
-    AuthLayoutComponent,
-    JumboLayoutComponent,
-    NavComponent,
+    FooterComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
+    RouterModule,
   ],
   exports: [
     ToolbarComponent,
