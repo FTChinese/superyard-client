@@ -1,8 +1,3 @@
-export interface ILogin {
-  userName: string;
-  password: string;
-}
-
 export interface BaseAccount {
   userName: string;
   email: string | null;
@@ -30,8 +25,3 @@ export interface IProfile extends StaffAccount {
 }
 
 export type IProfileForm = Pick<StaffAccount, 'email' | 'displayName'>;
-
-export interface IPasswords {
-  oldPassword: string; // Old password for validation
-  newPassword: string; // new password
-}

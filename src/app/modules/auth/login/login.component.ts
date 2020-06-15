@@ -1,8 +1,6 @@
 import { Component, OnInit} from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { HttpErrorResponse } from '@angular/common/http';
+import { Validators } from '@angular/forms';
 import { Router, NavigationExtras } from '@angular/router';
-import { ILogin, StaffAccount } from 'src/app/data/schema/staff';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { RequestError } from 'src/app/data/schema/request-result';
 import { authUrls } from 'src/app/layout/sitemap';
@@ -11,6 +9,7 @@ import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
 import { switchMap } from 'rxjs/operators';
 import { Alert } from 'src/app/shared/widget/alert';
+import { Credentials } from 'src/app/data/schema/form-data';
 
 @Component({
   selector: 'app-login',
@@ -64,7 +63,7 @@ export class LoginComponent implements OnInit{
     this.formService.formSubmitted$.pipe(
       switchMap(data => {
         console.log('Credentials submitted');
-        const credentials: ILogin = JSON.parse(data);
+        const credentials: Credentials = JSON.parse(data);
 
         return this.authService.login(credentials);
       })

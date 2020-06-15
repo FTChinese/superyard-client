@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ILogin, IProfile, IPasswords, IProfileForm, JWTAccount } from '../../data/schema/staff';
+import { IProfile, IProfileForm, JWTAccount } from '../../data/schema/staff';
 import { Observable, of } from 'rxjs';
 import { tap, switchMap } from 'rxjs/operators';
+import { Credentials, PasswordsUpdater } from 'src/app/data/schema/form-data';
 
 @Injectable({
   providedIn: 'root'
@@ -57,7 +58,7 @@ export class AuthService {
     private http: HttpClient,
   ) {}
 
-  login(credentials: ILogin): Observable<JWTAccount> {
+  login(credentials: Credentials): Observable<JWTAccount> {
     return this.http
       .post<JWTAccount>(
         '/api/login',
@@ -95,8 +96,8 @@ export class AuthService {
       );
   }
 
-  changePassword(pws: IPasswords): Observable<boolean> {
-    return this.http.patch<IPasswords>(
+  changePassword(pws: PasswordsUpdater): Observable<boolean> {
+    return this.http.patch<PasswordsUpdater>(
         `/api/account/password`,
         pws,
         {
