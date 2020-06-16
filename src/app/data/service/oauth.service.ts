@@ -27,9 +27,7 @@ export class OAuthService {
   ) { }
 
   listApps(): Observable<IApiApp[]> {
-    return this.http.get<IApiApp[]>(this.urlApps, {
-      headers: this.authService.authHeader,
-    });
+    return this.http.get<IApiApp[]>(this.urlApps);
   }
 
   createApp(app: IAppBase): Observable<boolean> {
@@ -39,7 +37,6 @@ export class OAuthService {
         app,
         {
           observe: 'response',
-          headers: this.authService.authHeader,
         }
       )
       .pipe(
@@ -48,9 +45,7 @@ export class OAuthService {
   }
 
   loadApp(clientId: string): Observable<IApiApp> {
-    return this.http.get<IApiApp>(this.urlAppOf(clientId), {
-      headers: this.authService.authHeader,
-    });
+    return this.http.get<IApiApp>(this.urlAppOf(clientId));
   }
 
   updateApp(clientId: string, app: IAppBase): Observable<boolean> {
@@ -59,7 +54,6 @@ export class OAuthService {
       app,
       {
         observe: 'response',
-        headers: this.authService.authHeader,
       }
     )
     .pipe(
@@ -72,7 +66,6 @@ export class OAuthService {
       this.urlAppOf(clientId),
       {
         observe: 'response',
-        headers: this.authService.authHeader,
       }
     )
     .pipe(
@@ -85,7 +78,6 @@ export class OAuthService {
       this.urlTokens,
       {
         params: new HttpParams().set('clientId', clientId),
-        headers: this.authService.authHeader,
       }
     );
   }
@@ -99,7 +91,6 @@ export class OAuthService {
         token,
         {
           observe: 'response',
-          headers: this.authService.authHeader,
         }
       )
       .pipe(
@@ -112,7 +103,6 @@ export class OAuthService {
       this.urlTokens,
       {
         params: new HttpParams().set('staff_name', this.authService.account.userName),
-        headers: this.authService.authHeader,
       }
     );
   }

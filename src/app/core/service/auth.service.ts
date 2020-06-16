@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { IProfile, IProfileForm, JWTAccount } from '../../data/schema/staff';
-import { Observable, of } from 'rxjs';
-import { tap, switchMap } from 'rxjs/operators';
-import { Credentials, PasswordsUpdater } from 'src/app/data/schema/form-data';
+import { JWTAccount } from '../../data/schema/staff';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +9,11 @@ export class AuthService {
   account: JWTAccount | null = null;
   redirectUrl: string;
   private storeKey = 'sy_user';
+
+  loggedIn(account: JWTAccount) {
+    this.account = account;
+    localStorage.setItem(this.storeKey, JSON.stringify(account));
+  }
 
   get isLoggedIn(): boolean {
     if (!this.account) {
@@ -26,20 +27,21 @@ export class AuthService {
       return false;
     }
 
-    if (this.isExpired(this.account)) {
-      return false;
-    }
     return true;
   }
 
-  private isExpired(account: JWTAccount): boolean {
-    return (Date.now() / 1000) > account.expiresAt;
+  get isExpired(): boolean {
+    if (!this.account) {
+      return true;
+    }
+    return (Date.now() / 1000) > this.account.expiresAt;
   }
 
-  get authHeader(): HttpHeaders {
-    return new HttpHeaders({
-      Authorization: `Bearer ${this.account.token}`
-    });
+  get authToken(): string | null {
+    if (!this.account) {
+      return null;
+    }
+    return `Bearer ${this.account.token}`;
   }
 
   get displayName(): string {
@@ -54,59 +56,8 @@ export class AuthService {
     return this.account.userName;
   }
 
-  constructor(
-    private http: HttpClient,
-  ) {}
-
-  login(credentials: Credentials): Observable<JWTAccount> {
-    return this.http
-      .post<JWTAccount>(
-        '/api/login',
-        credentials,
-      )
-      .pipe(
-        tap(val => {
-          this.account = val;
-          localStorage.setItem(this.storeKey, JSON.stringify(val));
-        })
-      );
-  }
-
   logout(): void {
     this.account = null;
     localStorage.removeItem(this.storeKey);
-  }
-
-  loadProfile(): Observable<IProfile> {
-    return this.http.get<IProfile>(`/api/settings/profile`, {
-      headers: this.authHeader
-    });
-  }
-
-  updateProfile(formData: IProfileForm): Observable<boolean> {
-    return this.http.patch<IProfileForm>(
-        `/api/staff/${this.account.id}`,
-        formData,
-        {
-          observe: 'response',
-        }
-      )
-      .pipe(
-        switchMap(resp => of(resp.status === 204))
-      );
-  }
-
-  changePassword(pws: PasswordsUpdater): Observable<boolean> {
-    return this.http.patch<PasswordsUpdater>(
-        `/api/account/password`,
-        pws,
-        {
-          observe: 'response',
-          headers: this.authHeader,
-        }
-      )
-      .pipe(
-        switchMap(resp => of(resp.status === 204))
-      );
   }
 }
