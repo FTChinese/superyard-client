@@ -5,20 +5,34 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { IBaseReader, IReaderAccount } from 'src/app/data/schema/reader';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { SearchService } from 'src/app/shared/service/search.service';
 import { RequestError } from 'src/app/data/schema/request-result';
 import { AccountItem } from '../../account-item';
 import { ReaderService } from 'src/app/data/service/reader.service';
+import { ControlOptions } from 'src/app/shared/widget/control';
+import { Button } from 'src/app/shared/widget/button';
+import { FormService } from 'src/app/shared/service/form.service';
+import { SearchForm } from 'src/app/data/schema/form-data';
 
 @Component({
   selector: 'app-reader-home',
   templateUrl: './reader-home.component.html',
   styleUrls: ['./reader-home.component.scss'],
-  providers: [SearchService],
+  providers: [FormService],
 })
 export class ReaderHomeComponent {
 
-  notFound = false;
+  searchControl: ControlOptions = {
+    value: '',
+    key: 'keyword',
+    validators: [Validators.required, Validators.maxLength(64)],
+    placeholder: 'Email or Wechat nickname',
+    desc: 'Search a reader by email or Wechat nickname'
+  };
+
+  button: Button = Button
+    .primary()
+    .setName('Search');
+
   accountList: AccountItem[];
 
   errMsg: string;
@@ -27,21 +41,20 @@ export class ReaderHomeComponent {
 
   constructor(
     private readerService: ReaderService,
-    private searchService: SearchService,
+    private formService: FormService,
   ) {
-    this.searchService.valueSubmitted$.pipe(
-      switchMap(control => {
-        console.log(control);
+    this.formService.formSubmitted$.pipe(
+      switchMap(data => {
+        const search: SearchForm = JSON.parse(data);
 
-        const invalid = Validators.email(control);
-
-        const kind: AccountKind = (invalid && invalid.email)
+        const isEmail = search.keyword.indexOf('@') > 0;
+        const kind: AccountKind = isEmail
           ? 'wechat'
           : 'ftc';
 
         console.log('Searching account kind: ' + kind);
 
-        return this.readerService.search(control.value, kind);
+        return this.readerService.search(search.keyword, kind);
       })
     ).subscribe({
       next: (data: IBaseReader[]) => {
@@ -67,8 +80,10 @@ export class ReaderHomeComponent {
 
         const err = RequestError.fromResponse(errResp);
 
+        this.formService.sendError(err);
+
         if (err.notFound) {
-          this.accountList = [];
+          this.errMsg = 'No result';
           return;
         }
 

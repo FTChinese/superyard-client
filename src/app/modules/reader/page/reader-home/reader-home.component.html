@@ -3,11 +3,11 @@
 <div class="row">
   <div class="col-md-12 col-lg-8">
 
-    <app-search [placeHolder]="'Email or wehchat name'"></app-search>
+    <app-search-form
+      [control]="searchControl"
+      [button]="button"></app-search-form>
 
     <div *ngIf="errMsg">{{errMsg}}</div>
-
-    <p *ngIf="accountList && accountList.length == 0">No results.</p>
 
     <ul class="list-group" *ngIf="accountList && accountList.length > 0">
       <li *ngFor="let item of accountList"
