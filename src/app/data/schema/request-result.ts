@@ -16,11 +16,21 @@ function isString(x: any): x is string {
   return typeof x === 'string';
 }
 
+export const serviceNames = {
+  logIn: 'loginIn',
+  forgotPassword: 'forgotPassword',
+};
+
+// Interpret non-422 status code.
+// User RequestError#serviceName
+// and status code as key.
+const statusCodeMessages: Record<string, string> = {
+  logIn_404: 'Invalid credentials',
+}
+
 export class RequestError {
   readonly message: string;
   readonly unprocessable?: Unprocessable;
-
-  readonly statusCode: number; // HTTP status code.
 
   /**
    * Two types of errors can occur. The server backend might reject the
@@ -48,8 +58,12 @@ export class RequestError {
    * If the error neither come from Angular nor from API, for example, the server
    * is down, then the `error` field will a string.
    */
-  static fromResponse(errResp: HttpErrorResponse): RequestError {
+  static fromResponse(
+    errResp: HttpErrorResponse,
+    serviceName: string = ''
+  ): RequestError {
     /**
+     * When errResp.error is ErrorEvent
      * interface ErrorEvent extends Event {
      *  readonly colno: number;
      *  readonly error: any;
@@ -58,18 +72,21 @@ export class RequestError {
      *  readonly message: string;
      * }
      */
-    if (errResp.error instanceof ErrorEvent) {
-      return new RequestError(errResp.status, errResp.error.message);
-    }
-
-    return new RequestError(errResp.status, errResp.error);
+    return new RequestError(
+      errResp.status,
+      serviceName,
+      errResp.error
+    );
   }
 
-  constructor(statusCode: number, body: string | ApiErrorPayload) {
-    this.statusCode = statusCode;
+  constructor(
+    readonly statusCode: number,
+    readonly serviceName: string,
+    body: ErrorEvent | ApiErrorPayload
+  ) {
 
-    if (isString(body)) {
-      this.message = body;
+    if (body instanceof ErrorEvent) {
+      this.message = body.message;
       return;
     }
 
@@ -103,7 +120,10 @@ export class RequestError {
     return this.statusCode >= 500;
   }
 
-  get invalidObject(): {[k: string]: string} | null {
+  // Turn 422 error to key-value maps.
+  // The key is usually the same as a form
+  // field name.
+  get toFormFields(): {[k: string]: string} | null {
     if (!this.unprocessable) {
       return null;
     }
@@ -113,4 +133,15 @@ export class RequestError {
     o[name] = value;
     return o;
   }
+
+  toString(): string {
+    const m = statusCodeMessages[`${this.serviceName}_${this.statusCode}`];
+
+    if (m) {
+      return m;
+    }
+
+    return `Server error: ${this.statusCode} ${this.message}`;
+  }
 }
+

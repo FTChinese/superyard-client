@@ -51,15 +51,6 @@ export class ResetPasswordComponent implements OnInit {
   forgotPwLink = authUrls.forgotPassword;
   loginLink = authUrls.login;
 
-  alert: Alert;
-  private set alertMsg(m: string) {
-    this.alert = {
-      type: 'danger',
-      message: m,
-      dismissible: true,
-    }
-  }
-
   constructor(
     private route: ActivatedRoute,
     private formService: FormService
@@ -105,19 +96,15 @@ export class ResetPasswordComponent implements OnInit {
       },
       error: err => {
         const errResp = RequestError.fromResponse(err);
-        this.formService.sendError(err);
 
         if (errResp.notFound) {
           this.tokenState = TokenState.NotFound;
+          this.formService.enable(true);
           return;
         }
 
-        this.alertMsg = errResp.message;
+        this.formService.sendError(err);
       }
     })
-  }
-
-  onDismissAlert() {
-    this.alert = null;
   }
 }

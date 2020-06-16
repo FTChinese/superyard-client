@@ -1,4 +1,11 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<app-alert
+  *ngIf="alert"
+  [alert]="alert"
+  (dismissed)="onDismissAlert()"></app-alert>
+
+<form [formGroup]="form"
+  (ngSubmit)="onSubmit()">
+
   <ng-container *ngFor="let ctrl of controls">
     <app-dynamic-control [control]="ctrl" [form]="form"></app-dynamic-control>
   </ng-container>

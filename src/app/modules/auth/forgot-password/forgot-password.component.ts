@@ -6,6 +6,9 @@ import { Button } from 'src/app/shared/widget/button';
 import { EmailForm } from 'src/app/data/schema/form-data';
 import { authUrls } from 'src/app/layout/sitemap';
 import { Alert } from 'src/app/shared/widget/alert';
+import { switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { RequestError, serviceNames } from 'src/app/data/schema/request-result';
 
 @Component({
   selector: 'app-forgot-password',
@@ -35,29 +38,25 @@ export class ForgotPasswordComponent implements OnInit {
 
   done = false;
 
-  alert: Alert;
-
-  private set alertMsg(v: string) {
-    this.alert = {
-      type: 'danger',
-      message: v,
-      dismissible: true,
-    };
-  }
-
   constructor(
     private formService: FormService,
   ) { }
 
   ngOnInit(): void {
-    this.formService.formSubmitted$.subscribe(data => {
-      const formData: EmailForm = JSON.parse(data);
-      console.log(formData);
-      this.done = true;
-    });
-  }
-
-  onDismissAlert() {
-    this.alert = null;
+    this.formService.formSubmitted$.pipe(
+        switchMap(data => {
+          const formData: EmailForm = JSON.parse(data);
+          return of(formData);
+        })
+      )
+      .subscribe({
+        next: data => {
+          console.log(data);
+          this.done = true;
+        },
+        error: err => {
+          this.formService.sendError(RequestError.fromResponse(err, serviceNames.forgotPassword));
+        }
+      });
   }
 }

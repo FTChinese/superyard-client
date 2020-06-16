@@ -2,15 +2,15 @@ import { Component, OnInit} from '@angular/core';
 import { Validators } from '@angular/forms';
 import { Router, NavigationExtras } from '@angular/router';
 import { AuthService } from 'src/app/core/service/auth.service';
-import { RequestError } from 'src/app/data/schema/request-result';
+import { RequestError, serviceNames } from 'src/app/data/schema/request-result';
 import { authUrls } from 'src/app/layout/sitemap';
 import { DynamicControl, InputControl } from 'src/app/shared/widget/control';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
 import { switchMap } from 'rxjs/operators';
-import { Alert } from 'src/app/shared/widget/alert';
 import { Credentials } from 'src/app/data/schema/form-data';
 import { StaffService } from 'src/app/data/service/staff.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -42,17 +42,7 @@ export class LoginComponent implements OnInit{
     .setBlock()
     .setName('Login');
 
-  alert: Alert;
-
   forgotPwUrl = authUrls.forgotPassword;
-
-  private set alertMsg(v: string) {
-    this.alert = {
-      type: 'danger',
-      message: v,
-      dismissible: true,
-    };
-  }
 
   constructor(
     private authService: AuthService,
@@ -86,23 +76,9 @@ export class LoginComponent implements OnInit{
           this.router.navigateByUrl(redirect, navigationExtras);
         }
       },
-      error: err => {
-        const errResp = RequestError.fromResponse(err);
-
-        console.log(err);
-        this.formService.sendError(errResp);
-
-        if (errResp.notFound) {
-          this.alertMsg = 'Invalid credentials';
-          return;
-        }
-
-        this.alertMsg = errResp.message;
+      error: (errResp: HttpErrorResponse) => {
+        this.formService.sendError(RequestError.fromResponse(errResp, serviceNames.logIn));
       },
     });
-  }
-
-  onDismissAlert() {
-    this.alert = null;
   }
 }

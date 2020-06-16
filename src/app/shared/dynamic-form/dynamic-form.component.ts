@@ -5,6 +5,7 @@ import { ControlService } from '../service/control.service';
 import { FormService } from '../service/form.service';
 import { Button } from '../widget/button';
 import { RequestError } from 'src/app/data/schema/request-result';
+import { Alert } from '../widget/alert';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -18,6 +19,15 @@ export class DynamicFormComponent implements OnInit {
   @Input() button: Button;
 
   form: FormGroup;
+  alert: Alert;
+
+  private set alertMsg(v: string) {
+    this.alert = {
+      type: 'danger',
+      message: v,
+      dismissible: true,
+    };
+  }
 
   constructor(
     private controlService: ControlService,
@@ -29,6 +39,13 @@ export class DynamicFormComponent implements OnInit {
     this.formService.errorReceived$.subscribe(reqErr => {
       this.setError(reqErr);
     });
+    this.formService.formEnabled$.subscribe(ok => {
+      if (ok) {
+        this.form.enable();
+      } else {
+        this.form.disable();
+      }
+    })
   }
 
   onSubmit() {
@@ -42,6 +59,7 @@ export class DynamicFormComponent implements OnInit {
     console.log('Setting error manually');
     this.form.enable();
     if (!err.unprocessable) {
+      this.alertMsg = err.toString();
       return;
     }
 
@@ -51,5 +69,9 @@ export class DynamicFormComponent implements OnInit {
     this.form.get(err.unprocessable.field).setErrors({
       [err.unprocessable.code]: err.message
     });
+  }
+
+  onDismissAlert() {
+    this.alert = null;
   }
 }
