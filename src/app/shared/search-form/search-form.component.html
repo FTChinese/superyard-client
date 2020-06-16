@@ -1,0 +1,23 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+  <div class="form-group">
+
+    <div class="input-group">
+      <input class="form-control"
+        [id]="control.key"
+        type="search"
+        [placeholder]="control.placeholder"
+        [formControlName]="control.key"/>
+
+      <div class="input-group-append">
+        <button
+          [class]="button.classNames"
+          [type]="button.type"
+          [disabled]="!form.valid">{{button.name}}</button>
+      </div>
+
+    </div>
+
+    <small *ngIf="control.desc" class="form-text text-muted">{{control.desc}}</small>
+  </div>
+</form>
