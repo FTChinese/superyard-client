@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AccountDetailComponent } from './account-detail/account-detail.component';
-import { ReaderHomeComponent } from './reader-home/reader-home.component';
-import { ProfileComponent } from './profile/profile.component';
+import { AccountDetailComponent } from './page/account-detail/account-detail.component';
+import { ReaderHomeComponent } from './page/reader-home/reader-home.component';
+import { ProfileComponent } from './component/profile/profile.component';
 
 
 const routes: Routes = [

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { TableRow } from '../account-item';
 import { ActivatedRoute } from '@angular/router';
-import { ReaderService } from '../../../data/service/reader.service';
+import { TableRow } from '../../account-item';
+import { ReaderService } from 'src/app/data/service/reader.service';
 
 @Component({
   selector: 'app-profile',
