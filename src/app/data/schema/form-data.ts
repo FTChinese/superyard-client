@@ -19,3 +19,7 @@ export type PasswordUpdateForm = Pick<AccountFields, 'oldPassword' | 'password' 
 
 export type PasswordResetter = Pick<AccountFields, 'token' | 'password'>;
 export type PasswordsUpdater = Pick<AccountFields, 'oldPassword' | 'password'>;
+
+export interface SearchForm {
+  keyword: string;
+}
