@@ -11,7 +11,7 @@ interface OptionElement {
   value: string;
 }
 
-interface ControlOptions {
+export interface ControlOptions {
   value?: any;
   key: string;
   validators?: ValidatorFn[];
@@ -38,7 +38,7 @@ export class DynamicControl {
   validators?: ValidatorFn[]; // new FormControl(value, validators)
 
   // Override in suclass
-  controlType: ControlType; // Use in the ngSwitch directive.
+  controlType: ControlType; // Used by subclass in the ngSwitch directive.
 
   // Config the attributes of HTML element.
   label: string;
