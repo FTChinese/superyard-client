@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { DynamicControl, InputControl, ControlOptions } from 'src/app/shared/widget/control';
-import { Alert } from 'src/app/shared/widget/alert';
+import { ControlOptions } from 'src/app/shared/widget/control';
 import { Button } from 'src/app/shared/widget/button';
 import { Validators } from '@angular/forms';
 import { FormService } from 'src/app/shared/service/form.service';
-import { switchMap } from 'rxjs/operators';
 import { SearchForm } from 'src/app/data/schema/form-data';
-import { of } from 'rxjs';
-import { RequestError } from 'src/app/data/schema/request-result';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-staff-home',
@@ -30,27 +27,29 @@ export class StaffHomeComponent implements OnInit {
     .setName('Search');
 
   constructor(
-    private formService: FormService
+    private formService: FormService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
-    this.formService.formSubmitted$.pipe(
-      switchMap(data => {
-        const search: SearchForm = JSON.parse(data);
-
-        return of({ userName: search.keyword });
-      })
-    )
-    .subscribe({
-      next: data => {
-        console.log('Searching %o', data)
-      },
-      error: err => {
-        console.log(err);
-        const errResp = RequestError.fromResponse(err);
-        this.formService.sendError(errResp);
+    this.route.queryParamMap.subscribe(params => {
+      const keyword = params.get('keyword');
+      if (keyword) {
+        this.searchControl.value = keyword;
       }
-    })
+    });
+
+    this.formService.formSubmitted$
+      .subscribe(data => {
+        const search: SearchForm = JSON.parse(data);
+        console.log('Searching %o', search);
+
+        this.router.navigate(['search-results'], {
+          relativeTo: this.route,
+          queryParams: search,
+        });
+      });
   }
 
 }

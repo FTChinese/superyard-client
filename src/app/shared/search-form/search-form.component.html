@@ -17,6 +17,8 @@
 
     </div>
 
+    <div *ngIf="errMsg" class="text-danger">{{errMsg}}</div>
+
     <small *ngIf="control.desc" class="form-text text-muted">{{control.desc}}</small>
   </div>
 </form>
