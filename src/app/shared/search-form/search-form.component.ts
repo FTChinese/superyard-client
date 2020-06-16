@@ -25,10 +25,6 @@ export class SearchFormComponent implements OnInit {
     this.form = new FormGroup({
       [this.control.key]: new FormControl(this.control.value, this.control.validators)
     });
-
-    this.formService.errorReceived$.subscribe(reqErr => {
-      this.form.enable();
-    })
   }
 
   onSubmit() {
