@@ -8,6 +8,7 @@ import { SearchComponent } from './search/search.component';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 import { DynamicControlComponent } from './dynamic-control/dynamic-control.component';
 import { AlertComponent } from './alert/alert.component';
+import { SearchFormComponent } from './search-form/search-form.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { AlertComponent } from './alert/alert.component';
     DynamicFormComponent,
     DynamicControlComponent,
     AlertComponent,
+    SearchFormComponent,
   ],
   imports: [
     CommonModule,
@@ -33,6 +35,7 @@ import { AlertComponent } from './alert/alert.component';
     FeedbackInvalidComponent,
     MarkedPipe,
     SearchComponent,
+    SearchFormComponent,
     DynamicFormComponent,
   ]
 })
