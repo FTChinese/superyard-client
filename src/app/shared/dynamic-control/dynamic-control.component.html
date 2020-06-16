@@ -3,7 +3,7 @@
     class="form-label"
     [attr.for]="control.key">{{control.label}}</label>
 
-  <ng-template [ngSwitch]="control.controlType">
+  <ng-container [ngSwitch]="control.controlType">
     <input *ngSwitchCase="'textbox'"
       class="form-control"
       [id]="control.key"
@@ -24,7 +24,7 @@
           [value]="opt.key">{{opt.value}}</option>
       </select>
 
-  </ng-template>
+    </ng-container>
 
   <div *ngIf="isInvalid" class="o-forms-input__error">{{errMsg}}</div>
 
