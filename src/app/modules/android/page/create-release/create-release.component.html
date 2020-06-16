@@ -2,10 +2,10 @@
   <div class="col-md-12 col-lg-8">
     <h2>Draft new release</h2>
 
-    <app-edit-release
+    <app-release-form
       *ngIf="release"
       [release]="release"
-      (submitted)="onSubmit($event)"></app-edit-release>
+      (submitted)="onSubmit($event)"></app-release-form>
   </div>
 
   <div class="col-md-12 col-lg-4">

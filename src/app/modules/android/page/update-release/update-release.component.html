@@ -1,6 +1,6 @@
-<h2 class="subhead-heading">Edit release</h2>
+<h2>Edit release</h2>
 
-<app-edit-release
+<app-release-form
   *ngIf="release"
   [release]="release"
-  (submitted)="onSubmit($event)"></app-edit-release>
+  (submitted)="onSubmit($event)"></app-release-form>
