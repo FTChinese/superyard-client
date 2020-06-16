@@ -4,8 +4,8 @@ import { StaffListComponent } from './staff-list/staff-list.component';
 import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
 import { CreateUserComponent } from './create-user/create-user.component';
-import { SearchStaffComponent } from './search-staff/search-staff.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
+import { StaffHomeComponent } from './page/staff-home/staff-home.component';
 
 
 const routes: Routes = [
@@ -16,7 +16,7 @@ const routes: Routes = [
   },
   {
     path: 'staff',
-    component: SearchStaffComponent,
+    component: StaffHomeComponent,
     children: [
       {
         path: '',
