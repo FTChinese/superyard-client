@@ -2,25 +2,24 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AdminRoutingModule } from './admin-routing.module';
-import { StaffListComponent } from './staff-list/staff-list.component';
-import { AdminHomeComponent } from './admin-home/admin-home.component';
+import { AdminHomeComponent } from './page/admin-home/admin-home.component';
+import { StaffHomeComponent } from './page/staff-home/staff-home.component';
+import { StaffListComponent } from './components/staff-list/staff-list.component';
+import { SearchResultsComponent } from './components/search-results/search-results.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
 import { UserFormComponent } from './user-form/user-form.component';
-import { SearchStaffComponent } from './search-staff/search-staff.component';
-import { SearchResultsComponent } from './search-results/search-results.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-
 
 @NgModule({
   declarations: [
-    StaffListComponent,
+    StaffHomeComponent,
     AdminHomeComponent,
+    StaffListComponent,
+    SearchResultsComponent,
     CreateUserComponent,
     UpdateUserComponent,
     UserFormComponent,
-    SearchStaffComponent,
-    SearchResultsComponent
   ],
   imports: [
     CommonModule,
