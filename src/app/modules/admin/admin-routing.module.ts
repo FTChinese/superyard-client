@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { StaffListComponent } from './staff-list/staff-list.component';
-import { AdminHomeComponent } from './admin-home/admin-home.component';
+import { StaffListComponent } from './components/staff-list/staff-list.component';
+import { AdminHomeComponent } from './page/admin-home/admin-home.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
 import { CreateUserComponent } from './create-user/create-user.component';
-import { SearchResultsComponent } from './search-results/search-results.component';
+import { SearchResultsComponent } from './components/search-results/search-results.component';
 import { StaffHomeComponent } from './page/staff-home/staff-home.component';
 
 
