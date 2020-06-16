@@ -10,6 +10,7 @@ import { FormService } from 'src/app/shared/service/form.service';
 import { switchMap } from 'rxjs/operators';
 import { Alert } from 'src/app/shared/widget/alert';
 import { Credentials } from 'src/app/data/schema/form-data';
+import { StaffService } from 'src/app/data/service/staff.service';
 
 @Component({
   selector: 'app-login',
@@ -55,6 +56,7 @@ export class LoginComponent implements OnInit{
 
   constructor(
     private authService: AuthService,
+    private staffService: StaffService,
     private formService: FormService,
     private router: Router,
   ) { }
@@ -65,12 +67,13 @@ export class LoginComponent implements OnInit{
         console.log('Credentials submitted');
         const credentials: Credentials = JSON.parse(data);
 
-        return this.authService.login(credentials);
+        return this.staffService.login(credentials);
       })
     )
     .subscribe({
       next: data => {
         console.log(data);
+        this.authService.loggedIn(data);
 
         if (this.authService.isLoggedIn) {
           const redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : '/';

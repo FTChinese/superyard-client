@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IProfile } from 'src/app/data/schema/staff';
 import { FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { StaffService } from 'src/app/data/service/staff.service';
 
 @Component({
   selector: 'app-profile',
@@ -46,11 +47,11 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService,
+    private staffService: StaffService,
   ) { }
 
   ngOnInit(): void {
-    this.authService.loadProfile().subscribe({
+    this.staffService.loadProfile().subscribe({
       next: profile => {
         this.profile = profile;
       },

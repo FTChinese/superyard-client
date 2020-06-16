@@ -2,13 +2,31 @@
   <label
     class="form-label"
     [attr.for]="control.key">{{control.label}}</label>
-  <input class="form-control"
-    [id]="control.key"
-    [type]="control.type"
-    [placeholder]="control.placeholder"
-    [formControlName]="control.key"/>
 
-    <div *ngIf="isInvalid" class="o-forms-input__error">{{errMsg}}</div>
+  <ng-template [ngSwitch]="control.controlType">
+    <input *ngSwitchCase="'textbox'"
+      class="form-control"
+      [id]="control.key"
+      [type]="control.type"
+      [placeholder]="control.placeholder"
+      [formControlName]="control.key"/>
 
-    <small *ngIf="control.desc" class="form-text text-muted">{{control.desc}}</small>
+    <textarea *ngSwitchCase="'textarea'"
+      class="form-control"
+      [id]="control.key"
+      [formControlName]="control.key"
+      rows="10"></textarea>
+
+    <select *ngSwitchCase="'dropdown'"
+      [id]="control.key"
+      [formControlName]="control.key">
+        <option *ngFor="let opt of control.options"
+          [value]="opt.key">{{opt.value}}</option>
+      </select>
+
+  </ng-template>
+
+  <div *ngIf="isInvalid" class="o-forms-input__error">{{errMsg}}</div>
+
+  <small *ngIf="control.desc" class="form-text text-muted">{{control.desc}}</small>
 </div>

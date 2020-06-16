@@ -7,6 +7,8 @@ import { Validators } from '@angular/forms';
 import { FormService } from 'src/app/shared/service/form.service';
 import { SearchForm } from 'src/app/data/schema/form-data';
 import { AndroidService } from 'src/app/data/service/android.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { RequestError } from 'src/app/data/schema/request-result';
 
 @Component({
   selector: 'app-create-release',
@@ -34,10 +36,8 @@ export class CreateReleaseComponent {
     private androidService: AndroidService,
     private formService: FormService,
   ) {
-    // this.releaseService.formSubmitted$.subscribe(
-    //   data => this.createRelease(data)
-    // );
 
+    // Watch search form.
     this.formService.formSubmitted$.pipe(
       switchMap(data => {
         const search: SearchForm = JSON.parse(data);
@@ -77,12 +77,18 @@ export class CreateReleaseComponent {
       });
   }
 
-  createRelease(release: IReleaseBase) {
+  onSubmit(release: IReleaseBase) {
     console.log(release);
     this.androidService.createRelease(release)
       .subscribe({
-        next: ok => console.log(ok),
-        // error: err => this.releaseService.sendError(RequestError.fromResponse(err)),
+        next: ok => {
+          console.log(ok)
+        },
+        error: (errResp: HttpErrorResponse) => {
+          const err = RequestError.fromResponse(errResp);
+
+          console.log(err);
+        },
       });
   }
 }

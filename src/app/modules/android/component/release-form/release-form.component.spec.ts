@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditReleaseComponent } from './edit-release.component';
+import { ReleaseFormComponent } from './release-form.component';
 
-describe('EditReleaseComponent', () => {
-  let component: EditReleaseComponent;
-  let fixture: ComponentFixture<EditReleaseComponent>;
+describe('ReleaseFormComponent', () => {
+  let component: ReleaseFormComponent;
+  let fixture: ComponentFixture<ReleaseFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditReleaseComponent ]
+      declarations: [ ReleaseFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditReleaseComponent);
+    fixture = TestBed.createComponent(ReleaseFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

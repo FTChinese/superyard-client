@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ReleaseService } from '../release.service';
-import { AndroidService } from '../../../data/service/android.service';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { IRelease } from 'src/app/data/schema/android';
+import { AndroidService } from 'src/app/data/service/android.service';
 
 @Component({
   selector: 'app-update-release',
   templateUrl: './update-release.component.html',
   styleUrls: ['./update-release.component.scss'],
-  providers: [ReleaseService],
 })
 export class UpdateReleaseComponent implements OnInit {
 
@@ -17,15 +15,9 @@ export class UpdateReleaseComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private service: AndroidService,
-    private releaseService: ReleaseService,
+    private androidService: AndroidService,
   ) {
-    this.releaseService.formSubmitted$.pipe(
-      switchMap(release => this.service.updateRelease(release))
-    ).subscribe({
-      next: ok => console.log(ok),
-      error: err => console.log(err)
-    });
+
   }
 
   ngOnInit(): void {
@@ -33,7 +25,7 @@ export class UpdateReleaseComponent implements OnInit {
       switchMap(params => {
         const tag = params.get('tag');
 
-        return this.service.loadRelease(tag);
+        return this.androidService.loadRelease(tag);
       })
     ).subscribe({
       next: data => this.release = data,
@@ -41,4 +33,7 @@ export class UpdateReleaseComponent implements OnInit {
     });
   }
 
+  onSubmit(release: IRelease) {
+    console.log('Update a release %o', release);
+  }
 }
