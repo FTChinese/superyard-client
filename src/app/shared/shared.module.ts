@@ -4,7 +4,6 @@ import { FlashComponent } from './flash/flash.component';
 import { FeedbackInvalidComponent } from './feedback-invalid/feedback-invalid.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MarkedPipe } from './pipes/marked.pipe';
-import { SearchComponent } from './search/search.component';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 import { DynamicControlComponent } from './dynamic-control/dynamic-control.component';
 import { AlertComponent } from './alert/alert.component';
@@ -15,7 +14,6 @@ import { SearchFormComponent } from './search-form/search-form.component';
     FlashComponent,
     FeedbackInvalidComponent,
     MarkedPipe,
-    SearchComponent,
     DynamicFormComponent,
     DynamicControlComponent,
     AlertComponent,
@@ -34,7 +32,6 @@ import { SearchFormComponent } from './search-form/search-form.component';
     AlertComponent,
     FeedbackInvalidComponent,
     MarkedPipe,
-    SearchComponent,
     SearchFormComponent,
     DynamicFormComponent,
   ]
