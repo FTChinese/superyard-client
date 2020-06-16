@@ -3,7 +3,6 @@ import { IRelease, IReleaseBase } from 'src/app/data/schema/android';
 import { Validators } from '@angular/forms';
 import { DynamicControl, InputControl, TextareaControl } from 'src/app/shared/widget/control';
 import { Button } from 'src/app/shared/widget/button';
-import { Alert } from 'src/app/shared/widget/alert';
 import { FormService } from 'src/app/shared/service/form.service';
 
 @Component({
@@ -65,16 +64,6 @@ export class ReleaseFormComponent implements OnInit {
 
   button: Button = Button.primary().setName('Save')
 
-  alert: Alert;
-
-  private set alertMsg(m: string) {
-    this.alert = {
-      type: 'danger',
-      message: m,
-      dismissible: true,
-    }
-  }
-
   constructor(
     private formService: FormService,
   ) {}
@@ -86,9 +75,5 @@ export class ReleaseFormComponent implements OnInit {
 
         this.submitted.emit(formData);
       });
-  }
-
-  onDismissAlert() {
-    this.alert = null;
   }
 }

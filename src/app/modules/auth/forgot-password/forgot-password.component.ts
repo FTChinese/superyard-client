@@ -5,7 +5,6 @@ import { InputControl, DynamicControl } from 'src/app/shared/widget/control';
 import { Button } from 'src/app/shared/widget/button';
 import { EmailForm } from 'src/app/data/schema/form-data';
 import { authUrls } from 'src/app/layout/sitemap';
-import { Alert } from 'src/app/shared/widget/alert';
 import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { RequestError, serviceNames } from 'src/app/data/schema/request-result';

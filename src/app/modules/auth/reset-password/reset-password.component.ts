@@ -9,7 +9,6 @@ import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { PasswordResetForm, PasswordResetter } from 'src/app/data/schema/form-data';
-import { Alert } from 'src/app/shared/widget/alert';
 
 enum TokenState {
   NotFound = 'not_found',
