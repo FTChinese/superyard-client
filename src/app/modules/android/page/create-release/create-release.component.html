@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-md-12 col-lg-8">
+    <h2 class="subhead-heading">Draft new release</h2>
+
+    <app-edit-release
+      *ngIf="release"
+      [release]="release"></app-edit-release>
+  </div>
+
+  <div class="col-md-12 col-lg-4">
+    <p>The version should already exist on <a href="https://github.com/FTChinese/ftc-android-kotlin/releases" target="_blank">GitHub releases</a> from where the release data will be fetched. Enter version tag to seee if it is released</p>
+
+    <app-search-form
+        [control]="searchControl"
+        [button]="button"></app-search-form>
+
+    <div class="mb-3">
+      <button type="button" class="btn btn-link" (click)="getLatestRelease()">Or pull data directly from GitHub's latest release</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+

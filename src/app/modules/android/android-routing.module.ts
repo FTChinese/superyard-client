@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AppListComponent } from './app-list/app-list.component';
-import { AndroidHomeComponent } from './android-home/android-home.component';
-import { CreateReleaseComponent } from './create-release/create-release.component';
-import { UpdateReleaseComponent } from './update-release/update-release.component';
+import { AppListComponent } from './component/app-list/app-list.component';
+import { AndroidHomeComponent } from './page/android-home/android-home.component';
+import { CreateReleaseComponent } from './page/create-release/create-release.component';
+import { UpdateReleaseComponent } from './page/update-release/update-release.component';
 
 
 const routes: Routes = [
@@ -16,14 +16,14 @@ const routes: Routes = [
         component: AppListComponent,
       },
       {
-        path: 'new',
-        component: CreateReleaseComponent,
-      },
-      {
         path: 'releases/:tag',
         component: UpdateReleaseComponent,
       }
     ]
+  },
+  {
+    path: 'new',
+    component: CreateReleaseComponent
   }
 ];
 

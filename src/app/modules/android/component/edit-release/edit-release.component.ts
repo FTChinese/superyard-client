@@ -1,7 +1,6 @@
 import { Component, Input} from '@angular/core';
 import { IRelease } from 'src/app/data/schema/android';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ReleaseService } from '../release.service';
 
 @Component({
   selector: 'app-edit-release',
@@ -39,18 +38,17 @@ export class EditReleaseComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private releaseService: ReleaseService,
   ) {
     // Waiting to show any HTTP request errors.
-    this.releaseService.errorReceived$.subscribe(
-      reqErr => {
-        console.log(reqErr);
-      }
-    );
+    // this.releaseService.errorReceived$.subscribe(
+    //   reqErr => {
+    //     console.log(reqErr);
+    //   }
+    // );
   }
 
   // Pass form data to parent host using service.
   onSubmit() {
-    this.releaseService.submitForm(this.releaseForm.value);
+    // this.releaseService.submitForm(this.releaseForm.value);
   }
 }
