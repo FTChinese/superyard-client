@@ -15,7 +15,7 @@ export class SearchFormComponent implements OnInit {
   @Input() button: Button;
 
   form: FormGroup;
-
+  disabled = false;
   errMsg: string;
 
   constructor(
@@ -26,6 +26,9 @@ export class SearchFormComponent implements OnInit {
     this.form = new FormGroup({
       [this.control.key]: new FormControl(this.control.value, this.control.validators)
     });
+    this.formService.formEnabled$.subscribe(ok => {
+      this.disabled = !ok;
+    })
   }
 
   get formControl(): AbstractControl {
@@ -47,6 +50,7 @@ export class SearchFormComponent implements OnInit {
       return;
     }
 
+    this.disabled = true;
     this.formService.submit(JSON.stringify(this.form.getRawValue()));
   }
 }
