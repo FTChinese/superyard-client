@@ -10,12 +10,16 @@ export class FormService {
   private formSubmittedSource = new Subject<string>();
   private errorsSource = new Subject<RequestError>();
   private formStateSource = new Subject<boolean>();
+  private formCreatedSource = new Subject<FormGroup>();
 
-  form: FormGroup;
-
+  // Tells host the form is created.
+  formCreated$ = this.formCreatedSource.asObservable();
+  // Tells host that data will be submitted.
   formSubmitted$ = this.formSubmittedSource.asObservable();
+  // Tells child to enabled/disable the form
+  formEnabled$ = this.formStateSource.asObservable();
+  // Tells child to show any HTTP request error..
   errorReceived$ = this.errorsSource.asObservable();
-  // formEnabled$ = this.formStateSource.asObservable();
 
   toFormGroup(configs: DynamicControl[]): FormGroup {
     const group: {[key: string]: AbstractControl} = {};
@@ -24,31 +28,26 @@ export class FormService {
       group[config.key] = new FormControl(config.value, config.validators);
     });
 
-    this.form = new FormGroup(group);
+    return new FormGroup(group);
+  }
 
-    return this.form;
+  // Tell host the form is created.
+  created(form: FormGroup) {
+    this.formCreatedSource.next(form);
   }
 
   // Pass form data to parent host.
   submit(data: string) {
-    const d = JSON.stringify(this.form.getRawValue());
-    console.log(d);
-    this.formSubmittedSource.next(d);
-    this.form.disable();
+    this.formSubmittedSource.next(data);
   }
 
   // Parent host send error messages to form.
   sendError(err: RequestError) {
-    this.form.enable();
     this.errorsSource.next(err);
   }
 
+  // Parent send command to child.
   enable(ok: boolean) {
-    if (ok) {
-      this.form.enable();
-    } else {
-      this.form.disable();
-    }
-    // this.formStateSource.next(ok);
+    this.formStateSource.next(ok);
   }
 }

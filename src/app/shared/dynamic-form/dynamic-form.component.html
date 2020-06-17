@@ -3,11 +3,11 @@
   [alert]="alert"
   (dismissed)="onDismissAlert()"></app-alert>
 
-<form [formGroup]="formService.form"
+<form [formGroup]="form"
   (ngSubmit)="onSubmit()">
 
   <ng-container *ngFor="let ctrl of controls">
-    <app-dynamic-control [control]="ctrl" [form]="formService.form"></app-dynamic-control>
+    <app-dynamic-control [control]="ctrl" [form]="form"></app-dynamic-control>
   </ng-container>
 
   <div class="d-flex justify-content-between">
@@ -15,7 +15,7 @@
     <button
       [class]="button.classNames"
       [type]="button.type"
-      [disabled]="!formService.form.valid">
+      [disabled]="!form.valid">
       {{button.name}}
       <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status"></span>
     </button>

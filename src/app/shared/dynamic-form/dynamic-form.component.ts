@@ -16,7 +16,7 @@ export class DynamicFormComponent implements OnInit {
   @Input() controls: DynamicControl[] = [];
   @Input() button: Button;
 
-  // form: FormGroup;
+  form: FormGroup;
   alert: Alert;
   loading = false;
 
@@ -33,29 +33,30 @@ export class DynamicFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.formService.toFormGroup(this.controls);
+    this.form = this.formService.toFormGroup(this.controls);
+    this.formService.created(this.form);
 
     this.formService.errorReceived$.subscribe(reqErr => {
-      // this.form.enable();
+      this.form.enable();
       this.loading = false;
       this.setError(reqErr);
     });
 
-    // this.formService.formEnabled$.subscribe(ok => {
-    //   this.loading = !ok;
-    //   if (ok) {
-    //     this.form.enable();
-    //   } else {
-    //     this.form.disable();
-    //   }
-    // })
+    this.formService.formEnabled$.subscribe(ok => {
+      this.loading = !ok;
+      if (ok) {
+        this.form.enable();
+      } else {
+        this.form.disable();
+      }
+    })
   }
 
   onSubmit() {
-    // const data = JSON.stringify(this.form.getRawValue());
-    // console.log(data);
+    const data = JSON.stringify(this.form.getRawValue());
+    console.log(data);
     this.formService.submit('data');
-    // this.form.disable();
+    this.form.disable();
     this.loading = true;
   }
 
@@ -70,7 +71,7 @@ export class DynamicFormComponent implements OnInit {
     // Use the Unprocessable#field to find which field goes wrong.
     // Use the Unprocessable#code as ValidationErrors' key,
     // and API error response message as fallback error message.
-    this.formService.form.get(err.unprocessable.field).setErrors({
+    this.form.get(err.unprocessable.field).setErrors({
       [err.unprocessable.code]: err.message
     });
   }

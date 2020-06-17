@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { IApiApp, IAppBase } from 'src/app/data/schema/oauth';
-import { FormBuilder, Validators } from '@angular/forms';
-import { AppFormService } from '../../app-form.service';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormService } from 'src/app/shared/service/form.service';
-import { Alert } from 'src/app/shared/widget/alert';
 import { RequestError } from 'src/app/data/schema/request-result';
+import { InputControl, DynamicControl, TextareaControl } from 'src/app/shared/widget/control';
+import { Button } from 'src/app/shared/widget/button';
 
 @Component({
   selector: 'app-app-form',
@@ -14,49 +14,82 @@ import { RequestError } from 'src/app/data/schema/request-result';
 })
 export class AppFormComponent implements OnInit {
 
-  formErr: Partial<IAppBase> = {};
+  private _app: IApiApp;
+  private form: FormGroup;
 
   @Input()
   set app(app: IApiApp) {
-    this.appForm.patchValue({
-      name: app.name,
-      slug: app.slug,
-      repoUrl: app.repoUrl,
-      homeUrl: app.homeUrl,
-      description: app.description,
-      callbackUrl: app.callbackUrl
-    });
+    this._app = app;
+    this.patchForm();
   }
 
   @Input()
   set error(err: RequestError) {
+    if (!err) {
+      return;
+    }
 
+    this.formService.sendError(err);
   }
 
   @Output() submitted = new EventEmitter<IAppBase>();
 
-  appForm = this.formBuilder.group({
-    name: ['', [Validators.required]],
-    slug: [''],
-    repoUrl: ['', [Validators.required]],
-    homeUrl: [null],
-    description: [null],
-    callbackUrl: [null],
-  });
+  dynamicControls: DynamicControl[] = [
+    new InputControl({
+      value: '',
+      key: 'name',
+      validators: [Validators.required, Validators.maxLength(256)],
+      label: 'Application Name',
+      type: 'text',
+      desc: 'Required. 1 ~ 256 alphanumerics.'
+    }),
+    new InputControl({
+      value: '',
+      key: 'slug',
+      label: 'Slug Name',
+      type: 'text',
+      readonly: true,
+    }),
+    new InputControl({
+      value: null,
+      key: 'repoUrl',
+      validators: [Validators.required, Validators.maxLength(256)],
+      label: 'Repo URL',
+      type: 'url',
+      placeholder: 'Where could the source code be found?',
+      desc: 'Required. Must be valid url with max length of 256 characters'
+    }),
+    new InputControl({
+      value: null,
+      key: 'homeUrl',
+      validators: [Validators.maxLength(256)],
+      label: 'Home URL',
+      type: 'url',
+      placeholder: 'The full URL to your application homepage',
+      desc: 'Optional. Max 256 characters'
+    }),
+    new TextareaControl({
+      value: null,
+      key: 'description',
+      validators: [Validators.maxLength(512)],
+      label: 'Application Description',
+      desc: 'Optional but recommended. Max 512 characters'
+    }),
+    new InputControl({
+      value: null,
+      key: 'callbackUrl',
+      validators: [Validators.maxLength(256)],
+      label: 'Callback URL',
+      type: 'url',
+      placeholder: 'OAuth 2.0 callback url',
+      desc: 'Optional. Max 256 characters'
+    }),
+  ];
 
-  alert: Alert
-
-  set alertMsg(m: string) {
-    this.alert = {
-      type: 'danger',
-      message: m,
-      dismissible: true,
-    }
-  }
+  button: Button = Button.primary().setName('Save')
 
   constructor(
-    private formBuilder: FormBuilder,
-    private formService: AppFormService,
+    private formService: FormService,
   ) { }
 
   /**
@@ -68,55 +101,41 @@ export class AppFormComponent implements OnInit {
    * it does not submit the value.
    */
   ngOnInit(): void {
-    this.appForm.get('name')
-      .valueChanges
-      .subscribe(name => {
-        this.appForm.patchValue({
-          slug: slugify(name),
-        });
+    this.formService.formCreated$
+      .subscribe(form => {
+        console.log('form created');
+        console.log(form);
+        form.get('name').valueChanges
+          .subscribe(name => {
+            form.patchValue({
+              slug: slugify(name),
+            });
+          });
+
+        this.form = form;
+        this.patchForm();
       });
 
-    this.formService
-      .errorReceived$
-      .subscribe(reqErr => {
-        console.log(reqErr);
+    this.formService.formSubmitted$
+      .subscribe(data => {
+        const formData: IAppBase = JSON.parse(data);
 
-        this.appForm.enable();
-
-        if (reqErr.unprocessable) {
-          this.formErr = reqErr.toFormFields;
-
-          return;
-        }
-
-        this.alertMsg = reqErr.message;
+        this.submitted.emit(formData);
       });
   }
 
-  submit() {
-    console.log(this.appForm.value);
-
-    if (this.appForm.invalid) {
-      if (this.appForm.getError('required', 'name')) {
-        this.formErr.name = 'App name is required';
-      }
-
-      if (this.appForm.getError('required', 'repoUrl')) {
-        this.formErr.repoUrl = 'Please supply the source code url of this app';
-      }
-
+  private patchForm() {
+    if (!this.form || !this._app) {
       return;
     }
-
-    this.submitted.emit(this.appForm.value);
-
-    // NOTE: must not put this line before submite data;
-    // otherwise the form data is empty.
-    this.appForm.disable();
-  }
-
-  onDismissAlert() {
-    this.alert = null
+    this.form.patchValue({
+      name: this._app.name,
+      slug: this._app.slug,
+      repoUrl: this._app.repoUrl,
+      homeUrl: this._app.homeUrl,
+      description: this._app.description,
+      callbackUrl: this._app.callbackUrl
+    });
   }
 }
 

@@ -26,7 +26,10 @@
         </dl>
       </div>
 
-      <app-app-form [app]="app"></app-app-form>
+      <app-app-form
+        [app]="app"
+        [error]="error"
+        (submitted)="onSubmit($event)"></app-app-form>
     </ng-container>
 
   </div>

@@ -4,7 +4,9 @@
       <h2>Register a new application</h2>
     </div>
 
-    <app-app-form></app-app-form>
+    <app-app-form
+      [error]="error"
+      (submitted)="onSubmit($event)"></app-app-form>
   </div>
 
   <div class="col-md-12 col-lg-4">

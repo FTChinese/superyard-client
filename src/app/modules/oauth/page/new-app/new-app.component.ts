@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IApiApp } from 'src/app/data/schema/oauth';
+import { IApiApp, IAppBase } from 'src/app/data/schema/oauth';
 import { switchMap } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -11,35 +11,30 @@ import { OAuthService } from 'src/app/data/service/oauth.service';
   selector: 'app-new-app',
   templateUrl: './new-app.component.html',
   styleUrls: ['./new-app.component.scss'],
-  providers: [AppFormService],
 })
 export class NewAppComponent {
 
   app: IApiApp;
+  error: RequestError;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private oauthService: OAuthService,
-    private formService: AppFormService,
-  ) {
-    this.formService
-      .formSubmitted$
-      .pipe(
-        switchMap(formData => {
-          console.log('Creating a new app...');
-          console.log(formData);
-          return this.oauthService
-            .createApp(formData);
-        })
-      )
+  ) {}
+
+  onSubmit(app: IAppBase) {
+    console.log('Creating a new app...');
+    console.log(app);
+
+    this.oauthService.createApp(app)
       .subscribe({
         next: ok => {
           console.log(ok);
-          router.navigate(['../'], { relativeTo: this.route });
+          this.router.navigate(['../'], { relativeTo: this.route });
         },
         error: (err: HttpErrorResponse) => {
-          this.formService.sendError(RequestError.fromResponse(err));
+          this.error = RequestError.fromResponse(err);
         },
       });
   }

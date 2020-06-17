@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { IApiApp, IAccessToken } from 'src/app/data/schema/oauth';
+import { IApiApp, IAccessToken, IAppBase } from 'src/app/data/schema/oauth';
 import { OAuthService } from 'src/app//data/service/oauth.service';
 import { ActivatedRoute } from '@angular/router';
 import { AppFormService } from '../../app-form.service';
 import { switchMap } from 'rxjs/operators';
+import { RequestError } from 'src/app/data/schema/request-result';
 
 @Component({
   selector: 'app-update-app',
@@ -14,26 +15,13 @@ import { switchMap } from 'rxjs/operators';
 export class UpdateAppComponent implements OnInit {
 
   app: IApiApp;
+  error: RequestError;
   tokens: IAccessToken[];
 
   constructor(
     private route: ActivatedRoute,
     private oauthService: OAuthService,
-    private formService: AppFormService,
-  ) {
-    this.formService.formSubmitted$.pipe(
-      switchMap(formData => {
-        return this.oauthService.updateApp(
-          this.app.clientId,
-          formData,
-        );
-      })
-    )
-    .subscribe({
-      next: ok => console.log(ok),
-      error: err => console.log(err),
-    });
-  }
+  ) { }
 
   ngOnInit(): void {
     this.route.paramMap.pipe(
@@ -49,4 +37,14 @@ export class UpdateAppComponent implements OnInit {
     });
   }
 
+  onSubmit(app: IAppBase) {
+    this.oauthService.updateApp(
+      this.app.clientId,
+      app,
+    )
+    .subscribe({
+      next: ok => console.log(ok),
+      error: err => console.log(err),
+    })
+  }
 }
