@@ -7,6 +7,7 @@ import { ReaderHomeComponent } from './page/reader-home/reader-home.component';
 import { EditMembershipComponent } from './component/edit-membership/edit-membership.component';
 import { ProfileComponent } from './component/profile/profile.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { MemberFormComponent } from './component/member-form/member-form.component';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     AccountDetailComponent,
     EditMembershipComponent,
     ProfileComponent,
+    MemberFormComponent,
   ],
   imports: [
     CommonModule,
