@@ -7,6 +7,7 @@ import { PasswordUpdateForm } from 'src/app/data/schema/form-data';
 import { StaffService } from 'src/app/data/service/staff.service';
 import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { ToastService } from 'src/app/shared/service/toast.service';
 
 @Component({
   selector: 'app-password-form',
@@ -59,6 +60,7 @@ export class PasswordFormComponent implements OnInit {
   constructor(
     private formService: FormService,
     private staffService: StaffService,
+    private toast: ToastService,
   ) {
     this.formService.formSubmitted$.pipe(
       switchMap(data => {
@@ -68,7 +70,9 @@ export class PasswordFormComponent implements OnInit {
       })
     )
     .subscribe({
-      next: ok => console.log(ok),
+      next: ok => {
+        toast.show('Password changed!');
+      },
       error: err => console.log(err),
     });
   }

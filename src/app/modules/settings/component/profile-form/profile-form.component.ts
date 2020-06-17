@@ -7,6 +7,7 @@ import { FormService } from 'src/app/shared/service/form.service';
 import { ProfileForm, Profile } from 'src/app/data/schema/staff';
 import { switchMap } from 'rxjs/operators';
 import { RequestError } from 'src/app/data/schema/request-result';
+import { ToastService } from 'src/app/shared/service/toast.service';
 
 @Component({
   selector: 'app-profile-form',
@@ -59,6 +60,7 @@ export class ProfileFormComponent implements OnInit {
   constructor(
     private staffService: StaffService,
     private formService: FormService,
+    private toast: ToastService,
   ) { }
 
   ngOnInit(): void {
@@ -71,7 +73,8 @@ export class ProfileFormComponent implements OnInit {
     )
     .subscribe({
       next: ok => {
-        console.log(ok)
+        console.log(ok);
+        this.toast.show('Saved!')
       },
       error: err => {
         this.formService.sendError(RequestError.fromResponse(err));
