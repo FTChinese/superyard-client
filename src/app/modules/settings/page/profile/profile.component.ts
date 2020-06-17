@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Profile } from 'src/app/data/schema/staff';
 import { FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { StaffService } from 'src/app/data/service/staff.service';
+import { ToastService } from 'src/app/shared/service/toast.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { RequestError } from 'src/app/data/schema/request-result';
 
 @Component({
   selector: 'app-profile',
@@ -26,6 +29,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private staffService: StaffService,
+    private toast: ToastService,
   ) { }
 
   ngOnInit(): void {
@@ -33,8 +37,9 @@ export class ProfileComponent implements OnInit {
       next: profile => {
         this.profile = profile;
       },
-      error: err => {
-        console.log(err);
+      error: (errResp: HttpErrorResponse) => {
+        const err = RequestError.fromResponse(errResp);
+        this.toast.show(err.toString());
       },
     });
   }

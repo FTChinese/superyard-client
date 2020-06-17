@@ -6,6 +6,7 @@ import { LayoutModule } from './layout/layout.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from './core/service/auth.service';
 import { httpInterceptorProviders } from './http-interceptors';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { httpInterceptorProviders } from './http-interceptors';
   imports: [
     BrowserModule,
     HttpClientModule,
+    SharedModule,
     LayoutModule,
     AppRoutingModule,
   ],
