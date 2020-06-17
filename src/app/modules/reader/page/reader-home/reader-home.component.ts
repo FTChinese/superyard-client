@@ -49,8 +49,8 @@ export class ReaderHomeComponent {
 
         const isEmail = search.keyword.indexOf('@') > 0;
         const kind: AccountKind = isEmail
-          ? 'wechat'
-          : 'ftc';
+          ? 'ftc'
+          : 'wechat';
 
         console.log('Searching account kind: ' + kind);
 
@@ -80,7 +80,7 @@ export class ReaderHomeComponent {
 
         const err = RequestError.fromResponse(errResp);
 
-        this.formService.sendError(err);
+        this.formService.enable(true);
 
         if (err.notFound) {
           this.errMsg = 'No result';
