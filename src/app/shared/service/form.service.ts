@@ -24,8 +24,14 @@ export class FormService {
   toFormGroup(configs: DynamicControl[]): FormGroup {
     const group: {[key: string]: AbstractControl} = {};
 
-    configs.forEach(config => {
-      group[config.key] = new FormControl(config.value, config.validators);
+    configs.forEach(control => {
+      group[control.key] = new FormControl(
+        {
+          value: control.value,
+          disabled: control.disabled || false,
+        },
+        control.validators
+      );
     });
 
     return new FormGroup(group);

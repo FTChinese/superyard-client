@@ -41,7 +41,8 @@ export class ProfileFormComponent implements OnInit {
       ],
       label: 'Email',
       type: 'email',
-      desc: 'Opitonal. You can set email only once'
+      desc: 'Opitonal. You can set email only once',
+      disabled: true,
     }),
     new InputControl({
       value: null,

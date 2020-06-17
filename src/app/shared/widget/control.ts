@@ -35,9 +35,10 @@ interface DropdownControlOptions extends ControlOptions {
  */
 export class DynamicControl {
   // Config Angular FormControl
-  value: any;    // new FromControl(value)
+  value: any;    // new FormControl(value)
   key: string; // new FormGroup( {key: FormControl} ). Also used in label's for and input's formControlName attributes.
   validators?: ValidatorFn[]; // new FormControl(value, validators)
+  disabled: boolean; // If true, use new FormControl({ value: value, disabled; true })
 
   // Override in suclass
   controlType: ControlType; // Used by subclass in the ngSwitch directive.
@@ -47,7 +48,6 @@ export class DynamicControl {
   desc: string;
   placeholder: string;
   readonly: boolean;
-  disabled: boolean;
 
   // Overridable
   type: InputType; // <input>'s type attribute.
