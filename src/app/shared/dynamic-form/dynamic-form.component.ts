@@ -20,6 +20,7 @@ export class DynamicFormComponent implements OnInit {
 
   form: FormGroup;
   alert: Alert;
+  loading = false;
 
   private set alertMsg(v: string) {
     this.alert = {
@@ -37,9 +38,12 @@ export class DynamicFormComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.controlService.toFormGroup(this.controls);
     this.formService.errorReceived$.subscribe(reqErr => {
+      this.form.enable();
+      this.loading = false;
       this.setError(reqErr);
     });
     this.formService.formEnabled$.subscribe(ok => {
+      this.loading = !ok;
       if (ok) {
         this.form.enable();
       } else {
@@ -53,11 +57,12 @@ export class DynamicFormComponent implements OnInit {
     console.log(data);
     this.formService.submit(data);
     this.form.disable();
+    this.loading = true;
   }
 
   private setError(err: RequestError) {
     console.log('Setting error manually');
-    this.form.enable();
+
     if (!err.unprocessable) {
       this.alertMsg = err.toString();
       return;

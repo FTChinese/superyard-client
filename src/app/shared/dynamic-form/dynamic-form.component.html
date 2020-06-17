@@ -15,7 +15,10 @@
     <button
       [class]="button.classNames"
       [type]="button.type"
-      [disabled]="!form.valid">{{button.name}}</button>
+      [disabled]="!form.valid">
+      {{button.name}}
+      <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status"></span>
+    </button>
 
   </div>
 </form>
