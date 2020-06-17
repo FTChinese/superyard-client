@@ -18,6 +18,7 @@ export interface ControlOptions {
   label?: string;
   desc?: string;
   placeholder?: string;
+  readonly?: boolean;
 }
 
 interface InputControlOptions extends ControlOptions {
@@ -44,6 +45,7 @@ export class DynamicControl {
   label: string;
   desc: string;
   placeholder: string;
+  readonly: boolean;
 
   // Overridable
   type: InputType; // <input>'s type attribute.
@@ -57,6 +59,7 @@ export class DynamicControl {
     this.label = opts.label || '';
     this.desc = opts.desc || '';
     this.placeholder = opts.placeholder || '';
+    this.readonly = opts.readonly || false;
   }
 }
 

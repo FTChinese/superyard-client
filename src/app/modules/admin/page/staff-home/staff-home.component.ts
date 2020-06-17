@@ -10,7 +10,6 @@ import { ActivatedRoute, Router } from '@angular/router';
   selector: 'app-staff-home',
   templateUrl: './staff-home.component.html',
   styleUrls: ['./staff-home.component.scss'],
-  providers: [FormService],
 })
 export class StaffHomeComponent implements OnInit {
 
@@ -27,7 +26,6 @@ export class StaffHomeComponent implements OnInit {
     .setName('Search');
 
   constructor(
-    private formService: FormService,
     private router: Router,
     private route: ActivatedRoute,
   ) { }
@@ -39,17 +37,16 @@ export class StaffHomeComponent implements OnInit {
         this.searchControl.value = keyword;
       }
     });
-
-    this.formService.formSubmitted$
-      .subscribe(data => {
-        const search: SearchForm = JSON.parse(data);
-        console.log('Searching %o', search);
-
-        this.router.navigate(['search-results'], {
-          relativeTo: this.route,
-          queryParams: search,
-        });
-      });
   }
 
+  onSearch(data: string) {
+
+    const search: SearchForm = JSON.parse(data);
+    console.log('Searching %o', search);
+
+    this.router.navigate(['search-results'], {
+      relativeTo: this.route,
+      queryParams: search,
+    });
+  }
 }

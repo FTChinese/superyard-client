@@ -1,17 +1,20 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { IApiApp, IAppBase } from 'src/app/data/schema/oauth';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AppFormService } from '../../app-form.service';
+import { FormService } from 'src/app/shared/service/form.service';
+import { Alert } from 'src/app/shared/widget/alert';
+import { RequestError } from 'src/app/data/schema/request-result';
 
 @Component({
   selector: 'app-app-form',
   templateUrl: './app-form.component.html',
-  styleUrls: ['./app-form.component.scss']
+  styleUrls: ['./app-form.component.scss'],
+  providers: [FormService],
 })
 export class AppFormComponent implements OnInit {
 
   formErr: Partial<IAppBase> = {};
-  errMsg: string;
 
   @Input()
   set app(app: IApiApp) {
@@ -25,6 +28,13 @@ export class AppFormComponent implements OnInit {
     });
   }
 
+  @Input()
+  set error(err: RequestError) {
+
+  }
+
+  @Output() submitted = new EventEmitter<IAppBase>();
+
   appForm = this.formBuilder.group({
     name: ['', [Validators.required]],
     slug: [''],
@@ -33,6 +43,16 @@ export class AppFormComponent implements OnInit {
     description: [null],
     callbackUrl: [null],
   });
+
+  alert: Alert
+
+  set alertMsg(m: string) {
+    this.alert = {
+      type: 'danger',
+      message: m,
+      dismissible: true,
+    }
+  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -69,11 +89,11 @@ export class AppFormComponent implements OnInit {
           return;
         }
 
-        this.errMsg = reqErr.message;
+        this.alertMsg = reqErr.message;
       });
   }
 
-  onSubmit() {
+  submit() {
     console.log(this.appForm.value);
 
     if (this.appForm.invalid) {
@@ -88,17 +108,16 @@ export class AppFormComponent implements OnInit {
       return;
     }
 
-    this.formService.submitForm(this.appForm.value);
+    this.submitted.emit(this.appForm.value);
 
     // NOTE: must not put this line before submite data;
     // otherwise the form data is empty.
     this.appForm.disable();
   }
 
-  onDismiss() {
-    this.errMsg = null;
+  onDismissAlert() {
+    this.alert = null
   }
-
 }
 
 

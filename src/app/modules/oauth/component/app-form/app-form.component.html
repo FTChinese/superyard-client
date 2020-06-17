@@ -1,4 +1,9 @@
-<form [formGroup]="appForm" (ngSubmit)="onSubmit()">
+<app-alert
+  *ngIf="alert"
+  [alert]="alert"
+  (dismissed)="onDismissAlert()"></app-alert>
+
+<form [formGroup]="appForm" (ngSubmit)="submit()">
 
   <div class="form-group">
     <label class="form-label" for="name">Application name</label>
@@ -78,11 +83,12 @@
     <small class="form-text text-muted">Optional. Max 256 characters</small>
   </div>
 
-  <app-flash *ngIf="errMsg" [message]="errMsg" (dismiss)="onDismiss()"></app-flash>
-
   <div class="d-flex justify-content-between">
 
-    <button class="btn btn-primary" type="submit" [disabled]="!appForm.valid">Save</button>
+    <button
+      class="btn btn-primary"
+      type="submit"
+      [disabled]="!appForm.valid">Save</button>
 
     <a routerLink="../" class="btn">Cancel</a>
 

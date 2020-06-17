@@ -4,20 +4,17 @@ import { AccountKind } from 'src/app/data/schema/enums';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IBaseReader, IReaderAccount } from 'src/app/data/schema/reader';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 import { RequestError } from 'src/app/data/schema/request-result';
 import { AccountItem } from '../../account-item';
 import { ReaderService } from 'src/app/data/service/reader.service';
 import { ControlOptions } from 'src/app/shared/widget/control';
 import { Button } from 'src/app/shared/widget/button';
-import { FormService } from 'src/app/shared/service/form.service';
 import { SearchForm } from 'src/app/data/schema/form-data';
 
 @Component({
   selector: 'app-reader-home',
   templateUrl: './reader-home.component.html',
   styleUrls: ['./reader-home.component.scss'],
-  providers: [FormService],
 })
 export class ReaderHomeComponent {
 
@@ -33,6 +30,8 @@ export class ReaderHomeComponent {
     .primary()
     .setName('Search');
 
+  disableSearch = false;
+
   accountList: AccountItem[];
 
   errMsg: string;
@@ -41,55 +40,56 @@ export class ReaderHomeComponent {
 
   constructor(
     private readerService: ReaderService,
-    private formService: FormService,
   ) {
-    this.formService.formSubmitted$.pipe(
-      switchMap(data => {
-        const search: SearchForm = JSON.parse(data);
+  }
 
-        const isEmail = search.keyword.indexOf('@') > 0;
-        const kind: AccountKind = isEmail
-          ? 'ftc'
-          : 'wechat';
+  onSearch(data: string) {
+    this.disableSearch = true;
 
-        console.log('Searching account kind: ' + kind);
+    const search: SearchForm = JSON.parse(data);
 
-        return this.readerService.search(search.keyword, kind);
-      })
-    ).subscribe({
-      next: (data: IBaseReader[]) => {
-        console.log(data);
-        this.account = null;
-        this.accountList = data.map(val => {
-          if (val.kind === 'ftc') {
+    const isEmail = search.keyword.indexOf('@') > 0;
+    const kind: AccountKind = isEmail
+      ? 'ftc'
+      : 'wechat';
+
+    console.log('Searching account kind: ' + kind);
+
+    this.readerService.search(search.keyword, kind)
+      .subscribe({
+        next: (reader: IBaseReader[]) => {
+          console.log(reader);
+          this.account = null;
+          this.accountList = reader.map(val => {
+            if (val.kind === 'ftc') {
+              return {
+                id: val.ftcId,
+                name: val.email,
+                kind: val.kind,
+              };
+            }
             return {
-              id: val.ftcId,
-              name: val.email,
-              kind: val.kind,
+              id: val.unionId,
+              name: val.nickname,
+              kind: val.kind
             };
+          });
+        },
+        error: (errResp: HttpErrorResponse) => {
+          console.log(errResp);
+
+          const err = RequestError.fromResponse(errResp);
+
+          this.disableSearch = false;
+
+          if (err.notFound) {
+            this.errMsg = 'No result';
+            return;
           }
-          return {
-            id: val.unionId,
-            name: val.nickname,
-            kind: val.kind
-          };
-        });
-      },
-      error: (errResp: HttpErrorResponse) => {
-        console.log(errResp);
 
-        const err = RequestError.fromResponse(errResp);
-
-        this.formService.enable(true);
-
-        if (err.notFound) {
-          this.errMsg = 'No result';
-          return;
+          this.errMsg = err.message;
         }
-
-        this.errMsg = err.message;
-      }
-    });
+      });
   }
 
   loadAccount(item: AccountItem) {

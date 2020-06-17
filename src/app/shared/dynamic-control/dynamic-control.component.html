@@ -9,7 +9,8 @@
       [id]="control.key"
       [type]="control.type"
       [placeholder]="control.placeholder"
-      [formControlName]="control.key"/>
+      [formControlName]="control.key"
+      [readonly]="control.readonly"/>
 
     <textarea *ngSwitchCase="'textarea'"
       class="form-control"

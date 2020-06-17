@@ -1,8 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ControlOptions } from '../widget/control';
 import { Button } from '../widget/button';
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
-import { FormService } from '../service/form.service';
 
 @Component({
   selector: 'app-search-form',
@@ -13,22 +12,19 @@ export class SearchFormComponent implements OnInit {
 
   @Input() control: ControlOptions;
   @Input() button: Button;
+  @Input() disabled = false;
+  @Output() submitted = new EventEmitter<string>();
 
   form: FormGroup;
-  disabled = false;
+
   errMsg: string;
 
-  constructor(
-    private formService: FormService,
-  ) { }
+  constructor() {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
       [this.control.key]: new FormControl(this.control.value, this.control.validators)
     });
-    this.formService.formEnabled$.subscribe(ok => {
-      this.disabled = !ok;
-    })
   }
 
   get formControl(): AbstractControl {
@@ -39,7 +35,7 @@ export class SearchFormComponent implements OnInit {
     return this.formControl.invalid;
   }
 
-  onSubmit() {
+  submit() {
     console.log('Submitting search keyword %o', this.form.getRawValue());
     console.log('Is invalid: %s', this.isInvalid);
 
@@ -50,7 +46,6 @@ export class SearchFormComponent implements OnInit {
       return;
     }
 
-    this.disabled = true;
-    this.formService.submit(JSON.stringify(this.form.getRawValue()));
+    this.submitted.emit(JSON.stringify(this.form.getRawValue()));
   }
 }
