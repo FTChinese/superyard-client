@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Credentials, PasswordsUpdater } from '../schema/form-data';
 import { Observable, of } from 'rxjs';
-import { JWTAccount, IProfile, IProfileForm } from '../schema/staff';
+import { JWTAccount, Profile, ProfileForm } from '../schema/staff';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/service/auth.service';
 
@@ -24,12 +24,12 @@ export class StaffService {
       );
   }
 
-  loadProfile(): Observable<IProfile> {
-    return this.http.get<IProfile>(`/api/settings/profile`);
+  loadProfile(): Observable<Profile> {
+    return this.http.get<Profile>(`/api/settings/profile`);
   }
 
-  updateProfile(formData: IProfileForm): Observable<boolean> {
-    return this.http.patch<IProfileForm>(
+  updateProfile(formData: ProfileForm): Observable<boolean> {
+    return this.http.patch<ProfileForm>(
         `/api/staff/${this.auth.account.id}`,
         formData,
         {

@@ -1,0 +1,32 @@
+<div class="row justify-content-center">
+  <div class="col-md-12 col-lg-8">
+    <ng-container *ngIf="profile">
+      <h2>{{ profile.displayName }}</h2>
+      <dl class="mb-3">
+        <dt>Login Name</dt>
+        <dd>{{profile.userName}}</dd>
+
+        <dt>Department</dt>
+        <dd>{{profile.department}}</dd>
+
+        <dt>Groups</dt>
+        <dd>{{profile.groupMembers}}</dd>
+
+        <dt>Created At</dt>
+        <dd>{{profile.createdAt}}</dd>
+
+        <dt>Last Login IP</dt>
+        <dd>{{profile.lastLoginIp}}</dd>
+      </dl>
+
+    </ng-container>
+
+    <hr>
+    <app-profile-form [profile]="profile"></app-profile-form>
+
+    <hr>
+    <app-password-form></app-password-form>
+
+  </div>
+</div>
+

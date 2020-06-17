@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IProfile } from 'src/app/data/schema/staff';
+import { Profile } from 'src/app/data/schema/staff';
 
 @Component({
   selector: 'app-staff-list',
@@ -8,7 +8,7 @@ import { IProfile } from 'src/app/data/schema/staff';
 })
 export class StaffListComponent implements OnInit {
 
-  profiles: IProfile[];
+  profiles: Profile[];
 
   constructor() { }
 

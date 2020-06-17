@@ -16,7 +16,7 @@ export interface JWTAccount extends StaffAccount {
   token: string;
 }
 
-export interface IProfile extends StaffAccount {
+export interface Profile extends StaffAccount {
   createdAt: string | null;
   deactiveatedAt: string | null;
   updatedAt: string | null;
@@ -24,4 +24,4 @@ export interface IProfile extends StaffAccount {
   lastLoginIp: string | null;
 }
 
-export type IProfileForm = Pick<StaffAccount, 'email' | 'displayName'>;
+export type ProfileForm = Pick<StaffAccount, 'email' | 'displayName'>;
