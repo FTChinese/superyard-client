@@ -4,6 +4,7 @@ export const siteBaseUrl = {
   apn: 'apn',
   oauth: 'oauth',
   readers: 'readers',
+  subs: 'subs',
   b2b: 'b2b',
   android: 'android',
   settings: 'settings',

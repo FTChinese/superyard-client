@@ -27,6 +27,10 @@ export class NavComponent implements OnInit {
       href: '/' + siteBaseUrl.readers,
     },
     {
+      name: 'Retail Subscription',
+      href: '/' + siteBaseUrl.subs,
+    },
+    {
       name: 'B2B Subscription',
       href: '/' + siteBaseUrl.b2b,
     },
