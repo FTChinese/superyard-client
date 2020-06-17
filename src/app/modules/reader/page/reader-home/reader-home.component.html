@@ -7,9 +7,10 @@
       [control]="searchControl"
       [button]="button"></app-search-form>
 
-    <div *ngIf="errMsg">{{errMsg}}</div>
+    <div *ngIf="errMsg" class="text-danger">{{errMsg}}</div>
 
-    <ul class="list-group" *ngIf="accountList && accountList.length > 0">
+    <ul class="list-group"
+      *ngIf="accountList && accountList.length > 0">
       <li *ngFor="let item of accountList"
         (click)="loadAccount(item)"
         class="list-group-item">
