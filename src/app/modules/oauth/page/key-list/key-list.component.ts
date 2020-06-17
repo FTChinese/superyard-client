@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { IAccessToken } from 'src/app/data/schema/oauth';
-import { OAuthService } from '../../../data/service/oauth.service';
 import { FormBuilder } from '@angular/forms';
 import { switchMap } from 'rxjs/operators';
+import { OAuthService } from 'src/app/data/service/oauth.service';
 
 @Component({
   selector: 'app-key-list',

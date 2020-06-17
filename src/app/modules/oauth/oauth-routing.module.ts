@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { RegistryComponent } from './registry/registry.component';
-import { NewAppComponent } from './new-app/new-app.component';
-import { UpdateAppComponent } from './update-app/update-app.component';
-import { KeyListComponent } from './key-list/key-list.component';
-import { AppListComponent } from './app-list/app-list.component';
+import { NewAppComponent } from './page/new-app/new-app.component';
+import { AppListComponent } from './page/app-list/app-list.component';
+import { UpdateAppComponent } from './page/update-app/update-app.component';
+import { KeyListComponent } from './page/key-list/key-list.component';
 
 const routes: Routes = [
   {

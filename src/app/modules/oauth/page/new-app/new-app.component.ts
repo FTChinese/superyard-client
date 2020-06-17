@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { IApiApp } from 'src/app/data/schema/oauth';
-import { AppFormService } from '../app-form.service';
-import { OAuthService } from '../../../data/service/oauth.service';
 import { switchMap } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RequestError } from 'src/app/data/schema/request-result';
+import { AppFormService } from '../../app-form.service';
+import { OAuthService } from 'src/app/data/service/oauth.service';
 
 @Component({
   selector: 'app-new-app',

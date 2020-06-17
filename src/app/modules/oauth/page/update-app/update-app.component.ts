@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { IApiApp, IAccessToken } from 'src/app/data/schema/oauth';
+import { OAuthService } from 'src/app//data/service/oauth.service';
 import { ActivatedRoute } from '@angular/router';
-import { AppFormService } from '../app-form.service';
-import { OAuthService } from '../../../data/service/oauth.service';
+import { AppFormService } from '../../app-form.service';
 import { switchMap } from 'rxjs/operators';
 
 @Component({
