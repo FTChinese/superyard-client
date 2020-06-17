@@ -9,6 +9,7 @@ import { KeyListComponent } from './page/key-list/key-list.component';
 import { AppFormComponent } from './component/app-form/app-form.component';
 import { RegistryComponent } from './component/registry/registry.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { NewTokenComponent } from './component/new-token/new-token.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     UpdateAppComponent,
     KeyListComponent,
     AppListComponent,
-    AppFormComponent
+    AppFormComponent,
+    NewTokenComponent
   ],
   imports: [
     CommonModule,
