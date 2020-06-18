@@ -1,0 +1,20 @@
+<div class="card">
+  <div class="card-header d-flex justify-content-center">
+    <h3>{{product.heading}}</h3>
+    <button class="btn btn-link">Edit</button>
+  </div>
+  <div class="card-body">
+    <ul>
+      <li *ngFor="let line of product.description">{{ line }}</li>
+    </ul>
+
+    <small *ngIf="product.smallPrint">{{product.smallPrint}}</small>
+
+    <div *ngFor="let plan of product.plans">
+
+      <app-plan
+        [plan]="plan"></app-plan>
+    </div>
+  </div>
+</div>
+

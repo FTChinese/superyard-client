@@ -30,14 +30,18 @@ const routes: Routes = [
         loadChildren: () => import('./modules/oauth/oauth.module').then(m => m.OauthModule),
       },
       {
+        path: siteBaseUrl.android,
+        loadChildren: () => import('./modules/android/android.module').then(m => m.AndroidModule),
+      },
+      {
         path: siteBaseUrl.readers,
         loadChildren: () => import('./modules/reader/reader.module').then(m => m.ReaderModule),
       },
       {
-        path: siteBaseUrl.android,
-        loadChildren: () => import('./modules/android/android.module').then(m => m.AndroidModule),
-      }
-    ]
+        path: 'products',
+        loadChildren: () => import('./modules/product/product.module').then(m => m.ProductModule),
+      },
+    ],
   },
   {
     path: '',
