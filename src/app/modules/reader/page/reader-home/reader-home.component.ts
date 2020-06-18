@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { AccountKind } from 'src/app/data/schema/enums';
+import { AccountKind } from 'src/app/data/schema/enum';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IBaseReader, IReaderAccount } from 'src/app/data/schema/reader';
 import { Observable } from 'rxjs';

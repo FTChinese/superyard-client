@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { IReaderAccount, IWxProfile, IFtcProfile } from 'src/app/data/schema/reader';
 import { zip } from 'rxjs';
-import { AccountKind } from 'src/app/data/schema/enums';
+import { AccountKind } from 'src/app/data/schema/enum';
 import { TableRow } from '../../account-item';
 import { ReaderService } from 'src/app/data/service/reader.service';
 

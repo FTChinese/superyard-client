@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { IReaderAccount } from 'src/app/data/schema/reader';
-import { SubStatus } from 'src/app/data/schema/enums';
+import { SubStatus } from 'src/app/data/schema/enum';
 
 interface Option {
   value: SubStatus;
@@ -48,7 +48,7 @@ export class EditMembershipComponent implements OnInit {
       text: 'Incomplete',
     },
     {
-      value: 'incomplate_expired',
+      value: 'incomplete_expired',
       text: 'Incomplete Expired',
     },
     {

@@ -1,4 +1,4 @@
-import { ApiKeyKind } from './enums';
+import { ApiKeyKind } from './enum';
 
 // IAppBase contains user submitted data only.
 // Backedn will add extra meta fields.
