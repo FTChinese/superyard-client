@@ -1,5 +1,6 @@
 @import "palette";
 
+// Override Bootstrap
 body {
   font-family: "Helvetica Neue", "Lucida Grande", Verdana, "PingFang SC",
     "PingFang TC", "Hiragino Sans GB", "Heiti SC", "Heiti TC",
@@ -16,20 +17,28 @@ table caption {
 }
 a {
   color: $color-teal;
-}
-
-a {
+  &.active {
+    color: $color-claret;
+  }
   &:hover {
     color: $color-black70;
   }
+}
+
+.navbar {
+  background-color: $color-paper;
+  color: $color-black80;
+  border-bottom: 1px solid $color-black20;
+}
+
+.nav {
+  border-right: 1px solid $color-claret;
 }
 
 .alert {
   border-radius: 0;
 }
 
-@import "header";
-@import "sidebar";
 @import "card";
 @import "button";
 @import "form";

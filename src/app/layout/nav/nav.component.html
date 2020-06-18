@@ -1,4 +1,15 @@
-<nav class="nav flex-column sidebar">
-  <a *ngFor="let item of navItems" class="nav-link" [routerLink]="item.href" routerLinkActive="active">{{ item.name }}</a>
-</nav>
+<ul class="nav flex-column">
+  <li class="nav-item" *ngFor="let item of navItems">
+    <a class="nav-link"
+      [routerLink]="item.href"
+      routerLinkActive="active">{{ item.name }}</a>
+    <ul class="nav flex-column ml-3" *ngIf="item.children">
+      <li class="nav-item" *ngFor="let child of item.children">
+        <a class="nav-link"
+          [routerLink]="[item.href, child.href]"
+          routerLinkActive="active">{{ child.name }}</a>
+      </li>
+    </ul>
+  </li>
+</ul>
 

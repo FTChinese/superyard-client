@@ -1,13 +1,17 @@
-<header class="o-header">
-  <div class="container d-flex justify-content-between">
-    <a class="navbar-brand" href="/">FTC CMS</a>
+<nav class="navbar navbar-expand-sm">
+  <a class="navbar-brand" href="/">FTC Admin CMS</a>
 
-    <div class="d-flx align-items-center" *ngIf="authService.isLoggedIn">
-      <a class="" routerLink="/settings">{{authService.displayName}}</a>
-
-      <button class="btn btn-link" (click)="logout()">Logout</button>
-    </div>
-  </div>
-</header>
+  <ul class="navbar-nav ml-auto">
+    <li class="nav-item">
+      <a class="nav-link"
+        routerLink="/settings"
+        routerLinkActive="active">{{authService.displayName}}</a>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link btn btn-link"
+        (click)="logout()">Logout</button>
+    </li>
+  </ul>
+</nav>
 
 

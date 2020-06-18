@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { siteBaseUrl } from '../sitemap';
-import { Link } from 'src/app/shared/widget/link';
+import { NavItem } from 'src/app/shared/widget/link';
 
 @Component({
   selector: 'app-nav',
@@ -9,7 +9,7 @@ import { Link } from 'src/app/shared/widget/link';
 })
 export class NavComponent implements OnInit {
 
-  navItems: Link[] = [
+  navItems: NavItem[] = [
     {
       name: 'Admin',
       href: '/' + siteBaseUrl.admin,
@@ -23,8 +23,16 @@ export class NavComponent implements OnInit {
       href: '/' + siteBaseUrl.oauth
     },
     {
+      name: 'Android Release',
+      href: '/' + siteBaseUrl.android,
+    },
+    {
       name: 'Readers',
       href: '/' + siteBaseUrl.readers,
+    },
+    {
+      name: 'Products',
+      href: '/products'
     },
     {
       name: 'Retail Subscription',
@@ -34,14 +42,7 @@ export class NavComponent implements OnInit {
       name: 'B2B Subscription',
       href: '/' + siteBaseUrl.b2b,
     },
-    {
-      name: 'Android',
-      href: '/' + siteBaseUrl.android,
-    },
-    {
-      name: 'Settings',
-      href: '/' + siteBaseUrl.settings,
-    }
+
   ];
 
   constructor() { }
