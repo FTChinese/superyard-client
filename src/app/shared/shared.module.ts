@@ -7,10 +7,14 @@ import { DynamicControlComponent } from './dynamic-control/dynamic-control.compo
 import { AlertComponent } from './alert/alert.component';
 import { SearchFormComponent } from './search-form/search-form.component';
 import { ToastComponent } from './toast/toast.component';
+import { CyclePipe } from './pipes/cycle.pipe';
+import { TierPipe } from './pipes/tier.pipe';
 
 @NgModule({
   declarations: [
     MarkedPipe,
+    TierPipe,
+    CyclePipe,
     DynamicFormComponent,
     DynamicControlComponent,
     AlertComponent,
@@ -27,6 +31,8 @@ import { ToastComponent } from './toast/toast.component';
     ReactiveFormsModule,
     AlertComponent,
     MarkedPipe,
+    TierPipe,
+    CyclePipe,
     SearchFormComponent,
     DynamicFormComponent,
     ToastComponent,
