@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
-import { AccountKind } from 'src/app/data/schema/enums';
+import { AccountKind } from 'src/app/data/schema/enum';
 import { IBaseReader, IReaderAccount, IFtcProfile, IActivity, IWxProfile, IWxLogin } from 'src/app/data/schema/reader';
 
 @Injectable({
