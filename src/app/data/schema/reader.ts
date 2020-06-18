@@ -7,7 +7,7 @@ import {
   Gender,
   Platform,
   ActivityKind,
-} from './enums';
+} from './enum';
 
 export interface ICredentials {
   email: string;
