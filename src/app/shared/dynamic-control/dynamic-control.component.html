@@ -19,10 +19,12 @@
       rows="10"></textarea>
 
     <select *ngSwitchCase="'dropdown'"
+      class="form-control"
       [id]="control.key"
       [formControlName]="control.key">
         <option *ngFor="let opt of control.options"
-          [value]="opt.key">{{opt.value}}</option>
+          [disabled]="opt.disabled"
+          [value]="opt.value">{{opt.name}}</option>
       </select>
 
     </ng-container>
