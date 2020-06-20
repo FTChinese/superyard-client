@@ -54,8 +54,7 @@ export class DynamicFormComponent implements OnInit {
 
   onSubmit() {
     const data = JSON.stringify(this.form.getRawValue());
-    console.log(data);
-    this.formService.submit('data');
+    this.formService.submit(data);
     this.form.disable();
     this.loading = true;
   }
