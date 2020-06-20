@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DynamicControl, InputControl, TextareaControl } from 'src/app/shared/widget/control';
+import { DynamicControl, InputControl, TextareaControl, DropdownControl } from 'src/app/shared/widget/control';
 import { Validators } from '@angular/forms';
 import { Button } from 'src/app/shared/widget/button';
 import { Product } from 'src/app/data/schema/product';
@@ -31,13 +31,23 @@ export class ProductFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.controls = [
-      new InputControl({
+      new DropdownControl({
         value: this.product.tier,
         key: 'tier',
         validators: [Validators.required],
         label: 'Tier',
-        type: 'text',
-        readonly: true,
+        options: [
+          {
+            disabled: !(this.product.tier === 'standard'),
+            name: 'Standard',
+            value: 'standard'
+          },
+          {
+            disabled: !(this.product.tier === 'premium'),
+            name: 'Premium',
+            value: 'premium',
+          }
+        ]
       }),
       new InputControl({
         value: this.product.heading,
@@ -61,7 +71,26 @@ export class ProductFormComponent implements OnInit {
         type: 'text',
         desc: 'Optional. Legal notice.'
       }),
+      new InputControl({
+        value: this.product.plans[0].price,
+        key: 'yearPrice',
+        validators: [Validators.required],
+        label: 'Yearly Price',
+        type: 'number',
+        desc: 'Required',
+      }),
     ];
+
+    if (this.product.plans.length > 1) {
+      this.controls.push(new InputControl({
+        value: this.product.plans[1].price,
+        key: 'monthPrice',
+        validators: [Validators.required],
+        label: 'Monthly Price',
+        type: 'number',
+        desc: 'Required'
+      }));
+    }
 
     this.formService.formSubmitted$.pipe(
       switchMap(data => {
