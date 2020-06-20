@@ -14,6 +14,8 @@ export class ProductHomeComponent implements OnInit {
     productPrm,
   ];
 
+  example = JSON.stringify(productStd, null, 2);
+
   constructor() { }
 
   ngOnInit(): void {

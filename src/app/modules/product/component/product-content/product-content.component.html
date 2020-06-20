@@ -1,0 +1,7 @@
+<h5 class="card-title text-center pb-2">{{product.heading}}</h5>
+
+<ul>
+  <li *ngFor="let line of product.description">{{ line }}</li>
+</ul>
+
+<small *ngIf="product.smallPrint">{{product.smallPrint}}</small>

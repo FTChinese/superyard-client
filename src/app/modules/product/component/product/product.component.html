@@ -1,20 +1,29 @@
 <div class="card">
-  <div class="card-header d-flex justify-content-center">
-    <h3>{{product.heading}}</h3>
-    <button class="btn btn-link">Edit</button>
+  <div class="card-header text-right">
+    <a [routerLink]="['list', product.id]">Edit</a>
   </div>
   <div class="card-body">
-    <ul>
-      <li *ngFor="let line of product.description">{{ line }}</li>
-    </ul>
 
-    <small *ngIf="product.smallPrint">{{product.smallPrint}}</small>
+    <app-product-content
+      [product]="product"></app-product-content>
 
-    <div *ngFor="let plan of product.plans">
+    <app-plan *ngFor="let plan of product.plans"
+      [plan]="plan"></app-plan>
 
-      <app-plan
-        [plan]="plan"></app-plan>
-    </div>
+  </div>
+
+  <div class="card-footer text-right">
+    <button class="btn btn-link" (click)="toggleEditing()">Create a new product based on this one</button>
   </div>
 </div>
+
+<ng-container *ngIf="isEditing">
+  <div class="d-flex justify-content-between">
+    <h5>New {{ product.tier }} product</h5>
+    <button class="btn btn-link" (click)="toggleEditing()">Cancel</button>
+  </div>
+  <app-product-form
+    [product]="product"></app-product-form>
+</ng-container>
+
 

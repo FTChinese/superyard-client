@@ -8,6 +8,30 @@
   </div>
 
   <div class="col-md-12 col-lg-6">
-    <router-outlet></router-outlet>
+    <h5>Guide</h5>
+    <p>A product is mostly designed to be immutable, which means you can add data to it, but cannot delete or modify its element. To change the description of a product, or the pricing plan, you must create a brand-new product and then set it as the default one.</p>
+
+    <p>However, you can add data to its components if any of them is empty.</p>
+
+    <p>A product consists of two parts:</p>
+
+    <ul>
+      <li>Description text shown to users. Required.</li>
+      <li>Array array of pricing plans for different billing cycles. Required</li>
+    </ul>
+
+    <p>When you create a new product, you only added data to the first part and the second part remains empty unitil to fill up. You cannot, however, modify the any of them once they are not empty.</p>
+
+    <p>A pricing plan consists of three components:</p>
+    <ul>
+      <li>Price and billing cycle. Required</li>
+      <li>Retailing discount with it effective time range. Optional</li>
+      <li>An array of tiered discounts targeting b2b customers. Opitonal</li>
+    </ul>
+
+    <p>The same immutable principle applies to any component of a pricing plan. For example, if you set the yearly pricing to 200.00, then you could never change it to another price. The only way you can do it create a brand-new product.</p>
+
+    <p>You can always add a tierd discount to B2B discounts. You cannot modify any exisiting one. Add only, no modify.</p>
+
   </div>
 </div>

@@ -10,6 +10,14 @@ export class PlanComponent implements OnInit {
 
   @Input() plan: Plan;
 
+  // Only yearly edition is allowed to enjoy discount.
+  get permitDiscount(): boolean {
+    if (!this.plan) {
+      return false;
+    }
+    return this.plan.cycle === 'year';
+  }
+
   get hasRetailDiscount(): boolean {
     if (!this.plan) {
       return false;
@@ -21,7 +29,6 @@ export class PlanComponent implements OnInit {
     if (!this.plan) {
       return false;
     }
-
     return this.plan.b2bDiscounts.length > 0;
   }
 
