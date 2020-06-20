@@ -1,7 +1,7 @@
 import { ValidatorFn } from '@angular/forms';
 
 type ControlType = 'textbox' | 'dropdown' | 'textarea';
-type InputType = 'text' | 'email' | 'password' | 'number' | 'url' | 'search';
+type InputType = 'text' | 'email' | 'password' | 'number' | 'url' | 'search' | 'date';
 
 /**
  * @description Represent the <opiton> element.
