@@ -1,3 +1,5 @@
+import { Product } from './product';
+
 export interface AccountFields {
   id: string;
   userName: string;
@@ -23,3 +25,13 @@ export type PasswordsUpdater = Pick<AccountFields, 'oldPassword' | 'password'>;
 export interface SearchForm {
   keyword: string;
 }
+
+type ProductBase = Pick<Product, 'tier' | 'heading' | 'smallPrint'>;
+
+export type ProductForm = ProductBase & {
+  description: string;
+};
+
+export type ProductReq = ProductBase & {
+  description: string[];
+};
