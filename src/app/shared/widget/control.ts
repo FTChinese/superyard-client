@@ -7,7 +7,8 @@ type InputType = 'text' | 'email' | 'password' | 'number' | 'url' | 'search' | '
  * @description Represent the <opiton> element.
  */
 interface OptionElement {
-  key: string;
+  disabled: boolean;
+  name: string;
   value: string;
 }
 
