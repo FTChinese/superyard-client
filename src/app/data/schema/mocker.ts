@@ -2,7 +2,7 @@ import { Plan, Product } from './product'
 
 const createdUtc = '2020-05-05T17:19:00Z';
 
-const planStdYear: Plan = {
+export const planStdYear: Plan = {
   id: 'plan_ICMPPM0UXcpZ',
   price: 258,
   currency: 'cny',
@@ -80,7 +80,7 @@ const planPrmYear: Plan = {
 };
 
 export const productStd: Product = {
-  id: 'standard_product',
+  id: 'prod_oj4ks8shj38',
   tier: 'standard',
   heading: '标准会员',
   description: [
@@ -93,7 +93,6 @@ export const productStd: Product = {
   ],
   smallPrint: null,
   createdUtc,
-  updatedUtc: createdUtc,
   plans: [
     planStdYear,
     planStdMonth,
@@ -101,7 +100,7 @@ export const productStd: Product = {
 }
 
 export const productPrm: Product = {
-  id: 'premium_product',
+  id: 'prod_35rbbrgz08c',
   tier: 'premium',
   heading: '高端会员',
   description: [
@@ -112,7 +111,6 @@ export const productPrm: Product = {
   ],
   smallPrint: '注：所有活动门票不可折算现金、不能转让、不含差旅与食宿',
   createdUtc,
-  updatedUtc: createdUtc,
   plans: [
     planPrmYear,
   ],
