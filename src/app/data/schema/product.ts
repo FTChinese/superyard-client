@@ -33,7 +33,6 @@ export interface Product {
   description: string[];
   smallPrint: string | null;
   createdUtc: string;
-  updatedUtc: string;
   plans: Plan[];
 }
 
