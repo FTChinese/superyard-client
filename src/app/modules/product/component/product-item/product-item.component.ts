@@ -9,6 +9,7 @@ import { BaseProduct } from 'src/app/data/schema/product';
 export class ProductItemComponent implements OnInit {
 
   @Input() product: BaseProduct;
+  @Input() showHeader = true;
 
   constructor() { }
 
