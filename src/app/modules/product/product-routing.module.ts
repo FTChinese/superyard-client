@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ProductHomeComponent } from './page/product-home/product-home.component';
-import { ProductListComponent } from './page/product-list/product-list.component';
-import { ProductUpdateComponent } from './page/product-update/product-update.component';
+import { BuilderComponent } from './page/builder/builder.component';
+import { ProductListComponent } from './component/product-list/product-list.component';
+import { PlanListComponent } from './component/plan-list/plan-list.component';
 
 const routes: Routes = [
   {
@@ -10,12 +11,18 @@ const routes: Routes = [
     component: ProductHomeComponent,
   },
   {
-    path: 'list',
-    component: ProductListComponent,
-  },
-  {
-    path: 'list/:id',
-    component: ProductUpdateComponent,
+    path: 'builder',
+    component: BuilderComponent,
+    children: [
+      {
+        path: 'products',
+        component: ProductListComponent,
+      },
+      {
+        path: 'plans',
+        component: PlanListComponent,
+      }
+    ]
   }
 ];
 

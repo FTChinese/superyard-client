@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col-md-12 col-lg-6">
+
+    <section>
+      <div class="d-flex justify-content-between">
+        <h3>产品描述</h3>
+        <a routerLink="products">Select from...</a>
+      </div>
+
+      <app-product-item
+        *ngIf="product"
+        [product]="product"></app-product-item>
+    </section>
+
+    <div class="mt-3 d-flex justify-content-between">
+      <h3>Pricing Plans</h3>
+      <a routerLink="plans">Select from...</a>
+    </div>
+    <section
+      *ngIf="product"
+      class="mt-3">
+      <h3>年</h3>
+
+      <app-plan-item
+        *ngIf="yearlyPlan"
+        [plan]="yearlyPlan"></app-plan-item>
+    </section>
+
+    <section
+      *ngIf="product && hasMonthPlan"
+      class="mt-3">
+      <h3>月</h3>
+
+      <div class="border p-3">
+        <app-plan-item
+          *ngIf="monthlyPlan"
+          [plan]="monthlyPlan"></app-plan-item>
+      </div>
+    </section>
+  </div>
+
+  <div class="col-md-12 col-lg-6">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+
+
+

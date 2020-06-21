@@ -2,11 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Plan } from 'src/app/data/schema/product';
 
 @Component({
-  selector: 'app-plan',
-  templateUrl: './plan.component.html',
-  styleUrls: ['./plan.component.scss']
+  selector: 'app-plan-item',
+  templateUrl: './plan-item.component.html',
+  styleUrls: ['./plan-item.component.scss']
 })
-export class PlanComponent implements OnInit {
+export class PlanItemComponent implements OnInit {
 
   @Input() plan: Plan;
 
