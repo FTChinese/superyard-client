@@ -9,6 +9,7 @@ import { Plan } from 'src/app/data/schema/product';
 export class PlanItemComponent implements OnInit {
 
   @Input() plan: Plan;
+  @Input() showHeader = false;
 
   // Only yearly edition is allowed to enjoy discount.
   get permitDiscount(): boolean {
