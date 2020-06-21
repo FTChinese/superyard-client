@@ -22,17 +22,22 @@ export interface Plan {
   tier: Tier;
   cycle: Cycle;
   createdUtc: string;
+  createdBy: string;
   retailDiscount: RetailDiscount;
   b2bDiscounts: B2BDiscount[];
 }
 
-export interface Product {
+export interface BaseProduct {
   id: string;
   tier: Tier;
   heading: string;
   description: string[];
   smallPrint: string | null;
   createdUtc: string;
+  createdBy: string;
+}
+
+export type Product = BaseProduct & {
   plans: Plan[];
 }
 

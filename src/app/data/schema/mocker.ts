@@ -1,4 +1,4 @@
-import { Plan, Product } from './product'
+import { Plan, Product, BaseProduct } from './product'
 
 const createdUtc = '2020-05-05T17:19:00Z';
 
@@ -9,6 +9,7 @@ export const planStdYear: Plan = {
   tier: 'standard',
   cycle: 'year',
   createdUtc,
+  createdBy: 'weiguo.ni',
   retailDiscount: {
     id: null,
     priceOff: 0,
@@ -32,13 +33,14 @@ export const planStdYear: Plan = {
   ]
 };
 
-const planStdMonth: Plan = {
+export const planStdMonth: Plan = {
   id: 'plan_wl5esy783d',
   price: 28,
   currency: 'cny',
   tier: 'standard',
   cycle: 'month',
   createdUtc,
+  createdBy: 'wegiuo.ni',
   retailDiscount: {
     id: null,
     priceOff: 0,
@@ -49,13 +51,14 @@ const planStdMonth: Plan = {
   b2bDiscounts: [],
 };
 
-const planPrmYear: Plan = {
+export const planPrmYear: Plan = {
   id: 'plan_5iIonqaehig4',
   price: 1998,
   currency: 'cny',
   tier: 'premium',
   cycle: 'year',
   createdUtc,
+  createdBy: 'weiguo.ni',
   retailDiscount: {
     id: null,
     priceOff: 0,
@@ -79,7 +82,7 @@ const planPrmYear: Plan = {
   ],
 };
 
-export const productStd: Product = {
+export const baseProdStd: BaseProduct = {
   id: 'prod_oj4ks8shj38',
   tier: 'standard',
   heading: '标准会员',
@@ -93,13 +96,10 @@ export const productStd: Product = {
   ],
   smallPrint: null,
   createdUtc,
-  plans: [
-    planStdYear,
-    planStdMonth,
-  ],
-}
+  createdBy: 'weiguo.ni',
+};
 
-export const productPrm: Product = {
+export const baseProdPrm: BaseProduct = {
   id: 'prod_35rbbrgz08c',
   tier: 'premium',
   heading: '高端会员',
@@ -111,7 +111,31 @@ export const productPrm: Product = {
   ],
   smallPrint: '注：所有活动门票不可折算现金、不能转让、不含差旅与食宿',
   createdUtc,
+  createdBy: 'weiguo.ni',
+};
+
+export const productStd: Product = {
+  ...baseProdStd,
+  plans: [
+    planStdYear,
+    planStdMonth,
+  ],
+};
+
+export const productPrm: Product = {
+  ...baseProdPrm,
   plans: [
     planPrmYear,
   ],
-}
+};
+
+export const plans = [
+  planStdMonth,
+  planStdYear,
+  planPrmYear,
+];
+
+export const baseProducts = [
+  baseProdStd,
+  baseProdPrm,
+];
