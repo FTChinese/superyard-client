@@ -14,6 +14,7 @@ import { ProductListComponent } from './component/product-list/product-list.comp
 import { ProductItemComponent } from './component/product-item/product-item.component';
 import { PlanItemComponent } from './component/plan-item/plan-item.component';
 import { PlanContentComponent } from './component/plan-content/plan-content.component';
+import { ManualComponent } from './component/manual/manual.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { PlanContentComponent } from './component/plan-content/plan-content.comp
     ProductItemComponent,
     PlanItemComponent,
     PlanContentComponent,
+    ManualComponent,
   ],
   imports: [
     CommonModule,
