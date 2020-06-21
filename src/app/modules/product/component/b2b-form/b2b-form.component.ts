@@ -17,7 +17,7 @@ export class B2bFormComponent implements OnInit {
       value: 0,
       key: 'threshold',
       validators: [Validators.required],
-      label: 'Threshold',
+      label: 'Threshold Copies',
       type: 'number',
       desc: 'The minimum copies to buy to enjoy this discount'
     }),
