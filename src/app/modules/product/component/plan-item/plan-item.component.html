@@ -8,8 +8,9 @@
       [plan]="plan"></app-plan-content>
   </div>
 
-  <div class="card-footer text-right">
-    <button class="btn btn-link">Set Retail Discount</button>
+  <div *ngIf="permitDiscount"
+    class="card-footer text-right">
+    <button *ngIf="!hasRetailDiscount" class="btn btn-link">Set Retail Discount</button>
     <button class="btn btn-link">Add B2B Discount</button>
   </div>
 </div>
