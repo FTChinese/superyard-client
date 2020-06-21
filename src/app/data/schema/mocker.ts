@@ -11,11 +11,9 @@ export const planStdYear: Plan = {
   createdUtc,
   createdBy: 'weiguo.ni',
   retailDiscount: {
-    id: null,
-    priceOff: 0,
-    startUtc: null,
-    endUtc: null,
-    createdUtc: null,
+    priceOff: 60,
+    startUtc: '2020-11-10T16:00:00T',
+    endUtc: '2020-11-10T16:00:00T',
   },
   b2bDiscounts: [
     {
@@ -42,11 +40,9 @@ export const planStdMonth: Plan = {
   createdUtc,
   createdBy: 'wegiuo.ni',
   retailDiscount: {
-    id: null,
     priceOff: 0,
     startUtc: null,
     endUtc: null,
-    createdUtc: null,
   },
   b2bDiscounts: [],
 };
@@ -60,11 +56,9 @@ export const planPrmYear: Plan = {
   createdUtc,
   createdBy: 'weiguo.ni',
   retailDiscount: {
-    id: null,
     priceOff: 0,
     startUtc: null,
     endUtc: null,
-    createdUtc: null,
   },
   b2bDiscounts: [
     {

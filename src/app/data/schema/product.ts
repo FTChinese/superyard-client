@@ -1,11 +1,9 @@
 import { Tier, Cycle } from './enum';
 
 interface RetailDiscount {
-  id: string | null; // null indicates no discount.
   priceOff: number;
   startUtc: string | null;
   endUtc: string | null;
-  createdUtc: string | null;
 }
 
 export interface B2BDiscount {
