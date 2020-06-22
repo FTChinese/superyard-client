@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { BaseProduct } from 'src/app/data/schema/product';
+import { ProductBuilderService } from 'src/app/core/service/product-builder.service';
 
 @Component({
   selector: 'app-product-item',
@@ -11,9 +12,13 @@ export class ProductItemComponent implements OnInit {
   @Input() product: BaseProduct;
   @Input() showHeader = true;
 
-  constructor() { }
+  constructor(
+    private builder: ProductBuilderService
+  ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  select() {
+    this.builder.selectProduct(this.product);
   }
-
 }
