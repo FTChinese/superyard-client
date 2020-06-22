@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Plan } from 'src/app/data/schema/product';
+import { ProductBuilderService } from 'src/app/core/service/product-builder.service';
 
 @Component({
   selector: 'app-plan-item',
@@ -9,7 +10,7 @@ import { Plan } from 'src/app/data/schema/product';
 export class PlanItemComponent implements OnInit {
 
   @Input() plan: Plan;
-  @Input() showHeader = false;
+  @Input() showHeader = true;
 
   // Only yearly edition is allowed to enjoy discount.
   get permitDiscount(): boolean {
@@ -20,9 +21,14 @@ export class PlanItemComponent implements OnInit {
     return this.plan && this.plan.retailDiscount.priceOff > 0;
   }
 
-  constructor() { }
+  constructor(
+    private builder: ProductBuilderService
+  ) { }
 
   ngOnInit(): void {
   }
 
+  select() {
+    this.builder.selectPlan(this.plan);
+  }
 }

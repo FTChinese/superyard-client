@@ -1,6 +1,7 @@
 <div class="card mb-3 text-center">
-  <div class="card-header text-right" *ngIf="showHeader">
-    <button class="btn btn-outline-primary">Use</button>
+  <div class="card-header d-flex justify-content-between" *ngIf="showHeader">
+    <span>{{ plan.tier | tier }}</span>
+    <button class="btn btn-outline-primary" (click)="select()">Use</button>
   </div>
 
   <div class="card-body">
