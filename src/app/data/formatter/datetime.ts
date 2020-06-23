@@ -18,10 +18,38 @@ function padZero(num: number): string {
   return num.toFixed().padStart(2, '0');
 }
 
-export function formatISOLocal(date: Date): string {
-  return `${date.getFullYear()}-${padZero(date.getMonth() + 1)}-${padZero(date.getDate())}T${padZero(date.getHours())}:${padZero(date.getMinutes())}:${padZero(date.getSeconds())}${isoOffset(date)}`;
+export function toISOTimeLocal(date: Date): string {
+  return [
+    padZero(date.getHours()),
+    padZero(date.getMinutes()),
+    padZero(date.getSeconds())
+  ]
+  .join(':') + isoOffset(date);
 }
 
-export function formatISOUtc(date: Date): string {
-  return `${date.getUTCFullYear()}-${padZero(date.getUTCMonth() + 1)}-${padZero(date.getUTCDate())}T${padZero(date.getUTCHours())}:${padZero(date.getUTCMinutes())}:${padZero(date.getUTCSeconds())}Z`;
+export function toISODatetimeLocal(date: Date): string {
+  return [
+    date.getFullYear(),
+    padZero(date.getMonth() + 1),
+    padZero(date.getDate()),
+  ]
+  .join('-') + `T${toISOTimeLocal(date)}`;
+}
+
+export function toISOTimeUtc(date: Date): string {
+  return [
+    padZero(date.getUTCHours()),
+    padZero(date.getUTCMinutes()),
+    padZero(date.getUTCSeconds())
+  ]
+  .join(':') + 'Z';
+}
+
+export function toISODatetimeUtc(date: Date): string {
+  return [
+    `${date.getUTCFullYear()}`,
+    padZero(date.getUTCMonth() + 1),
+    padZero(date.getUTCDate())
+  ]
+  .join('-') + `T${toISOTimeUtc(date)}Z`;
 }
