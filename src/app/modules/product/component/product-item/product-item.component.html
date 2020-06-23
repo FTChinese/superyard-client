@@ -7,7 +7,19 @@
       [product]="product"></app-product-content>
   </div>
   <div class="card-footer text-right">
-    <button class="btn btn-outline-primary">Duplicate</button>
+    <button class="btn btn-outline-primary" (click)="toggleDuplicate()">Duplicate</button>
   </div>
 </div>
+
+<section
+  *ngIf="isDuplicating"
+  class="mb-3 pb-3 border-bottom">
+  <h5>New product description for {{product.tier}}</h5>
+  <app-dynamic-form
+    [controls]="controls"
+    [button]="button"></app-dynamic-form>
+</section>
+
+
+
 
