@@ -7,19 +7,33 @@ import { Plan, BaseProduct } from 'src/app/data/schema/product';
 })
 export class ProductBuilderService {
 
-  private productSource = new Subject<BaseProduct>();
-  private planSource = new Subject<Plan>();
+  private prodSelectedSource = new Subject<BaseProduct>();
+  private planSelectedSource = new Subject<Plan>();
+  private prodCreatedSource = new Subject<BaseProduct>();
+  private planCreatedSource = new Subject<Plan>();
 
-  productSelected$ = this.productSource.asObservable();
-  planSelected$ = this.planSource.asObservable();
+  productSelected$ = this.prodSelectedSource.asObservable();
+  planSelected$ = this.planSelectedSource.asObservable();
+  productCreated$ = this.prodCreatedSource.asObservable();
+  planCreated$ = this.planCreatedSource.asObservable();
 
   constructor() { }
 
   selectProduct(p: BaseProduct) {
-    this.productSource.next(p);
+    this.prodSelectedSource.next(p);
+  }
+
+  createProduct(p: BaseProduct) {
+    this.prodCreatedSource.next(p);
+    this.prodSelectedSource.next(p);
   }
 
   selectPlan(p: Plan) {
-    this.planSource.next(p);
+    this.planSelectedSource.next(p);
+  }
+
+  createPlan(p: Plan) {
+    this.planCreatedSource.next(p);
+    this.planSelectedSource.next(p);
   }
 }
