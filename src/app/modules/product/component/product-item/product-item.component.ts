@@ -9,7 +9,7 @@ import { RequestError } from 'src/app/data/schema/request-result';
 import { ProductForm } from 'src/app/data/schema/form-data';
 import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { formatISOUtc } from 'src/app/data/formatter/datetime';
+import { toISODatetimeUtc } from 'src/app/data/formatter/datetime';
 
 @Component({
   selector: 'app-product-item',
@@ -51,7 +51,7 @@ export class ProductItemComponent implements OnInit {
           heading: formData.heading,
           description: formData.description.split('\n'),
           smallPrint: formData.smallPrint,
-          createdUtc: formatISOUtc(new Date()),
+          createdUtc: toISODatetimeUtc(new Date()),
           createdBy: 'weiguo.ni'
         });
         this.toggleDuplicate();
