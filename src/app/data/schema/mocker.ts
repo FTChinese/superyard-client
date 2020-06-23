@@ -12,8 +12,8 @@ export const planStdYear: Plan = {
   createdBy: 'weiguo.ni',
   retailDiscount: {
     priceOff: 60,
-    startUtc: '2020-11-10T16:00:00T',
-    endUtc: '2020-11-10T16:00:00T',
+    startUtc: '2020-11-10T16:00:00Z',
+    endUtc: '2020-11-10T16:00:00Z',
   },
   b2bDiscounts: [
     {
