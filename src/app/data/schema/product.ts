@@ -1,6 +1,6 @@
 import { Tier, Cycle } from './enum';
 
-interface RetailDiscount {
+export interface RetailDiscount {
   priceOff: number;
   startUtc: string | null;
   endUtc: string | null;
