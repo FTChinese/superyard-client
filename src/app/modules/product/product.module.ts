@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { ProductRoutingModule } from './product-routing.module';
 import { ProductHomeComponent } from './page/product-home/product-home.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ProductFormComponent } from './component/product-form/product-form.component';
 import { ProductContentComponent } from './component/product-content/product-content.component';
 import { B2bFormComponent } from './component/b2b-form/b2b-form.component';
 import { RetailFormComponent } from './component/retail-form/retail-form.component';
@@ -19,7 +18,6 @@ import { ManualComponent } from './component/manual/manual.component';
 
 @NgModule({
   declarations: [
-    ProductFormComponent,
     ProductContentComponent,
     ProductHomeComponent,
     ProductListComponent,
