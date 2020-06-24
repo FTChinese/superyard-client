@@ -42,7 +42,7 @@ export function toISOTimeUtc(date: Date): string {
     padZero(date.getUTCMinutes()),
     padZero(date.getUTCSeconds())
   ]
-  .join(':') + 'Z';
+  .join(':');
 }
 
 export function toISODatetimeUtc(date: Date): string {
