@@ -32,11 +32,16 @@ legend {
   border-color: $color-crimson;
 }
 
-.o-forms-input__error {
-  font-size:  14px;
-  line-height: 16px;
-  color: $color-crimson;
+.invalid-feedback {
   display: block;
-  position: relative;
-  margin-top: 4px;
+}
+
+.form-control.ng-touched.ng-valid {
+  border-color: $color-teal60;
+  color: $color-teal60;
+}
+
+.form-control.ng-touched.ng-invalid {
+  border-color: $color-crimson;
+  color: $color-crimson;
 }
