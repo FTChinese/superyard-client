@@ -1,4 +1,4 @@
-<div class="card mb-3 text-center">
+<div class="card mt-3 text-center">
   <div class="card-header d-flex justify-content-between" *ngIf="showHeader">
     <span>{{ plan.tier | tier }}</span>
     <button class="btn btn-outline-primary" (click)="select()">Use</button>
@@ -9,15 +9,17 @@
       [plan]="plan"></app-plan-content>
   </div>
 
-  <div
+  <div *ngIf="showFooter"
     class="card-footer text-right">
     <button
       class="btn btn-outline-primary"
-      (click)="toggleEdit()">Duplicate</button>
+      (click)="toggleEdit()">{{ duplicateBtn }}</button>
   </div>
 </div>
 
-<section
-  *ngIf="isEditing">
-
+<section *ngIf="isEditing"
+  class="border-bottom pb-3 mb-3">
+  <app-plan-form
+    [preset]="plan"
+    (created)="onCreated($event)"></app-plan-form>
 </section>
