@@ -13,7 +13,7 @@ const routes: Routes = [
     component: ProductHomeComponent,
   },
   {
-    path: 'plans/new',
+    path: 'builder/new-plan',
     component: PlanFormComponent,
   },
   {
