@@ -76,8 +76,6 @@ export class ProductBuilderService {
     return true;
   }
 
-
-
   private prodCreatedSource = new Subject<BaseProduct>();
   private planCreatedSource = new Subject<Plan>();
 
@@ -137,6 +135,9 @@ export class ProductBuilderService {
     this._plans.clear();
   }
 
+  // Used by ProductItemComponent when a new product is created
+  // by duplicating an existing one.
+  // It update current Product and notify other components of this event.
   createProduct(p: BaseProduct) {
     this.setProduct(p);
     this.prodCreatedSource.next(p);
