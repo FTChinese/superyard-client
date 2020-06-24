@@ -1,0 +1,141 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <fieldset>
+    <legend>Price and billing cycle</legend>
+
+    <div class="form-group">
+      <label
+        class="form-label"
+        for="tier">Tier</label>
+
+      <select class="form-control"
+        id="tier"
+        formControlName="tier">
+        <option *ngFor="let opt of tierOpts"
+          [disabled]="opt.disabled"
+          [value]="opt.value">{{opt.name}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label
+        class="form-label"
+        for="cycle">Cycle</label>
+
+      <select class="form-control"
+        id="cycle"
+        formControlName="cycle">
+        <option *ngFor="let opt of cycleOpts"
+          [disabled]="opt.disabled"
+          [value]="opt.value">{{opt.name}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label
+        class="form-label"
+        for="price">Price</label>
+
+      <input class="form-control"
+        id="price"
+        type="number"
+        formControlName="price"/>
+    </div>
+  </fieldset>
+
+  <fieldset formGroupName="retailDiscount">
+    <legend>Retail Discount</legend>
+
+    <div class="form-group">
+      <label
+        class="form-label"
+        for="priceOff">Price Off</label>
+
+      <input class="form-control"
+        id="priceOff"
+        type="number"
+        formControlName="priceOff"/>
+    </div>
+
+    <div class="form-group">
+      <label
+        class="form-label"
+        for="startUtc">Start time</label>
+
+      <input class="form-control"
+        id="startUtc"
+        type="date"
+        formControlName="startUtc"/>
+    </div>
+
+    <div class="form-group">
+      <label
+        class="form-label"
+        for="endUtc">End time</label>
+
+      <input class="form-control"
+        id="endUtc"
+        type="date"
+        formControlName="endUtc"/>
+    </div>
+  </fieldset>
+
+  <fieldset formArrayName="b2bDiscounts">
+    <legend>B2B Discounts</legend>
+
+    <div *ngFor="let b2bGroup of b2bDiscounts.controls let i=index"
+      class="border-bottom">
+      <div class="text-right">
+        <button
+          class="btn btn-link"
+          type="button"
+          (click)="removeB2b(i)">删除</button>
+      </div>
+
+      <div class="form-row" [formGroup]="b2bGroup">
+
+        <div class="form-group col">
+          <label class="form-label">Threshold Copies</label>
+          <input class="form-control"
+            type="number"
+            formControlName="threshold"/>
+
+          <div *ngIf="thresholdInvalid(i)"
+            class="invalid-feedback">
+            {{ thresholdErrMsg(i) }}
+          </div>
+
+          <small class="form-text text-muted">The minimum copies required to meet this price reduction.</small>
+        </div>
+        <div class="form-group col">
+          <label class="form-label">Price Off</label>
+          <input class="form-control"
+            type="number"
+            formControlName="priceOff"/>
+
+          <div *ngIf="priceOffInvalid(i)"
+            class="invalid-feedback">
+            {{ priceOffErrMsg(i) }}
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="text-right">
+      <button
+        type="button"
+        class="btn btn-link"
+        [disabled]="loading"
+        (click)="addB2b()">Add discount</button>
+    </div>
+  </fieldset>
+
+  <button
+    type="submit"
+    class="btn btn-primary"
+    [disabled]="!form.valid">
+    Create
+    <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status"></span>
+  </button>
+</form>
