@@ -22,10 +22,10 @@
       class="form-control"
       [id]="control.key"
       [formControlName]="control.key">
-        <option *ngFor="let opt of control.options"
-          [disabled]="opt.disabled"
-          [value]="opt.value">{{opt.name}}</option>
-      </select>
+      <option *ngFor="let opt of control.options"
+        [disabled]="opt.disabled"
+        [value]="opt.value">{{opt.name}}</option>
+    </select>
 
     </ng-container>
 
