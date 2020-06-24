@@ -9,6 +9,7 @@ import { SearchFormComponent } from './search-form/search-form.component';
 import { ToastComponent } from './toast/toast.component';
 import { CyclePipe } from './pipes/cycle.pipe';
 import { TierPipe } from './pipes/tier.pipe';
+import { ControlFeedbackComponent } from './control-feedback/control-feedback.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { TierPipe } from './pipes/tier.pipe';
     AlertComponent,
     SearchFormComponent,
     ToastComponent,
+    ControlFeedbackComponent,
   ],
   imports: [
     CommonModule,
@@ -36,6 +38,7 @@ import { TierPipe } from './pipes/tier.pipe';
     SearchFormComponent,
     DynamicFormComponent,
     ToastComponent,
+    ControlFeedbackComponent,
   ]
 })
 export class SharedModule { }
