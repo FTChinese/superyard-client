@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Plan, RetailDiscount, B2BDiscount } from 'src/app/data/schema/product';
+import { Plan } from 'src/app/data/schema/product';
 import { ProductBuilderService } from 'src/app/core/service/product-builder.service';
 
 @Component({
@@ -10,8 +10,15 @@ import { ProductBuilderService } from 'src/app/core/service/product-builder.serv
 export class PlanItemComponent implements OnInit {
 
   @Input() plan: Plan;
-  @Input() showHeader = true;
-  isEditing: false;
+  @Input() showHeader = true; // False when used under Preview section of BuilderComponent.
+  @Input() showFooter = true; // False when used as Preview inside NewPlanComponent.
+
+  isEditing = false;
+  get duplicateBtn(): string {
+    return this.isEditing
+      ? 'Cancel'
+      : 'Duplicate'
+  }
 
   constructor(
     private builder: ProductBuilderService
@@ -20,38 +27,22 @@ export class PlanItemComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  // When user clicked `Use` button.
   select() {
     this.builder.setPlan(this.plan);
   }
 
-  // Returing false indicates duplicate threshold field.
-  private addB2BDiscount(discount: B2BDiscount): boolean {
-    console.log('Add a new discount: %o', discount);
-
-    const index = this.plan.b2bDiscounts.findIndex(item => item.threshold >= discount.threshold);
-
-    console.log('B2B discounts found: %s', index);
-
-    if (index === -1) {
-      this.plan.b2bDiscounts.push(discount);
-      return true;
-    }
-
-    const foundElem = this.plan.b2bDiscounts[index];
-
-    console.log('Found element: %o', foundElem);
-
-    // The threshhold field should be unique in the whole array.
-    if (foundElem.threshold === discount.threshold) {
-      return false;
-    }
-    // Insert before index.
-
-    this.plan.b2bDiscounts.splice(index, 0, discount);
-    return true
+  // Show/hide PlanFormComponent.
+  toggleEdit() {
+    this.isEditing = !this.isEditing;
   }
 
-  toggleEdit() {
-
+  // When the hosted PlanFormComponents emit `created` event,
+  // update plan in ProductBuilderService and emit the Plan
+  // via the planCreated$ channel.
+  onCreated(p: Plan) {
+    // Host could subscribe to the planCreated$
+    this.builder.createPlan(p);
+    this.toggleEdit();
   }
 }
