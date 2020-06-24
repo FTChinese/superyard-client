@@ -1,4 +1,4 @@
-<div class="card mb-3">
+<div class="card mt-3">
   <div class="card-header text-right" *ngIf="showHeader">
     <button class="btn btn-outline-primary" (click)="select()">Use it</button>
   </div>
@@ -6,18 +6,18 @@
     <app-product-content
       [product]="product"></app-product-content>
   </div>
-  <div class="card-footer text-right">
-    <button class="btn btn-outline-primary" (click)="toggleDuplicate()">Duplicate</button>
+  <div *ngIf="showFooter"
+    class="card-footer text-right">
+    <button class="btn btn-outline-primary" (click)="toggleEdit()">{{ duplicateBtn }}</button>
   </div>
 </div>
 
-<section
-  *ngIf="isDuplicating"
+<section *ngIf="isEditing"
   class="mb-3 pb-3 border-bottom">
   <h5>New product description for {{product.tier}}</h5>
-  <app-dynamic-form
-    [controls]="controls"
-    [button]="button"></app-dynamic-form>
+  <app-product-form
+    [product]="product"
+    (created)="onCreated($event)"></app-product-form>
 </section>
 
 
