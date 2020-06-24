@@ -64,7 +64,7 @@ export class ProductItemComponent implements OnInit {
   }
 
   select() {
-    this.builder.selectProduct(this.product);
+    this.builder.setProduct(this.product);
   }
 
   toggleDuplicate() {

@@ -21,7 +21,7 @@ export class PlanItemComponent implements OnInit {
   }
 
   select() {
-    this.builder.selectPlan(this.plan);
+    this.builder.setPlan(this.plan);
   }
 
   // Returing false indicates duplicate threshold field.
