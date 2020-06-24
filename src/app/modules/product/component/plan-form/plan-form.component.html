@@ -14,6 +14,10 @@
           [disabled]="opt.disabled"
           [value]="opt.value">{{opt.name}}</option>
       </select>
+
+      <app-control-feedback
+        [control]="getControl('tier')"
+        [desc]="'Required'"></app-control-feedback>
     </div>
 
     <div class="form-group">
@@ -28,6 +32,10 @@
           [disabled]="opt.disabled"
           [value]="opt.value">{{opt.name}}</option>
       </select>
+
+      <app-control-feedback
+        [control]="getControl('cycle')"
+        [desc]="'Required'"></app-control-feedback>
     </div>
 
     <div class="form-group">
@@ -39,6 +47,10 @@
         id="price"
         type="number"
         formControlName="price"/>
+
+      <app-control-feedback
+        [control]="getControl('price')"
+        [desc]="'Required. Must be greater than 0'"></app-control-feedback>
     </div>
   </fieldset>
 
@@ -55,6 +67,10 @@
         id="priceOff"
         type="number"
         formControlName="priceOff"/>
+
+      <app-control-feedback
+        [control]="getControl('retailDiscount.priceOff')"
+        [desc]="'Optional. Only if you want to give retailing customers a discount during the specifid time range.'"></app-control-feedback>
     </div>
 
     <div class="form-group">
@@ -66,6 +82,10 @@
         id="startUtc"
         type="date"
         formControlName="startUtc"/>
+
+      <app-control-feedback
+        [control]="getControl('retailDiscount.startUtc')"
+        [desc]="'When should the discount starts. Required only if previous field is not empty'"></app-control-feedback>
     </div>
 
     <div class="form-group">
@@ -77,6 +97,9 @@
         id="endUtc"
         type="date"
         formControlName="endUtc"/>
+      <app-control-feedback
+        [control]="getControl('retailDiscount.endUtc')"
+        [desc]="'When will the discount ends. Required only if the previous field is not empty'"></app-control-feedback>
     </div>
   </fieldset>
 
@@ -101,12 +124,10 @@
             type="number"
             formControlName="threshold"/>
 
-          <div *ngIf="thresholdInvalid(i)"
-            class="invalid-feedback">
-            {{ thresholdErrMsg(i) }}
-          </div>
+          <app-control-feedback
+            [control]="thresholdControl(i)"
+            [desc]="'The minimum copies required to meet this price reduction.'"></app-control-feedback>
 
-          <small class="form-text text-muted">The minimum copies required to meet this price reduction.</small>
         </div>
         <div class="form-group col">
           <label class="form-label">Price Off</label>
@@ -114,10 +135,8 @@
             type="number"
             formControlName="priceOff"/>
 
-          <div *ngIf="priceOffInvalid(i)"
-            class="invalid-feedback">
-            {{ priceOffErrMsg(i) }}
-          </div>
+          <app-control-feedback
+            [control]="b2bPriceOff(i)"></app-control-feedback>
 
         </div>
       </div>
