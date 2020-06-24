@@ -1,0 +1,22 @@
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+
+    <div *ngIf="product; else productForm">
+      <div class="d-flex justify-content-between">
+        <h2>Product Created</h2>
+        <a class="btn btn-primary" routerLink="../">Back</a>
+      </div>
+
+      <app-product-item
+        [product]="product"
+        [showHeader]="false"
+        [showFooter]="false"></app-product-item>
+    </div>
+
+    <ng-template #productForm>
+      <h2>New Product Description</h2>
+      <app-product-form
+        (created)="onCreated($event)"></app-product-form>
+    </ng-template>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div *ngIf="plan; else planForm">
+      <div class="d-flex justify-content-between">
+        <h2>{{ plan.tier | tier }} created!</h2>
+        <a class="btn btn-primary" routerLink="../">Back</a>
+      </div>
+
+      <app-plan-item
+        [plan]="plan"
+        [showHeader]="false"
+        [showFooter]="false"></app-plan-item>
+    </div>
+
+    <ng-template #planForm>
+      <h2>New Pricing Plan</h2>
+      <app-plan-form
+        (created)="onCreated($event)"></app-plan-form>
+    </ng-template>
+  </div>
+</div>
+
+

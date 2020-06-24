@@ -5,7 +5,8 @@ import { BuilderComponent } from './page/builder/builder.component';
 import { ProductListComponent } from './component/product-list/product-list.component';
 import { PlanListComponent } from './component/plan-list/plan-list.component';
 import { ManualComponent } from './component/manual/manual.component';
-import { PlanFormComponent } from './component/plan-form/plan-form.component';
+import { NewPlanComponent } from './page/new-plan/new-plan.component';
+import { NewProductComponent } from './page/new-product/new-product.component';
 
 const routes: Routes = [
   {
@@ -14,7 +15,11 @@ const routes: Routes = [
   },
   {
     path: 'builder/new-plan',
-    component: PlanFormComponent,
+    component: NewPlanComponent,
+  },
+  {
+    path: 'builder/new-desc',
+    component: NewProductComponent,
   },
   {
     path: 'builder',
