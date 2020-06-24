@@ -1,4 +1,4 @@
-import { Product } from './product';
+import { Product, Plan } from './product';
 
 export interface AccountFields {
   id: string;
@@ -35,3 +35,5 @@ export type ProductForm = ProductBase & {
 export type ProductReq = ProductBase & {
   description: string[];
 };
+
+export type PlanForm = Omit<Plan, 'id' | 'createdUtc' | 'createdBy'>;
