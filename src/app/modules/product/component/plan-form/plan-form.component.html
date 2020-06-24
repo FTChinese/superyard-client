@@ -19,7 +19,7 @@
     <div class="form-group">
       <label
         class="form-label"
-        for="cycle">Cycle</label>
+        for="cycle">Billing Cycle</label>
 
       <select class="form-control"
         id="cycle"
@@ -42,7 +42,8 @@
     </div>
   </fieldset>
 
-  <fieldset formGroupName="retailDiscount">
+  <fieldset *ngIf="permitDiscount"
+    formGroupName="retailDiscount">
     <legend>Retail Discount</legend>
 
     <div class="form-group">
@@ -79,7 +80,8 @@
     </div>
   </fieldset>
 
-  <fieldset formArrayName="b2bDiscounts">
+  <fieldset *ngIf="permitDiscount"
+    formArrayName="b2bDiscounts">
     <legend>B2B Discounts</legend>
 
     <div *ngFor="let b2bGroup of b2bDiscounts.controls let i=index"
