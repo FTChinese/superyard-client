@@ -1,7 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators, AbstractControl } from '@angular/forms';
 import { Tier, Cycle } from 'src/app/data/schema/enum';
 import { Plan } from 'src/app/data/schema/product';
+import { PlanForm } from 'src/app/data/schema/form-data';
+import { toISODatetimeUtc } from 'src/app/data/formatter/datetime';
 
 interface SelectOption<T> {
   disabled: boolean;
@@ -17,47 +19,54 @@ interface SelectOption<T> {
 export class PlanFormComponent implements OnInit {
 
   @Input() preset: Plan;
+  @Output() created = new EventEmitter<Plan>();
 
   loading = false;
-  tierOpts: SelectOption<Tier>[] = [
-    {
-      disabled: !this.enableTier('standard'),
-      name: 'Standard',
-      value: 'standard',
-    },
-    {
-      disabled: !this.enableTier('premium'),
-      name: 'Premium',
-      value: 'premium',
-    },
-  ];
+  tierOpts: SelectOption<Tier>[];
+  cycleOpts: SelectOption<Cycle>[];
+  form: FormGroup
 
-  cycleOpts: SelectOption<Cycle>[] = [
-    {
-      disabled: !this.enableCycle('year'),
-      name: 'Year',
-      value: 'year',
-    },
-    {
-      disabled: !this.enableCycle('month'),
-      name: 'Month',
-      value: 'month',
-    },
-  ];
+  constructor() { }
 
-  // See https://netbasal.com/angular-reactive-forms-the-ultimate-guide-to-formarray-3adbe6b0b61a
-  // on how to use FormArray with FormGroup as element.
-  form: FormGroup = new FormGroup({
-    tier: new FormControl('', [Validators.required]),
-    cycle: new FormControl('', [Validators.required]),
-    price: new FormControl(0, [Validators.required, Validators.min(0)]),
-    retailDiscount: new FormGroup({
-      priceOff: new FormControl(0, [Validators.min(0)]),
-      startUtc: new FormControl(null),
-      endUtc: new FormControl(null)
-    }),
-    b2bDiscounts: new FormArray([]),
-  });;
+  ngOnInit(): void {
+    this.tierOpts = [
+      {
+        disabled: !this.enableTier('standard'),
+        name: 'Standard',
+        value: 'standard',
+      },
+      {
+        disabled: !this.enableTier('premium'),
+        name: 'Premium',
+        value: 'premium',
+      },
+    ];
+
+    this.cycleOpts = [
+      {
+        disabled: !this.enableCycle('year'),
+        name: 'Year',
+        value: 'year',
+      },
+      {
+        disabled: !this.enableCycle('month'),
+        name: 'Month',
+        value: 'month',
+      },
+    ]
+
+    this.form = new FormGroup({
+      tier: new FormControl(this.preset?.tier || '', [Validators.required]),
+      cycle: new FormControl(this.preset?.cycle || '', [Validators.required]),
+      price: new FormControl(this.preset?.price || 0, [Validators.required, Validators.min(0)]),
+      retailDiscount: new FormGroup({
+        priceOff: new FormControl(0, [Validators.min(0)]),
+        startUtc: new FormControl(null),
+        endUtc: new FormControl(null)
+      }),
+      b2bDiscounts: new FormArray([]),
+    });
+  }
 
   get b2bDiscounts() {
     return this.form.get('b2bDiscounts') as FormArray;
@@ -77,6 +86,14 @@ export class PlanFormComponent implements OnInit {
     }
 
     return this.preset.cycle === c;
+  }
+
+  get permitDiscount(): boolean {
+    if (!this.preset) {
+      return true;
+    }
+
+    return this.preset.cycle === 'year';
   }
 
   b2bThreshold(i: number): AbstractControl {
@@ -125,12 +142,8 @@ export class PlanFormComponent implements OnInit {
     return 'Unknow errors';
   }
 
-  constructor() { }
-
-  ngOnInit(): void {
-
-  }
-
+  // See https://netbasal.com/angular-reactive-forms-the-ultimate-guide-to-formarray-3adbe6b0b61a
+  // on how to use FormArray with FormGroup as element.
   addB2b() {
     this.b2bDiscounts.push(new FormGroup({
       threshold: new FormControl(0, Validators.required),
@@ -143,8 +156,42 @@ export class PlanFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.form.value);
+    const formData: PlanForm = this.form.value;
+    console.log(formData);
     this.form.disable();
     this.loading = true;
+    this.created.emit({
+      id: 'plan_new',
+      createdUtc: toISODatetimeUtc(new Date()),
+      createdBy: 'weiguo.ni',
+      ...formData,
+    });
   }
+
+  // Returing false indicates duplicate threshold field.
+  // private addB2BDiscount(discount: B2BDiscount): boolean {
+  //   console.log('Add a new discount: %o', discount);
+
+  //   const index = this.plan.b2bDiscounts.findIndex(item => item.threshold >= discount.threshold);
+
+  //   console.log('B2B discounts found: %s', index);
+
+  //   if (index === -1) {
+  //     this.plan.b2bDiscounts.push(discount);
+  //     return true;
+  //   }
+
+  //   const foundElem = this.plan.b2bDiscounts[index];
+
+  //   console.log('Found element: %o', foundElem);
+
+  //   // The threshhold field should be unique in the whole array.
+  //   if (foundElem.threshold === discount.threshold) {
+  //     return false;
+  //   }
+  //   // Insert before index.
+
+  //   this.plan.b2bDiscounts.splice(index, 0, discount);
+  //   return true
+  // }
 }
