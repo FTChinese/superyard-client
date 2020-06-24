@@ -3,6 +3,8 @@ import { BaseProduct, Plan, Product } from 'src/app/data/schema/product';
 import { Cycle, Tier } from 'src/app/data/schema/enum';
 import { Alert } from 'src/app/shared/widget/alert';
 import { ProductBuilderService } from 'src/app/core/service/product-builder.service';
+import { Button } from 'src/app/shared/widget/button';
+import { Link } from 'src/app/shared/widget/link';
 
 
 @Component({
@@ -11,6 +13,17 @@ import { ProductBuilderService } from 'src/app/core/service/product-builder.serv
   styleUrls: ['./builder.component.scss']
 })
 export class BuilderComponent implements OnInit {
+  dropBtn: Button = Button.primary().setName('Menu');
+  dropItems: Link[] = [
+    {
+      href: 'new-product',
+      name: 'Create a New Product'
+    },
+    {
+      href: 'new-plan',
+      name: 'Create a New Plan'
+    }
+  ];
 
   touched = false;
   // We divided a product into 3 components:

@@ -9,9 +9,15 @@
       [plan]="plan"></app-plan-content>
   </div>
 
-  <div *ngIf="permitDiscount"
+  <div
     class="card-footer text-right">
-    <button *ngIf="!hasRetailDiscount" class="btn btn-link">Set Retail Discount</button>
-    <button class="btn btn-link">Add B2B Discount</button>
+    <button
+      class="btn btn-outline-primary"
+      (click)="toggleEdit()">Duplicate</button>
   </div>
 </div>
+
+<section
+  *ngIf="isEditing">
+
+</section>
