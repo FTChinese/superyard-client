@@ -18,13 +18,27 @@ interface SelectOption<T> {
 })
 export class PlanFormComponent implements OnInit {
 
-  @Input() preset: Plan;
+  private selectedTier: Tier;
+  private selectedCycle: Cycle;
+
+  private _plan: Plan;
+  @Input() set preset(p: Plan) {
+    this._plan = p;
+    this.selectedCycle = p.cycle;
+    this.selectedTier = p.tier;
+  }
+
+  get preset(): Plan {
+    return this._plan;
+  }
+
   @Output() created = new EventEmitter<Plan>();
 
   loading = false;
   tierOpts: SelectOption<Tier>[];
   cycleOpts: SelectOption<Cycle>[];
   form: FormGroup
+
 
   constructor() { }
 
@@ -56,9 +70,18 @@ export class PlanFormComponent implements OnInit {
     ]
 
     this.form = new FormGroup({
-      tier: new FormControl(this.preset?.tier || '', [Validators.required]),
-      cycle: new FormControl(this.preset?.cycle || '', [Validators.required]),
-      price: new FormControl(this.preset?.price || 0, [Validators.required, Validators.min(0)]),
+      tier: new FormControl(
+        this.preset?.tier || '',
+        [Validators.required]
+      ),
+      cycle: new FormControl(
+        this.preset?.cycle || '',
+        [Validators.required]
+      ),
+      price: new FormControl(
+        this.preset?.price || 0,
+        [Validators.required, Validators.min(1)]
+      ),
       retailDiscount: new FormGroup({
         priceOff: new FormControl(0, [Validators.min(0)]),
         startUtc: new FormControl(null),
@@ -66,53 +89,70 @@ export class PlanFormComponent implements OnInit {
       }),
       b2bDiscounts: new FormArray([]),
     });
+
+    // Premium product is not allowed to have monthly subscripiton.
+    this.form.get('tier').valueChanges
+      .subscribe((tier: Tier) => {
+        this.selectedTier = tier;
+        this.cycleOpts[1].disabled = !this.enableCycle('month')
+      });
+
+    this.form.get('cycle').valueChanges
+      .subscribe((cycle: Cycle) => {
+        this.selectedCycle = cycle;
+      });
+  }
+
+  private enableTier(t: Tier): boolean {
+    if (!this.selectedTier) {
+      return true;
+    }
+
+    return this.selectedTier === t;
+  }
+
+  private enableCycle(c: Cycle): boolean {
+    // Option   Selected
+    // year  &  null  = true
+    // year  &  year  = true
+    // year  &  month = false
+    // ---------------------          selectedTier
+    // month &  null  = true    true &  null     = true
+    // month &  year  = false   true &  standard = true
+    // month &  month = true    true &  premium  = false
+    switch (c) {
+      case 'year':
+        return this.selectedCycle !== 'month';
+
+      case 'month':
+        if (this.selectedCycle === 'year') {
+          return false;
+        }
+        // Now the true cases left. Check if premium is selected.
+        return this.selectedTier !== 'premium';
+    }
+  }
+
+  get permitDiscount(): boolean {
+
+    if (!this.selectedCycle) {
+      return true;
+    }
+
+    return this.selectedCycle === 'year';
   }
 
   get b2bDiscounts() {
     return this.form.get('b2bDiscounts') as FormArray;
   }
 
-  private enableTier(t: Tier): boolean {
-    if (!this.preset) {
-      return true;
-    }
-
-    return this.preset.tier === t;
+  getControl(path: string): AbstractControl {
+    return this.form.get(path);
   }
 
-  private enableCycle(c: Cycle): boolean {
-    if (!this.preset) {
-      return true;
-    }
-
-    return this.preset.cycle === c;
-  }
-
-  get permitDiscount(): boolean {
-    if (!this.preset) {
-      return true;
-    }
-
-    return this.preset.cycle === 'year';
-  }
-
-  b2bThreshold(i: number): AbstractControl {
+  thresholdControl(i: number): AbstractControl {
     const group = this.b2bDiscounts[i] as FormGroup;
     return group.get('threshold');
-  }
-
-  thresholdInvalid(i: number): boolean {
-    const ctrl = this.b2bThreshold(i);
-    return ctrl.invalid && (ctrl.dirty || ctrl.touched);
-  }
-
-  thresholdErrMsg(i: number): string {
-    const errors = this.b2bThreshold(i).errors;
-    if (errors.required) {
-      return 'Please specify the minimum copies, or delete this row'
-    }
-
-    return 'Unknown errors';
   }
 
   b2bPriceOff(i: number): AbstractControl {
@@ -120,34 +160,12 @@ export class PlanFormComponent implements OnInit {
     return group.get('priceOff');
   }
 
-  priceOffInvalid(i: number): boolean {
-    const ctrl = this.b2bPriceOff(i);
-    return ctrl.invalid && (ctrl.dirty || ctrl.touched);
-  }
-
-  priceOffErrMsg(i: number): string {
-    const errors = this.b2bPriceOff(i).errors;
-    if (errors.required) {
-      return 'Please specify the discount amount';
-    }
-
-    if (errors.min) {
-      return 'Should not below 0';
-    }
-
-    if (errors.max) {
-      return 'Should not above the original price'
-    }
-
-    return 'Unknow errors';
-  }
-
   // See https://netbasal.com/angular-reactive-forms-the-ultimate-guide-to-formarray-3adbe6b0b61a
   // on how to use FormArray with FormGroup as element.
   addB2b() {
     this.b2bDiscounts.push(new FormGroup({
-      threshold: new FormControl(0, Validators.required),
-      priceOff: new FormControl(0, Validators.required)
+      threshold: new FormControl(0, [Validators.required, Validators.min(1)]),
+      priceOff: new FormControl(0, [Validators.required, Validators.min(1)])
     }));
   }
 
