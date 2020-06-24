@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Plan } from 'src/app/data/schema/product';
 import { planStdMonth, planStdYear, planPrmYear } from 'src/app/data/schema/mocker';
+import { ProductBuilderService } from 'src/app/core/service/product-builder.service';
 
 @Component({
   selector: 'app-plan-list',
@@ -15,9 +16,15 @@ export class PlanListComponent implements OnInit {
     planPrmYear,
   ];
 
-  constructor() { }
+  constructor(
+    private builderService: ProductBuilderService,
+  ) { }
 
   ngOnInit(): void {
+    this.builderService.planCreated$
+      .subscribe(plan => {
+        this.plans.unshift(plan);
+      });
   }
 
 }
