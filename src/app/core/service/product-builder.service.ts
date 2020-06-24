@@ -138,10 +138,12 @@ export class ProductBuilderService {
   }
 
   createProduct(p: BaseProduct) {
+    this.setProduct(p);
     this.prodCreatedSource.next(p);
   }
 
   createPlan(p: Plan) {
+    this.setPlan(p);
     this.planCreatedSource.next(p);
   }
 
