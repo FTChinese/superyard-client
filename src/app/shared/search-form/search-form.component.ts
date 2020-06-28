@@ -1,7 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ControlOptions } from '../widget/control';
-import { Button } from '../widget/button';
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
+
+interface RequestDone {
+  success: boolean;
+  error: string;
+}
 
 @Component({
   selector: 'app-search-form',
@@ -11,12 +15,20 @@ import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 export class SearchFormComponent implements OnInit {
 
   @Input() control: ControlOptions;
-  @Input() button: Button;
-  @Input() disabled = false;
+  // When should it be invisible:
+  // UI initiated;
+  // Request finished - success or not.
+  @Input() set done(m: string) {
+    this.inProgress = false;
+    if (m) {
+      this.errMsg = m;
+    }
+  }
+
   @Output() submitted = new EventEmitter<string>();
 
   form: FormGroup;
-
+  inProgress = false;
   errMsg: string;
 
   constructor() {}
@@ -46,6 +58,7 @@ export class SearchFormComponent implements OnInit {
       return;
     }
 
+    this.inProgress = true;
     this.submitted.emit(JSON.stringify(this.form.getRawValue()));
   }
 }

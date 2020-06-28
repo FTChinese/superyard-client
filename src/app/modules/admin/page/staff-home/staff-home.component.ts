@@ -21,9 +21,7 @@ export class StaffHomeComponent implements OnInit {
     desc: 'You can find an employee by searching user name, or create one if it is not found.'
   };
 
-  button: Button = Button
-    .primary()
-    .setName('Search');
+  requestResult = '';
 
   constructor(
     private router: Router,

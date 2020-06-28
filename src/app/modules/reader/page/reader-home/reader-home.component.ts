@@ -26,15 +26,9 @@ export class ReaderHomeComponent {
     desc: 'Search a reader by email or Wechat nickname'
   };
 
-  button: Button = Button
-    .primary()
-    .setName('Search');
-
-  disableSearch = false;
+  requestResult = '';
 
   accountList: AccountItem[];
-
-  errMsg: string;
 
   account: Observable<IReaderAccount>;
 
@@ -44,7 +38,6 @@ export class ReaderHomeComponent {
   }
 
   onSearch(data: string) {
-    this.disableSearch = true;
 
     const search: SearchForm = JSON.parse(data);
 
@@ -58,6 +51,8 @@ export class ReaderHomeComponent {
     this.readerService.search(search.keyword, kind)
       .subscribe({
         next: (reader: IBaseReader[]) => {
+          this.requestResult = '';
+
           console.log(reader);
           this.account = null;
           this.accountList = reader.map(val => {
@@ -80,14 +75,12 @@ export class ReaderHomeComponent {
 
           const err = RequestError.fromResponse(errResp);
 
-          this.disableSearch = false;
-
           if (err.notFound) {
-            this.errMsg = 'No result';
+            this.requestResult = 'No result';
             return;
           }
 
-          this.errMsg = err.message;
+          this.requestResult = err.message;
         }
       });
   }

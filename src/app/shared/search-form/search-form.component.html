@@ -10,7 +10,7 @@
           [placeholder]="control.placeholder"
           [formControlName]="control.key"/>
 
-        <div *ngIf="disabled" class="spinner-wrapper">
+        <div *ngIf="inProgress" class="spinner-wrapper">
           <span class="spinner-border spinner-border-sm" role="status"></span>
         </div>
       </div>
@@ -18,12 +18,9 @@
 
       <div class="input-group-append">
         <button
-          [disabled]="disabled"
-          [class]="button.classNames"
-          [type]="button.type">{{button.name}}
-
-
-        </button>
+          [disabled]="inProgress"
+          class="btn btn-primary"
+          type="submit">Search</button>
       </div>
 
     </div>

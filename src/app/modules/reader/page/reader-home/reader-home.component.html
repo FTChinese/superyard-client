@@ -5,8 +5,7 @@
 
     <app-search-form
       [control]="searchControl"
-      [button]="button"
-      [disabled]="disableSearch"
+      [done]="requestResult"
       (submitted)="onSearch($event)"></app-search-form>
 
     <div *ngIf="errMsg" class="text-danger">{{errMsg}}</div>
