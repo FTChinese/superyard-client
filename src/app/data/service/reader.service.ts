@@ -22,7 +22,7 @@ export class ReaderService {
   constructor(private http: HttpClient) { }
 
   search(q: string, kind: AccountKind): Observable<IBaseReader[]> {
-    return this.http.get<IBaseReader[]>('/api/readers/search', {
+    return this.http.get<IBaseReader[]>('/api/search/reader', {
       params: {
         q,
         kind
