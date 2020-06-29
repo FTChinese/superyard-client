@@ -5,11 +5,13 @@ import { Validators } from '@angular/forms';
 import { FormService } from 'src/app/shared/service/form.service';
 import { SearchForm } from 'src/app/data/schema/form-data';
 import { ActivatedRoute, Router } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-staff-home',
   templateUrl: './staff-home.component.html',
   styleUrls: ['./staff-home.component.scss'],
+  providers: [FormService],
 })
 export class StaffHomeComponent implements OnInit {
 
@@ -21,11 +23,10 @@ export class StaffHomeComponent implements OnInit {
     desc: 'You can find an employee by searching user name, or create one if it is not found.'
   };
 
-  requestResult = '';
-
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private formService: FormService,
   ) { }
 
   ngOnInit(): void {
@@ -35,16 +36,17 @@ export class StaffHomeComponent implements OnInit {
         this.searchControl.value = keyword;
       }
     });
-  }
 
-  onSearch(data: string) {
+    this.formService.formSubmitted$
+      .subscribe(data => {
+        const search: SearchForm = JSON.parse(data);
 
-    const search: SearchForm = JSON.parse(data);
-    console.log('Searching %o', search);
+        this.formService.enable(true);
 
-    this.router.navigate(['search-results'], {
-      relativeTo: this.route,
-      queryParams: search,
-    });
+        this.router.navigate(['search-results'], {
+          relativeTo: this.route,
+          queryParams: search,
+        });
+      })
   }
 }

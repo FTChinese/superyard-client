@@ -8,7 +8,8 @@
           [id]="control.key"
           type="search"
           [placeholder]="control.placeholder"
-          [formControlName]="control.key"/>
+          [formControlName]="control.key"
+          (focus)="clearError()"/>
 
         <div *ngIf="inProgress" class="spinner-wrapper">
           <span class="spinner-border spinner-border-sm" role="status"></span>

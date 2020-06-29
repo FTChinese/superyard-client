@@ -1,11 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ControlOptions } from '../widget/control';
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
-
-interface RequestDone {
-  success: boolean;
-  error: string;
-}
+import { FormService } from '../service/form.service';
 
 @Component({
   selector: 'app-search-form',
@@ -15,27 +11,33 @@ interface RequestDone {
 export class SearchFormComponent implements OnInit {
 
   @Input() control: ControlOptions;
-  // When should it be invisible:
-  // UI initiated;
-  // Request finished - success or not.
-  @Input() set done(m: string) {
-    this.inProgress = false;
-    if (m) {
-      this.errMsg = m;
-    }
-  }
-
-  @Output() submitted = new EventEmitter<string>();
 
   form: FormGroup;
   inProgress = false;
   errMsg: string;
 
-  constructor() {}
+  constructor(
+    private formService: FormService
+  ) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
       [this.control.key]: new FormControl(this.control.value, this.control.validators)
+    });
+
+    this.formService.errorReceived$.subscribe(reqErr => {
+      this.form.enable();
+      this.inProgress = false;
+      if (reqErr.notFound) {
+        this.errMsg = 'No result';
+        return;
+      }
+
+      this.errMsg = reqErr.message;
+    });
+
+    this.formService.formEnabled$.subscribe(ok => {
+      this.inProgress = false;
     });
   }
 
@@ -48,9 +50,6 @@ export class SearchFormComponent implements OnInit {
   }
 
   submit() {
-    console.log('Submitting search keyword %o', this.form.getRawValue());
-    console.log('Is invalid: %s', this.isInvalid);
-
     if (this.isInvalid) {
       console.log('Invalid search');
 
@@ -58,7 +57,12 @@ export class SearchFormComponent implements OnInit {
       return;
     }
 
+    this.clearError();
     this.inProgress = true;
-    this.submitted.emit(JSON.stringify(this.form.getRawValue()));
+    this.formService.submit(JSON.stringify(this.form.getRawValue()));
+  }
+
+  clearError() {
+    this.errMsg = '';
   }
 }

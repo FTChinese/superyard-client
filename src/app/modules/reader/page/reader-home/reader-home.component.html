@@ -4,9 +4,7 @@
   <div class="col-md-12 col-lg-8">
 
     <app-search-form
-      [control]="searchControl"
-      [done]="requestResult"
-      (submitted)="onSearch($event)"></app-search-form>
+      [control]="searchControl"></app-search-form>
 
     <ul class="list-group"
       *ngIf="accountList && accountList.length > 0">
