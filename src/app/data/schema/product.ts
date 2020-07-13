@@ -16,7 +16,7 @@ export interface B2BDiscount {
 export interface Plan {
   id: string;
   price: number;
-  currency: string
+  currency: string;
   tier: Tier;
   cycle: Cycle;
   createdUtc: string;
@@ -37,5 +37,5 @@ export interface BaseProduct {
 
 export type Product = BaseProduct & {
   plans: Plan[];
-}
+};
 
