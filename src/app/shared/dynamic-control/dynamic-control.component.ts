@@ -52,8 +52,6 @@ export class DynamicControlComponent {
   get errMsg(): string {
     const errors = this.formControl.errors;
 
-    console.log(errors);
-
     if (errors.required) {
       return `${this.control.label} is required`;
     }
