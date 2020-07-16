@@ -1,7 +1,8 @@
 <nav class="navbar navbar-expand-sm">
   <a class="navbar-brand" href="/">FTC Admin CMS</a>
 
-  <ul class="navbar-nav ml-auto">
+  <ul class="navbar-nav ml-auto"
+    *ngIf="authService.isLoggedIn">
     <li class="nav-item">
       <a class="nav-link"
         routerLink="/settings"
