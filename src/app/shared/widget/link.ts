@@ -5,4 +5,4 @@ export class Link {
 
 export type NavItem = Link & {
   children?: Link[];
-}
+};
