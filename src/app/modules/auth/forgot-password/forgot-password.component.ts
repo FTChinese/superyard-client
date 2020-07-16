@@ -6,8 +6,9 @@ import { Button } from 'src/app/shared/widget/button';
 import { EmailForm } from 'src/app/data/schema/form-data';
 import { authUrls } from 'src/app/layout/sitemap';
 import { switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
 import { RequestError, serviceNames } from 'src/app/data/schema/request-result';
+import { HttpErrorResponse } from '@angular/common/http';
+import { StaffService } from 'src/app/data/service/staff.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -39,22 +40,32 @@ export class ForgotPasswordComponent implements OnInit {
 
   constructor(
     private formService: FormService,
+    private staffService: StaffService
   ) { }
 
   ngOnInit(): void {
+    console.log(window.location);
+
     this.formService.formSubmitted$.pipe(
         switchMap(data => {
           const formData: EmailForm = JSON.parse(data);
-          return of(formData);
+          return this.staffService.forgotPassword({
+            ...formData,
+            sourceUrl: window.location.href,
+          });
         })
       )
       .subscribe({
-        next: data => {
-          console.log(data);
-          this.done = true;
+        next: ok => {
+          this.done = ok;
         },
-        error: err => {
-          this.formService.sendError(RequestError.fromResponse(err, serviceNames.forgotPassword));
+        error: (err: HttpErrorResponse) => {
+          this.formService.sendError(
+            new RequestError(
+              err,
+              serviceNames.forgotPassword
+            )
+          );
         }
       });
   }
