@@ -1,0 +1,15 @@
+<div class="dropdown"
+  (click)="switchMenu($event)">
+  <button class="dropdown-toggle"
+    [class]="button.classNames"
+    type="button">
+    {{button.name}}
+  </button>
+  <div *ngIf="on"
+    [style]="menuStyle"
+    class="dropdown-menu show">
+    <a *ngFor="let item of items"
+      class="dropdown-item"
+      [routerLink]="item.href">{{item.name}}</a>
+  </div>
+</div>
