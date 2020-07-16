@@ -34,6 +34,11 @@ export class Button {
       .setStyle('secondary');
   }
 
+  static menu(): Button {
+    return new Button()
+      .setStyle('light')
+  }
+
   constructor() {}
 
   setName(s: string): Button {
