@@ -30,6 +30,10 @@ const routes: Routes = [
         loadChildren: () => import('./modules/oauth/oauth.module').then(m => m.OauthModule),
       },
       {
+        path: siteBaseUrl.wiki,
+        loadChildren: () => import('./modules/wiki/wiki.module').then(m => m.WikiModule),
+      },
+      {
         path: siteBaseUrl.android,
         loadChildren: () => import('./modules/android/android.module').then(m => m.AndroidModule),
       },

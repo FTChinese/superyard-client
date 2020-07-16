@@ -23,6 +23,10 @@ export class NavComponent implements OnInit {
       href: '/' + siteBaseUrl.oauth
     },
     {
+      name: 'Wiki',
+      href: '/' + siteBaseUrl.wiki
+    },
+    {
       name: 'Android Release',
       href: '/' + siteBaseUrl.android,
     },

@@ -3,6 +3,7 @@ export const siteBaseUrl = {
   admin: 'admin',
   apn: 'apn',
   oauth: 'oauth',
+  wiki: 'wiki',
   readers: 'readers',
   subs: 'subs',
   b2b: 'b2b',
