@@ -1,4 +1,4 @@
-import { Plan, Product, BaseProduct } from './product'
+import { Plan, Product, BaseProduct } from './product';
 
 const createdUtc = '2020-05-05T17:19:00Z';
 
