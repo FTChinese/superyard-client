@@ -26,11 +26,12 @@ export const serviceNames = {
 // and status code as key.
 const statusCodeMessages: Record<string, string> = {
   logIn_404: 'Invalid credentials',
-}
+};
 
 export class RequestError {
   readonly message: string;
   readonly unprocessable?: Unprocessable;
+  readonly statusCode: number;
 
   /**
    * Two types of errors can occur. The server backend might reject the
@@ -56,12 +57,42 @@ export class RequestError {
    * }
    *
    * If the error neither come from Angular nor from API, for example, the server
-   * is down, then the `error` field will a string.
+   * is down, then the `error` field will be a string.
    */
   static fromResponse(
     errResp: HttpErrorResponse,
     serviceName: string = ''
   ): RequestError {
+
+    return new RequestError(
+      errResp,
+      serviceName,
+    );
+  }
+
+  /**
+   * @example
+   * HTTPErrorResponse:
+   * error: "Error occured while trying to proxy to: localhost:4200/api/login"
+   * headers: HttpHeaders {normalizedNames: Map(0), lazyUpdate: null, lazyInit: ƒ}
+   * message: "Http failure response for http://localhost:4200/api/login: 504 Gateway Timeout"
+   * name: "HttpErrorResponse"
+   * ok: false
+   * status: 504
+   * statusText: "Gateway Timeout"
+   * url: "http://localhost:4200/api/login"
+   */
+  constructor(
+    errResp: HttpErrorResponse,
+    readonly serviceName: string,
+  ) {
+    this.statusCode = errResp.status;
+
+    if (isString(errResp.error)) {
+      this.message = errResp.message;
+      return;
+    }
+
     /**
      * When errResp.error is ErrorEvent
      * interface ErrorEvent extends Event {
@@ -72,26 +103,15 @@ export class RequestError {
      *  readonly message: string;
      * }
      */
-    return new RequestError(
-      errResp.status,
-      serviceName,
-      errResp.error
-    );
-  }
-
-  constructor(
-    readonly statusCode: number,
-    readonly serviceName: string,
-    body: ErrorEvent | ApiErrorPayload
-  ) {
-
-    if (body instanceof ErrorEvent) {
-      this.message = body.message;
+    if (errResp.error instanceof ErrorEvent) {
+      this.message = errResp.error.error.message;
       return;
     }
 
-    this.message = body.message;
-    this.unprocessable = body.error;
+    const payload: ApiErrorPayload = errResp.error;
+
+    this.message = payload.message;
+    this.unprocessable = payload.error;
   }
 
   get badRequest(): boolean {
