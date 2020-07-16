@@ -77,7 +77,10 @@ export class LoginComponent implements OnInit{
         }
       },
       error: (errResp: HttpErrorResponse) => {
-        this.formService.sendError(RequestError.fromResponse(errResp, serviceNames.logIn));
+        console.log(errResp);
+        this.formService.sendError(
+          new RequestError(errResp, serviceNames.logIn)
+        );
       },
     });
   }
