@@ -17,6 +17,10 @@ export type EmailForm = Pick<AccountFields, 'email'>;
 
 export type PasswordResetForm = Pick<AccountFields, 'password' | 'confirmPassword'>;
 
+export type PasswordResetLetterReq = EmailForm & {
+  sourceUrl?: string
+};
+
 export type PasswordUpdateForm = Pick<AccountFields, 'oldPassword' | 'password' | 'confirmPassword'>;
 
 export type PasswordResetter = Pick<AccountFields, 'token' | 'password'>;
