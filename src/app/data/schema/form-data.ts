@@ -1,4 +1,5 @@
 import { Product, Plan } from './product';
+import { AndroidRelease } from './android';
 
 export interface AccountFields {
   id: string;
@@ -41,3 +42,5 @@ export type ProductReq = ProductBase & {
 };
 
 export type PlanForm = Omit<Plan, 'id' | 'createdUtc' | 'createdBy'>;
+
+export type ReleaseForm = Omit<AndroidRelease, 'createdAt' | 'updatedAt'>;
