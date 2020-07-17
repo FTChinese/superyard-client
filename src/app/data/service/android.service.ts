@@ -58,8 +58,8 @@ export class AndroidService {
     return this.http.get<AndroidRelease>(`/api/android/releases/${tag}`);
   }
 
-  updateRelease(release: AndroidRelease): Observable<boolean> {
-    return this.http.patch<AndroidRelease>(
+  updateRelease(release: ReleaseForm): Observable<boolean> {
+    return this.http.patch<ReleaseForm>(
       `/api/android/releases/${release.versionName}`,
       release,
       {
