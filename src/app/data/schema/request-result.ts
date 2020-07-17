@@ -17,7 +17,7 @@ function isString(x: any): x is string {
 }
 
 export const serviceNames = {
-  logIn: 'loginIn',
+  logIn: 'logIn',
   forgotPassword: 'forgotPassword',
 };
 
@@ -155,10 +155,10 @@ export class RequestError {
   }
 
   toString(): string {
-    const m = statusCodeMessages[`${this.serviceName}_${this.statusCode}`];
+    const key = statusCodeMessages[`${this.serviceName}_${this.statusCode}`];
 
-    if (m) {
-      return m;
+    if (key) {
+      return key;
     }
 
     return `Server error: ${this.statusCode} ${this.message}`;
