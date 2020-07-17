@@ -44,6 +44,7 @@ export class FormService {
 
   // Pass form data to parent host.
   submit(data: string) {
+    console.log('ForService: data submitted');
     this.formSubmittedSource.next(data);
   }
 
