@@ -51,7 +51,7 @@ export class DynamicFormComponent implements OnInit {
       } else {
         this.form.disable();
       }
-    })
+    });
   }
 
   onSubmit() {
@@ -62,7 +62,7 @@ export class DynamicFormComponent implements OnInit {
   }
 
   private setError(err: RequestError) {
-    console.log('Setting error manually');
+    console.log('DynamicFormComponent: setting errors manully');
 
     if (!err.unprocessable) {
       this.alertMsg = err.toString();
