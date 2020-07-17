@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DynamicControl } from '../widget/control';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ValidatorFn } from '@angular/forms';
 import { FormService } from '../service/form.service';
 import { Button } from '../widget/button';
 import { RequestError } from 'src/app/data/schema/request-result';
@@ -15,6 +15,7 @@ export class DynamicFormComponent implements OnInit {
 
   @Input() controls: DynamicControl[] = [];
   @Input() button: Button;
+  @Input() crossValidator: ValidatorFn;
 
   form: FormGroup;
   alert: Alert;
@@ -33,7 +34,8 @@ export class DynamicFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.form = this.formService.toFormGroup(this.controls);
+    this.form = this.formService.toFormGroup(this.controls, this.crossValidator);
+
     this.formService.created(this.form);
 
     this.formService.errorReceived$.subscribe(reqErr => {
