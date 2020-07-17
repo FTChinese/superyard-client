@@ -9,12 +9,10 @@ const routes: Routes = [
   {
     path: '',
     component: AndroidHomeComponent,
-    children: [
-      {
-        path: 'releases/:tag',
-        component: UpdateReleaseComponent,
-      }
-    ]
+  },
+  {
+    path: 'releases/:tag',
+    component: UpdateReleaseComponent,
   },
   {
     path: 'new',
