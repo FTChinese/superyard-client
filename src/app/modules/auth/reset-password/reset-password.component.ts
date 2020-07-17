@@ -89,36 +89,35 @@ export class ResetPasswordComponent implements OnInit {
       }
     });
 
-    this.formService.formSubmitted$.pipe(
-      switchMap(data => {
-        const formData: PasswordResetForm = JSON.parse(data);
-        const resetter: PasswordResetter = {
-          token: this.token,
-          password: formData.password,
-        };
+    this.formService.formSubmitted$.subscribe(data => {
+      const formData: PasswordResetForm = JSON.parse(data);
 
-        console.log(resetter);
-
-        return of(true);
-      })
-    )
-    .subscribe({
-      next: ok => {
-        if (ok) {
-          this.tokenState = TokenState.Used;
-        }
-      },
-      error: (err: HttpErrorResponse) => {
-        const errResp = new RequestError(err, serviceNames.forgotPassword);
-
-        if (errResp.notFound) {
-          this.tokenState = TokenState.NotFound;
-          this.formService.enable(true);
-          return;
-        }
-
-        this.formService.sendError(errResp);
-      }
+      this.resetPassword({
+        token: this.token,
+        password: formData.password,
+      });
     });
+  }
+
+  private resetPassword(resetter: PasswordResetter) {
+    this.staffService.resetPassword(resetter)
+      .subscribe({
+        next: ok => {
+          if (ok) {
+            this.tokenState = TokenState.Used;
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          const errResp = new RequestError(err, serviceNames.forgotPassword);
+
+          if (errResp.notFound) {
+            this.tokenState = TokenState.NotFound;
+            this.formService.enable(true);
+            return;
+          }
+
+          this.formService.sendError(errResp);
+        }
+      });
   }
 }
