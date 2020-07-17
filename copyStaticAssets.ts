@@ -1,7 +1,7 @@
 import * as shell from 'shelljs';
 
-const targetDir = '../server/dist/public/static';
-shell.mkdir('-p', targetDir);
-shell.cp('dist/client/*.js', targetDir);
-shell.cp('dist/client/*.css', targetDir);
-shell.cp('dist/*.html', '../server/views/assets');
+const htmlDir = '../superyard/web/views';
+shell.mkdir('-p', htmlDir);
+// shell.cp('dist/client/*.js', targetDir);
+// shell.cp('dist/client/*.css', targetDir);
+shell.cp('dist/home.html', htmlDir);
