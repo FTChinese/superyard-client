@@ -52,36 +52,46 @@ export class LoginComponent implements OnInit{
   ) { }
 
   ngOnInit(): void {
-    this.formService.formSubmitted$.pipe(
-      switchMap(data => {
-        console.log('Credentials submitted');
-        const credentials: Credentials = JSON.parse(data);
+    // Here I meet a problem I didn't understand.
+    // If I write codes this way:
+    // this.formService.formSubmitted$
+    //  .pipe( ... return this.staffService.login())//  .subsicrbe(...)
+    // If there is error in subscribe, and you re-submitted
+    // the data, the form cannot receive the submmited
+    // data.
+    // It seems we must subsribe on formSubmitted$ directly.
+    this.formService.formSubmitted$.subscribe(data => {
+      console.log('LoginComponent: received form data');
+      const credentials: Credentials = JSON.parse(data);
 
-        return this.staffService.login(credentials);
-      })
-    )
-    .subscribe({
-      next: data => {
-        console.log(data);
-        this.authService.loggedIn(data);
-
-        if (this.authService.isLoggedIn) {
-          const redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : '/';
-
-          const navigationExtras: NavigationExtras = {
-            queryParamsHandling: 'preserve',
-            preserveFragment: true,
-          };
-
-          this.router.navigateByUrl(redirect, navigationExtras);
-        }
-      },
-      error: (errResp: HttpErrorResponse) => {
-        console.log(errResp);
-        this.formService.sendError(
-          new RequestError(errResp, serviceNames.logIn)
-        );
-      },
+      this.logIn(credentials);
     });
+  }
+
+  private logIn(c: Credentials) {
+    this.staffService.login(c)
+      .subscribe({
+        next: data => {
+          console.log(data);
+          this.authService.loggedIn(data);
+
+          if (this.authService.isLoggedIn) {
+            const redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : '/';
+
+            const navigationExtras: NavigationExtras = {
+              queryParamsHandling: 'preserve',
+              preserveFragment: true,
+            };
+
+            this.router.navigateByUrl(redirect, navigationExtras);
+          }
+        },
+        error: (errResp: HttpErrorResponse) => {
+          console.log(errResp);
+          this.formService.sendError(
+            new RequestError(errResp, serviceNames.logIn)
+          );
+        },
+      });
   }
 }
