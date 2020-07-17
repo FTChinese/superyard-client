@@ -9,9 +9,9 @@
 
 import { resolve } from 'path';
 import { promises, link } from 'fs';
-import render from './render';
-import { Assets, parse } from './parser';
-import { HTMLTag } from './html-tag';
+import render from './lib/render';
+import { Assets, parse } from './lib/parser';
+import { HTMLTag } from './lib/html-tag';
 
 
 const { writeFile } = promises;
