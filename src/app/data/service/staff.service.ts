@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Credentials, PasswordsUpdater, PasswordResetLetterReq } from '../schema/form-data';
+import { Credentials, PasswordsUpdater, PasswordResetLetterReq, PasswordResetter, EmailForm } from '../schema/form-data';
 import { Observable, of } from 'rxjs';
 import { JWTAccount, Profile, ProfileForm } from '../schema/staff';
 import { switchMap } from 'rxjs/operators';
@@ -36,6 +36,22 @@ export class StaffService {
       .pipe(
         switchMap(resp => of(resp.status === 204))
       );
+  }
+
+  verifyPwResetToken(token: string): Observable<EmailForm> {
+    return this.http
+      .get<EmailForm>(`/api/password-reset/tokens/${token}`);
+  }
+
+  resetPassword(resetter: PasswordResetter): Observable<boolean> {
+    return this.http.post<PasswordResetter>(
+      '/api/password-reset',
+      resetter,
+      {
+        observe: 'response'
+      }
+    )
+    .pipe(switchMap(resp => of(resp.status === 204)));
   }
 
   loadProfile(): Observable<Profile> {
