@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { DynamicControl } from '../widget/control';
+import { DynamicControl, ControlError } from '../widget/control';
 import { FormGroup, AbstractControl } from '@angular/forms';
 
 @Component({
@@ -20,37 +20,9 @@ export class DynamicControlComponent {
     return this.formControl.invalid && (this.formControl.dirty || this.formControl.touched);
   }
 
-  // {
-  //   min?: {
-  //     min: number,
-  //     actual: number
-  //   };
-  //   max?: {
-  //     max: number,
-  //     actual: number
-  //   };
-  //   required?: true;
-  //   email?: true;
-  //   minLength?: {
-  //     requiredLength: number,
-  //     acutualLength: number
-  //   };
-  //   maxLength?: {
-  //     requiredLength: number,
-  //     acutualLength: number
-  //   };
-  //   pattern?: {
-  //     requiredPattern: string,
-  //     actualValue: string
-  //   };
-  // API response errors:
-  //   minssing: string,
-  //   missing_field: string,
-  //   invalid: string,
-  //   already_exists: string,
-  // }
   get errMsg(): string {
-    const errors = this.formControl.errors;
+    const errors: ControlError = this.formControl.errors;
+    console.log(errors);
 
     if (errors.required) {
       return `${this.control.label} is required`;
@@ -60,20 +32,24 @@ export class DynamicControlComponent {
       return 'Please provide a valid email';
     }
 
+    if (errors.mismatched) {
+      return `${this.control.label} does not match your previous input`;
+    }
+
     if (errors.min) {
-      return 'Too low';
+      return `${this.control.label} should not be lower than ${errors.min.min}`;
     }
 
     if (errors.max) {
-      return 'Too high';
+      return `${this.control.label} should not be greater than ${errors.max.max}`;
     }
 
     if (errors.minLength) {
-      return 'Too short';
+      return `${this.control.label} should have a minimum length of ${errors.minLength.requiredLength}`;
     }
 
     if (errors.maxLength) {
-      return 'Too long';
+      return `${this.control.label} should have a maximun length of ${errors.maxLength.requiredLength}`;
     }
 
     if (errors.pattern) {
@@ -85,11 +61,11 @@ export class DynamicControlComponent {
     }
 
     if (errors.missing_field) {
-      return `The value for ${this.control.label} is missing`;
+      return `${this.control.label} is required`;
     }
 
     if (errors.invalid) {
-      return errors.invalid;
+      return `The value you entered is invalid`;
     }
 
     if (errors.already_exists) {
