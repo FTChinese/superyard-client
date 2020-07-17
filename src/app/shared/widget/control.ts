@@ -94,3 +94,36 @@ export class TextareaControl extends DynamicControl {
     super(opts);
   }
 }
+
+/**
+ * @description Defines the form control error fields.
+ */
+export interface ControlError {
+  min?: {
+    min: number;
+    actual: number;
+  };
+  max?: {
+    max: number;
+    actual: number;
+  };
+  required?: boolean;
+  email?: boolean;
+  mismatched?: boolean;
+  minLength?: {
+    requiredLength: number;
+    actualLength: number;
+  };
+  maxLength?: {
+    requiredLength: number;
+    actualLength: number;
+  };
+  pattern?: {
+    requiredPattern: string;
+    actualValue: string;
+  };
+  missing?: boolean;
+  missing_field?: boolean;
+  invalid?: boolean;
+  already_exists?: boolean;
+}
