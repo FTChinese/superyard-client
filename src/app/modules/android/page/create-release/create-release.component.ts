@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { switchMap } from 'rxjs/operators';
-import { IRelease, IReleaseBase } from 'src/app/data/schema/android';
+import { AndroidRelease } from 'src/app/data/schema/android';
 import { Button } from 'src/app/shared/widget/button';
 import { ControlOptions } from 'src/app/shared/widget/control';
 import { Validators } from '@angular/forms';
 import { FormService } from 'src/app/shared/service/form.service';
-import { SearchForm } from 'src/app/data/schema/form-data';
+import { SearchForm, ReleaseForm } from 'src/app/data/schema/form-data';
 import { AndroidService } from 'src/app/data/service/android.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RequestError } from 'src/app/data/schema/request-result';
@@ -30,7 +30,7 @@ export class CreateReleaseComponent {
     .primary()
     .setName('Find');
 
-  release: IRelease;
+  release: AndroidRelease;
 
   constructor(
     private androidService: AndroidService,
@@ -77,7 +77,7 @@ export class CreateReleaseComponent {
       });
   }
 
-  onSubmit(release: IReleaseBase) {
+  onSubmit(release: ReleaseForm) {
     console.log(release);
     this.androidService.createRelease(release)
       .subscribe({

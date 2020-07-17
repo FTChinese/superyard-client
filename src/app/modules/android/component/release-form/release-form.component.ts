@@ -1,9 +1,10 @@
 import { Component, Input, EventEmitter, Output, OnInit} from '@angular/core';
-import { IRelease, IReleaseBase } from 'src/app/data/schema/android';
+import { AndroidRelease } from 'src/app/data/schema/android';
 import { Validators } from '@angular/forms';
 import { DynamicControl, InputControl, TextareaControl } from 'src/app/shared/widget/control';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
+import { ReleaseForm } from 'src/app/data/schema/form-data';
 
 @Component({
   selector: 'app-release-form',
@@ -13,10 +14,10 @@ import { FormService } from 'src/app/shared/service/form.service';
 })
 export class ReleaseFormComponent implements OnInit {
   // tslint:disable-next-line:variable-name
-  private _release: IRelease;
+  private _release: AndroidRelease;
 
   @Input()
-  set release(release: IRelease) {
+  set release(release: AndroidRelease) {
     this._release = release;
 
     this.dynamicControls.forEach((ctrl, i) => {
@@ -27,11 +28,11 @@ export class ReleaseFormComponent implements OnInit {
     });
   }
 
-  get release(): IRelease {
+  get release(): AndroidRelease {
     return this._release;
   }
 
-  @Output() submitted = new EventEmitter<IReleaseBase>();
+  @Output() submitted = new EventEmitter<ReleaseForm>();
 
   dynamicControls: DynamicControl[] = [
     new InputControl({
@@ -71,7 +72,7 @@ export class ReleaseFormComponent implements OnInit {
   ngOnInit(): void {
     this.formService.formSubmitted$
       .subscribe(data => {
-        const formData: IReleaseBase = JSON.parse(data);
+        const formData: ReleaseForm = JSON.parse(data);
 
         this.submitted.emit(formData);
       });

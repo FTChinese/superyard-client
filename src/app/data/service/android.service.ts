@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, pipe } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { IRelease, IReleaseBase } from '../schema/android';
+import { AndroidRelease } from '../schema/android';
+import { ReleaseForm } from '../schema/form-data';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +14,12 @@ export class AndroidService {
     private http: HttpClient,
   ) { }
 
-  ghLatest(): Observable<IRelease> {
-    return this.http.get<IRelease>('/api/android/gh/latest');
+  ghLatest(): Observable<AndroidRelease> {
+    return this.http.get<AndroidRelease>('/api/android/gh/latest');
   }
 
-  ghRelease(tag: string): Observable<IRelease> {
-    return this.http.get<IRelease>(`/api/android/gh/tags/${tag}`);
+  ghRelease(tag: string): Observable<AndroidRelease> {
+    return this.http.get<AndroidRelease>(`/api/android/gh/tags/${tag}`);
   }
   /**
    * @description Checks whether the specified version exists in database.
@@ -33,8 +34,8 @@ export class AndroidService {
   /**
    * @description Create a new android release.
    */
-  createRelease(release: IReleaseBase): Observable<boolean> {
-    return this.http.post<IReleaseBase>(
+  createRelease(release: ReleaseForm): Observable<boolean> {
+    return this.http.post<ReleaseForm>(
       '/api/android/releases',
       release,
       {
@@ -49,16 +50,16 @@ export class AndroidService {
   /**
    * @description Show all android releases.
    */
-  listReleases(): Observable<IRelease[]> {
-    return this.http.get<IRelease[]>('/api/android/releases');
+  listReleases(): Observable<AndroidRelease[]> {
+    return this.http.get<AndroidRelease[]>('/api/android/releases');
   }
 
-  loadRelease(tag: string): Observable<IRelease> {
-    return this.http.get<IRelease>(`/api/android/releases/${tag}`);
+  loadRelease(tag: string): Observable<AndroidRelease> {
+    return this.http.get<AndroidRelease>(`/api/android/releases/${tag}`);
   }
 
-  updateRelease(release: IReleaseBase): Observable<boolean> {
-    return this.http.patch<IReleaseBase>(
+  updateRelease(release: AndroidRelease): Observable<boolean> {
+    return this.http.patch<AndroidRelease>(
       `/api/android/releases/${release.versionName}`,
       release,
       {

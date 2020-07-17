@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
-import { IRelease } from 'src/app/data/schema/android';
+import { AndroidRelease } from 'src/app/data/schema/android';
 import { AndroidService } from 'src/app/data/service/android.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { AndroidService } from 'src/app/data/service/android.service';
 })
 export class UpdateReleaseComponent implements OnInit {
 
-  release: IRelease;
+  release: AndroidRelease;
 
   constructor(
     private route: ActivatedRoute,
@@ -33,7 +33,7 @@ export class UpdateReleaseComponent implements OnInit {
     });
   }
 
-  onSubmit(release: IRelease) {
+  onSubmit(release: AndroidRelease) {
     console.log('Update a release %o', release);
   }
 }
