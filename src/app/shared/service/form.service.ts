@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { RequestError } from '../../data/schema/request-result';
 import { DynamicControl } from '../widget/control';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 
 @Injectable()
 export class FormService {
@@ -21,7 +21,7 @@ export class FormService {
   // Tells child to show any HTTP request error..
   errorReceived$ = this.errorsSource.asObservable();
 
-  toFormGroup(configs: DynamicControl[]): FormGroup {
+  toFormGroup(configs: DynamicControl[], crossValidator?: ValidatorFn): FormGroup {
     const group: {[key: string]: AbstractControl} = {};
 
     configs.forEach(control => {
@@ -34,7 +34,7 @@ export class FormService {
       );
     });
 
-    return new FormGroup(group);
+    return new FormGroup(group, crossValidator);
   }
 
   // Tell host the form is created.
