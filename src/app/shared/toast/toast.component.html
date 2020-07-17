@@ -1,6 +1,7 @@
 <div
   *ngIf="toastService.message"
-  class="alert alert-primary alert-dismissible fade show"
+  class="alert alert-dismissible fade show"
+  [class]="toastService.styleClassName"
   role="alert">
   <span>{{ toastService.message }}</span>
   <button
