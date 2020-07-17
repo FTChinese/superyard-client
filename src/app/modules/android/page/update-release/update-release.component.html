@@ -1,6 +1,10 @@
-<h2>Edit release</h2>
+<div class="row justify-content-center">
+  <div class="col-md-12 col-lg-9">
+    <h2>Edit release</h2>
 
-<app-release-form
-  *ngIf="release"
-  [release]="release"
-  (submitted)="onSubmit($event)"></app-release-form>
+    <app-release-form
+      *ngIf="release"
+      [release]="release"></app-release-form>
+  </div>
+</div>
+

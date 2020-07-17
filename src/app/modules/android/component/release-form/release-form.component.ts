@@ -3,14 +3,11 @@ import { AndroidRelease } from 'src/app/data/schema/android';
 import { Validators } from '@angular/forms';
 import { DynamicControl, InputControl, TextareaControl } from 'src/app/shared/widget/control';
 import { Button } from 'src/app/shared/widget/button';
-import { FormService } from 'src/app/shared/service/form.service';
-import { ReleaseForm } from 'src/app/data/schema/form-data';
 
 @Component({
   selector: 'app-release-form',
   templateUrl: './release-form.component.html',
   styleUrls: ['./release-form.component.scss'],
-  providers: [FormService],
 })
 export class ReleaseFormComponent implements OnInit {
   // tslint:disable-next-line:variable-name
@@ -32,8 +29,6 @@ export class ReleaseFormComponent implements OnInit {
     return this._release;
   }
 
-  @Output() submitted = new EventEmitter<ReleaseForm>();
-
   dynamicControls: DynamicControl[] = [
     new InputControl({
       value: '',
@@ -41,6 +36,7 @@ export class ReleaseFormComponent implements OnInit {
       validators: [Validators.required],
       label: 'Version Name',
       type: 'text',
+      readonly: true,
     }),
     new InputControl({
       value: 0,
@@ -48,6 +44,7 @@ export class ReleaseFormComponent implements OnInit {
       validators: [Validators.required],
       label: 'Password',
       type: 'number',
+      readonly: true,
     }),
     new TextareaControl({
       value: null,
@@ -63,18 +60,9 @@ export class ReleaseFormComponent implements OnInit {
     }),
   ];
 
-  button: Button = Button.primary().setName('Save')
+  button: Button = Button.primary().setName('Save');
 
-  constructor(
-    private formService: FormService,
-  ) {}
+  constructor() {}
 
-  ngOnInit(): void {
-    this.formService.formSubmitted$
-      .subscribe(data => {
-        const formData: ReleaseForm = JSON.parse(data);
-
-        this.submitted.emit(formData);
-      });
-  }
+  ngOnInit(): void {}
 }
