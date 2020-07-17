@@ -1,8 +1,8 @@
-import path from 'path';
-import nunjucks from 'nunjucks';
+import { resolve as resolvePath } from 'path';
+import { configure, render } from 'nunjucks';
 
-nunjucks.configure(
-  [path.resolve(process.cwd(), 'bin')],
+configure(
+  [resolvePath(process.cwd(), 'bin/template')],
   {
     autoescape: false,
     noCache: true,
@@ -12,7 +12,7 @@ nunjucks.configure(
 
 export default function promisifiedRender(name: string, context?: object): Promise<string> {
   return new Promise((resolve, reject) => {
-    nunjucks.render(name, context, (err, res) => {
+    render(name, context, (err, res) => {
       if (err) {
         reject(err);
         return;
