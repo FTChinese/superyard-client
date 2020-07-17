@@ -49,4 +49,11 @@ a {
 @import "footer";
 
 
+.modal {
+  display: block;
+  padding-right: 15px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  z-index: 1072;
+}
 
