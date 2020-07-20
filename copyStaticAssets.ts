@@ -1,11 +1,10 @@
 import * as shell from 'shelljs';
 
-const htmlDir = '../superyard/web/views';
-const targetDir = '../ft-interact/superyard';
+import config from './bin/config';
 
-shell.mkdir('-p', htmlDir);
-shell.mkdir('-p', targetDir);
+shell.mkdir('-p', config.htmlCopyTarget);
+shell.mkdir('-p', config.jsCssCopyTarget);
 
-shell.cp('dist/superyard-client/*.js', targetDir);
-shell.cp('dist/superyard-client/*.css', targetDir);
-shell.cp('dist/templates.go', htmlDir);
+shell.cp('dist/superyard-client/*.js', config.jsCssCopyTarget);
+shell.cp('dist/superyard-client/*.css', config.jsCssCopyTarget);
+shell.cp(config.goViewFile, config.htmlCopyTarget);

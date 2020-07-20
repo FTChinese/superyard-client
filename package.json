@@ -9,8 +9,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build-go": "ts-node ./bin/build-go.ts",
-    "copy-static-assets": "ts-node copyStaticAssets.ts",
-    "deploy": "ng build --prod && npm run build-go && npm run copy-static-assets"
+    "copy-static": "ts-node copyStaticAssets.ts",
+    "deploy": "ng build --prod --source-map && npm run build-go && npm run copy-static"
   },
   "private": true,
   "dependencies": {
