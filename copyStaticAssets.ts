@@ -8,4 +8,4 @@ shell.mkdir('-p', targetDir);
 
 shell.cp('dist/superyard-client/*.js', targetDir);
 shell.cp('dist/superyard-client/*.css', targetDir);
-shell.cp('dist/home.go', htmlDir);
+shell.cp('dist/templates.go', htmlDir);

@@ -12,8 +12,13 @@ interface CtxIndex {
   scripts: string; // HTML script tags.
 }
 
-interface CtxGoVar {
+interface Template {
+  name: string;
   content: string;
+}
+
+interface CtxGo {
+  data: Template[];
 }
 
 const pathPrefix = 'http://interactive.ftchinese.com/superyard/';
@@ -52,13 +57,18 @@ async function build(assets: Assets): Promise<void> {
 
   const rendered = await render('index.html', ctxIndex);
 
-  const ctxGoVar: CtxGoVar = {
-    content: rendered,
+  const ctxGo: CtxGo = {
+    data: [
+      {
+        name: 'home',
+        content: rendered,
+      }
+    ]
   };
 
-  const goTmpl = await render('index.go', ctxGoVar);
+  const goTmpl = await render('views.go.njk', ctxGo);
 
-  await writeFile(`${outDir}/home.go`, goTmpl, { encoding: 'utf8' });
+  await writeFile(`${outDir}/templates.go`, goTmpl, { encoding: 'utf8' });
 }
 
 parse(inputFile)

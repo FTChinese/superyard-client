@@ -1,0 +1,15 @@
+package views
+
+// This file is generated from the front end project superyard-client.
+// Do not touch it.
+
+{% for item in data %}
+const {{item.name}} = `
+{{item.content}}`
+{% endfor %}
+
+var templates = map[string]string {
+  {% for item in data %}
+  "{{item.name}}": {{item.name}},
+  {% endfor %}
+}
