@@ -1,32 +1,10 @@
 # SuperyardClient
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.1.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.4.
 
-## Mocking API
+## Versioning
 
-A mocking API is provided in the `server` directory. This is a fully-fledged Koa-based app independent of the Angular app.
-
-To run it,
-
-```sh
-cd server
-npm install
-npm run start
-```
-
-It is written in TypeScript and run directly with `ts-node`.
-
-When using the mocking API, you can login with any username and password you like.
-
-### Login
-
-To test login failure, use those usernames:
-
-* `not_found` for incorrect credentials of 400 Not Found;
-* `invalid_username` for invalid username of http status 422;
-* `invalid_password` for invalid password reponse.
-
-See `server/src/routes/mode.ts`
+The version is kept in sync with [Superyard](https://github.com/FTChinese/superyard).
 
 ## Template Inheritance
 
