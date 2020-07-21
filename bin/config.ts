@@ -7,7 +7,7 @@ const isProd = process.env.NODE_ENV === 'production';
 console.log('NODE_ENV: %s', process.env.NODE_ENV);
 
 const staticPrefix = isProd
-  ? `http://interactive.ftchinese.com/${projectName}/`
+  ? `/static/${projectName}/`
   : '/static/';
 
 const jsCssCopyTarget = isProd
