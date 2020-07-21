@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import * as marked from 'marked';
+import { Marked } from '@ts-stack/markdown';
 
 @Pipe({
   name: 'marked'
@@ -8,7 +8,7 @@ export class MarkedPipe implements PipeTransform {
 
   transform(value: string): string {
     if (value && value.length > 0) {
-      return marked(value);
+      return Marked.parse(value);
     }
 
     return value;
