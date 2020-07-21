@@ -6,5 +6,11 @@ shell.mkdir('-p', config.htmlCopyTarget);
 shell.mkdir('-p', config.jsCssCopyTarget);
 
 shell.cp('dist/superyard-client/*.js', config.jsCssCopyTarget);
-shell.cp('dist/superyard-client/*.css', config.jsCssCopyTarget);
+
+if (config.production) {
+  shell.cp('dist/superyard-client/*.css', config.jsCssCopyTarget);
+} else {
+  shell.cp('dist/superyard-client/*.map', config.jsCssCopyTarget);
+}
+
 shell.cp(config.goViewFile, config.htmlCopyTarget);
