@@ -9,17 +9,12 @@ import {
   ActivityKind,
 } from './enum';
 
-export interface ICredentials {
-  email: string;
-  password: string;
-}
-
-export interface IWechat {
+export interface Wechat {
   nickname: string | null;
   avatarUrl: string | null;
 }
 
-export interface IMembership {
+export interface Membership {
   id: string | null;
   compoundId: string;
   ftcId: string | null;
@@ -27,31 +22,31 @@ export interface IMembership {
   tier: Tier | null;
   cycle: Cycle | null;
   expireDate: string | null;
-  paymentMethod: PaymentMethod | null;
+  payMethod: PaymentMethod | null;
   autoRenewal: boolean | null;
-  stripeSubId: string | null;
+  stripeSubsId: string | null;
   stripePlanId: string | null;
   status: SubStatus | null;
-  appleSubId: string | null;
-  vip: boolean;
+  appleSubsId: string | null;
+  b2bLicenceId: string | null;
 }
 
-export interface IBaseReader {
+export interface FtcAccount {
   ftcId: string | null; // null for wechat-only account
   unionId: string | null; // null for ftc-only account
   stripeId: string | null; // null for wechat-only account
   email: string | null; // null for wechat-only account
   userName: string | null; // null for wechat-only account
-  nickname: string | null; // null for ftc-only account
+  wechat: Wechat;
   kind: AccountKind;
 }
 
 /**
  * @description Definition of a reader's account
  */
-export interface IReaderAccount extends IBaseReader {
-  membership: IMembership;
-}
+export type ReaderAccount = FtcAccount & {
+  membership: Membership;
+};
 
 export interface IFtcProfile {
   id: string;

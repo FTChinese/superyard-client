@@ -1,5 +1,6 @@
 import { Product, Plan } from './product';
 import { AndroidRelease } from './android';
+import { AccountKind } from './enum';
 
 export interface AccountFields {
   id: string;
@@ -29,6 +30,12 @@ export type PasswordsUpdater = Pick<AccountFields, 'oldPassword' | 'password'>;
 
 export interface SearchForm {
   keyword: string;
+}
+
+// The parameters used when searching a reader.
+export interface ReaderSearchParam {
+  q: string;
+  kind: AccountKind;
 }
 
 type ProductBase = Pick<Product, 'tier' | 'heading' | 'smallPrint'>;

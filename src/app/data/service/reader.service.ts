@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { AccountKind } from 'src/app/data/schema/enum';
-import { IBaseReader, IReaderAccount, IFtcProfile, IActivity, IWxProfile, IWxLogin } from 'src/app/data/schema/reader';
+import { FtcAccount, ReaderAccount, IFtcProfile, IActivity, IWxProfile, IWxLogin } from 'src/app/data/schema/reader';
+import { ReaderSearchParam } from '../schema/form-data';
 
 @Injectable({
   providedIn: 'root'
@@ -21,17 +22,20 @@ export class ReaderService {
 
   constructor(private http: HttpClient) { }
 
-  search(q: string, kind: AccountKind): Observable<IBaseReader[]> {
-    return this.http.get<IBaseReader[]>('/api/search/reader', {
-      params: {
-        q,
-        kind
+  search(p: ReaderSearchParam): Observable<FtcAccount[]> {
+    return this.http.get<FtcAccount[]>(
+      '/api/search/reader',
+      {
+        params: {
+          q: p.q,
+          kind: p.kind
+        }
       }
-    });
+    );
   }
 
-  loadFtcAccount(id: string): Observable<IReaderAccount> {
-    return this.http.get<IReaderAccount>(`/api/readers/ftc/${id}`);
+  loadFtcAccount(id: string): Observable<ReaderAccount> {
+    return this.http.get<ReaderAccount>(`/api/readers/ftc/${id}`);
   }
 
   loadFtcProfile(id: string): Observable<IFtcProfile> {
@@ -42,8 +46,8 @@ export class ReaderService {
     return this.http.get<IActivity[]>(`/api/readers/ftc/${id}/activities`);
   }
 
-  loadWxAccount(id: string): Observable<IReaderAccount> {
-    return this.http.get<IReaderAccount>(`/api/readers/wx/${id}`);
+  loadWxAccount(id: string): Observable<ReaderAccount> {
+    return this.http.get<ReaderAccount>(`/api/readers/wx/${id}`);
   }
 
   loadWxProfile(id: string): Observable<IWxProfile> {

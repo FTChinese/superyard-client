@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { IReaderAccount } from 'src/app/data/schema/reader';
+import { ReaderAccount } from 'src/app/data/schema/reader';
 import { SubStatus } from 'src/app/data/schema/enum';
 
 interface Option {
@@ -18,7 +18,7 @@ export class EditMembershipComponent implements OnInit {
   // NOTE: the data is asynchronously fetched from server.
   // See https://scotch.io/tutorials/3-ways-to-pass-async-data-to-angular-2-child-components
   // how to pass async data to child component.
-  @Input() reader: IReaderAccount;
+  @Input() reader: ReaderAccount;
   // True for on, false for off.
   @Output() toggleForm = new EventEmitter<boolean>();
 

@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { AccountKind } from 'src/app/data/schema/enum';
 import { HttpErrorResponse } from '@angular/common/http';
-import { IBaseReader, IReaderAccount } from 'src/app/data/schema/reader';
+import { FtcAccount, ReaderAccount } from 'src/app/data/schema/reader';
 import { Observable } from 'rxjs';
 import { RequestError } from 'src/app/data/schema/request-result';
 import { AccountItem } from '../../account-item';
 import { ReaderService } from 'src/app/data/service/reader.service';
 import { ControlOptions } from 'src/app/shared/widget/control';
 import { Button } from 'src/app/shared/widget/button';
-import { SearchForm } from 'src/app/data/schema/form-data';
+import { SearchForm, ReaderSearchParam } from 'src/app/data/schema/form-data';
 import { FormService } from 'src/app/shared/service/form.service';
 import { switchMap } from 'rxjs/operators';
 
@@ -31,7 +31,7 @@ export class ReaderHomeComponent implements OnInit {
 
   accountList: AccountItem[];
 
-  account: Observable<IReaderAccount>;
+  account: Observable<ReaderAccount>;
 
   constructor(
     private readerService: ReaderService,
@@ -40,44 +40,33 @@ export class ReaderHomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.formService.formSubmitted$.pipe(
-      switchMap(data => {
-        const search: SearchForm = JSON.parse(data);
+    this.formService.formSubmitted$.subscribe(data => {
+      const search: SearchForm = JSON.parse(data);
 
-        const isEmail = search.keyword.indexOf('@') > 0;
-        const kind: AccountKind = isEmail
-          ? 'ftc'
-          : 'wechat';
+      const isEmail = search.keyword.indexOf('@') > 0;
+      const kind: AccountKind = isEmail
+        ? 'ftc'
+        : 'wechat';
 
-        return this.readerService.search(search.keyword, kind)
-      })
-    )
-    .subscribe({
-      next: (reader: IBaseReader[]) => {
-        this.formService.enable(true);
+      this.searchAccount({
+        q: search.keyword,
+        kind,
+      });
+    });
+  }
 
-        console.log(reader);
-        this.account = null;
-        this.accountList = reader.map(val => {
-          if (val.kind === 'ftc') {
-            return {
-              id: val.ftcId,
-              name: val.email,
-              kind: val.kind,
-            };
-          }
-          return {
-            id: val.unionId,
-            name: val.nickname,
-            kind: val.kind
-          };
-        });
-      },
-      error: (errResp: HttpErrorResponse) => {
-        console.log(errResp);
-        this.formService.sendError(RequestError.fromResponse(errResp));
-      }
-    })
+  searchAccount(param: ReaderSearchParam) {
+    this.readerService.search(param)
+      .subscribe({
+        next: (accounts: FtcAccount[]) => {
+          this.formService.enable(true);
+
+        },
+        error: (errResp: HttpErrorResponse) => {
+          console.log(errResp);
+          this.formService.sendError(RequestError.fromResponse(errResp));
+        }
+      });
   }
 
   loadAccount(item: AccountItem) {
