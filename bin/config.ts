@@ -1,25 +1,50 @@
 import { resolve } from 'path';
 
-const projectName = 'superyard';
+class CLIParser {
+  readonly args: Map<string, string> = new Map();
 
-const isProd = process.env.NODE_ENV === 'production';
+  parse() {
+    process.argv
+      .slice(2)
+      .forEach(arg => {
+        const parts = arg.split('=');
 
-console.log('NODE_ENV: %s', process.env.NODE_ENV);
+        const key = parts[0];
+        const value = parts[1] || 'true';
 
-const staticPrefix = isProd
-  ? `/static/${projectName}/`
-  : '/static/';
+        this.args.set(key, value);
+      });
+  }
 
-const jsCssCopyTarget = isProd
-  ? `../ft-interact/${projectName}`
-  : `../${projectName}/build/public/static`;
+  get isProd(): boolean {
+    return this.args.has('--prod');
+  }
+
+  display() {
+    console.log('%o', this.args);
+  }
+}
+
+const cli = new CLIParser();
+cli.parse();
+
+console.log(`Mode: ${cli.isProd ? 'production' : 'development'}`);
+
+const serverProjectName = 'superyard';
+const clientDistName = 'superyard';
+
+const staticPrefix = `/static/${clientDistName}/`;
+
+const jsCssCopyTarget = cli.isProd
+  ? `../ft-interact/${clientDistName}`
+  : `../${serverProjectName}/build/public/static/${clientDistName}`;
 
 const config = {
-  production: isProd,
+  production: cli.isProd,
   staticPrefix,
-  goViewFile: resolve(process.cwd(), 'dist/templates.go'),
+  goOutFile: resolve(process.cwd(), 'dist/templates.go'),
   goTemplate: 'views.go.njk',
-  htmlCopyTarget: `../${projectName}/web/views`,
+  htmlCopyTarget: `../${serverProjectName}/web/views`,
   jsCssCopyTarget,
 };
 
