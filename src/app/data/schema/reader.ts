@@ -15,7 +15,6 @@ export interface Wechat {
 }
 
 export interface Membership {
-  id: string | null;
   compoundId: string;
   ftcId: string | null;
   unionId: string | null;

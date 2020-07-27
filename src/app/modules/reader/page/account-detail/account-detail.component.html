@@ -1,37 +1,107 @@
-<h2>Account</h2>
-<div class="row">
-  <div class="col-md-12 col-lg-8">
-    <table *ngIf="accountRows" class="table">
-      <tbody>
-        <tr *ngFor="let row of accountRows">
-          <th scope="row">{{ row.head }}</th>
-          <td>{{ row.data }}</td>
-        </tr>
-      </tbody>
-    </table>
+<div class="row" *ngIf="account; else loading">
+  <div class="col-md-12 col-lg-6">
 
-    <ng-container *ngIf="currentReader">
-      <app-edit-membership *ngIf="currentReader.membership.id; else createMember" [reader]="currentReader"></app-edit-membership>
+    <div class="card mb-3">
+      <div class="card-header">Account details</div>
+      <div class="card-body">
+        <div class="media">
+          <div class="media-body">
+            <p>Kind: {{account.kind | uppercase}}</p>
+            <p>Email: {{account.email}}</p>
+            <p>User name: {{account.userName}}</p>
+            <p>Stripe ID: {{account.stripeId}}</p>
+          </div>
 
-      <ng-template #createMember>
-        <div>This user is not a member yet. You can
-          <button class="btn btn-link" (click)="onToggleForm(true)">Create</button>
-          it if the data is missing or incorrect.
+          <figure *ngIf="hasWechat" class="text-center">
+            <h6>Wechat</h6>
+            <img [src]="account.wechat.avatarUrl">
+            <figcaption>{{account.wechat.nickname}}</figcaption>
+          </figure>
         </div>
-        <app-edit-membership *ngIf="showCreateForm" [reader]="currentReader" (toggleForm)="onToggleForm($event)"></app-edit-membership>
-      </ng-template>
-    </ng-container>
+      </div>
+
+    </div>
 
   </div>
 
-  <div class="col-md-12 col-lg-4">
-    <div class="list-group">
-      <a routerLink="./profile" class="list-group-item">Profile</a>
-      <a routerLink="./activities" class="list-group-item">Activities</a>
-      <a routerLink="./oauth" class="list-group-item">Wechat OAuth History</a>
-      <a routerLink="./orders" class="list-group-item">Subscription Orders</a>
+  <div class="col-md-12 col-lg-6">
+    <div class="card">
+      <div class="card-header">
+        Membership
+      </div>
+      <ul *ngIf="hasMember"
+        class="list-group list-group-flush">
+        <li class="list-group-item d-flex justify-content-between">
+          <span>
+            {{account.membership.tier | tier}}/{{account.membership.cycle | cycle}}
+          </span>
+          <span>
+            {{account.membership.expireDate}}
+          </span>
+        </li>
+
+        <li class="list-group-item">
+          <div class="d-flex justify-content-between">
+            <span>Payment method</span>
+            <span>{{account.membership.payMethod}}</span>
+          </div>
+
+          <div *ngIf="isStripe">
+            <p>Stripe Subscription ID: {{account.membership.stripeSubsId}}</p>
+            <p>Stripe Plan ID: {{account.membership.stripePlanId}}</p>
+            <p>Status: {{account.membership.status}}</p>
+          </div>
+
+          <div *ngIf="isIAP">
+            Transaction ID: {{account.membership.appleSubsId}}
+          </div>
+
+          <div *ngIf="isB2B">
+            Licence ID: {{account.membership.b2bLicenceId}}
+          </div>
+        </li>
+
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Auto Renwal</span>
+          <span>{{account.membership.autoRenewal}}</span>
+        </li>
+      </ul>
     </div>
   </div>
+
+</div>
+
+<ng-template #loading>
+  <div>Loading...</div>
+</ng-template>
+
+<div>
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a
+        routerLink="./profile"
+        routerLinkActive="active"
+        class="list-group-item">Profile</a>
+    </li>
+    <li>
+      <a
+        routerLink="./activities"
+        routerLinkActive="active"
+        class="list-group-item">Activities</a>
+    </li>
+    <li>
+      <a
+        routerLink="./oauth"
+        routerLinkActive="active"
+        class="list-group-item">Wechat OAuth History</a>
+    </li>
+    <li>
+      <a
+        routerLink="./orders"
+        routerLinkActive="active"
+        class="list-group-item">Subscription Orders</a>
+    </li>
+  </ul>
 </div>
 
 <router-outlet></router-outlet>

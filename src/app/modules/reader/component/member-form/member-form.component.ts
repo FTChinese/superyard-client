@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Membership } from 'src/app/data/schema/reader';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-member-form',
@@ -7,7 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MemberFormComponent implements OnInit {
 
-  constructor() { }
+  @Input() member: Membership;
+
+  form = this.formBuilder.group({
+    tier: ['', [Validators.required]],
+    cycle: ['', [Validators.required]],
+    expireDate: ['', [Validators.required]],
+    payMethod: [''],
+  });
+
+  constructor(
+    private formBuilder: FormBuilder
+  ) { }
 
   ngOnInit(): void {
   }

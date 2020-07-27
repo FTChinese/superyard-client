@@ -19,7 +19,8 @@ function isString(x: any): x is string {
 export const serviceNames = {
   logIn: 'logIn',
   forgotPassword: 'forgotPassword',
-  android: 'android'
+  android: 'android',
+  reader: 'reader',
 };
 
 // Interpret non-422 status code.

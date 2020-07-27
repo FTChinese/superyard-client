@@ -70,10 +70,6 @@ export class EditMembershipComponent implements OnInit {
       return false;
     }
 
-    if (!this.reader.membership.id) {
-      return false;
-    }
-
     return true;
   }
 

@@ -4,8 +4,10 @@ import { switchMap } from 'rxjs/operators';
 import { ReaderAccount, IWxProfile, IFtcProfile } from 'src/app/data/schema/reader';
 import { zip } from 'rxjs';
 import { AccountKind } from 'src/app/data/schema/enum';
-import { TableRow } from '../../account-item';
 import { ReaderService } from 'src/app/data/service/reader.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { RequestError, serviceNames } from 'src/app/data/schema/request-result';
+import { ToastService } from 'src/app/shared/service/toast.service';
 
 @Component({
   selector: 'app-account-detail',
@@ -14,21 +16,37 @@ import { ReaderService } from 'src/app/data/service/reader.service';
 })
 export class AccountDetailComponent implements OnInit {
 
-  currentReader: ReaderAccount;
-  accountRows: TableRow[];
+  account: ReaderAccount;
   showCreateForm = false;
 
   constructor(
     private route: ActivatedRoute,
     private readerService: ReaderService,
+    private toast: ToastService,
   ) { }
 
   get isFtc(): boolean {
-    return (this.currentReader && this.currentReader.ftcId) ? true : false;
+    return (this.account && this.account.ftcId) ? true : false;
   }
 
   get hasWechat(): boolean {
-    return !!(this.currentReader && this.currentReader.unionId);
+    return !!(this.account && this.account.unionId);
+  }
+
+  get hasMember(): boolean {
+    return !!(this.account && this.account.membership.tier);
+  }
+
+  get isStripe(): boolean {
+    return this.hasMember && this.account.membership.payMethod === 'stripe';
+  }
+
+  get isIAP(): boolean {
+    return this.hasMember && this.account.membership.payMethod === 'apple';
+  }
+
+  get isB2B(): boolean {
+    return this.hasMember && this.account.membership.payMethod === 'b2b';
   }
 
   ngOnInit(): void {
@@ -48,35 +66,20 @@ export class AccountDetailComponent implements OnInit {
       .subscribe({
         next: data => {
           console.log(data);
-          if (data.membership.id) {
 
-          }
-
-          this.currentReader = data;
-          this.accountRows = [
-            { head: 'Ftc ID', data: data.ftcId },
-            { head: 'Wechat Union ID', data: data.unionId },
-            { head: 'Stripe Customer ID', data: data.stripeId },
-            { head: 'Email', data: data.email },
-            { head: 'User name', data: data.userName },
-            { head: 'Wechat nickname', data: data.nickname },
-            { head: 'Kind', data: data.kind },
-          ];
+          this.account = data;
         },
-        error: err => {
-          console.log(err);
+        error: (err: HttpErrorResponse) => {
+
+          const errRes = new RequestError(err, serviceNames.reader);
+
+          this.toast.error(errRes.message);
         }
       });
   }
 
-  // Create/Destroy for to create subscritpion.
-  onToggleForm(on: boolean) {
-    console.log('Toggle form event: ' + on);
-    this.showCreateForm = on;
-  }
-
   loadFtcProfile() {
-    this.readerService.loadFtcProfile(this.currentReader.ftcId)
+    this.readerService.loadFtcProfile(this.account.ftcId)
       .subscribe({
         next: (data: IFtcProfile) => {
           console.log(data);
@@ -92,7 +95,7 @@ export class AccountDetailComponent implements OnInit {
       return;
     }
 
-    this.readerService.loadWxProfile(this.currentReader.unionId)
+    this.readerService.loadWxProfile(this.account.unionId)
     .subscribe({
       next: (data: IWxProfile) => {
         console.log(data);

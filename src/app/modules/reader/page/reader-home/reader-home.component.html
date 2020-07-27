@@ -4,28 +4,35 @@
 
     <app-search-form
       [control]="searchControl"></app-search-form>
+
+    <div *ngIf="notFound">
+      Not Found
+    </div>
+
+    <div *ngIf="accounts && accounts.length > 0">
+      <div *ngFor="let account of accounts"
+        class="card mb-3">
+        <ul class="list-group list-group-flush">
+          <li *ngIf="account.ftcId"
+            class="list-group-item">
+            Email:
+            <a [routerLink]="['/readers/ftc', account.ftcId]">{{account.email}}</a>
+          </li>
+          <li *ngIf="account.userName"
+            class="list-group-item">
+            User name: {{account.userName}}
+          </li>
+          <li *ngIf="account.unionId"
+            class="list-group-item">
+            Wechat Nickname:
+            <a [routerLink]="['/readers/wechat', account.unionId]">{{account.wechat.nickname}}</a>
+          </li>
+        </ul>
+      </div> <!-- End card -->
+    </div>
   </div>
 </div>
 
-
-<div class="row">
-  <div class="col-md-12">
-
-    <ul class="list-group"
-      *ngIf="accountList && accountList.length > 0">
-      <li *ngFor="let item of accountList"
-        class="list-group-item">
-        {{ item.name }}
-        <a [routerLink]="['/readers', item.kind, item.id]">More...</a>
-
-      </li>
-    </ul>
-  </div>
-
-  <div class="col-md-12 col-lg-4">
-
-  </div>
-</div>
 
 
 
