@@ -1,10 +1,15 @@
-<h2>Find a Reader</h2>
-
-<div class="row">
+<div class="row justify-content-center">
   <div class="col-md-12 col-lg-8">
+    <h2>Find a Reader</h2>
 
     <app-search-form
       [control]="searchControl"></app-search-form>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-12 col-lg-8">
 
     <ul class="list-group"
       *ngIf="accountList && accountList.length > 0">
