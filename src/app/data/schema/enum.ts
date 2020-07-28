@@ -42,3 +42,41 @@ export const cycleOpts: SelectOption<Cycle>[] = [
     value: 'month',
   },
 ];
+
+export const statusOpts: SelectOption<SubStatus>[] = [
+  {
+    disabled: false,
+    value: 'active',
+    name: 'Active',
+  },
+  {
+    disabled: false,
+    value: 'canceled',
+    name: 'Canceled',
+  },
+  {
+    disabled: false,
+    value: 'incomplete',
+    name: 'Incomplete',
+  },
+  {
+    disabled: false,
+    value: 'incomplete_expired',
+    name: 'Incomplete Expired',
+  },
+  {
+    disabled: false,
+    value: 'past_due',
+    name: 'Past Due',
+  },
+  {
+    disabled: false,
+    value: 'trialing',
+    name: 'Trialing',
+  },
+  {
+    disabled: false,
+    value: 'unpaid',
+    name: 'Unpaid'
+  }
+];
