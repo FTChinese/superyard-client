@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
-import { ReaderAccount, IWxProfile, IFtcProfile } from 'src/app/data/schema/reader';
+import { ReaderAccount, IWxProfile, IFtcProfile, isMember } from 'src/app/data/schema/reader';
 import { zip } from 'rxjs';
 import { AccountKind } from 'src/app/data/schema/enum';
 import { ReaderService } from 'src/app/data/service/reader.service';
@@ -34,7 +34,7 @@ export class AccountDetailComponent implements OnInit {
   }
 
   get hasMember(): boolean {
-    return !!(this.account && this.account.membership.tier);
+    return !!(this.account && isMember(this.account.membership));
   }
 
   get isStripe(): boolean {
