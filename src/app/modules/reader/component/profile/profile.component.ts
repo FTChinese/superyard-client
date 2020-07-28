@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { TableRow } from '../../account-item';
 import { ReaderService } from 'src/app/data/service/reader.service';
 
 @Component({
@@ -9,8 +8,6 @@ import { ReaderService } from 'src/app/data/service/reader.service';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-
-  profileRows: TableRow[];
 
   constructor(
     private route: ActivatedRoute,
