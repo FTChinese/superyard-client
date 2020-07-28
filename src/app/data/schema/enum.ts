@@ -9,3 +9,36 @@ export type OrderType = 'create' | 'renew' | 'upgrade';
 export type AccountKind = 'ftc' | 'wechat';
 export type ApiKeyKind = 'app' | 'personal';
 export type ActivityKind = 'login' | 'signup' | 'email_verification' | 'password_reset';
+
+
+export interface SelectOption<T> {
+  disabled: boolean;
+  name: string;
+  value: T;
+}
+
+export const tierOpts: SelectOption<Tier>[] = [
+  {
+    disabled: false,
+    name: 'Standard',
+    value: 'standard',
+  },
+  {
+    disabled: false,
+    name: 'Premium',
+    value: 'premium',
+  },
+];
+
+export const cycleOpts: SelectOption<Cycle>[] = [
+  {
+    disabled: false,
+    name: 'Year',
+    value: 'year',
+  },
+  {
+    disabled: false,
+    name: 'Month',
+    value: 'month',
+  },
+];
