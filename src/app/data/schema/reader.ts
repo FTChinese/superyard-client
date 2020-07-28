@@ -1,3 +1,4 @@
+import { parseISO, isBefore, startOfDay } from 'date-fns';
 import {
   Tier,
   Cycle,
@@ -28,6 +29,21 @@ export interface Membership {
   status: SubStatus | null;
   appleSubsId: string | null;
   b2bLicenceId: string | null;
+}
+
+export function isMember(m: Membership): boolean {
+  return m.tier != null;
+}
+
+export function isMemberExpired(m: Membership): boolean {
+  if (!m.expireDate) {
+    return true;
+  }
+
+  const expireOn = parseISO(m.expireDate);
+  const today = startOfDay(new Date());
+
+  return isBefore(expireOn, today);
 }
 
 export interface FtcAccount {
