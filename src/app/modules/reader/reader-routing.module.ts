@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AccountDetailComponent } from './page/account-detail/account-detail.component';
 import { ReaderHomeComponent } from './page/reader-home/reader-home.component';
-import { ProfileComponent } from './component/profile/profile.component';
-
 
 const routes: Routes = [
   {
@@ -14,12 +12,6 @@ const routes: Routes = [
     path: 'ftc/:id',
     component: AccountDetailComponent,
     data: { kind: 'ftc' },
-    children: [
-      {
-        path: 'profile',
-        component: ProfileComponent,
-      }
-    ]
   },
   {
     path: 'wechat/:id',

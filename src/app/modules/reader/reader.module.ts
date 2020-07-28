@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { ReaderRoutingModule } from './reader-routing.module';
 import { AccountDetailComponent } from './page/account-detail/account-detail.component';
 import { ReaderHomeComponent } from './page/reader-home/reader-home.component';
-import { EditMembershipComponent } from './component/edit-membership/edit-membership.component';
 import { ProfileComponent } from './component/profile/profile.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MemberFormComponent } from './component/member-form/member-form.component';
@@ -14,7 +13,6 @@ import { MemberFormComponent } from './component/member-form/member-form.compone
   declarations: [
     ReaderHomeComponent,
     AccountDetailComponent,
-    EditMembershipComponent,
     ProfileComponent,
     MemberFormComponent,
   ],
