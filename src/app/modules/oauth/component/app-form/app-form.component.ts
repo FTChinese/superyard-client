@@ -86,7 +86,7 @@ export class AppFormComponent implements OnInit {
     }),
   ];
 
-  button: Button = Button.primary().setName('Save')
+  button: Button = Button.primary().setName('Save');
 
   constructor(
     private formService: FormService,
