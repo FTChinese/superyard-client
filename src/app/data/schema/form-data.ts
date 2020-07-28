@@ -1,6 +1,7 @@
 import { Product, Plan } from './product';
 import { AndroidRelease } from './android';
 import { AccountKind } from './enum';
+import { Membership } from './reader';
 
 export interface AccountFields {
   id: string;
@@ -37,6 +38,8 @@ export interface ReaderSearchParam {
   q: string;
   kind: AccountKind;
 }
+
+export type MemberForm = Pick<Membership, 'tier' | 'cycle' | 'expireDate' | 'payMethod'>;
 
 type ProductBase = Pick<Product, 'tier' | 'heading' | 'smallPrint'>;
 
