@@ -10,16 +10,6 @@ import { ReaderSearchParam } from '../schema/form-data';
 })
 export class ReaderService {
 
-  private membershipIdSource = new Subject<string>();
-
-  // Child subscribe to it.
-  membershipId = this.membershipIdSource.asObservable();
-
-  // Parent pass the membership id.
-  modifyMembership(id: string) {
-    this.membershipIdSource.next(id);
-  }
-
   constructor(private http: HttpClient) { }
 
   search(p: ReaderSearchParam): Observable<FtcAccount[]> {
