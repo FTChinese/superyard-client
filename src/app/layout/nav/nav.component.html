@@ -3,13 +3,17 @@
     <a class="nav-link"
       [routerLink]="item.href"
       routerLinkActive="active">{{ item.name }}</a>
-    <ul class="nav flex-column ml-3" *ngIf="item.children">
-      <li class="nav-item" *ngFor="let child of item.children">
+
+    <ul *ngIf="item.children"
+      class="nav flex-column ml-3">
+      <li class="nav-item"
+        *ngFor="let child of item.children">
         <a class="nav-link"
-          [routerLink]="[item.href, child.href]"
+          [routerLink]="child.href"
           routerLinkActive="active">{{ child.name }}</a>
       </li>
     </ul>
+
   </li>
 </ul>
 

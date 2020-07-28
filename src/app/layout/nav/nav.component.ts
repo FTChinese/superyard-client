@@ -33,6 +33,12 @@ export class NavComponent implements OnInit {
     {
       name: 'Readers',
       href: '/' + siteBaseUrl.readers,
+      children: [
+        {
+          name: 'Orders',
+          href: `/${siteBaseUrl.readers}/orders`,
+        }
+      ]
     },
     {
       name: 'Products',
