@@ -18,7 +18,7 @@ export class ToastService {
   show(m: string) {
     this.message = m;
 
-    this.timeoutID = window.setTimeout(this.onDismiss.bind(this), 3000);
+    this.timeoutID = window.setTimeout(this.onDismiss.bind(this), 5000);
   }
 
   info(m: string) {
