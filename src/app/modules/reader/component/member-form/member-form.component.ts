@@ -1,11 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Membership, isMember } from 'src/app/data/schema/reader';
-import { Validators, FormGroup } from '@angular/forms';
-import { SelectOption, Tier, Cycle } from 'src/app/data/schema/enum';
+import { Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { Tier, cycleOpts, tierOpts, paymentMethodOpts, Cycle } from 'src/app/data/schema/enum';
 import { DynamicControl, DropdownControl, InputControl } from 'src/app/shared/widget/control';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
 import { MemberForm } from 'src/app/data/schema/form-data';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-member-form',
@@ -22,36 +23,14 @@ export class MemberFormComponent implements OnInit {
       key: 'tier',
       validators: [Validators.required],
       label: 'Tier',
-      options: [
-        {
-          disabled: false,
-          value: 'standard',
-          name: 'Standard',
-        },
-        {
-          disabled: false,
-          value: 'premium',
-          name: 'Premium'
-        }
-      ]
+      options: tierOpts
     }),
     new DropdownControl({
       value: null,
       key: 'cycle',
       validators: [Validators.required],
       label: 'Cycle',
-      options: [
-        {
-          disabled: false,
-          value: 'month',
-          name: 'Month',
-        },
-        {
-          disabled: false,
-          value: 'year',
-          name: 'Year'
-        }
-      ],
+      options: cycleOpts,
     }),
     new InputControl({
       value: null,
@@ -64,18 +43,7 @@ export class MemberFormComponent implements OnInit {
       value: null,
       key: 'payMethod',
       label: 'Payment Method',
-      options: [
-        {
-          disabled: false,
-          value: 'alipay',
-          name: 'Alipay',
-        },
-        {
-          disabled: false,
-          value: 'wecaht',
-          name: 'Wechat Pay'
-        }
-      ]
+      options: paymentMethodOpts
     })
   ];
 
@@ -83,53 +51,58 @@ export class MemberFormComponent implements OnInit {
 
   form: FormGroup;
 
-  tierOpts: SelectOption<Tier>[];
-  cycleOpts: SelectOption<Cycle>[];
-
   constructor(
     private formService: FormService
   ) { }
 
   ngOnInit(): void {
+
     this.formService.formCreated$
       .subscribe(form => {
         form.get('tier').valueChanges
           .subscribe((tier: Tier) => {
-            this.dynamicControls[1] = this.buildCycleControl(tier);
+            if (tier === 'premium') {
+              form.patchValue({
+                cycle: 'year'
+              });
+
+              this.dynamicControls[1] = this.buildCycleControl(tier);
+            }
           });
 
         this.form = form;
+        // Path form data once it is created.
         this.patchForm();
-      });
-
-    this.formService.formSubmitted$
-      .subscribe(data => {
-        const formData: MemberForm = JSON.parse(data);
-
-        console.log(formData);
       });
   }
 
+  // buildCycleControl disables the month option
+  // depending on whether tier is premium.
   private buildCycleControl(tierSelected?: Tier): DropdownControl {
+
+    const opts = cycleOpts.map(opt => {
+      if (opt.value !== 'month') {
+        return opt;
+      }
+
+      return {
+        disabled: tierSelected === 'premium',
+        value: opt.value,
+        name: opt.name
+      };
+    });
+
     return new DropdownControl({
       value: null,
       key: 'cycle',
       validators: [Validators.required],
       label: 'Cycle',
-      options: [
-        {
-          disabled: tierSelected === 'premium',
-          value: 'month',
-          name: 'Month',
-        },
-        {
-          disabled: false,
-          value: 'year',
-          name: 'Year'
-        }
-      ],
+      options: opts,
     });
   }
+
+  // Patch form if membership data presents after
+  // form is created
   private patchForm() {
     if (!this.member || !isMember(this.member)) {
       return;
@@ -141,9 +114,5 @@ export class MemberFormComponent implements OnInit {
       expireDate: this.member.expireDate,
       payMethod: this.member.payMethod,
     });
-  }
-
-  onSubmit() {
-
   }
 }
