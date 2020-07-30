@@ -1,0 +1,110 @@
+<div class="row justify-content-center">
+  <div class="col-md-12 col-lg-8">
+    <h2>Search an Order</h2>
+
+    <app-search-form
+      [control]="searchControl"></app-search-form>
+
+    <div *ngIf="notFound">
+      Not Found
+    </div>
+
+    <div *ngIf="order">
+      <div class="card mb-3">
+        <div class="card-header">
+          Order Details
+        </div>
+        <table class="table">
+          <tbody>
+            <tr>
+              <th>Edition</th>
+              <td>{{order.tier | tier}}/{{order.cycle | cycle}}</td>
+            </tr>
+            <tr>
+              <th>Kind</th>
+              <td>{{order.kind | orderKind}}</td>
+            </tr>
+            <tr>
+              <th>Amount</th>
+              <td>{{order.amount}}</td>
+            </tr>
+            <tr>
+              <th>Payment method</th>
+              <td>{{order.paymentMethod | payMethod}}</td>
+            </tr>
+            <tr>
+              <th>Created UTC</th>
+              <td>{{order.createdAt}}</td>
+            </tr>
+
+            <tr>
+              <th>Confirmation time</th>
+
+              <td
+                *ngIf="order.confirmedAt; else confirmButton">
+                {{order.confirmedAt}}
+              </td>
+
+              <ng-template #confirmButton>
+                <td>
+                  You can
+                  <button
+                    class="btn btn-primary"
+                    [disabled]="confirming"
+                    (click)="showDialog()">
+                    Confirm
+                  </button>
+                  this order if you are sure it was paid successfully.
+                </td>
+              </ng-template>
+            </tr>
+
+            <tr>
+              <th>Purchased Period</th>
+              <td *ngIf="order.startDate; else noPeriod">
+                {{order.startDate}} to {{order.endDate}}
+              </td>
+              <ng-template #noPeriod>
+                <td>N/A</td>
+              </ng-template>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <app-member-card
+        *ngIf="order"
+        [member]="member"
+        [status]="memberLoading"></app-member-card>
+    </div>
+
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<div *ngIf="modal.on"
+  class="modal fade show">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <app-modal-header></app-modal-header>
+
+      <div class="modal-body">
+        <p>Are you sure you to confirm this order is actually paid? User's membership will be created/renewed/upgraded accordingly.</p>
+      </div>
+      <div class="modal-footer">
+
+        <app-modal-cancel></app-modal-cancel>
+
+        <button type="button"
+          class="btn btn-primary"
+          (click)="confirm()">
+          Confirm
+          <span *ngIf="confirming"
+            class="spinner-border spinner-border-sm"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
