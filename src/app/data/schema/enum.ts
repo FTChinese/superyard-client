@@ -43,6 +43,19 @@ export const cycleOpts: SelectOption<Cycle>[] = [
   },
 ];
 
+export const paymentMethodOpts: SelectOption<PaymentMethod>[] = [
+  {
+    disabled: false,
+    name: 'Alipay',
+    value: 'alipay'
+  },
+  {
+    disabled: false,
+    name: 'Wechat pay',
+    value: 'wechat',
+  }
+];
+
 export const statusOpts: SelectOption<SubStatus>[] = [
   {
     disabled: false,
