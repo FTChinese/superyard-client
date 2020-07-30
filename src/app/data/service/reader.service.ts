@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
-import { AccountKind } from 'src/app/data/schema/enum';
-import { FtcAccount, ReaderAccount, IFtcProfile, IActivity, IWxProfile, IWxLogin } from 'src/app/data/schema/reader';
+import { Observable, of } from 'rxjs';
+import { FtcAccount, ReaderAccount, IFtcProfile, IActivity, IWxProfile, IWxLogin, Order, Membership } from 'src/app/data/schema/reader';
 import { ReaderSearchParam } from '../schema/form-data';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -46,5 +46,26 @@ export class ReaderService {
 
   loadWxLogin(id: string): Observable<IWxLogin[]> {
     return this.http.get<IWxLogin[]>(`/api/readers/wx/${id}/login`);
+  }
+
+  loadOrder(id: string): Observable<Order> {
+    return this.http.get<Order>(`/api/orders/${id}`);
+  }
+
+  confirmOrder(id: string): Observable<boolean> {
+    return this.http.patch(
+      `/api/orders/${id}`,
+      null,
+      {
+        observe: 'response'
+      }
+    )
+    .pipe(
+      switchMap(resp => of(resp.status === 204))
+    );
+  }
+
+  findMembership(userId: string): Observable<Membership> {
+    return this.http.get<Membership>(`/api/search/membership/${userId}`);
   }
 }
