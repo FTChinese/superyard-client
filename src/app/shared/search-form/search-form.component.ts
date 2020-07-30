@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ControlOptions } from '../widget/control';
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { FormService } from '../service/form.service';
