@@ -12,6 +12,11 @@ import { TierPipe } from './pipes/tier.pipe';
 import { ControlFeedbackComponent } from './control-feedback/control-feedback.component';
 import { DropdownComponent } from './dropdown/dropdown.component';
 import { RouterModule } from '@angular/router';
+import { OrderKindPipe } from './pipes/order-kind.pipe';
+import { PayMethodPipe } from './pipes/pay-method.pipe';
+import { ModalHeaderComponent } from './modal-header/modal-header.component';
+import { ModalCancelComponent } from './modal-cancel/modal-cancel.component';
+import { MenuComponent } from './menu/menu.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +30,11 @@ import { RouterModule } from '@angular/router';
     ToastComponent,
     ControlFeedbackComponent,
     DropdownComponent,
+    OrderKindPipe,
+    PayMethodPipe,
+    ModalHeaderComponent,
+    ModalCancelComponent,
+    MenuComponent,
   ],
   imports: [
     CommonModule,
@@ -39,11 +49,16 @@ import { RouterModule } from '@angular/router';
     MarkedPipe,
     TierPipe,
     CyclePipe,
+    OrderKindPipe,
+    PayMethodPipe,
     SearchFormComponent,
     DynamicFormComponent,
     ToastComponent,
     ControlFeedbackComponent,
     DropdownComponent,
+    MenuComponent,
+    ModalHeaderComponent,
+    ModalCancelComponent,
   ]
 })
 export class SharedModule { }
