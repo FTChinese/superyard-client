@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IApiApp } from 'src/app/data/schema/oauth';
+import { OAuthApp } from 'src/app/data/schema/oauth';
 
 @Component({
   selector: 'app-registry',
@@ -7,7 +7,7 @@ import { IApiApp } from 'src/app/data/schema/oauth';
   styleUrls: ['./registry.component.scss']
 })
 export class RegistryComponent implements OnInit {
-  apps: IApiApp[];
+  apps: OAuthApp[];
 
   constructor() { }
 

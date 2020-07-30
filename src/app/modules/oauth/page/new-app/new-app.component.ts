@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IApiApp, IAppBase } from 'src/app/data/schema/oauth';
+import { OAuthApp, AppBase } from 'src/app/data/schema/oauth';
 import { switchMap } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -14,7 +14,7 @@ import { OAuthService } from 'src/app/data/service/oauth.service';
 })
 export class NewAppComponent {
 
-  app: IApiApp;
+  app: OAuthApp;
   error: RequestError;
 
   constructor(
@@ -23,7 +23,7 @@ export class NewAppComponent {
     private oauthService: OAuthService,
   ) {}
 
-  onSubmit(app: IAppBase) {
+  onSubmit(app: AppBase) {
     console.log('Creating a new app...');
     console.log(app);
 

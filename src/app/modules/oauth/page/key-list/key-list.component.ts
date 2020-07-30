@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IAccessToken } from 'src/app/data/schema/oauth';
+import { AccessToken } from 'src/app/data/schema/oauth';
 import { FormBuilder } from '@angular/forms';
 import { switchMap } from 'rxjs/operators';
 import { OAuthService } from 'src/app/data/service/oauth.service';
@@ -11,7 +11,7 @@ import { OAuthService } from 'src/app/data/service/oauth.service';
 })
 export class KeyListComponent implements OnInit {
 
-  keys: IAccessToken[];
+  keys: AccessToken[];
 
   keyForm = this.formBuilder.group({
     description: [''],

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { IApiApp, IAppBase } from 'src/app/data/schema/oauth';
+import { OAuthApp, AppBase } from 'src/app/data/schema/oauth';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormService } from 'src/app/shared/service/form.service';
 import { RequestError } from 'src/app/data/schema/request-result';
@@ -14,11 +14,11 @@ import { Button } from 'src/app/shared/widget/button';
 })
 export class AppFormComponent implements OnInit {
 
-  private _app: IApiApp;
+  private _app: OAuthApp;
   private form: FormGroup;
 
   @Input()
-  set app(app: IApiApp) {
+  set app(app: OAuthApp) {
     this._app = app;
     this.patchForm();
   }
@@ -32,7 +32,7 @@ export class AppFormComponent implements OnInit {
     this.formService.sendError(err);
   }
 
-  @Output() submitted = new EventEmitter<IAppBase>();
+  @Output() submitted = new EventEmitter<AppBase>();
 
   dynamicControls: DynamicControl[] = [
     new InputControl({
@@ -118,7 +118,7 @@ export class AppFormComponent implements OnInit {
 
     this.formService.formSubmitted$
       .subscribe(data => {
-        const formData: IAppBase = JSON.parse(data);
+        const formData: AppBase = JSON.parse(data);
 
         this.submitted.emit(formData);
       });

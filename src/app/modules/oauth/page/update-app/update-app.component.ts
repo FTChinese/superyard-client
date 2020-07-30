@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IApiApp, IAccessToken, IAppBase } from 'src/app/data/schema/oauth';
+import { OAuthApp, AccessToken, AppBase } from 'src/app/data/schema/oauth';
 import { OAuthService } from 'src/app//data/service/oauth.service';
 import { ActivatedRoute } from '@angular/router';
 import { AppFormService } from '../../app-form.service';
@@ -14,9 +14,9 @@ import { RequestError } from 'src/app/data/schema/request-result';
 })
 export class UpdateAppComponent implements OnInit {
 
-  app: IApiApp;
+  app: OAuthApp;
   error: RequestError;
-  tokens: IAccessToken[];
+  tokens: AccessToken[];
 
   constructor(
     private route: ActivatedRoute,
@@ -37,7 +37,7 @@ export class UpdateAppComponent implements OnInit {
     });
   }
 
-  onSubmit(app: IAppBase) {
+  onSubmit(app: AppBase) {
     this.oauthService.updateApp(
       this.app.clientId,
       app,
