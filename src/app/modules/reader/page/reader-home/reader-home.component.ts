@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators } from '@angular/forms';
 import { AccountKind } from 'src/app/data/schema/enum';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FtcAccount } from 'src/app/data/schema/reader';
 import { RequestError } from 'src/app/data/schema/request-result';
 import { ReaderService } from 'src/app/data/service/reader.service';
-import { ControlOptions } from 'src/app/shared/widget/control';
+import { buildSearchOpts } from 'src/app/shared/widget/control';
 import { SearchForm, ReaderSearchParam } from 'src/app/data/schema/form-data';
 import { FormService } from 'src/app/shared/service/form.service';
 
@@ -17,13 +16,7 @@ import { FormService } from 'src/app/shared/service/form.service';
 })
 export class ReaderHomeComponent implements OnInit {
 
-  searchControl: ControlOptions = {
-    value: '',
-    key: 'keyword',
-    validators: [Validators.required, Validators.maxLength(64)],
-    placeholder: 'Email or Wechat nickname',
-    desc: 'Search a reader by email or Wechat nickname'
-  };
+  searchControl = buildSearchOpts('Email or Wechat nickname');
 
   accounts: FtcAccount[];
 
