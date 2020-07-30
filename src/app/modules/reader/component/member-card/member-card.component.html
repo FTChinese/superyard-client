@@ -1,0 +1,95 @@
+<div class="card">
+  <div class="card-header d-flex justify-content-between">
+    <span>Membership</span>
+
+    <app-menu
+      [items]="menuItems"
+      (selected)="onMenuSelected($event)"></app-menu>
+  </div>
+
+  <table class="table"
+    *ngIf="hasMember; else noMember">
+
+    <caption>{{member.tier | tier}}/{{member.cycle | cycle}}</caption>
+
+    <tbody>
+      <tr>
+        <th>Expiration Date</th>
+        <td>{{member.expireDate}}</td>
+      </tr>
+
+      <tr>
+        <th>Last Payment method</th>
+        <td>{{member.payMethod | payMethod}}</td>
+      </tr>
+
+      <ng-container *ngIf="isStripe">
+        <tr>
+          <th colspan="2">Stripe</th>
+        </tr>
+
+        <tr>
+          <td>Subscription ID</td>
+          <td>{{member.stripeSubsId}}</td>
+        </tr>
+
+        <tr>
+          <td>Plan ID</td>
+          <td>{{member.stripePlanId}}</td>
+        </tr>
+
+        <tr>
+          <td>Status</td>
+          <td>{{member.status}}</td>
+        </tr>
+      </ng-container>
+
+      <ng-container *ngIf="isIAP">
+        <tr>
+          <th colspan="2">Apple IAP</th>
+        </tr>
+        <tr>
+          <td>Original Transaction ID</td>
+          <td>{{member.appleSubsId}}</td>
+        </tr>
+      </ng-container>
+
+      <ng-container *ngIf="isB2B">
+        <tr>
+          <th colspan="2">B2B Subscription</th>
+        </tr>
+        <tr>
+          <td>Licence ID</td>
+          <td>{{member.b2bLicenceId}}</td>
+        </tr>
+      </ng-container>
+
+      <tr>
+        <th>Auto Renew</th>
+        <td>{{member.autoRenewal}}</td>
+      </tr>
+
+    </tbody>
+  </table>
+  <ng-template #noMember>
+    <div *ngIf="status"
+      class="card-body">
+      {{status}}
+    </div>
+  </ng-template>
+</div>
+
+<div *ngIf="modal.on"
+  class="modal fade show">
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <app-modal-header
+        [title]="modalTitle"></app-modal-header>
+
+      <div class="modal-body">
+
+      </div>
+    </div>
+  </div>
+</div>
