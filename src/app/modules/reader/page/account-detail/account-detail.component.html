@@ -1,72 +1,13 @@
 <div class="row" *ngIf="account; else loading">
   <div class="col-md-12 col-lg-6">
 
-    <div class="card mb-3">
-      <div class="card-header">Account details</div>
-      <div class="card-body">
-        <div class="media">
-          <div class="media-body">
-            <p>Kind: {{account.kind | uppercase}}</p>
-            <p>Email: {{account.email}}</p>
-            <p>User name: {{account.userName}}</p>
-            <p>Stripe ID: {{account.stripeId}}</p>
-          </div>
-
-          <figure *ngIf="hasWechat" class="text-center">
-            <h6>Wechat</h6>
-            <img [src]="account.wechat.avatarUrl">
-            <figcaption>{{account.wechat.nickname}}</figcaption>
-          </figure>
-        </div>
-      </div>
-
-    </div>
-
+    <app-account-card
+      [account]="account"></app-account-card>
   </div>
 
   <div class="col-md-12 col-lg-6">
-    <div class="card">
-      <div class="card-header">
-        Membership
-      </div>
-      <ul *ngIf="hasMember"
-        class="list-group list-group-flush">
-        <li class="list-group-item d-flex justify-content-between">
-          <span>
-            {{account.membership.tier | tier}}/{{account.membership.cycle | cycle}}
-          </span>
-          <span>
-            {{account.membership.expireDate}}
-          </span>
-        </li>
-
-        <li class="list-group-item">
-          <div class="d-flex justify-content-between">
-            <span>Payment method</span>
-            <span>{{account.membership.payMethod}}</span>
-          </div>
-
-          <div *ngIf="isStripe">
-            <p>Stripe Subscription ID: {{account.membership.stripeSubsId}}</p>
-            <p>Stripe Plan ID: {{account.membership.stripePlanId}}</p>
-            <p>Status: {{account.membership.status}}</p>
-          </div>
-
-          <div *ngIf="isIAP">
-            Original Transaction ID: {{account.membership.appleSubsId}}
-          </div>
-
-          <div *ngIf="isB2B">
-            Licence ID: {{account.membership.b2bLicenceId}}
-          </div>
-        </li>
-
-        <li class="list-group-item d-flex justify-content-between">
-          <span>Auto Renwal</span>
-          <span>{{account.membership.autoRenewal}}</span>
-        </li>
-      </ul>
-    </div>
+    <app-member-card
+      [member]="account.membership"></app-member-card>
   </div>
 
 </div>
@@ -77,29 +18,11 @@
 
 <div>
   <ul class="nav nav-tabs">
-    <li class="nav-item">
-      <a
-        routerLink="./profile"
-        routerLinkActive="active"
-        class="list-group-item">Profile</a>
-    </li>
-    <li>
-      <a
-        routerLink="./activities"
-        routerLinkActive="active"
-        class="list-group-item">Activities</a>
-    </li>
-    <li>
-      <a
-        routerLink="./oauth"
-        routerLinkActive="active"
-        class="list-group-item">Wechat OAuth History</a>
-    </li>
-    <li>
-      <a
-        routerLink="./orders"
-        routerLinkActive="active"
-        class="list-group-item">Subscription Orders</a>
+    <li class="nav-item"
+      *ngFor="let link of navTabs">
+      <a class="list-group-item"
+        [routerLink]="link.href"
+        routerLinkActive="active">{{link.name}}</a>
     </li>
   </ul>
 </div>

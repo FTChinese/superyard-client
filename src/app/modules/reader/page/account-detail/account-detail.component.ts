@@ -8,6 +8,7 @@ import { ReaderService } from 'src/app/data/service/reader.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RequestError, serviceNames } from 'src/app/data/schema/request-result';
 import { ToastService } from 'src/app/shared/service/toast.service';
+import { Link } from 'src/app/shared/widget/link';
 
 @Component({
   selector: 'app-account-detail',
@@ -17,7 +18,21 @@ import { ToastService } from 'src/app/shared/service/toast.service';
 export class AccountDetailComponent implements OnInit {
 
   account: ReaderAccount;
-  showCreateForm = false;
+
+  navTabs: Link[] = [
+    {
+      href: 'profile',
+      name: 'Profile'
+    },
+    {
+      href: 'orders',
+      name: 'Subscription Orders'
+    },
+    {
+      href: 'snapshots',
+      name: 'Membership Snapshots'
+    }
+  ];
 
   constructor(
     private route: ActivatedRoute,
@@ -35,18 +50,6 @@ export class AccountDetailComponent implements OnInit {
 
   get hasMember(): boolean {
     return !!(this.account && isMember(this.account.membership));
-  }
-
-  get isStripe(): boolean {
-    return this.hasMember && this.account.membership.payMethod === 'stripe';
-  }
-
-  get isIAP(): boolean {
-    return this.hasMember && this.account.membership.payMethod === 'apple';
-  }
-
-  get isB2B(): boolean {
-    return this.hasMember && this.account.membership.payMethod === 'b2b';
   }
 
   ngOnInit(): void {
