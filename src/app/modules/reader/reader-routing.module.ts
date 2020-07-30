@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AccountDetailComponent } from './page/account-detail/account-detail.component';
 import { ReaderHomeComponent } from './page/reader-home/reader-home.component';
+import { OrdersComponent } from './page/orders/orders.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,10 @@ const routes: Routes = [
     component: AccountDetailComponent,
     data: { kind: 'wechat' }
   },
+  {
+    path: 'orders',
+    component: OrdersComponent,
+  }
 ];
 
 @NgModule({
