@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { FtcAccount, ReaderAccount, IFtcProfile, IActivity, IWxProfile, IWxLogin, Order, Membership } from 'src/app/data/schema/reader';
-import { ReaderSearchParam } from '../schema/form-data';
+import { ReaderSearchParam, MemberForm } from '../schema/form-data';
 import { switchMap } from 'rxjs/operators';
 
 @Injectable({
@@ -67,5 +67,32 @@ export class ReaderService {
 
   findMembership(userId: string): Observable<Membership> {
     return this.http.get<Membership>(`/api/search/membership/${userId}`);
+  }
+
+  // Refresh membership after modification.
+  refreshMembership(compoundId: string): Observable<Membership> {
+    return this.http.get<Membership>(`/api/memberships/${compoundId}`);
+  }
+
+  createMembership(m: Membership): Observable<boolean> {
+    return this.http.post(
+      '/api/memberships',
+      m,
+      {
+        observe: 'response'
+      }
+    )
+    .pipe(switchMap(resp => of(resp.status === 204)));
+  }
+
+  updateMembership(compoundId: string, m: MemberForm): Observable<boolean> {
+    return this.http.patch(
+      `/api/memberships/${compoundId}`,
+      m,
+      {
+        observe: 'response',
+      }
+    )
+    .pipe(switchMap(resp => of(resp.status === 204)));
   }
 }
