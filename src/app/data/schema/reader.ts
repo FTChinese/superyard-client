@@ -32,11 +32,12 @@ export interface Membership {
   b2bLicenceId: string | null;
 }
 
-export function zeroMember(): Membership {
+// Create a zero membership based on current account.
+export function zeroMember(account: FtcAccount): Membership {
   return {
-    compoundId: '',
-    ftcId: null,
-    unionId: null,
+    compoundId: account.ftcId || account.unionId,
+    ftcId: account.ftcId,
+    unionId: account.unionId,
     tier: null,
     cycle: null,
     expireDate: null,
