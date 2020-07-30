@@ -86,7 +86,7 @@ export class RequestError {
    */
   constructor(
     errResp: HttpErrorResponse,
-    readonly serviceName: string,
+    readonly serviceName?: string,
   ) {
     this.statusCode = errResp.status;
 
