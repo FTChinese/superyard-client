@@ -20,7 +20,13 @@ export class NavComponent implements OnInit {
     },
     {
       name: 'API Access',
-      href: '/' + siteBaseUrl.oauth
+      href: '/' + siteBaseUrl.oauth,
+      children: [
+        {
+          name: 'Personal Keys',
+          href: `/${siteBaseUrl.oauth}/keys`
+        }
+      ]
     },
     {
       name: 'Wiki',
