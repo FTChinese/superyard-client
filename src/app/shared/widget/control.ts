@@ -1,4 +1,5 @@
 import { ValidatorFn, Validators } from '@angular/forms';
+import { SelectOption } from 'src/app/data/schema/enum';
 
 type ControlType = 'textbox' | 'dropdown' | 'textarea';
 type InputType = 'text' | 'email' | 'password' | 'number' | 'url' | 'search' | 'date' | 'datetime-local';
@@ -6,11 +7,7 @@ type InputType = 'text' | 'email' | 'password' | 'number' | 'url' | 'search' | '
 /**
  * @description Represent the <opiton> element.
  */
-interface OptionElement {
-  disabled: boolean;
-  name: string;
-  value: string;
-}
+interface OptionElement extends SelectOption<string> {}
 
 export interface ControlOptions {
   value?: any;
