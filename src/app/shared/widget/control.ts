@@ -1,4 +1,4 @@
-import { ValidatorFn } from '@angular/forms';
+import { ValidatorFn, Validators } from '@angular/forms';
 
 type ControlType = 'textbox' | 'dropdown' | 'textarea';
 type InputType = 'text' | 'email' | 'password' | 'number' | 'url' | 'search' | 'date' | 'datetime-local';
@@ -21,6 +21,18 @@ export interface ControlOptions {
   placeholder?: string;
   readonly?: boolean;
   disabled?: boolean;
+}
+
+export function buildSearchOpts(placeholder: string): ControlOptions {
+  return {
+    value: '',
+    key: 'keyword',
+    validators: [
+      Validators.required,
+      Validators.maxLength(64)
+    ],
+    placeholder,
+  };
 }
 
 interface InputControlOptions extends ControlOptions {
