@@ -8,6 +8,7 @@ import {
   Gender,
   Platform,
   ActivityKind,
+  OrderKind,
 } from './enum';
 
 export interface Wechat {
@@ -29,6 +30,24 @@ export interface Membership {
   status: SubStatus | null;
   appleSubsId: string | null;
   b2bLicenceId: string | null;
+}
+
+export function zeroMember(): Membership {
+  return {
+    compoundId: '',
+    ftcId: null,
+    unionId: null,
+    tier: null,
+    cycle: null,
+    expireDate: null,
+    payMethod: null,
+    autoRenewal: null,
+    stripeSubsId: null,
+    stripePlanId: null,
+    status: null,
+    appleSubsId: null,
+    b2bLicenceId: null
+  };
 }
 
 export function isMember(m: Membership): boolean {
@@ -115,4 +134,23 @@ export interface IWxLogin extends ClientApp {
   appId: string;
   createdAt: string | null;
   updatedAt: string | null;
+}
+
+export interface Order {
+  id: string;
+  compoundId: string;
+  ftcId: string | null;
+  unionId: string | null;
+  price: number;
+  amount: number;
+  tier: Tier;
+  cycle: Cycle;
+  cycleCount: number;
+  extraDays: number;
+  kind: OrderKind;
+  paymentMethod: PaymentMethod;
+  createdAt: string;
+  confirmedAt: string;
+  startDate: string;
+  endDate: string;
 }
