@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
-import { ReaderAccount, IWxProfile, IFtcProfile, isMember } from 'src/app/data/schema/reader';
+import { ReaderAccount, IWxProfile, IFtcProfile, isMember, Membership, zeroMember } from 'src/app/data/schema/reader';
 import { zip } from 'rxjs';
 import { AccountKind } from 'src/app/data/schema/enum';
 import { ReaderService } from 'src/app/data/service/reader.service';
@@ -18,6 +18,18 @@ import { Link } from 'src/app/shared/widget/link';
 export class AccountDetailComponent implements OnInit {
 
   account: ReaderAccount;
+
+  // Create a zero membership if it does not exists
+  // so that we could pass compound id to MemberCardComponent;
+  // otherwise when we calling ReaderService.createMembership
+  // we won't know whose membership we are creating.
+  get member(): Membership {
+    if (isMember(this.account.membership)) {
+      return this.account.membership;
+    }
+
+    return zeroMember(this.account);
+  }
 
   navTabs: Link[] = [
     {
