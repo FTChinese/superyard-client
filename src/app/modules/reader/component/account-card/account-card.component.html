@@ -1,0 +1,38 @@
+<div class="card mb-3">
+  <div class="card-header">Account details</div>
+  <div class="card-body">
+    <div class="media">
+      <div class="media-body">
+        <table class="table">
+          <tbody>
+            <tr>
+              <th>Kind</th>
+              <td>{{account.kind | uppercase}}</td>
+            </tr>
+            <tr>
+              <th>Email</th>
+              <td>{{account.email || 'N/A'}}</td>
+            </tr>
+            <tr>
+              <th>User name</th>
+              <td>{{account.userName || 'N/A'}}</td>
+            </tr>
+            <tr>
+              <th>Stripe Customer ID</th>
+              <td>{{account.stripeId || 'N/A'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure *ngIf="hasWechat" class="figure text-center">
+        <h6>Wechat</h6>
+        <img class="figure-img"
+          [src]="account.wechat.avatarUrl">
+        <figcaption
+          class="figure-caption">{{account.wechat.nickname}}</figcaption>
+      </figure>
+    </div>
+  </div>
+
+</div>
