@@ -7,6 +7,9 @@ import { ReaderHomeComponent } from './page/reader-home/reader-home.component';
 import { ProfileComponent } from './component/profile/profile.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MemberFormComponent } from './component/member-form/member-form.component';
+import { OrdersComponent } from './page/orders/orders.component';
+import { MemberCardComponent } from './component/member-card/member-card.component';
+import { AccountCardComponent } from './component/account-card/account-card.component';
 
 
 @NgModule({
@@ -15,6 +18,9 @@ import { MemberFormComponent } from './component/member-form/member-form.compone
     AccountDetailComponent,
     ProfileComponent,
     MemberFormComponent,
+    OrdersComponent,
+    MemberCardComponent,
+    AccountCardComponent,
   ],
   imports: [
     CommonModule,
