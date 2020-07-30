@@ -7,7 +7,6 @@ import { authUrls } from 'src/app/layout/sitemap';
 import { RequestError, serviceNames } from 'src/app/data/schema/request-result';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
 import { PasswordResetForm, PasswordResetter } from 'src/app/data/schema/form-data';
 import { StaffService } from 'src/app/data/service/staff.service';
 import { HttpErrorResponse } from '@angular/common/http';
