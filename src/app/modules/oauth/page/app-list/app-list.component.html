@@ -1,41 +1,21 @@
-<div class="row">
+<div class="row justify-content-center">
   <div class="col-md-12 col-lg-8">
 
-    <div class="d-flex justify-content-between mb-3 border-bottom">
-      <h2>Registered Apps</h2>
-      <div>
-        <a routerLink="./new" class="btn btn-primary">New App</a>
+    <ng-container *ngIf="apps; else loading">
+      <div class="d-flex justify-content-between mb-3">
+        <h2>Registered Apps</h2>
+        <button class="btn btn-primary">
+          New App
+        </button>
       </div>
-    </div>
 
-    <div class="border-bottom mb-3 pb-2" *ngFor="let app of apps">
-      <h5>
-        <a [routerLink]="['./', app.clientId]">{{app.name}}</a>
-        <span *ngIf="!app.isActive">[Deprecated]</span>
-      </h5>
+      <app-app-item
+        *ngFor="let app of apps"
+        [app]="app"></app-app-item>
+    </ng-container>
 
-      <p>{{app.description}}</p>
-
-      <p>
-          <span class="font-weight-bold">Source Code</span>
-          <a class="card-link" href="{{app.repoUrl}}" target="_blank">{{app.repoUrl}}</a>
-      </p>
-      <p>
-          <span class="font-weight-bold">Home Page</span>
-          <a href="{{app.homeUrl}}" target="_blank">{{app.homeUrl}}</a>
-      </p>
-
-      <p>
-          Created by <strong>{{ app.ownedBy }}</strong> at {{app.createdAt}}
-      </p>
-
-      <div class="d-flex justify-content-end">
-          <a class="card-link" href="">Access Tokens</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-md-12 col-lg-4">
-
+    <ng-template #loading>
+      <div>Loading...</div>
+    </ng-template>
   </div>
 </div>

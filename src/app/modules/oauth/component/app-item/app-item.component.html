@@ -1,0 +1,35 @@
+<div class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title">
+      <a [routerLink]="['./', app.clientId]">{{app.name}}</a>
+      <span *ngIf="!app.isActive">[Deprecated]</span>
+    </h5>
+    <p class="card-text">
+      {{app.description}}
+    </p>
+
+    <table class="table">
+      <tr>
+        <th>Source Code</th>
+        <td>
+          <a class="card-link" href="{{app.repoUrl}}" target="_blank">{{app.repoUrl}}</a>
+        </td>
+      </tr>
+      <tr>
+        <th>Home Page</th>
+        <td>
+          <a href="{{app.homeUrl}}" target="_blank">{{app.homeUrl}}</a>
+        </td>
+      </tr>
+      <tr>
+        <th>Created by </th>
+        <td>{{ app.ownedBy }}</td>
+      </tr>
+      <tr>
+        <th>Created UTC </th>
+        <td>{{app.createdAt}}</td>
+      </tr>
+    </table>
+  </div>
+
+</div>

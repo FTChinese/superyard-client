@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { IApiApp } from 'src/app/data/schema/oauth';
+import { OAuthApp } from 'src/app/data/schema/oauth';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RequestError } from 'src/app/data/schema/request-result';
 import { OAuthService } from 'src/app/data/service/oauth.service';
+import { ToastService } from 'src/app/shared/service/toast.service';
 
 @Component({
   selector: 'app-app-list',
@@ -10,12 +11,12 @@ import { OAuthService } from 'src/app/data/service/oauth.service';
   styleUrls: ['./app-list.component.scss']
 })
 export class AppListComponent implements OnInit {
-  apps: IApiApp[];
 
-  errMsg: string;
+  apps: OAuthApp[];
 
   constructor(
     private oauthService: OAuthService,
+    private toast: ToastService
   ) { }
 
   ngOnInit(): void {
@@ -25,15 +26,10 @@ export class AppListComponent implements OnInit {
         this.apps = data;
       },
       error: (err: HttpErrorResponse) => {
-        console.log(err);
-        this.handleError(err);
+        const errRes = new RequestError(err);
+
+        this.toast.error(errRes.message);
       }
     });
-  }
-
-  private handleError(errResp: HttpErrorResponse) {
-    const err = RequestError.fromResponse(errResp);
-
-    this.errMsg = err.message;
   }
 }
