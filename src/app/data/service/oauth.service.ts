@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { OAuthApp, AppBase, AccessToken, TokenBase } from 'src/app/data/schema/oauth';
+import { OAuthApp, AccessToken } from 'src/app/data/schema/oauth';
+import { PersonalKeyForm, OAuthAppForm, AppTokenReq } from '../schema/form-data';
 
 @Injectable({
   providedIn: 'root'
@@ -23,24 +23,17 @@ export class OAuthService {
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService,
   ) { }
 
   listApps(): Observable<OAuthApp[]> {
     return this.http.get<OAuthApp[]>(this.urlApps);
   }
 
-  createApp(app: AppBase): Observable<boolean> {
+  createApp(app: OAuthAppForm): Observable<OAuthApp> {
     return this.http
-      .post<AppBase>(
+      .post<OAuthApp>(
         this.urlApps,
         app,
-        {
-          observe: 'response',
-        }
-      )
-      .pipe(
-        switchMap(resp => of(resp.status === 204))
       );
   }
 
@@ -48,8 +41,8 @@ export class OAuthService {
     return this.http.get<OAuthApp>(this.urlAppOf(clientId));
   }
 
-  updateApp(clientId: string, app: AppBase): Observable<boolean> {
-    return this.http.post<AppBase>(
+  updateApp(clientId: string, app: OAuthAppForm): Observable<boolean> {
+    return this.http.patch<OAuthAppForm>(
       this.urlAppOf(clientId),
       app,
       {
@@ -77,33 +70,30 @@ export class OAuthService {
     return this.http.get<AccessToken[]>(
       this.urlTokens,
       {
-        params: new HttpParams().set('clientId', clientId),
+        params: new HttpParams().set('client_id', clientId),
       }
     );
   }
 
   // Create an access token for an app or person.
-  createToken(token: TokenBase): Observable<boolean> {
-    token.createdBy = this.authService.account.userName;
+  createToken(token: AppTokenReq): Observable<AccessToken> {
 
-    return this.http.post<TokenBase>(
+    return this.http.post<AccessToken>(
         this.urlTokens,
         token,
-        {
-          observe: 'response',
-        }
-      )
-      .pipe(
-        switchMap(resp => of(resp.status === 204))
       );
   }
 
   listPersonalKeys(): Observable<AccessToken[]> {
     return this.http.get<AccessToken[]>(
+      this.urlTokens
+    );
+  }
+
+  createPersonalKey(key: PersonalKeyForm): Observable<AccessToken> {
+    return this.http.post<AccessToken>(
       this.urlTokens,
-      {
-        params: new HttpParams().set('staff_name', this.authService.account.userName),
-      }
+      key,
     );
   }
 }
