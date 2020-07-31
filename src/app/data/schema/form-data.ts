@@ -2,6 +2,7 @@ import { Product, Plan } from './product';
 import { AndroidRelease } from './android';
 import { AccountKind } from './enum';
 import { Membership } from './reader';
+import { AccessToken, OAuthApp } from './oauth';
 
 export interface AccountFields {
   id: string;
@@ -54,3 +55,7 @@ export type ProductReq = ProductBase & {
 export type PlanForm = Omit<Plan, 'id' | 'createdUtc' | 'createdBy'>;
 
 export type ReleaseForm = Omit<AndroidRelease, 'createdAt' | 'updatedAt'>;
+
+export type OAuthAppForm = Pick<OAuthApp, 'name' | 'slug' | 'repoUrl' | 'description' | 'homeUrl' | 'callbackUrl'>;
+export type PersonalKeyForm = Pick<AccessToken, 'description'>;
+export type AppTokenReq = Pick<AccessToken, 'description' | 'clientId'>;
