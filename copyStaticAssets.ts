@@ -9,7 +9,7 @@ console.log('Copying JS file to %s', config.jsCssCopyTarget);
 shell.cp('dist/superyard-client/*.js', config.jsCssCopyTarget);
 
 if (config.production) {
-  console.log('Copying CSS file to %s', config.jsCssCopyTarget)
+  console.log('Copying CSS file to %s', config.jsCssCopyTarget);
   shell.cp('dist/superyard-client/*.css', config.jsCssCopyTarget);
 } else {
   shell.cp('dist/superyard-client/*.map', config.jsCssCopyTarget);
