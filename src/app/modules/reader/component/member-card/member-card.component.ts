@@ -21,6 +21,7 @@ export class MemberCardComponent implements OnInit {
   @Input() member: Membership;
   // A fallback message visible when membership data is not available.
   @Input() status = 'It seems this account does not have a membership yet.';
+  @Input() showMenu = true;
 
   get menuItems(): MenuItem[] {
     if (!this.member) {

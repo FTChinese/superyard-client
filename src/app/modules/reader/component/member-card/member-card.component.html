@@ -3,6 +3,7 @@
     <span>Membership</span>
 
     <app-menu
+      *ngIf="showMenu"
       [items]="menuItems"
       (selected)="onMenuSelected($event)"></app-menu>
   </div>
