@@ -66,6 +66,7 @@ async function build(assets: Assets): Promise<void> {
 
   const goTmpl = await render(config.goTemplate, ctxGo);
 
+  console.log('Writing go template file to %s', config.goOutFile);
   await writeFile(config.goOutFile, goTmpl, { encoding: 'utf8' });
 }
 
