@@ -2,7 +2,7 @@
   <div class="card-body">
     <h5 class="card-title">
       <a [routerLink]="['./', app.clientId]">{{app.name}}</a>
-      <span *ngIf="!app.isActive">[Deprecated]</span>
+      <span *ngIf="!app.isActive"> [Deprecated]</span>
     </h5>
     <p class="card-text">
       {{app.description}}
