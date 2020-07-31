@@ -12,7 +12,7 @@
     "build-go": "ts-node ./bin/build-go.ts",
     "copy-static": "ts-node copyStaticAssets.ts",
     "deploy-dev": "ng build && npm run build-go && npm run copy-static",
-    "deploy": "ng build --prod && npm run build-go --prod && npm run copy-static --prod"
+    "deploy": "ng build --prod && npm run build-go -- --prod && npm run copy-static -- --prod"
   },
   "private": true,
   "dependencies": {
