@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="col-md-12 col-lg-8 mb-5">
+    <div class="d-flex justify-content-between">
+      <h2 class="mb-3">Personal Access Key</h2>
+      <button class="btn btn-primary align-self-center"
+        type="button"
+        (click)="showKeyForm()">New</button>
+    </div>
+
+    <ng-container
+      *ngIf="keys; else loading">
+      <app-token-list
+        [tokens]="keys"></app-token-list>
+    </ng-container>
+
+    <ng-template #loading>
+      <div>Loading...</div>
+    </ng-template>
+  </div>
+
+  <div class="col-md-12 col-lg-4">
+
+    <h5 class="border-bottom">Usage</h5>
+    <p>Personal keys are meant to be used manually to access API endpoints. They might be short-lived and can be deleted any moment. DO not use your personal key as an app's access token as the later should not be deleted indiscreetly.</p>
+    <p>
+      <code>http://api.ftchinese.com/v1/stories/001084835?access_token=your_access_token</code>
+    </p>
+  </div>
+</div>
+
+<div *ngIf="keyFormOpend"
+  class="modal fade show">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <app-modal-header
+        [title]="'Generate a new personal key'"></app-modal-header>
+
+      <div class="modal-body">
+        <app-token-form
+          (created)="onKeyCreated($event)"></app-token-form>
+      </div>
+    </div>
+  </div>
+</div>
