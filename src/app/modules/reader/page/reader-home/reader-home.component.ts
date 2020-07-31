@@ -7,6 +7,7 @@ import { ReaderService } from 'src/app/data/service/reader.service';
 import { buildSearchOpts } from 'src/app/shared/widget/control';
 import { SearchForm, ReaderSearchParam } from 'src/app/data/schema/form-data';
 import { FormService } from 'src/app/shared/service/form.service';
+import { ToastService } from 'src/app/shared/service/toast.service';
 
 @Component({
   selector: 'app-reader-home',
@@ -27,6 +28,7 @@ export class ReaderHomeComponent implements OnInit {
   constructor(
     private readerService: ReaderService,
     private formService: FormService,
+    private toast: ToastService
   ) {
   }
 
@@ -53,9 +55,10 @@ export class ReaderHomeComponent implements OnInit {
           this.formService.enable(true);
           this.accounts = accounts;
         },
-        error: (errResp: HttpErrorResponse) => {
-          console.log(errResp);
-          this.formService.sendError(RequestError.fromResponse(errResp));
+        error: (err: HttpErrorResponse) => {
+          console.log(err);
+          const errRes = new RequestError(err);
+          this.toast.error(errRes.message);
         }
       });
   }
