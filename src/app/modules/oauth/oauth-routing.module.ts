@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AppListComponent } from './page/app-list/app-list.component';
-import { NewKeyComponent } from './page/new-key/new-key.component';
 import { PersonalKeysComponent } from './page/personal-keys/personal-keys.component';
 import { AppDetailComponent } from './page/app-detail/app-detail.component';
 
