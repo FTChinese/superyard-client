@@ -35,7 +35,7 @@ async function build(assets: Assets): Promise<void> {
       .withAttributes(attrs)
       .render();
   })
-  .join('');
+  .join('\n');
 
   // Build HTML script element
   const scripts = assets.scripts.map(attrs => {
@@ -44,7 +44,7 @@ async function build(assets: Assets): Promise<void> {
       .withAttributes(attrs)
       .render();
   })
-  .join('');
+  .join('\n');
 
 
   const ctxIndex: CtxIndex = {
