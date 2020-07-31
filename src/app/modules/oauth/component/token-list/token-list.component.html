@@ -1,0 +1,20 @@
+<div class="list-group"
+  *ngIf="tokens">
+
+  <div class="list-group-item d-flex align-items-center"
+    *ngFor="let key of tokens">
+
+    <div class="flex-grow-1">
+      <h5><code>{{key.token}}</code></h5>
+
+      <p *ngIf="key.description">{{key.description}}</p>
+
+      <div class="text-muted">Created at: {{ key.createdAt }}</div>
+    </div>
+
+    <button
+      class="btn btn-danger align-self-center"
+      (click)="onDelete(key)">Delete</button>
+
+  </div>
+</div>
