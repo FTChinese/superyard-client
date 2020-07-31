@@ -4,6 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { RequestError } from 'src/app/data/schema/request-result';
 import { OAuthService } from 'src/app/data/service/oauth.service';
 import { ToastService } from 'src/app/shared/service/toast.service';
+import { ModalService } from 'src/app/shared/service/modal.service';
 
 @Component({
   selector: 'app-app-list',
@@ -16,7 +17,8 @@ export class AppListComponent implements OnInit {
 
   constructor(
     private oauthService: OAuthService,
-    private toast: ToastService
+    private toast: ToastService,
+    readonly modal: ModalService
   ) { }
 
   ngOnInit(): void {
@@ -31,5 +33,14 @@ export class AppListComponent implements OnInit {
         this.toast.error(errRes.message);
       }
     });
+  }
+
+  showDialog() {
+    this.modal.open();
+  }
+
+  onCreated(app: OAuthApp) {
+    this.modal.close();
+    this.apps.unshift(app);
   }
 }

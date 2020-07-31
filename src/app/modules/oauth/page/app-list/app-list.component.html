@@ -1,10 +1,11 @@
-<div class="row justify-content-center">
+<div class="row">
   <div class="col-md-12 col-lg-8">
 
     <ng-container *ngIf="apps; else loading">
       <div class="d-flex justify-content-between mb-3">
         <h2>Registered Apps</h2>
-        <button class="btn btn-primary">
+        <button class="btn btn-primary"
+          (click)="showDialog()">
           New App
         </button>
       </div>
@@ -12,10 +13,34 @@
       <app-app-item
         *ngFor="let app of apps"
         [app]="app"></app-app-item>
+
+
     </ng-container>
 
     <ng-template #loading>
       <div>Loading...</div>
     </ng-template>
+  </div>
+
+  <div class="col-md-12 col-lg-4">
+    <p>An app must be registered before accessing any of our restful API endpoints.</p>
+    <p>After registration, you can generated an access token for this app and present it to the API upon each HTTP request in you app.</p>
+    <p>The <code>callback</code> field is only required when you are performing web-based OAuth 2.0 login.</p>
+  </div>
+</div>
+
+<div *ngIf="modal.on"
+  class="modal fade show">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <app-modal-header
+        [title]="'Register a new application'"></app-modal-header>
+
+      <div class="modal-body">
+        <app-app-form
+          (created)="onCreated($event)"></app-app-form>
+      </div>
+
+    </div>
   </div>
 </div>
