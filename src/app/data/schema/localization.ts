@@ -23,4 +23,4 @@ export const orderKinds: Record<OrderKind, string> = {
   create: '新建会员',
   renew: '续订',
   upgrade: '升级'
-}
+};
