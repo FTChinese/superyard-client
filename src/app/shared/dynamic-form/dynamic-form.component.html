@@ -6,9 +6,10 @@
 <form [formGroup]="form"
   (ngSubmit)="onSubmit()">
 
-  <ng-container *ngFor="let ctrl of controls">
-    <app-dynamic-control [control]="ctrl" [form]="form"></app-dynamic-control>
-  </ng-container>
+  <app-dynamic-control
+    *ngFor="let ctrl of controls"
+    [control]="ctrl"
+    [form]="form"></app-dynamic-control>
 
   <div class="d-flex justify-content-between">
 
