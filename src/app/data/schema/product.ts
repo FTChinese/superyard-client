@@ -1,6 +1,7 @@
 import { Tier, Cycle } from './enum';
+import { cycles } from './localization';
 
-export interface RetailDiscount {
+export interface Discount {
   priceOff: number;
   startUtc: string | null;
   endUtc: string | null;
@@ -21,8 +22,12 @@ export interface Plan {
   cycle: Cycle;
   createdUtc: string;
   createdBy: string;
-  retailDiscount: RetailDiscount;
+  discount: Discount;
   b2bDiscounts: B2BDiscount[];
+}
+
+export function formatPlanPrice(p: Plan) {
+  return `${p.price}/${cycles[p.cycle]}`;
 }
 
 export interface BaseProduct {
@@ -32,6 +37,7 @@ export interface BaseProduct {
   description: string[];
   smallPrint: string | null;
   createdUtc: string;
+  updatedUtc: string;
   createdBy: string;
 }
 
