@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { DynamicControl } from '../widget/control';
 import { FormGroup, ValidatorFn } from '@angular/forms';
 import { FormService } from '../service/form.service';
+import { DynamicControlService } from '../service/dynamic-control.service';
 import { Button } from '../widget/button';
 import { RequestError } from 'src/app/data/schema/request-result';
 import { Alert } from '../widget/alert';
@@ -31,11 +32,13 @@ export class DynamicFormComponent implements OnInit {
 
   constructor(
     readonly formService: FormService,
+    readonly controlService: DynamicControlService,
   ) { }
 
   ngOnInit(): void {
-    this.form = this.formService.toFormGroup(this.controls, this.crossValidator);
+    this.form = this.controlService.toFormGroup(this.controls, this.crossValidator);
 
+    // Host might need to manipulate this form.
     this.formService.created(this.form);
 
     this.formService.errorReceived$.subscribe(reqErr => {
