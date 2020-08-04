@@ -10,7 +10,7 @@ export const planStdYear: Plan = {
   cycle: 'year',
   createdUtc,
   createdBy: 'weiguo.ni',
-  retailDiscount: {
+  discount: {
     priceOff: 60,
     startUtc: '2020-11-10T16:00:00Z',
     endUtc: '2020-11-10T16:00:00Z',
@@ -39,7 +39,7 @@ export const planStdMonth: Plan = {
   cycle: 'month',
   createdUtc,
   createdBy: 'wegiuo.ni',
-  retailDiscount: {
+  discount: {
     priceOff: 0,
     startUtc: null,
     endUtc: null,
@@ -55,7 +55,7 @@ export const planPrmYear: Plan = {
   cycle: 'year',
   createdUtc,
   createdBy: 'weiguo.ni',
-  retailDiscount: {
+  discount: {
     priceOff: 0,
     startUtc: null,
     endUtc: null,
@@ -90,6 +90,7 @@ export const baseProdStd: BaseProduct = {
   ],
   smallPrint: null,
   createdUtc,
+  updatedUtc: createdUtc,
   createdBy: 'weiguo.ni',
 };
 
@@ -105,6 +106,7 @@ export const baseProdPrm: BaseProduct = {
   ],
   smallPrint: '注：所有活动门票不可折算现金、不能转让、不含差旅与食宿',
   createdUtc,
+  updatedUtc: createdUtc,
   createdBy: 'weiguo.ni',
 };
 
@@ -133,3 +135,8 @@ export const baseProducts = [
   baseProdStd,
   baseProdPrm,
 ];
+
+export const products: Map<string, Product> = new Map([
+  [productStd.id, productStd],
+  [productPrm.id, productPrm]
+]);
