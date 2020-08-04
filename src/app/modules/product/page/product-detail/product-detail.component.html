@@ -71,7 +71,10 @@
           <td>{{plan.price | currency: 'CNY':'symbol-narrow'}}/{{plan.cycle | cycle }}</td>
           <td>{{plan.id}}</td>
           <td>{{plan.createdUtc}}</td>
-          <td></td>
+          <td>
+            <button class="btn btn-link"
+              (click)="onDefaultPlan(plan)">Set Default</button>
+          </td>
         </tr>
       </tbody>
     </table>

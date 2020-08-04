@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from 'src/app/data/schema/product';
+import { Product, Plan } from 'src/app/data/schema/product';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -44,5 +44,9 @@ export class ProductDetailComponent implements OnInit {
   onPriceCreated(ok: boolean) {
     this.modal.close();
     // TODO: refresh prices list.
+  }
+
+  onDefaultPlan(plan: Plan) {
+
   }
 }
