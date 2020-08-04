@@ -19,10 +19,6 @@ export class PlanContentComponent implements OnInit {
     return this.plan && this.plan.discount.priceOff > 0;
   }
 
-  get hasB2bDiscount(): boolean {
-    return this.plan && this.plan.b2bDiscounts.length > 0;
-  }
-
   constructor() { }
 
   ngOnInit(): void {

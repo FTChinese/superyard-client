@@ -23,7 +23,6 @@ export interface Plan {
   createdUtc: string;
   createdBy: string;
   discount: Discount;
-  b2bDiscounts: B2BDiscount[];
 }
 
 export function formatPlanPrice(p: Plan) {

@@ -15,20 +15,6 @@ export const planStdYear: Plan = {
     startUtc: '2020-11-10T16:00:00Z',
     endUtc: '2020-11-10T16:00:00Z',
   },
-  b2bDiscounts: [
-    {
-      id: 1,
-      threshold: 10,
-      priceOff: 15,
-      createdUtc,
-    },
-    {
-      id: 2,
-      threshold: 20,
-      priceOff: 25,
-      createdUtc,
-    }
-  ]
 };
 
 export const planStdMonth: Plan = {
@@ -44,7 +30,6 @@ export const planStdMonth: Plan = {
     startUtc: null,
     endUtc: null,
   },
-  b2bDiscounts: [],
 };
 
 export const planPrmYear: Plan = {
@@ -60,20 +45,6 @@ export const planPrmYear: Plan = {
     startUtc: null,
     endUtc: null,
   },
-  b2bDiscounts: [
-    {
-      id: 3,
-      threshold: 10,
-      priceOff: 100,
-      createdUtc,
-    },
-    {
-      id: 4,
-      threshold: 20,
-      priceOff: 200,
-      createdUtc,
-    },
-  ],
 };
 
 export const baseProdStd: BaseProduct = {
