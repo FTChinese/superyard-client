@@ -65,6 +65,7 @@ export class BuilderComponent implements OnInit {
         description: buildOn.description,
         smallPrint: buildOn.smallPrint,
         createdUtc: buildOn.createdUtc,
+        updatedUtc: buildOn.createdUtc,
         createdBy: buildOn.createdBy,
       }, {touched: false});
 
