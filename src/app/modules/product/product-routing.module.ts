@@ -5,8 +5,9 @@ import { BuilderComponent } from './page/builder/builder.component';
 import { ProductListComponent } from './component/product-list/product-list.component';
 import { PlanListComponent } from './component/plan-list/plan-list.component';
 import { ManualComponent } from './component/manual/manual.component';
-import { NewPlanComponent } from './page/new-plan/new-plan.component';
 import { NewProductComponent } from './page/new-product/new-product.component';
+import { ProductDetailComponent } from './page/product-detail/product-detail.component';
+import { EditProductComponent } from './page/edit-product/edit-product.component';
 
 const routes: Routes = [
   {
@@ -14,12 +15,16 @@ const routes: Routes = [
     component: ProductHomeComponent,
   },
   {
-    path: 'builder/new-plan',
-    component: NewPlanComponent,
+    path: 'new',
+    component: NewProductComponent,
   },
   {
-    path: 'builder/new-desc',
-    component: NewProductComponent,
+    path: ':id',
+    component: ProductDetailComponent,
+  },
+  {
+    path: ':id/edit',
+    component: EditProductComponent,
   },
   {
     path: 'builder',

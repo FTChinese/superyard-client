@@ -16,6 +16,9 @@ import { PlanFormComponent } from './component/plan-form/plan-form.component';
 import { NewPlanComponent } from './page/new-plan/new-plan.component';
 import { NewProductComponent } from './page/new-product/new-product.component';
 import { ProductFormComponent } from './component/product-form/product-form.component';
+import { ProductDetailComponent } from './page/product-detail/product-detail.component';
+import { EditProductComponent } from './page/edit-product/edit-product.component';
+import { PriceFormComponent } from './component/price-form/price-form.component';
 
 
 @NgModule({
@@ -33,6 +36,9 @@ import { ProductFormComponent } from './component/product-form/product-form.comp
     NewPlanComponent,
     NewProductComponent,
     ProductFormComponent,
+    ProductDetailComponent,
+    EditProductComponent,
+    PriceFormComponent,
   ],
   imports: [
     CommonModule,
