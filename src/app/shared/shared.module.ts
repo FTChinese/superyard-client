@@ -53,6 +53,7 @@ import { MenuComponent } from './menu/menu.component';
     PayMethodPipe,
     SearchFormComponent,
     DynamicFormComponent,
+    DynamicControlComponent,
     ToastComponent,
     ControlFeedbackComponent,
     DropdownComponent,
