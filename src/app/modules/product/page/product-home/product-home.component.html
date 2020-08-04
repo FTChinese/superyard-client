@@ -1,32 +1,38 @@
-<h2 class="mb-3">Default Products</h2>
-
-<div class="row">
-  <div class="col-md-12 col-lg-6" *ngFor="let product of products">
-
-    <div class="card">
-
-      <div class="card-header text-right">
-        <a routerLink="builder"
-          [state]="{buildOn: product}">Edit</a>
-      </div>
-
-      <div class="card-body">
-
-        <app-product-content
-          [product]="product"></app-product-content>
-
-        <div
-          *ngFor="let plan of product.plans"
-          class="text-center mt-3">
-          <app-plan-content
-            [plan]="plan"></app-plan-content>
-        </div>
-
-      </div>
-
-
+<div class="row justify-content-center">
+  <div class="col-md-12 col-lg-8">
+    <div class="d-flex justify-content-between">
+      <h2 class="mb-3">Products</h2>
+      <a class="btn btn-primary align-self-center"
+        routerLink="new">New</a>
     </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Updated</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products">
+          <td class="align-top w-auto">
+            <a [routerLink]="product.id">
+              {{product.heading}}
+            </a>
+            <div *ngIf="product.plans.length === 1; else planCount">
+              {{product.plans[0].price}}/{{product.plans[0].cycle | cycle }}
+            </div>
+            <ng-template #planCount>
+              <div>
+                {{product.plans.length}} pricing plans
+              </div>
+            </ng-template>
+          </td>
+          <td class="align-middle">
+            {{product.updatedUtc}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
   </div>
-
 </div>
