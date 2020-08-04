@@ -37,7 +37,7 @@ export class PlanFormComponent implements OnInit {
   loading = false;
   tierOpts: SelectOption<Tier>[];
   cycleOpts: SelectOption<Cycle>[];
-  form: FormGroup
+  form: FormGroup;
 
 
   constructor() { }
@@ -178,38 +178,5 @@ export class PlanFormComponent implements OnInit {
     console.log(formData);
     this.form.disable();
     this.loading = true;
-    this.created.emit({
-      id: 'plan_new',
-      createdUtc: toISODatetimeUtc(new Date()),
-      createdBy: 'weiguo.ni',
-      ...formData,
-    });
   }
-
-  // Returing false indicates duplicate threshold field.
-  // private addB2BDiscount(discount: B2BDiscount): boolean {
-  //   console.log('Add a new discount: %o', discount);
-
-  //   const index = this.plan.b2bDiscounts.findIndex(item => item.threshold >= discount.threshold);
-
-  //   console.log('B2B discounts found: %s', index);
-
-  //   if (index === -1) {
-  //     this.plan.b2bDiscounts.push(discount);
-  //     return true;
-  //   }
-
-  //   const foundElem = this.plan.b2bDiscounts[index];
-
-  //   console.log('Found element: %o', foundElem);
-
-  //   // The threshhold field should be unique in the whole array.
-  //   if (foundElem.threshold === discount.threshold) {
-  //     return false;
-  //   }
-  //   // Insert before index.
-
-  //   this.plan.b2bDiscounts.splice(index, 0, discount);
-  //   return true
-  // }
 }

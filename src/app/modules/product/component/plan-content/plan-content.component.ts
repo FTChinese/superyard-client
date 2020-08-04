@@ -16,7 +16,7 @@ export class PlanContentComponent implements OnInit {
   }
 
   get hasRetailDiscount(): boolean {
-    return this.plan && this.plan.retailDiscount.priceOff > 0;
+    return this.plan && this.plan.discount.priceOff > 0;
   }
 
   get hasB2bDiscount(): boolean {

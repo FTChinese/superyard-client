@@ -55,55 +55,6 @@
   </fieldset>
 
   <fieldset *ngIf="permitDiscount"
-    formGroupName="retailDiscount">
-    <legend>Retail Discount</legend>
-
-    <div class="form-group">
-      <label
-        class="form-label"
-        for="priceOff">Price Off</label>
-
-      <input class="form-control"
-        id="priceOff"
-        type="number"
-        formControlName="priceOff"/>
-
-      <app-control-feedback
-        [control]="getControl('retailDiscount.priceOff')"
-        [desc]="'Optional. Only if you want to give retailing customers a discount during the specifid time range.'"></app-control-feedback>
-    </div>
-
-    <div class="form-group">
-      <label
-        class="form-label"
-        for="startUtc">Start time</label>
-
-      <input class="form-control"
-        id="startUtc"
-        type="date"
-        formControlName="startUtc"/>
-
-      <app-control-feedback
-        [control]="getControl('retailDiscount.startUtc')"
-        [desc]="'When should the discount starts. Required only if previous field is not empty'"></app-control-feedback>
-    </div>
-
-    <div class="form-group">
-      <label
-        class="form-label"
-        for="endUtc">End time</label>
-
-      <input class="form-control"
-        id="endUtc"
-        type="date"
-        formControlName="endUtc"/>
-      <app-control-feedback
-        [control]="getControl('retailDiscount.endUtc')"
-        [desc]="'When will the discount ends. Required only if the previous field is not empty'"></app-control-feedback>
-    </div>
-  </fieldset>
-
-  <fieldset *ngIf="permitDiscount"
     formArrayName="b2bDiscounts">
     <legend>B2B Discounts</legend>
 
