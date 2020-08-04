@@ -1,0 +1,95 @@
+<div *ngIf="product">
+  <div class="text-right mb-3">
+    <a class="btn btn-primary" routerLink="edit">Edit</a>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-body">
+      <h6>{{ product.heading}}</h6>
+      <div *ngIf="product.plans.length === 1; else planCount">
+        {{product.plans[0].price | currency: 'CNY':'symbol-narrow'}}/{{product.plans[0].cycle | cycle }}
+      </div>
+      <ng-template #planCount>
+        <div>
+          {{product.plans.length}} pricing plans
+        </div>
+      </ng-template>
+    </div>
+
+    <div class="card-footer d-flex justify-content-between">
+      <div>
+        <div class="text-muted">Updated</div>
+        <div>{{product.updatedUtc}}</div>
+      </div>
+      <div>
+        <div class="text-muted">Created</div>
+        <div>{{product.createdUtc}}</div>
+      </div>
+      <div>
+        <div class="text-muted">Creator</div>
+        <div>{{product.createdBy}}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-header">
+      Description
+    </div>
+    <div class="card-body">
+      <ul>
+        <li *ngFor="let line of product.description">
+          {{ line }}
+        </li>
+      </ul>
+
+      <small *ngIf="product.smallPrint">
+        {{product.smallPrint}}
+      </small>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header d-flex justify-content-between">
+      <span>Pricing</span>
+      <button class="btn btn-outline-primary pt-0 pb-0"
+        (click)="showNewPricing()">New</button>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Price</th>
+          <th>ID</th>
+          <th>Created</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let plan of product.plans">
+          <td>{{plan.price | currency: 'CNY':'symbol-narrow'}}/{{plan.cycle | cycle }}</td>
+          <td>{{plan.id}}</td>
+          <td>{{plan.createdUtc}}</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div *ngIf="modal.on"
+  class="modal fade show">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <app-modal-header
+        [title]="modalTitle"></app-modal-header>
+
+      <div class="modal-body">
+        <app-price-form
+          [product]="product"
+          (created)="onPriceCreated($event)"></app-price-form>
+      </div>
+    </div>
+  </div>
+</div>

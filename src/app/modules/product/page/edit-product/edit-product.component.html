@@ -1,0 +1,16 @@
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+
+    <h2>Edit Product</h2>
+
+    <app-dynamic-form
+      *ngIf="product; else loading"
+      [controls]="controls"
+      [button]="button"></app-dynamic-form>
+
+    <ng-template #loading>
+      <div>Loading...</div>
+    </ng-template>
+  </div>
+</div>
+
