@@ -1,0 +1,7 @@
+<button
+  [class]="button.classNames"
+  [type]="button.type"
+  [disabled]="disabled">
+  {{button.name}}
+  <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status"></span>
+</button>
