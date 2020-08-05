@@ -2,7 +2,7 @@ import { ValidatorFn, Validators } from '@angular/forms';
 import { SelectOption } from 'src/app/data/schema/enum';
 
 type ControlType = 'textbox' | 'dropdown' | 'textarea';
-type InputType = 'text' | 'email' | 'password' | 'number' | 'url' | 'search' | 'date' | 'datetime-local';
+type InputType = 'text' | 'email' | 'password' | 'number' | 'url' | 'search' | 'date' | 'datetime-local' | 'time';
 
 /**
  * @description Represent the <opiton> element.
@@ -50,7 +50,7 @@ export class DynamicControl {
   validators?: ValidatorFn[]; // new FormControl(value, validators)
   disabled: boolean; // If true, use new FormControl({ value: value, disabled; true })
 
-  // Override in suclass
+  // Override in subclass
   controlType: ControlType; // Used by subclass in the ngSwitch directive.
 
   // Config the attributes of HTML element.
@@ -135,4 +135,56 @@ export interface ControlError {
   missing_field?: boolean;
   invalid?: boolean;
   already_exists?: boolean;
+}
+
+export function transformErrMsg(label: string, errors: ControlError): string {
+  if (errors.required) {
+    return `${label} is required`;
+  }
+
+  if (errors.email) {
+    return 'Please provide a valid email';
+  }
+
+  if (errors.mismatched) {
+    return `${label} does not match your previous input`;
+  }
+
+  if (errors.min) {
+    return `${label} should not be lower than ${errors.min.min}`;
+  }
+
+  if (errors.max) {
+    return `${label} should not be greater than ${errors.max.max}`;
+  }
+
+  if (errors.minLength) {
+    return `${label} should have a minimum length of ${errors.minLength.requiredLength}`;
+  }
+
+  if (errors.maxLength) {
+    return `${label} should have a maximun length of ${errors.maxLength.requiredLength}`;
+  }
+
+  if (errors.pattern) {
+    return 'Pattern mismatched';
+  }
+
+  if (errors.missing) {
+    return 'The requesting resource does not exist, or is removed';
+  }
+
+  if (errors.missing_field) {
+    return `${label} is required`;
+  }
+
+  if (errors.invalid) {
+    return `The value you entered is invalid`;
+  }
+
+  if (errors.already_exists) {
+    return `The same value for ${label} already exists. Please use another one.`;
+  }
+
+  return '';
 }
