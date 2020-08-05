@@ -3,7 +3,8 @@ import { buildPlanControls } from '../../control-builder';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
 import { PlanForm, PlanReq } from 'src/app/data/schema/form-data';
-import { Product } from 'src/app/data/schema/product';
+import { Product, Plan } from 'src/app/data/schema/product';
+import { genPlan } from 'src/app/data/schema/mocker';
 
 @Component({
   selector: 'app-price-form',
@@ -15,7 +16,7 @@ export class PriceFormComponent implements OnInit {
 
   // For which product this price is made.
   @Input() product: Product;
-  @Output() created = new EventEmitter<boolean>();
+  @Output() created = new EventEmitter<Plan>();
 
   controls = buildPlanControls();
   button = Button.primary().setName('Save');
@@ -41,11 +42,12 @@ export class PriceFormComponent implements OnInit {
       productId: this.product.id,
       price: formData.price,
       tier: this.product.tier,
-      cycle: formData.cycle
+      cycle: formData.cycle,
+      description: formData.description,
     };
 
     console.log(reqData);
 
-    this.created.emit(true);
+    this.created.emit(genPlan(reqData));
   }
 }
