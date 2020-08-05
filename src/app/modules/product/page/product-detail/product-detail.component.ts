@@ -5,6 +5,7 @@ import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { products } from 'src/app/data/schema/mocker';
 import { ModalService } from 'src/app/shared/service/modal.service';
+import { MenuItem } from 'src/app/shared/widget/menu';
 
 @Component({
   selector: 'app-product-detail',
@@ -14,6 +15,17 @@ import { ModalService } from 'src/app/shared/service/modal.service';
 export class ProductDetailComponent implements OnInit {
 
   product: Product;
+
+  menuItems: MenuItem[] = [
+    {
+      id: '',
+      name: 'Modify discount'
+    },
+    {
+      id: '',
+      name: 'Remove discount'
+    }
+  ];
 
   get modalTitle(): string {
     return `New pricing for ${this.product.tier} product`;

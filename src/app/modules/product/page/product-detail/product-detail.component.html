@@ -64,16 +64,22 @@
           <th>ID</th>
           <th>Created</th>
           <th>Default</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let plan of product.plans">
+        <tr *ngFor="let plan of product.plans; let i=index">
           <td>{{plan.price | currency: 'CNY':'symbol-narrow'}}/{{plan.cycle | cycle }}</td>
           <td>{{plan.id}}</td>
           <td>{{plan.createdUtc}}</td>
           <td>
             <button class="btn btn-link"
               (click)="onDefaultPlan(plan)">Set Default</button>
+          </td>
+          <td>
+            <app-menu
+              [sectionIndex]="i"
+              [items]="menuItems"></app-menu>
           </td>
         </tr>
       </tbody>
