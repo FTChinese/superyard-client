@@ -1,17 +1,15 @@
 import { Tier, Cycle } from './enum';
 import { cycles } from './localization';
 
+// The discount of a plan. A plan might not have a discount, in which case
+// all field will be null.
 export interface Discount {
-  priceOff: number;
+  id: string | null;
+  priceOff: number | null;
   startUtc: string | null;
   endUtc: string | null;
-}
-
-export interface B2BDiscount {
-  id: number;
-  threshold: number;
-  priceOff: number;
-  createdUtc: string;
+  createdUtc: string | null;
+  createdBy: string | null;
 }
 
 export interface Plan {
@@ -20,6 +18,7 @@ export interface Plan {
   currency: string;
   tier: Tier;
   cycle: Cycle;
+  description: string | null;
   createdUtc: string;
   createdBy: string;
   discount: Discount;
