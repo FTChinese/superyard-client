@@ -1,0 +1,31 @@
+<div class="form-row" [formGroup]="form">
+
+  <div class="form-group col"
+    *ngFor="let control of controls; let i=index">
+
+    <label
+      class="form-label"
+      [attr.for]="control.key">
+      {{control.label}}
+    </label>
+
+    <input
+      class="form-control"
+      [id]="control.key"
+      [type]="control.type"
+      [placeholder]="control.placeholder"
+      [formControlName]="control.key"
+      [readonly]="control.readonly"/>
+
+    <div *ngIf="isInputInvalid(i)"
+      class="invalid-feedback">
+      {{getErrMsg(i)}}
+    </div>
+
+    <small *ngIf="control.desc"
+      class="form-text text-muted">
+      {{control.desc}}
+    </small>
+  </div>
+
+</div>
