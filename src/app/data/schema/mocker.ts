@@ -1,6 +1,46 @@
-import { Plan, Product, BaseProduct } from './product';
+import { Plan, Product, BaseProduct, Discount } from './product';
+import { DiscountForm, buildDiscountReq, PlanForm, PlanReq, DiscountReq } from './form-data';
+import { toISODatetimeUtc, isoOffset } from '../formatter/datetime';
+
+export function randomString(): string {
+  return Math.random().toString(36).substring(2, 15);
+}
+
+const RANGE = (x, y) => Array.from((function*() {
+  while (x <= y) { yield x++; }
+})());
 
 const createdUtc = '2020-05-05T17:19:00Z';
+
+export function genDiscount(reqData: DiscountReq): Discount {
+  return {
+    id: `dsc_${randomString()}`,
+    ...reqData,
+    createdUtc: toISODatetimeUtc(new Date()),
+    createdBy: 'weiguo.ni',
+  };
+}
+
+export function genPlan(reqData: PlanReq): Plan {
+  return {
+    id: `plan_${randomString()}`,
+    price: reqData.price,
+    currency: 'cny',
+    tier: reqData.tier,
+    cycle: reqData.cycle,
+    description: reqData.description,
+    createdUtc: toISODatetimeUtc(new Date()),
+    createdBy: 'weiguo.ni',
+    discount: {
+      id: null,
+      priceOff: null,
+      startUtc: null,
+      endUtc: null,
+      createdUtc: null,
+      createdBy: null,
+    }
+  };
+}
 
 export const planStdYear: Plan = {
   id: 'plan_ICMPPM0UXcpZ',
@@ -8,12 +48,16 @@ export const planStdYear: Plan = {
   currency: 'cny',
   tier: 'standard',
   cycle: 'year',
+  description: 'Standard yearly price',
   createdUtc,
   createdBy: 'weiguo.ni',
   discount: {
+    id: '',
     priceOff: 60,
     startUtc: '2020-11-10T16:00:00Z',
     endUtc: '2020-11-10T16:00:00Z',
+    createdUtc,
+    createdBy: 'weiguo.ni'
   },
 };
 
@@ -23,12 +67,16 @@ export const planStdMonth: Plan = {
   currency: 'cny',
   tier: 'standard',
   cycle: 'month',
+  description: 'Standard monthly price',
   createdUtc,
   createdBy: 'wegiuo.ni',
   discount: {
+    id: null,
     priceOff: 0,
     startUtc: null,
     endUtc: null,
+    createdUtc: null,
+    createdBy: null
   },
 };
 
@@ -38,12 +86,16 @@ export const planPrmYear: Plan = {
   currency: 'cny',
   tier: 'premium',
   cycle: 'year',
+  description: 'Premium yearly price',
   createdUtc,
   createdBy: 'weiguo.ni',
   discount: {
+    id: null,
     priceOff: 0,
     startUtc: null,
     endUtc: null,
+    createdUtc: null,
+    createdBy: null,
   },
 };
 
