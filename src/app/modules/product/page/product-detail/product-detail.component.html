@@ -54,7 +54,7 @@
     <div class="card-header d-flex justify-content-between">
       <span>Pricing</span>
       <button class="btn btn-outline-primary pt-0 pb-0"
-        (click)="showNewPricing()">New</button>
+        (click)="onNewPrice()">New</button>
     </div>
 
     <table class="table">
@@ -69,9 +69,15 @@
       </thead>
       <tbody>
         <tr *ngFor="let plan of product.plans; let i=index">
-          <td>{{plan.price | currency: 'CNY':'symbol-narrow'}}/{{plan.cycle | cycle }}</td>
+          <td>
+            <div>{{plan.price | currency: 'CNY':'symbol-narrow'}}/{{plan.cycle | cycle }}</div>
+            <div class="text-muted">{{plan.description}}</div>
+          </td>
           <td>{{plan.id}}</td>
-          <td>{{plan.createdUtc}}</td>
+          <td>
+            <div>{{plan.createdUtc}}</div>
+            <div class="text-muted">by {{plan.createdBy}}</div>
+          </td>
           <td>
             <button class="btn btn-link"
               (click)="onDefaultPlan(plan)">Set Default</button>
@@ -89,17 +95,47 @@
   <p>Those prices marked as default are used on paywall presented to readers. Each product could only have a maximum of one price for each billing cycle.</p>
 </div>
 
-<div *ngIf="modal.on"
+<div *ngIf="priceModalOn"
   class="modal fade show">
   <div class="modal-dialog">
     <div class="modal-content">
       <app-modal-header
-        [title]="modalTitle"></app-modal-header>
+        [title]="priceModalTitle"></app-modal-header>
 
       <div class="modal-body">
         <app-price-form
           [product]="product"
           (created)="onPriceCreated($event)"></app-price-form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="newDiscountModalOn"
+  class="modal fade show">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <app-modal-header
+        title="New discount"></app-modal-header>
+
+      <div class="modal-body">
+        <app-discount-form
+          [plan]="discountTarget"
+          (created)="onDiscountCreated($event)"></app-discount-form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="removeDiscountModalOn"
+  class="modal fade show">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <app-modal-header
+      title="Remove discount"></app-modal-header>
+
+      <div class="modal-body">
+
       </div>
     </div>
   </div>
