@@ -79,7 +79,8 @@
           <td>
             <app-menu
               [sectionIndex]="i"
-              [items]="menuItems"></app-menu>
+              [items]="menuItems"
+              (selected)="onSelectMenu($event)"></app-menu>
           </td>
         </tr>
       </tbody>

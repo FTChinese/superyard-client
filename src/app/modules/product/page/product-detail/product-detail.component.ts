@@ -5,7 +5,7 @@ import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { products } from 'src/app/data/schema/mocker';
 import { ModalService } from 'src/app/shared/service/modal.service';
-import { MenuItem } from 'src/app/shared/widget/menu';
+import { MenuItem, SelectedItem } from 'src/app/shared/widget/menu';
 
 @Component({
   selector: 'app-product-detail',
@@ -18,12 +18,17 @@ export class ProductDetailComponent implements OnInit {
 
   menuItems: MenuItem[] = [
     {
-      id: '',
+      id: 'modify',
       name: 'Modify discount'
     },
     {
-      id: '',
-      name: 'Remove discount'
+      name: '',
+      divider: true,
+    },
+    {
+      id: 'remove',
+      name: 'Remove discount',
+      danger: true,
     }
   ];
 
@@ -60,5 +65,9 @@ export class ProductDetailComponent implements OnInit {
 
   onDefaultPlan(plan: Plan) {
 
+  }
+
+  onSelectMenu(position: SelectedItem) {
+    console.log('Selected %o', position);
   }
 }

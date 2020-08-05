@@ -8,11 +8,20 @@
   <div *ngIf="on"
     [style]="menuStyle"
     class="dropdown-menu show">
-    <button class="dropdown-item"
-      *ngFor="let item of items; let i=index"
-      (click)="select(i)">
-      {{item.name}}
-    </button>
+    <ng-container *ngFor="let item of items; let i=index">
+      <div class="dropdown-divider"
+        *ngIf="item.divider; else button"></div>
+      <ng-template #button>
+        <button
+          (click)="select(i)"
+          class="dropdown-item"
+          [class.text-danger]="item.danger"
+          [disabled]="item.disabled">
+          {{item.name}}
+        </button>
+      </ng-template>
+    </ng-container>
+
   </div>
 </div>
 
