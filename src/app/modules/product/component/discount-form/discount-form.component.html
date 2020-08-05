@@ -1,0 +1,23 @@
+<!-- <app-dynamic-form
+  [controls]="controls"
+  [button]="button"></app-dynamic-form> -->
+
+<form [formGroup]="form"
+  (ngSubmit)="onSubmit()">
+
+  <app-dynamic-control
+    [control]="controls.priceOff"
+    [form]="form"></app-dynamic-control>
+
+  <app-form-row
+    [controls]="controls.startTimeRow"
+    [form]="form"></app-form-row>
+
+  <app-form-row
+    [controls]="controls.endTimeRow"
+    [form]="form"></app-form-row>
+
+  <app-progress-btn
+    [button]="button"
+    [disabled]="!form.valid"></app-progress-btn>
+</form>
