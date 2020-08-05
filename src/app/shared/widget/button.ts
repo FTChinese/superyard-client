@@ -17,6 +17,7 @@ type BtnSize = 'sm' | 'lg' | 'block';
  */
 export class Button {
 
+  inProgress = false;
   type: BtnType = 'submit';
   name: string;
 
@@ -36,7 +37,7 @@ export class Button {
 
   static menu(): Button {
     return new Button()
-      .setStyle('light')
+      .setStyle('light');
   }
 
   constructor() {}
@@ -73,6 +74,14 @@ export class Button {
 
   isBlock(): boolean {
     return this.size === 'block';
+  }
+
+  start() {
+    this.inProgress = true;
+  }
+
+  stop() {
+    this.inProgress = false;
   }
 
   get classNames(): string[] {
