@@ -9,8 +9,8 @@
     [style]="menuStyle"
     class="dropdown-menu show">
     <button class="dropdown-item"
-      *ngFor="let item of items"
-      (click)="select(item)">
+      *ngFor="let item of items; let i=index"
+      (click)="select(i)">
       {{item.name}}
     </button>
   </div>

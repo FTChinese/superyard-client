@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ElementRef, HostListener, EventEmitter, Output } from '@angular/core';
-import { MenuItem } from '../widget/menu';
+import { MenuItem, SelectedItem } from '../widget/menu';
 
 type Justify = 'right' | 'left';
 
@@ -10,9 +10,11 @@ type Justify = 'right' | 'left';
 })
 export class MenuComponent implements OnInit {
 
+  // Used to identify which menu if there are multiple on the same page.
+  @Input() sectionIndex = 0;
   @Input() items: MenuItem[];
   @Input() justify: Justify = 'right';
-  @Output() selected = new EventEmitter<MenuItem>();
+  @Output() selected = new EventEmitter<SelectedItem>();
 
   menuStyle: object;
 
@@ -59,7 +61,10 @@ export class MenuComponent implements OnInit {
     }
   }
 
-  select(item: MenuItem) {
-    this.selected.emit(item);
+  select(cellIndex: number) {
+    this.selected.emit({
+      sectionIndex: this.sectionIndex,
+      cellIndex,
+    });
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Membership, isMember } from 'src/app/data/schema/reader';
-import { MenuItem } from 'src/app/shared/widget/menu';
+import { MenuItem, SelectedItem } from 'src/app/shared/widget/menu';
 import { ModalService } from 'src/app/shared/service/modal.service';
 import { FormService } from 'src/app/shared/service/form.service';
 import { MemberForm } from 'src/app/data/schema/form-data';
@@ -149,7 +149,7 @@ export class MemberCardComponent implements OnInit {
 
   // Show the form to create/update membership.
   // Which item is selected does no actually matter herer.
-  onMenuSelected(item: MenuItem) {
+  onMenuSelected(item: SelectedItem) {
     this.modal.open();
   }
 }
