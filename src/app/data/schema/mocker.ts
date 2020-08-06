@@ -29,6 +29,7 @@ export function genPlan(reqData: PlanReq): Plan {
     tier: reqData.tier,
     cycle: reqData.cycle,
     description: reqData.description,
+    isActive: false,
     createdUtc: toISODatetimeUtc(new Date()),
     createdBy: 'weiguo.ni',
     discount: {
@@ -49,13 +50,14 @@ export const planStdYear: Plan = {
   tier: 'standard',
   cycle: 'year',
   description: 'Standard yearly price',
+  isActive: true,
   createdUtc,
   createdBy: 'weiguo.ni',
   discount: {
-    id: '',
+    id: 'dsc_ykDueW15nIJQ',
     priceOff: 60,
     startUtc: '2020-11-10T16:00:00Z',
-    endUtc: '2020-11-10T16:00:00Z',
+    endUtc: '2020-11-11T16:00:00Z',
     createdUtc,
     createdBy: 'weiguo.ni'
   },
@@ -68,6 +70,7 @@ export const planStdMonth: Plan = {
   tier: 'standard',
   cycle: 'month',
   description: 'Standard monthly price',
+  isActive: true,
   createdUtc,
   createdBy: 'wegiuo.ni',
   discount: {
@@ -87,6 +90,7 @@ export const planPrmYear: Plan = {
   tier: 'premium',
   cycle: 'year',
   description: 'Premium yearly price',
+  isActive: true,
   createdUtc,
   createdBy: 'weiguo.ni',
   discount: {
