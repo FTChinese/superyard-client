@@ -103,17 +103,9 @@
             <div class="text-muted">by {{plan.createdBy}}</div>
           </td>
           <td>
-            <ng-container *ngIf="plan.discount.id">
-              <div>-{{plan.discount.priceOff | currency: 'CNY':'symbol-narrow'}}</div>
-              <div class="text-muted">
-                <span class="d-block">
-                  {{plan.discount.startUtc}}
-                </span>
-                <span class="d-block">
-                  {{plan.discount.endUtc}}
-                </span>
-              </div>
-            </ng-container>
+            <app-price-off
+              *ngIf="plan.discount.id"
+              [discount]="plan.discount"></app-price-off>
           </td>
           <td>
             <app-menu
