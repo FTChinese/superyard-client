@@ -1,31 +1,37 @@
 <div *ngIf="product">
   <div class="text-right mb-3">
-    <a class="btn btn-primary" routerLink="edit">Edit</a>
+
   </div>
 
   <div class="card mb-3">
-    <div class="card-body">
-      <h6>{{ product.heading}}</h6>
-      <div *ngIf="product.plans.length === 1; else planCount">
-        {{product.plans[0].price | currency: 'CNY':'symbol-narrow'}}/{{product.plans[0].cycle | cycle }}
-      </div>
-      <ng-template #planCount>
-        <div>
-          {{product.plans.length}} pricing plans
+    <div class="card-body d-flex">
+      <div class="flex-grow-1">
+        <h6>{{ product.heading}}</h6>
+        <div *ngIf="product.plans.length === 1; else planCount">
+          <app-plan-price
+            [plan]="product.plans[0]"></app-plan-price>
         </div>
-      </ng-template>
+        <ng-template #planCount>
+          <div>
+            {{product.plans.length}} pricing plans
+          </div>
+        </ng-template>
+      </div>
+      <div>
+        <a class="btn btn-primary" routerLink="edit">Edit</a>
+      </div>
     </div>
 
-    <div class="card-footer d-flex justify-content-between">
+    <div class="card-footer d-flex">
       <div>
         <div class="text-muted">Updated</div>
         <div>{{product.updatedUtc}}</div>
       </div>
-      <div>
+      <div class="ml-3 pl-3 border-left">
         <div class="text-muted">Created</div>
         <div>{{product.createdUtc}}</div>
       </div>
-      <div>
+      <div class="ml-3 pl-3 border-left">
         <div class="text-muted">Creator</div>
         <div>{{product.createdBy}}</div>
       </div>
@@ -53,8 +59,11 @@
   <div class="card">
     <div class="card-header d-flex justify-content-between">
       <span>Pricing</span>
-      <button class="btn btn-outline-primary pt-0 pb-0"
-        (click)="onNewPrice()">New</button>
+      <button
+        class="btn btn-outline-primary btn-inline"
+        (click)="onNewPrice()">
+        New
+      </button>
     </div>
 
     <table class="table">
@@ -63,14 +72,29 @@
           <th>Price</th>
           <th>ID</th>
           <th>Created</th>
-          <th>Default</th>
+          <th>Discount</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let plan of product.plans; let i=index">
           <td>
-            <div>{{plan.price | currency: 'CNY':'symbol-narrow'}}/{{plan.cycle | cycle }}</div>
+            <div>
+
+              <app-plan-price
+                [plan]="plan"></app-plan-price>
+
+              <span *ngIf="plan.isActive; else activate"
+                class="badge badge-success">
+                Active
+              </span>
+              <ng-template #activate>
+                <button class="btn btn-link btn-inline"
+                  (click)="onDefaultPlan(plan)">
+                  Activate
+                </button>
+              </ng-template>
+            </div>
             <div class="text-muted">{{plan.description}}</div>
           </td>
           <td>{{plan.id}}</td>
@@ -79,8 +103,17 @@
             <div class="text-muted">by {{plan.createdBy}}</div>
           </td>
           <td>
-            <button class="btn btn-link"
-              (click)="onDefaultPlan(plan)">Set Default</button>
+            <ng-container *ngIf="plan.discount.id">
+              <div>-{{plan.discount.priceOff | currency: 'CNY':'symbol-narrow'}}</div>
+              <div class="text-muted">
+                <span class="d-block">
+                  {{plan.discount.startUtc}}
+                </span>
+                <span class="d-block">
+                  {{plan.discount.endUtc}}
+                </span>
+              </div>
+            </ng-container>
           </td>
           <td>
             <app-menu
@@ -92,7 +125,7 @@
       </tbody>
     </table>
   </div>
-  <p>Those prices marked as default are used on paywall presented to readers. Each product could only have a maximum of one price for each billing cycle.</p>
+  <p>Those prices marked with <span class="badge badge-success">Active</span> are to charge users when they purchase this product. Each product could only have only one price for each billing cycle.</p>
 </div>
 
 <div *ngIf="priceModalOn"
@@ -132,10 +165,20 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <app-modal-header
-      title="Remove discount"></app-modal-header>
+        title="Remove discount"></app-modal-header>
 
       <div class="modal-body">
+        <p>
+          Are you sure you want to drop discount {{discountTarget.discount.priceOff | currency: 'CNY':'symbol-narrow'}} from this plan
+          <app-plan-price
+            [plan]="discountTarget"></app-plan-price>
+        </p>
+      </div>
 
+      <div class="modal-footer">
+        <button class="btn btn-danger"
+          type="button"
+          (click)="onDropDiscount()">Drop</button>
       </div>
     </div>
   </div>

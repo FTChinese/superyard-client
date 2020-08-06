@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Product, Plan, Discount } from 'src/app/data/schema/product';
+import { Product, Plan, Discount, zeroDiscount } from 'src/app/data/schema/product';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -7,6 +7,7 @@ import { products } from 'src/app/data/schema/mocker';
 import { ModalService } from 'src/app/shared/service/modal.service';
 import { MenuItem, SelectedItem } from 'src/app/shared/widget/menu';
 import { ToastService } from 'src/app/shared/service/toast.service';
+import { pl } from 'date-fns/locale';
 
 @Component({
   selector: 'app-product-detail',
@@ -25,7 +26,7 @@ export class ProductDetailComponent implements OnInit {
   menuItems: MenuItem[] = [
     {
       id: this.modalNewDiscount,
-      name: 'Modify discount'
+      name: 'New discount'
     },
     {
       name: '',
@@ -33,7 +34,7 @@ export class ProductDetailComponent implements OnInit {
     },
     {
       id: this.modalRemoveDiscount,
-      name: 'Remove discount',
+      name: 'Drop discount',
       danger: true,
     }
   ];
@@ -94,6 +95,12 @@ export class ProductDetailComponent implements OnInit {
         break;
 
       case this.modalRemoveDiscount:
+        if (!plan.discount.id) {
+          this.toast.error('This price does not have discount');
+          this.discountTarget = undefined;
+          return;
+        }
+
         this.modal.open(this.modalRemoveDiscount);
         break;
 
@@ -102,15 +109,34 @@ export class ProductDetailComponent implements OnInit {
     }
   }
 
+  // Close discount form dialog after created.
   onDiscountCreated(discount: Discount) {
-    this.modal.close();
     console.log(discount);
+    this.modal.close();
+
+    const plan = this.product.plans
+      .find(p => p.id === this.discountTarget.id);
+    if (plan) {
+      plan.discount = discount;
+    }
+
     this.discountTarget = undefined;
   }
 
-  onDiscountRemoved(ok: boolean) {
+  // Remove discount from the discountTarget.
+  onDropDiscount() {
     this.modal.close();
+
+    const plan = this.product.plans
+      .find(p => p.id === this.discountTarget.id);
+
+    if (plan) {
+      plan.discount = zeroDiscount();
+    }
+
     this.discountTarget = undefined;
+
+    this.toast.info('Discount dropped!');
   }
 
   // Open new price form dialog.
@@ -120,14 +146,27 @@ export class ProductDetailComponent implements OnInit {
 
   // Close price form after created.
   onPriceCreated(plan: Plan) {
-    console.log(plan);
+    console.log('New plan: %o', plan);
+
     this.modal.close();
-    this.toast.info('New price is created. Refreshing...');
-    // TODO: refresh prices list.
+    this.product.plans.unshift(plan);
+
+    console.log(this.product.plans);
   }
 
   // Put a plan under a product's default list so that it is visible on paywall.
   // Request data: product_id: string, plan_id: string.
   onDefaultPlan(plan: Plan) {
+    for (const p of this.product.plans) {
+      if (p.cycle !== plan.cycle) {
+        continue;
+      }
+
+      if (p.id !== plan.id) {
+        p.isActive = false;
+      } else {
+        p.isActive = true;
+      }
+    }
   }
 }
