@@ -20,6 +20,7 @@ import { ProductDetailComponent } from './page/product-detail/product-detail.com
 import { EditProductComponent } from './page/edit-product/edit-product.component';
 import { PriceFormComponent } from './component/price-form/price-form.component';
 import { DiscountFormComponent } from './component/discount-form/discount-form.component';
+import { PlanPriceComponent } from './component/plan-price/plan-price.component';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { DiscountFormComponent } from './component/discount-form/discount-form.c
     EditProductComponent,
     PriceFormComponent,
     DiscountFormComponent,
+    PlanPriceComponent,
   ],
   imports: [
     CommonModule,
