@@ -19,7 +19,8 @@
               {{product.heading}}
             </a>
             <div *ngIf="product.plans.length === 1; else planCount">
-              {{product.plans[0].price}}/{{product.plans[0].cycle | cycle }}
+              <app-plan-price
+                [plan]="product.plans[0]"></app-plan-price>
             </div>
             <ng-template #planCount>
               <div>
