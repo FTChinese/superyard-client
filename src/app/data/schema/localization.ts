@@ -1,4 +1,4 @@
-import { Tier, Cycle, PaymentMethod, OrderKind } from './enum';
+import { Tier, Cycle, PaymentMethod, OrderKind, Currency } from './enum';
 
 export const tiers: Record <Tier, string> = {
   standard: '标准版',
@@ -23,4 +23,13 @@ export const orderKinds: Record<OrderKind, string> = {
   create: '新建会员',
   renew: '续订',
   upgrade: '升级'
+};
+
+export const currencySymbols: Record<Currency, string> = {
+  cny: '¥',
+  eur: '€',
+  gbp: '£',
+  hkd: 'HK$',
+  jpy: '¥',
+  usd: 'US$',
 };

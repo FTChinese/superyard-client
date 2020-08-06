@@ -9,7 +9,7 @@ export type OrderKind = 'create' | 'renew' | 'upgrade';
 export type AccountKind = 'ftc' | 'wechat';
 export type ApiKeyKind = 'app' | 'personal';
 export type ActivityKind = 'login' | 'signup' | 'email_verification' | 'password_reset';
-
+export type Currency = 'cny' | 'eur' | 'gbp' | 'hkd' | 'jpy' | 'usd';
 
 export interface SelectOption<T> {
   disabled: boolean;
