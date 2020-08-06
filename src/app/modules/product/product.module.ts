@@ -13,7 +13,6 @@ import { PlanItemComponent } from './component/plan-item/plan-item.component';
 import { PlanContentComponent } from './component/plan-content/plan-content.component';
 import { ManualComponent } from './component/manual/manual.component';
 import { PlanFormComponent } from './component/plan-form/plan-form.component';
-import { NewPlanComponent } from './page/new-plan/new-plan.component';
 import { NewProductComponent } from './page/new-product/new-product.component';
 import { ProductFormComponent } from './component/product-form/product-form.component';
 import { ProductDetailComponent } from './page/product-detail/product-detail.component';
@@ -35,7 +34,6 @@ import { PlanPriceComponent } from './component/plan-price/plan-price.component'
     PlanContentComponent,
     ManualComponent,
     PlanFormComponent,
-    NewPlanComponent,
     NewProductComponent,
     ProductFormComponent,
     ProductDetailComponent,
