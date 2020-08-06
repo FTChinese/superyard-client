@@ -47,8 +47,14 @@ export class NavComponent implements OnInit {
       ]
     },
     {
-      name: 'Products',
-      href: '/products'
+      name: 'Paywall',
+      href: '/paywall',
+      children: [
+        {
+          name: 'Products',
+          href: `/paywall/products`
+        }
+      ]
     },
     {
       name: 'Retail Subscription',

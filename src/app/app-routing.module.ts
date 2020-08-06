@@ -56,7 +56,7 @@ const routes: Routes = [
         loadChildren: () => ReaderModule,
       },
       {
-        path: 'products',
+        path: 'paywall',
         // loadChildren: () => import('./modules/product/product.module').then(m => m.ProductModule),
         loadChildren: () => ProductModule,
       },
