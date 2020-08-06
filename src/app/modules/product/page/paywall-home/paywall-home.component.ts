@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PaywallBanner } from 'src/app/data/schema/paywall';
+import { PaywallBanner, PromoBanner } from 'src/app/data/schema/paywall';
 import { paywallBanner, productStd, productPrm } from 'src/app/data/schema/mocker';
 import { Product } from 'src/app/data/schema/product';
 
@@ -11,6 +11,8 @@ import { Product } from 'src/app/data/schema/product';
 export class PaywallHomeComponent implements OnInit {
 
   banner: PaywallBanner = paywallBanner;
+  promo: PromoBanner;
+
   products: Product[] = [
     productStd,
     productPrm

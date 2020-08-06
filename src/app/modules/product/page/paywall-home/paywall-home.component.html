@@ -1,9 +1,18 @@
-<div class="row flex-row-reverse border-bottom">
-  <div class="col-sm-4">
-    <img *ngIf="banner.coverUrl" src="{{banner.coverUrl}}" alt="">
+<div class="row border-bottom pb-3">
+  <div class="col-12 text-right">
+    <button class="btn btn-primary">Rebuild products</button>
   </div>
+</div>
 
+<div class="row border-bottom mt-3">
   <div class="col-sm-8">
+    <div>
+      <span>Paywall banner</span>
+      <a class="btn btn-link btn-inline"
+        [routerLink]="['banners', banner.id]">Edit</a>
+      <a class="btn btn-link btn-inline"
+        routerLink="banners/new">New</a>
+    </div>
     <div class="pt-3 pb-3">
       <h1>{{banner.heading}}</h1>
       <h2 *ngIf="banner.subHeading">{{banner.subHeading}}</h2>
@@ -12,11 +21,48 @@
       <p *ngFor="let p of banner.content">{{p}}</p>
     </div>
   </div>
+
+  <div class="col-sm-4">
+    <img *ngIf="banner.coverUrl" src="{{banner.coverUrl}}" alt="">
+  </div>
 </div>
 
-<div class="row justify-content-between p-3">
-  <h2>Products in use</h2>
-  <button class="btn btn-primary align-self-center">Rebuild products</button>
+<div class="row border-bottom mt-3">
+
+  <div class="col-sm-8">
+    <div>
+      <span>Paywall promotion banner</span>
+      <a class="btn btn-link btn-inline"
+        routerLink="promos/new">New</a>
+    </div>
+    <div class="pt-3 pb-3">
+      <h1>{{banner.heading}}</h1>
+      <h2 *ngIf="banner.subHeading">{{banner.subHeading}}</h2>
+    </div>
+    <div *ngIf="banner.content">
+      <p *ngFor="let p of banner.content">{{p}}</p>
+    </div>
+
+    <div class="border-top">
+      <p>
+        Scheduled:
+      </p>
+      <p>
+        The banner content will be replaced by this promotion during the scheduled period.
+      </p>
+    </div>
+  </div>
+
+  <div class="col-sm-4">
+    <img *ngIf="banner.coverUrl" src="{{banner.coverUrl}}" alt="">
+  </div>
+</div>
+
+<div class="row mt-3 mb-2">
+  <div class="col-12">
+    <span>Products in use</span>
+
+  </div>
 </div>
 
 <div class="row justify-content-between">
@@ -57,3 +103,5 @@
     </div>
   </div>
 </div>
+
+<div>Please click the Rebuild products button in case you made any modification to the contents of a product, the product's plan or the plan's discount; otherwise your modification might be be reflected on the client side.</div>

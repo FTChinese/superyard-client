@@ -13,6 +13,9 @@ import { DiscountFormComponent } from './component/discount-form/discount-form.c
 import { PlanPriceComponent } from './component/plan-price/plan-price.component';
 import { PaywallHomeComponent } from './page/paywall-home/paywall-home.component';
 import { PriceOffComponent } from './component/price-off/price-off.component';
+import { NewBannerComponent } from './page/new-banner/new-banner.component';
+import { NewPromoComponent } from './page/new-promo/new-promo.component';
+import { EditBannerComponent } from './page/edit-banner/edit-banner.component';
 
 
 @NgModule({
@@ -27,6 +30,9 @@ import { PriceOffComponent } from './component/price-off/price-off.component';
     PlanPriceComponent,
     PaywallHomeComponent,
     PriceOffComponent,
+    NewBannerComponent,
+    NewPromoComponent,
+    EditBannerComponent,
   ],
   imports: [
     CommonModule,
