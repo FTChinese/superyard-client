@@ -20,6 +20,8 @@ import { EditProductComponent } from './page/edit-product/edit-product.component
 import { PriceFormComponent } from './component/price-form/price-form.component';
 import { DiscountFormComponent } from './component/discount-form/discount-form.component';
 import { PlanPriceComponent } from './component/plan-price/plan-price.component';
+import { PaywallHomeComponent } from './page/paywall-home/paywall-home.component';
+import { PriceOffComponent } from './component/price-off/price-off.component';
 
 
 @NgModule({
@@ -41,6 +43,8 @@ import { PlanPriceComponent } from './component/plan-price/plan-price.component'
     PriceFormComponent,
     DiscountFormComponent,
     PlanPriceComponent,
+    PaywallHomeComponent,
+    PriceOffComponent,
   ],
   imports: [
     CommonModule,
