@@ -1,6 +1,11 @@
-<!-- <app-dynamic-form
-  [controls]="controls"
-  [button]="button"></app-dynamic-form> -->
+<dl>
+  <dt><app-plan-price
+    [plan]="plan"></app-plan-price></dt>
+  <dd class="text-muted">{{plan.description}}</dd>
+
+  <dt>Timezone</dt>
+  <dd><span class="badge badge-info">{{timezone}}</span></dd>
+</dl>
 
 <form [formGroup]="form"
   (ngSubmit)="onSubmit()">
@@ -20,4 +25,5 @@
   <app-progress-btn
     [button]="button"
     [disabled]="!form.valid"></app-progress-btn>
+
 </form>

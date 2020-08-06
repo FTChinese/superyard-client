@@ -20,7 +20,7 @@ export class DiscountFormComponent implements OnInit {
   @Input() plan: Plan;
   @Output() created = new EventEmitter<Discount>();
 
-  timeZone = isoOffset(new Date());
+  timezone = isoOffset(new Date());
 
   controls: DiscountControls;
   form: FormGroup;
@@ -65,7 +65,7 @@ export class DiscountFormComponent implements OnInit {
   private create(formData: DiscountForm) {
     console.log(formData);
 
-    const reqData = buildDiscountReq(formData, this.timeZone);
+    const reqData = buildDiscountReq(formData, this.timezone);
 
     this.created.emit(genDiscount(reqData));
   }
