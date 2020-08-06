@@ -8,22 +8,27 @@ import { ManualComponent } from './component/manual/manual.component';
 import { NewProductComponent } from './page/new-product/new-product.component';
 import { ProductDetailComponent } from './page/product-detail/product-detail.component';
 import { EditProductComponent } from './page/edit-product/edit-product.component';
+import { PaywallHomeComponent } from './page/paywall-home/paywall-home.component';
 
 const routes: Routes = [
   {
     path: '',
+    component: PaywallHomeComponent,
+  },
+  {
+    path: 'products',
     component: ProductHomeComponent,
   },
   {
-    path: 'new',
+    path: 'products/new',
     component: NewProductComponent,
   },
   {
-    path: ':id',
+    path: 'products/:id',
     component: ProductDetailComponent,
   },
   {
-    path: ':id/edit',
+    path: 'products/:id/edit',
     component: EditProductComponent,
   },
   {
