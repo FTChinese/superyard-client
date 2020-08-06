@@ -5,6 +5,7 @@ import { FormService } from 'src/app/shared/service/form.service';
 import { PlanForm, PlanReq } from 'src/app/data/schema/form-data';
 import { Product, Plan } from 'src/app/data/schema/product';
 import { genPlan } from 'src/app/data/schema/mocker';
+import { ToastService } from 'src/app/shared/service/toast.service';
 
 @Component({
   selector: 'app-price-form',
@@ -19,10 +20,11 @@ export class PriceFormComponent implements OnInit {
   @Output() created = new EventEmitter<Plan>();
 
   controls = buildPlanControls();
-  button = Button.primary().setName('Save');
+  button = Button.primary().setName('Create');
 
   constructor(
-    private formService: FormService
+    private formService: FormService,
+    private toast: ToastService
   ) { }
 
   ngOnInit(): void {
@@ -46,8 +48,9 @@ export class PriceFormComponent implements OnInit {
       description: formData.description,
     };
 
-    console.log(reqData);
+    console.log('Plan request: %o', reqData);
 
     this.created.emit(genPlan(reqData));
+    this.toast.info('New pricing plan created!');
   }
 }
