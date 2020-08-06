@@ -1,6 +1,7 @@
 import { Plan, Product, BaseProduct, Discount } from './product';
-import { DiscountForm, buildDiscountReq, PlanForm, PlanReq, DiscountReq } from './form-data';
-import { toISODatetimeUtc, isoOffset } from '../formatter/datetime';
+import { PaywallBanner } from './paywall';
+import { PlanReq, DiscountReq } from './form-data';
+import { toISODatetimeUtc } from '../formatter/datetime';
 
 export function randomString(): string {
   return Math.random().toString(36).substring(2, 15);
@@ -167,3 +168,28 @@ export const products: Map<string, Product> = new Map([
   [productStd.id, productStd],
   [productPrm.id, productPrm]
 ]);
+
+export const paywallBanner: PaywallBanner = {
+  id: 1,
+  heading: 'FT中文网会员订阅服务',
+  coverUrl: 'http://www.ftacademy.cn/subscription.jpg',
+  subHeading: '欢迎您',
+  content: [
+    '希望全球视野的FT中文网，能够带您站在高海拔的地方俯瞰世界，引发您的思考，从不同的角度看到不一样的事物，见他人之未见！'
+  ],
+  createdUtc: toISODatetimeUtc(new Date()),
+  updatedUtc: toISODatetimeUtc(new Date()),
+  createdBy: 'weiguo.ni',
+  promo: {
+    id: 0,
+    heading: '',
+    coverUrl: null,
+    subHeading: null,
+    content: null,
+    createdUtc: null,
+    updatedUtc: null,
+    createdBy: null,
+    startUtc: null,
+    endUtc: null
+  }
+};
