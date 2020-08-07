@@ -32,6 +32,8 @@ export class FormService {
   }
 
   // Parent host send error messages to form.
+  // For long forms, it's better to handle non-422 error
+  // in host component with a toast.
   sendError(err: RequestError) {
     this.errorsSource.next(err);
   }
