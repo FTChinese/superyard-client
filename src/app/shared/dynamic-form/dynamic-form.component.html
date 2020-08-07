@@ -11,15 +11,7 @@
     [control]="ctrl"
     [form]="form"></app-dynamic-control>
 
-  <div class="d-flex justify-content-between">
-
-    <button
-      [class]="button.classNames"
-      [type]="button.type"
-      [disabled]="!form.valid">
-      {{button.name}}
-      <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status"></span>
-    </button>
-
-  </div>
+  <app-progress-btn
+    [button]="button"
+    [disabled]="!form.valid"></app-progress-btn>
 </form>

@@ -20,19 +20,20 @@ export class DynamicFormComponent implements OnInit {
 
   form: FormGroup;
   alert: Alert;
-  loading = false;
 
-  private set alertMsg(v: string) {
-    this.alert = {
-      type: 'danger',
-      message: v,
-      dismissible: true,
-    };
+  private set submitting(ok: boolean) {
+    if (ok) {
+      this.form.disable();
+      this.button.start();
+    } else {
+      this.form.enable();
+      this.button.stop();
+    }
   }
 
   constructor(
-    readonly formService: FormService,
-    readonly controlService: DynamicControlService,
+    private formService: FormService,
+    private controlService: DynamicControlService,
   ) { }
 
   ngOnInit(): void {
@@ -42,16 +43,16 @@ export class DynamicFormComponent implements OnInit {
     this.formService.created(this.form);
 
     this.formService.errorReceived$.subscribe(reqErr => {
-      this.form.enable();
-      this.loading = false;
+      this.submitting = false;
       this.setError(reqErr);
     });
 
     this.formService.formEnabled$.subscribe(ok => {
-      this.loading = !ok;
+      // Explicitly ask to enable form.
       if (ok) {
-        this.form.enable();
+        this.submitting = false;
       } else {
+        // When explicitly ask to disable form, the spinner should not be shown.
         this.form.disable();
       }
     });
@@ -60,15 +61,17 @@ export class DynamicFormComponent implements OnInit {
   onSubmit() {
     const data = JSON.stringify(this.form.getRawValue());
     this.formService.submit(data);
-    this.form.disable();
-    this.loading = true;
+    this.submitting = true;
   }
 
   private setError(err: RequestError) {
     console.log('DynamicFormComponent: setting errors manully');
 
+    // When the form is very long, showing alert message at the top
+    // of form might not be a good idea since it might scrolled off
+    // the screen. In such case a toast might be better.
     if (!err.unprocessable) {
-      this.alertMsg = err.toString();
+      this.alert = Alert.danger(err.toString());
       return;
     }
 
