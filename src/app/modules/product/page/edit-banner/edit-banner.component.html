@@ -1,1 +1,7 @@
-<p>edit-banner works!</p>
+<app-banner-form
+  *ngIf="banner; else loading"
+  [banner]="banner"></app-banner-form>
+
+<ng-template #loading>
+  <div>Loading...</div>
+</ng-template>
