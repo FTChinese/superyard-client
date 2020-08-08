@@ -15,14 +15,13 @@ export function normalizeTime(time: string): string {
   return parts.join(':');
 }
 
-export interface DateTimeComponent {
+export interface DateTime {
   date: string;
   time: string;
-  zone: string;
 }
 
-export function concateISODateTime(comp: DateTimeComponent): string {
-  return `${comp.date}T${normalizeTime(comp.time)}${comp.zone}`;
+export function concateISODateTime(dtz: DateTime & { zone: string }): string {
+  return `${dtz.date}T${normalizeTime(dtz.time)}${dtz.zone}`;
 }
 
 export function isoOffset(date: Date): string {
