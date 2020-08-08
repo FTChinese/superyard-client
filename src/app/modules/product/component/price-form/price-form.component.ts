@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { buildPlanControls } from '../../control-builder';
+import { buildPlanControls } from '../../schema/control-builder';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
 import { PlanForm, PlanReq } from 'src/app/data/schema/form-data';
