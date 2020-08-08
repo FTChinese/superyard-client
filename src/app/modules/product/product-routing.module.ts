@@ -5,9 +5,9 @@ import { NewProductComponent } from './page/new-product/new-product.component';
 import { ProductDetailComponent } from './page/product-detail/product-detail.component';
 import { EditProductComponent } from './page/edit-product/edit-product.component';
 import { PaywallHomeComponent } from './page/paywall-home/paywall-home.component';
-import { NewBannerComponent } from './page/new-banner/new-banner.component';
 import { EditBannerComponent } from './page/edit-banner/edit-banner.component';
 import { NewPromoComponent } from './page/new-promo/new-promo.component';
+import { BannerFormComponent } from './component/banner-form/banner-form.component';
 
 const routes: Routes = [
   {
@@ -15,15 +15,15 @@ const routes: Routes = [
     component: PaywallHomeComponent,
   },
   {
-    path: 'banners/new',
-    component: NewBannerComponent,
+    path: 'banner/new',
+    component: BannerFormComponent,
   },
   {
-    path: 'banners/:id',
+    path: 'banner/edit',
     component: EditBannerComponent,
   },
   {
-    path: 'promos/new',
+    path: 'promo',
     component: NewPromoComponent,
   },
   {
