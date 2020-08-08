@@ -1,0 +1,23 @@
+<div class="card mb-3">
+  <div class="card-header d-flex justify-content-between">
+    <span>Paywall Banner</span>
+
+    <a class="btn btn-link btn-inline"
+      *ngIf="result"
+      [routerLink]="link.href">{{link.name}}</a>
+  </div>
+
+  <div class="card-body">
+    <p *ngIf="!result">Loading...</p>
+    <p *ngIf="result && result.notFound">Paywall banner is not created yet.</p>
+    <app-banner-box
+      *ngIf="result && result.value"
+      [banner]="result.value"></app-banner-box>
+  </div>
+
+  <div class="card-footer"
+    *ngIf="result && result.value">
+    <app-meta-list
+      [metaItems]="metaItems"></app-meta-list>
+  </div>
+</div>
