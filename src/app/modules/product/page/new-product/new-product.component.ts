@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
 import { Tier } from 'src/app/data/schema/enum';
 import { DynamicControlService } from 'src/app/shared/service/dynamic-control.service';
-import { buildProductControls, buildPlanControls } from '../../control-builder';
+import { buildProductControls, buildPlanControls } from '../../schema/control-builder';
 import { CreateProductForm } from 'src/app/data/schema/form-data';
 
 @Component({
