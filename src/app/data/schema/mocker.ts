@@ -1,7 +1,8 @@
 import { Plan, Product, BaseProduct, Discount } from './product';
-import { PaywallBanner } from './paywall';
-import { PlanReq, DiscountReq } from './form-data';
+import { Paywall, Banner } from './paywall';
+import { PlanReq } from './form-data';
 import { toISODatetimeUtc } from '../formatter/datetime';
+import { BannerForm, DiscountReq } from 'src/app/modules/product/schema/control-builder';
 
 export function randomString(): string {
   return Math.random().toString(36).substring(2, 15);
@@ -169,17 +170,20 @@ export const products: Map<string, Product> = new Map([
   [productPrm.id, productPrm]
 ]);
 
-export const paywallBanner: PaywallBanner = {
-  id: 1,
-  heading: 'FT中文网会员订阅服务',
-  coverUrl: 'http://www.ftacademy.cn/subscription.jpg',
-  subHeading: '欢迎您',
-  content: [
-    '希望全球视野的FT中文网，能够带您站在高海拔的地方俯瞰世界，引发您的思考，从不同的角度看到不一样的事物，见他人之未见！'
-  ],
-  createdUtc: toISODatetimeUtc(new Date()),
-  updatedUtc: toISODatetimeUtc(new Date()),
-  createdBy: 'weiguo.ni',
+export const mockPaywall: Paywall = {
+  banner: {
+    id: 1,
+    heading: 'FT中文网会员订阅服务',
+    coverUrl: 'http://www.ftacademy.cn/subscription.jpg',
+    subHeading: '欢迎您',
+    content: [
+      '希望全球视野的FT中文网，能够带您站在高海拔的地方俯瞰世界，引发您的思考，从不同的角度看到不一样的事物，见他人之未见！'
+    ],
+    createdUtc: toISODatetimeUtc(new Date()),
+    updatedUtc: toISODatetimeUtc(new Date()),
+    createdBy: 'weiguo.ni',
+    promoId: null
+  },
   promo: {
     id: 0,
     heading: '',
@@ -187,9 +191,26 @@ export const paywallBanner: PaywallBanner = {
     subHeading: null,
     content: null,
     createdUtc: null,
-    updatedUtc: null,
     createdBy: null,
     startUtc: null,
     endUtc: null
-  }
+  },
+  products: [
+    productStd,
+    productPrm
+  ]
 };
+
+export function genBanner(form: BannerForm): Banner {
+  return {
+    id: 1,
+    heading: form.heading,
+    subHeading: form.subHeading,
+    coverUrl: form.coverUrl,
+    content: form.content.split('\n'),
+    createdUtc: toISODatetimeUtc(new Date()),
+    updatedUtc: toISODatetimeUtc(new Date()),
+    createdBy: 'weiguo.ni',
+    promoId: null
+  };
+}
