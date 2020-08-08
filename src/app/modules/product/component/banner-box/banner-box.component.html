@@ -1,0 +1,18 @@
+<div class="row flex-row-reverse">
+
+  <div class="col-sm-4">
+    <div class="box-16-9">
+      <img *ngIf="banner.coverUrl" src="{{banner.coverUrl}}">
+    </div>
+  </div>
+
+  <div class="col-sm-8">
+    <h1 class="card-title">{{banner.heading}}</h1>
+    <h2 class="card-subtitle" *ngIf="banner.subHeading">{{banner.subHeading}}</h2>
+
+    <div class="pt-3">
+      <p *ngFor="let p of banner.content">{{p}}</p>
+    </div>
+  </div>
+
+</div>
