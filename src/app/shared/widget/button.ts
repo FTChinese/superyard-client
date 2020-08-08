@@ -2,15 +2,6 @@ type BtnType = 'button' | 'submit';
 type BtnStyle = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'link';
 type BtnSize = 'sm' | 'lg' | 'block';
 
-// export interface Button {
-//   disabled: boolean;
-//   type: BtnType;
-//   style: BtnStyle;
-//   size: BtnSize;
-//   outline: boolean;
-//   name: string;
-// }
-
 /**
  * @description Build a button's appearance.
  * Using Bootstrap class: btn btn-primary/btn-outline-primary btn-block
