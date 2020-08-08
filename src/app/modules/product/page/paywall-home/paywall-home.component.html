@@ -1,73 +1,23 @@
-<div class="row border-bottom pb-3">
+<div class="row pb-3">
   <div class="col-12 text-right">
-    <button class="btn btn-primary">Rebuild products</button>
+    <a class="btn btn-link" href="#" target="_blank">Inspect API</a>
+    <button class="btn btn-primary">Rebuild Paywall</button>
   </div>
-</div>
-
-<div class="row border-bottom mt-3">
-  <div class="col-sm-8">
-    <div>
-      <span>Paywall banner</span>
-      <a class="btn btn-link btn-inline"
-        [routerLink]="['banners', banner.id]">Edit</a>
-      <a class="btn btn-link btn-inline"
-        routerLink="banners/new">New</a>
-    </div>
-    <div class="pt-3 pb-3">
-      <h1>{{banner.heading}}</h1>
-      <h2 *ngIf="banner.subHeading">{{banner.subHeading}}</h2>
-    </div>
-    <div *ngIf="banner.content">
-      <p *ngFor="let p of banner.content">{{p}}</p>
-    </div>
-  </div>
-
-  <div class="col-sm-4">
-    <img *ngIf="banner.coverUrl" src="{{banner.coverUrl}}" alt="">
-  </div>
-</div>
-
-<div class="row border-bottom mt-3">
-
-  <div class="col-sm-8">
-    <div>
-      <span>Paywall promotion banner</span>
-      <a class="btn btn-link btn-inline"
-        routerLink="promos/new">New</a>
-    </div>
-    <div class="pt-3 pb-3">
-      <h1>{{banner.heading}}</h1>
-      <h2 *ngIf="banner.subHeading">{{banner.subHeading}}</h2>
-    </div>
-    <div *ngIf="banner.content">
-      <p *ngFor="let p of banner.content">{{p}}</p>
-    </div>
-
-    <div class="border-top">
-      <p>
-        Scheduled:
-      </p>
-      <p>
-        The banner content will be replaced by this promotion during the scheduled period.
-      </p>
-    </div>
-  </div>
-
-  <div class="col-sm-4">
-    <img *ngIf="banner.coverUrl" src="{{banner.coverUrl}}" alt="">
-  </div>
-</div>
-
-<div class="row mt-3 mb-2">
   <div class="col-12">
-    <span>Products in use</span>
-
+    <p>Please click the <span class="badge badge-info">Rebuild Paywall</span> button in case you made any modifications to any part of the following paywall, including modifications made on the Products page; otherwise your modification might not be updated in the Subscription API.</p>
+    <p>You can inspect the paywall data currently used by the Subscription API by clicking the Inspect API link. If you find the data in API is out of sync with what you see here, also click the <span class="badge badge-info">Rebuild Paywall</span> button.</p>
   </div>
 </div>
+
+<app-banner-card
+  [result]="bannerResult"></app-banner-card>
+
+<app-promo-card
+  [result]="promoResult"></app-promo-card>
 
 <div class="row justify-content-between">
   <div class="col-lg-5"
-    *ngFor="let product of products">
+    *ngFor="let product of paywall.products">
     <div class="card">
       <div class="card-body">
 
@@ -104,4 +54,3 @@
   </div>
 </div>
 
-<div>Please click the Rebuild products button in case you made any modification to the contents of a product, the product's plan or the plan's discount; otherwise your modification might be be reflected on the client side.</div>

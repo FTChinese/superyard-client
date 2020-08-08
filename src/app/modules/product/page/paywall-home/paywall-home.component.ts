@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { PaywallBanner, PromoBanner } from 'src/app/data/schema/paywall';
-import { paywallBanner, productStd, productPrm } from 'src/app/data/schema/mocker';
-import { Product } from 'src/app/data/schema/product';
+import { Paywall, Banner, Promo } from 'src/app/data/schema/paywall';
+import { mockPaywall } from 'src/app/data/schema/mocker';
+import { LoadingResult, loadingResult } from 'src/app/shared/widget/progress';
 
 @Component({
   selector: 'app-paywall-home',
@@ -10,13 +10,10 @@ import { Product } from 'src/app/data/schema/product';
 })
 export class PaywallHomeComponent implements OnInit {
 
-  banner: PaywallBanner = paywallBanner;
-  promo: PromoBanner;
+  paywall: Paywall = mockPaywall;
 
-  products: Product[] = [
-    productStd,
-    productPrm
-  ];
+  bannerResult: LoadingResult<Banner> = loadingResult(mockPaywall.banner);
+  promoResult: LoadingResult<Promo> = loadingResult();
 
   constructor() { }
 
