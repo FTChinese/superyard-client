@@ -3,12 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { products } from 'src/app/data/schema/mocker';
-import { Product, BaseProduct } from 'src/app/data/schema/product';
-import { buildProductControls } from '../../control-builder';
+import { Product } from 'src/app/data/schema/product';
+import { buildProductControls } from '../../schema/control-builder';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
-import { toISODatetimeUtc } from 'src/app/data/formatter/datetime';
-import { ProductForm, EditProductForm } from 'src/app/data/schema/form-data';
+import { EditProductForm } from 'src/app/data/schema/form-data';
 
 @Component({
   selector: 'app-edit-product',
