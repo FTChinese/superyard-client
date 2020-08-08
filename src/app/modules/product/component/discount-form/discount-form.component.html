@@ -11,15 +11,13 @@
   (ngSubmit)="onSubmit()">
 
   <app-dynamic-control
-    [control]="controls.priceOff"
+    *ngFor="let control of controls"
+    [control]="control"
     [form]="form"></app-dynamic-control>
 
   <app-form-row
-    [controls]="controls.startTimeRow"
-    [form]="form"></app-form-row>
-
-  <app-form-row
-    [controls]="controls.endTimeRow"
+    *ngFor="let set of periodSets"
+    [fieldset]="set"
     [form]="form"></app-form-row>
 
   <app-progress-btn
