@@ -15,15 +15,19 @@ export class DynamicControlService {
   ): FormGroup {
     const group: {[key: string]: AbstractControl} = {};
 
-    configs.forEach(control => {
-      group[control.key] = new FormControl(
-        {
-          value: control.value,
-          disabled: control.disabled || false,
-        },
-        control.validators
-      );
-    });
+    for (const control of configs) {
+      if (control.controlType === 'group') {
+        group[control.key] = this.toFormGroup(control.groupedControls);
+      } else {
+        group[control.key] = new FormControl(
+          {
+            value: control.value,
+            disabled: control.disabled || false,
+          },
+          control.validators
+        );
+      }
+    }
 
     return new FormGroup(group, crossValidator);
   }

@@ -32,8 +32,8 @@ export class DynamicFormComponent implements OnInit {
   }
 
   constructor(
-    private formService: FormService,
-    private controlService: DynamicControlService,
+    protected formService: FormService,
+    protected controlService: DynamicControlService,
   ) { }
 
   ngOnInit(): void {
