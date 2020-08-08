@@ -1,9 +1,8 @@
-import { Product, Plan, Discount } from './product';
+import { Product, Plan } from './product';
 import { AndroidRelease } from './android';
 import { AccountKind } from './enum';
 import { Membership } from './reader';
 import { AccessToken, OAuthApp } from './oauth';
-import { concateISODateTime } from '../formatter/datetime';
 
 export interface AccountFields {
   id: string;
@@ -70,30 +69,6 @@ export type PlanReq = Pick<Plan, 'price' | 'tier' | 'cycle' | 'description'> & {
   productId: string;
 };
 
-export type DiscountForm = Pick<Discount, 'priceOff'> & {
-  startDate: string;
-  startTime: string;
-  endDate: string;
-  endTime: string;
-};
-
-export type DiscountReq = Pick<Discount, 'priceOff' | 'startUtc' | 'endUtc'>;
-
-export function buildDiscountReq(formData: DiscountForm, timezone: string): DiscountReq {
-  return {
-    priceOff: formData.priceOff,
-    startUtc: concateISODateTime({
-      date: formData.startDate,
-      time: formData.startTime,
-      zone: timezone,
-    }),
-    endUtc: concateISODateTime({
-      date: formData.endDate,
-      time: formData.endTime,
-      zone: timezone,
-    }),
-  };
-}
 
 export type ReleaseForm = Omit<AndroidRelease, 'createdAt' | 'updatedAt'>;
 
