@@ -1,19 +1,24 @@
+import { Product } from './product';
+import { Period } from './period';
+
 export interface BaseBanner {
   id: number;
   heading: string;
-  coverUrl: string | null;
   subHeading: string | null;
+  coverUrl: string | null;
   content: string[] | null;
   createdUtc: string | null;
-  updatedUtc: string | null;
   createdBy: string | null;
 }
-
-export type PromoBanner = BaseBanner & {
-  startUtc: string | null;
-  endUtc: string | null;
+export type Banner = BaseBanner & {
+  updatedUtc: string | null;
+  promoId: string | null;
 };
 
-export type PaywallBanner = BaseBanner & {
-  promo: PromoBanner;
-};
+export type Promo = BaseBanner & Partial<Period>;
+
+export interface Paywall {
+  banner: Banner;
+  promo: Promo;
+  products: Product[];
+}
