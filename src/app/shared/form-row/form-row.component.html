@@ -1,31 +1,42 @@
-<div class="form-row" [formGroup]="form">
+<fieldset [formGroup]="form">
+  <legend>{{fieldset.legend}}</legend>
 
-  <div class="form-group col"
-    *ngFor="let control of controls; let i=index">
+  <div class="form-row"
+    [formGroupName]="fieldset.groupName">
 
-    <label
-      class="form-label"
-      [attr.for]="control.key">
-      {{control.label}}
-    </label>
+    <div class="form-group col-12 col-sm-6"
+      *ngFor="let control of fieldset.controls">
 
-    <input
-      class="form-control"
-      [id]="control.key"
-      [type]="control.type"
-      [placeholder]="control.placeholder"
-      [formControlName]="control.key"
-      [readonly]="control.readonly"/>
+      <label
+        class="form-label"
+        [attr.for]="control.key">
+        {{control.label}}
+      </label>
 
-    <div *ngIf="isInputInvalid(i)"
-      class="invalid-feedback">
-      {{getErrMsg(i)}}
+      <input
+        class="form-control"
+        [id]="control.key"
+        [type]="control.type"
+        [placeholder]="control.placeholder"
+        [formControlName]="control.key"
+        [readonly]="control.readonly"/>
+
+      <div *ngIf="isInputInvalid(control)"
+        class="invalid-feedback">
+        {{getInputErrMsg(control)}}
+      </div>
+
+      <small *ngIf="control.desc"
+        class="form-text text-muted">
+        {{control.desc}}
+      </small>
     </div>
 
-    <small *ngIf="control.desc"
-      class="form-text text-muted">
-      {{control.desc}}
-    </small>
   </div>
 
-</div>
+  <div *ngIf="isGroupInvalid"
+    class="invalid-feedback">
+    {{groupErrMsg}}
+  </div>
+</fieldset>
+

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
-import { DynamicControl, transformErrMsg } from '../widget/control';
+import { DynamicControl, transformErrMsg, FieldsetControl, isControlInvalid } from '../widget/control';
 import { FormGroup, AbstractControl } from '@angular/forms';
 
 @Component({
@@ -9,6 +9,7 @@ import { FormGroup, AbstractControl } from '@angular/forms';
 })
 export class FormRowComponent implements OnInit {
 
+  @Input() fieldset: FieldsetControl;
   @Input() controls: DynamicControl[];
   @Input() form: FormGroup;
 
@@ -17,19 +18,28 @@ export class FormRowComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  private getControl(path: string): AbstractControl {
-    return this.form.get(path);
+  // Get the control as a group.
+  private get groupControl(): AbstractControl {
+    return this.form.get(this.fieldset.groupName);
   }
 
-  isInputInvalid(index: number): boolean {
-    const ctrl = this.getControl(this.controls[index].key);
-
-    return ctrl.invalid && (ctrl.dirty || ctrl.touched);
+  get isGroupInvalid(): boolean {
+    return isControlInvalid(this.groupControl);
   }
 
-  getErrMsg(index: number): string {
-    const config = this.controls[index];
+  get groupErrMsg(): string {
+    return transformErrMsg(this.fieldset.legend, this.groupControl.errors);
+  }
 
-    return transformErrMsg(config.label, this.getControl(config.key));
+  private getControl(key: string): AbstractControl {
+    return this.form.get([this.fieldset.groupName, key]);
+  }
+
+  isInputInvalid(dc: DynamicControl): boolean {
+    return isControlInvalid(this.getControl(dc.key));
+  }
+
+  getInputErrMsg(dc: DynamicControl): string {
+    return transformErrMsg(dc.label, this.getControl(dc.key));
   }
 }
