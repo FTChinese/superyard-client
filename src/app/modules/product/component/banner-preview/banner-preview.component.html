@@ -1,0 +1,15 @@
+<h1 *ngIf="preview.heading">
+  {{preview.heading}}
+</h1>
+
+<h2 *ngIf="preview.subHeading">
+  {{preview.subHeading}}
+</h2>
+
+<div class="box-16-9"
+  *ngIf="preview.coverUrl">
+  <img src="{{preview.coverUrl}}">
+</div>
+
+<div *ngIf="preview.content"
+  [innerHTML]="preview.content | marked"></div>
