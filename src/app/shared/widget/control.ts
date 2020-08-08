@@ -1,7 +1,7 @@
-import { ValidatorFn, Validators } from '@angular/forms';
+import { ValidatorFn, Validators, AbstractControl } from '@angular/forms';
 import { SelectOption } from 'src/app/data/schema/enum';
 
-type ControlType = 'textbox' | 'dropdown' | 'textarea';
+type ControlType = 'textbox' | 'dropdown' | 'textarea' | 'group';
 type InputType = 'text' | 'email' | 'password' | 'number' | 'url' | 'search' | 'date' | 'datetime-local' | 'time';
 
 /**
@@ -20,25 +20,6 @@ export interface ControlOptions {
   disabled?: boolean;
 }
 
-export function buildSearchOpts(placeholder: string): ControlOptions {
-  return {
-    value: '',
-    key: 'keyword',
-    validators: [
-      Validators.required,
-      Validators.maxLength(64)
-    ],
-    placeholder,
-  };
-}
-
-interface InputControlOptions extends ControlOptions {
-  type: InputType;
-}
-
-interface DropdownControlOptions extends ControlOptions {
-  options: OptionElement[];
-}
 
 /**
  * @description ControlBase configures a new FormGroup(controls: { [key: string]: AbstractControl })
@@ -54,7 +35,7 @@ export class DynamicControl {
   controlType: ControlType; // Used by subclass in the ngSwitch directive.
 
   // Config the attributes of HTML element.
-  label: string;
+  label: string; // If `controls` field exists, this could be used on the legend element.
   desc: string;
   placeholder: string;
   readonly: boolean;
@@ -62,6 +43,7 @@ export class DynamicControl {
   // Overridable
   type: InputType; // <input>'s type attribute.
   options: OptionElement[]; // <option> tag inside <select>.
+  groupedControls: DynamicControl[]; // For nested group.
 
   constructor(opts: ControlOptions) {
     this.value = opts.value || null;
@@ -76,6 +58,23 @@ export class DynamicControl {
   }
 }
 
+interface InputControlOptions extends ControlOptions {
+  type: InputType;
+}
+
+export function buildSearchOpts(placeholder: string): ControlOptions {
+  return {
+    value: '',
+    key: 'keyword',
+    validators: [
+      Validators.required,
+      Validators.maxLength(64)
+    ],
+    placeholder,
+  };
+}
+
+
 export class InputControl extends DynamicControl {
   controlType: ControlType = 'textbox';
   type: InputType;
@@ -84,6 +83,23 @@ export class InputControl extends DynamicControl {
     super(opts);
     this.type = opts.type;
   }
+
+  static search(placeholder: string): InputControl {
+    return new InputControl({
+      value: '',
+      key: 'keyword',
+      validators: [
+        Validators.required,
+        Validators.maxLength(64)
+      ],
+      placeholder,
+      type: 'search'
+    });
+  }
+}
+
+interface DropdownControlOptions extends ControlOptions {
+  options: OptionElement[];
 }
 
 export class DropdownControl extends DynamicControl {
@@ -102,6 +118,48 @@ export class TextareaControl extends DynamicControl {
   constructor(opts: ControlOptions) {
     super(opts);
   }
+}
+
+interface GroupControlOptions extends ControlOptions {
+  controls: DynamicControl[];
+}
+
+/**
+ * @example
+ * new GroupControl({
+ *  key: 'formGroupName',
+ *  label: 'Shown on the legend element',
+ *  controls: [
+ *    new InputControl({
+ *      value: '',
+ *      key: 'street',
+ *      label: 'Street'
+ *    }),
+ *    new InputControl({
+ *      value: '',
+ *      key: 'zip',
+ *      label: 'Zip'
+ *    }),
+ *  ],
+ * });
+ */
+export class GroupControl extends DynamicControl {
+  controlType: ControlType = 'group';
+
+  constructor(opts: GroupControlOptions) {
+    super(opts);
+    this.groupedControls = opts.controls;
+  }
+}
+
+export interface FieldsetControl {
+  groupName: string;
+  legend: string;
+  controls: DynamicControl[];
+}
+
+export function isControlInvalid(ctrl: AbstractControl): boolean {
+  return ctrl.invalid && (ctrl.dirty || ctrl.touched);
 }
 
 /**
