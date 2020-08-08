@@ -7,7 +7,7 @@ import { products } from 'src/app/data/schema/mocker';
 import { ModalService } from 'src/app/shared/service/modal.service';
 import { MenuItem, SelectedItem } from 'src/app/shared/widget/menu';
 import { ToastService } from 'src/app/shared/service/toast.service';
-import { pl } from 'date-fns/locale';
+import { MetaItem } from 'src/app/shared/widget/meta-data';
 
 @Component({
   selector: 'app-product-detail',
@@ -22,6 +22,27 @@ export class ProductDetailComponent implements OnInit {
 
   product: Product;
   discountTarget: Plan;
+
+  get metaItems(): MetaItem[] {
+    if (!this.product) {
+      return [];
+    }
+
+    return [
+      {
+        label: 'Updated',
+        value: this.product.updatedUtc
+      },
+      {
+        label: 'Created',
+        value: this.product.createdUtc
+      },
+      {
+        label: 'Creator',
+        value: this.product.createdBy
+      }
+    ];
+  }
 
   menuItems: MenuItem[] = [
     {

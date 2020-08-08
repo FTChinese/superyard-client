@@ -1,7 +1,4 @@
 <div *ngIf="product">
-  <div class="text-right mb-3">
-
-  </div>
 
   <div class="card mb-3">
     <div class="card-body d-flex">
@@ -23,18 +20,8 @@
     </div>
 
     <div class="card-footer d-flex">
-      <div>
-        <div class="text-muted">Updated</div>
-        <div>{{product.updatedUtc}}</div>
-      </div>
-      <div class="ml-3 pl-3 border-left">
-        <div class="text-muted">Created</div>
-        <div>{{product.createdUtc}}</div>
-      </div>
-      <div class="ml-3 pl-3 border-left">
-        <div class="text-muted">Creator</div>
-        <div>{{product.createdBy}}</div>
-      </div>
+      <app-meta-list
+        [metaItems]="metaItems"></app-meta-list>
     </div>
   </div>
 
