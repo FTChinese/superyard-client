@@ -1,1 +1,46 @@
-<p>new-promo works!</p>
+<div class="row">
+  <div class="col-12 col-md-6">
+
+    <app-dynamic-form
+      [controls]="controls"
+      [button]="button"></app-dynamic-form>
+
+    <form [formGroup]="form"
+      (ngSubmit)="onSubmit()">
+
+      <h2>Create a New Promotion Banner</h2>
+
+      <app-dynamic-control
+        *ngFor="let control of controls"
+        [control]="control"
+        [form]="form"></app-dynamic-control>
+
+      <app-form-row
+        *ngFor="let set of periodSets"
+        [fieldset]="set"
+        [form]="form"></app-form-row>
+
+      <app-progress-btn
+        [button]="button"
+        [disabled]="!form.valid"></app-progress-btn>
+    </form>
+  </div>
+
+  <div class="col-12 col-md-6">
+    <app-banner-preview
+      *ngIf="preview"
+      [preview]="preview"></app-banner-preview>
+
+    <dl *ngIf="preview" class="mt-3">
+      <dt>Start time</dt>
+      <dd *ngIf="startTime"
+        class="text-danger">{{startTime}}</dd>
+
+      <dt>End time</dt>
+      <dd *ngIf="endTime"
+        class="text-danger">{{endTime}}</dd>
+    </dl>
+  </div>
+</div>
+
+
