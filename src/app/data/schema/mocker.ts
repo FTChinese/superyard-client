@@ -117,7 +117,6 @@ export const baseProdStd: BaseProduct = {
     '无限浏览7日前所有历史文章（近8万篇）'
   ],
   smallPrint: null,
-  isActive: true,
   createdUtc,
   updatedUtc: createdUtc,
   createdBy: 'weiguo.ni',
@@ -134,7 +133,6 @@ export const baseProdPrm: BaseProduct = {
     'FT中文网2018年度论坛门票2张，价值3999元/张 （不含差旅与食宿）'
   ],
   smallPrint: '注：所有活动门票不可折算现金、不能转让、不含差旅与食宿',
-  isActive: false,
   createdUtc,
   updatedUtc: createdUtc,
   createdBy: 'weiguo.ni',
