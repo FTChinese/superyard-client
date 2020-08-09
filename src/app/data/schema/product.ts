@@ -46,6 +46,7 @@ export interface BaseProduct {
   heading: string;
   description: string[];
   smallPrint: string | null;
+  isActive: boolean;
   createdUtc: string;
   updatedUtc: string;
   createdBy: string;
