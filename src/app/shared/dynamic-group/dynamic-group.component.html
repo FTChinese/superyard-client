@@ -1,0 +1,48 @@
+<fieldset [formGroup]="form">
+
+  <legend *ngIf="control.label">{{control.label}}</legend>
+
+  <div class="form-row"
+    [formGroupName]="control.key">
+
+    <div class="form-group col-12 col-sm-6"
+      *ngFor="let subCtrl of control.groupedControls">
+
+      <label
+        class="form-label"
+        [attr.for]="subCtrl.key">
+        {{subCtrl.label}}
+      </label>
+
+      <input
+        class="form-control"
+        [id]="subCtrl.key"
+        [type]="subCtrl.type"
+        [placeholder]="subCtrl.placeholder"
+        [formControlName]="subCtrl.key"
+        [readonly]="subCtrl.readonly"/>
+
+      <div *ngIf="isInputInvalid(subCtrl)"
+        class="invalid-feedback">
+        {{getInputErrMsg(subCtrl)}}
+      </div>
+
+      <small *ngIf="subCtrl.desc"
+        class="form-text text-muted">
+        {{subCtrl.desc}}
+      </small>
+
+    </div>
+  </div>
+
+  <!-- Group level message -->
+  <div *ngIf="isGroupInvalid"
+    class="invalid-feedback">
+    {{groupErrMsg}}
+  </div>
+
+  <small *ngIf="control.desc"
+    class="form-text text-muted">
+    {{control.desc}}
+  </small>
+</fieldset>

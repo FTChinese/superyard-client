@@ -17,8 +17,8 @@ import { PayMethodPipe } from './pipes/pay-method.pipe';
 import { ModalHeaderComponent } from './modal-header/modal-header.component';
 import { ModalCancelComponent } from './modal-cancel/modal-cancel.component';
 import { MenuComponent } from './menu/menu.component';
-import { FormRowComponent } from './form-row/form-row.component';
 import { ProgressBtnComponent } from './progress-btn/progress-btn.component';
+import { DynamicGroupComponent } from './dynamic-group/dynamic-group.component';
 
 @NgModule({
   declarations: [
@@ -37,8 +37,8 @@ import { ProgressBtnComponent } from './progress-btn/progress-btn.component';
     ModalHeaderComponent,
     ModalCancelComponent,
     MenuComponent,
-    FormRowComponent,
     ProgressBtnComponent,
+    DynamicGroupComponent,
   ],
   imports: [
     CommonModule,
@@ -58,7 +58,6 @@ import { ProgressBtnComponent } from './progress-btn/progress-btn.component';
     SearchFormComponent,
     DynamicFormComponent,
     DynamicControlComponent,
-    FormRowComponent,
     ProgressBtnComponent,
     ToastComponent,
     ControlFeedbackComponent,
