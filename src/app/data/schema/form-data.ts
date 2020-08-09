@@ -42,34 +42,6 @@ export interface ReaderSearchParam {
 
 export type MemberForm = Pick<Membership, 'tier' | 'cycle' | 'expireDate' | 'payMethod'>;
 
-type ProductBase = Pick<Product, 'tier' | 'heading' | 'smallPrint'>;
-
-// Deprecated
-export type ProductForm = ProductBase & {
-  description: string;
-};
-
-export type CreateProductForm = Pick<Product, 'tier' | 'heading' | 'smallPrint'> & {
-  description: string | null;
-  plans: Plan[] | null;
-};
-
-export type EditProductForm = Pick<Product, 'heading' | 'smallPrint'> & {
-  description: string | null;
-};
-
-// The data fields when creating a pricing plan.
-// A plan always belongs to a certain product.
-export type PlanForm = Pick<Plan, 'price' | 'cycle' | 'description'>;
-
-// The request data to create a plan.
-// Since a plan always belongs to a product, we get
-// the tier and productId from an existing Product instance.
-export type PlanReq = Pick<Plan, 'price' | 'tier' | 'cycle' | 'description'> & {
-  productId: string;
-};
-
-
 export type ReleaseForm = Omit<AndroidRelease, 'createdAt' | 'updatedAt'>;
 
 export type OAuthAppForm = Pick<OAuthApp, 'name' | 'slug' | 'repoUrl' | 'description' | 'homeUrl' | 'callbackUrl'>;
