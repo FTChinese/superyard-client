@@ -12,31 +12,10 @@
 
     <ng-container
       *ngSwitchCase="'group'">
-      <fieldset>
-        <legend>{{ctrl.label}}</legend>
-        <div class="form-row"
-          [formGroupName]="ctrl.key">
 
-          <div class="form-group col-12 col-sm-6"
-            *ngFor="let subCtrl of ctrl.groupedControls">
-
-            <label
-              class="form-label"
-              [attr.for]="subCtrl.key">
-              {{subCtrl.label}}
-            </label>
-
-            <input
-              class="form-control"
-              [id]="subCtrl.key"
-              [type]="subCtrl.type"
-              [placeholder]="subCtrl.placeholder"
-              [formControlName]="subCtrl.key"
-              [readonly]="subCtrl.readonly"/>
-
-          </div>
-        </div>
-      </fieldset>
+      <app-dynamic-group
+        [control]="ctrl"
+        [form]="form"></app-dynamic-group>
     </ng-container>
 
     <app-dynamic-control
@@ -45,7 +24,6 @@
       [form]="form"></app-dynamic-control>
 
   </ng-container>
-
 
   <app-progress-btn
     [button]="button"
