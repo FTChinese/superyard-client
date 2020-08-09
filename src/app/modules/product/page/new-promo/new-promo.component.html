@@ -5,25 +5,6 @@
       [controls]="controls"
       [button]="button"></app-dynamic-form>
 
-    <form [formGroup]="form"
-      (ngSubmit)="onSubmit()">
-
-      <h2>Create a New Promotion Banner</h2>
-
-      <app-dynamic-control
-        *ngFor="let control of controls"
-        [control]="control"
-        [form]="form"></app-dynamic-control>
-
-      <app-form-row
-        *ngFor="let set of periodSets"
-        [fieldset]="set"
-        [form]="form"></app-form-row>
-
-      <app-progress-btn
-        [button]="button"
-        [disabled]="!form.valid"></app-progress-btn>
-    </form>
   </div>
 
   <div class="col-12 col-md-6">

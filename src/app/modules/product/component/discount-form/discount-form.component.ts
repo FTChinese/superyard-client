@@ -1,18 +1,20 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { Plan, Discount } from 'src/app/data/schema/product';
 import { Button } from 'src/app/shared/widget/button';
-import { buildDiscountControls, periodSets, DiscountForm, DiscountReq, buildDiscountReq } from '../../schema/control-builder';
+import { buildDiscountControls, DiscountForm, DiscountReq, buildDiscountReq } from '../../schema/control-builder';
 import { FormGroup } from '@angular/forms';
-import { DynamicControlService } from 'src/app/shared/service/dynamic-control.service';
 import { isoOffset } from 'src/app/data/formatter/datetime';
-import { buildPeriod } from 'src/app/data/schema/period';
 import { genDiscount } from 'src/app/data/schema/mocker';
 import { DynamicControl } from 'src/app/shared/widget/control';
+import { FormService } from 'src/app/shared/service/form.service';
+import { ToastService } from 'src/app/shared/service/toast.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-discount-form',
   templateUrl: './discount-form.component.html',
   styleUrls: ['./discount-form.component.scss'],
+  providers: [FormService]
 })
 export class DiscountFormComponent implements OnInit {
 
@@ -22,41 +24,26 @@ export class DiscountFormComponent implements OnInit {
   timezone = isoOffset(new Date());
 
   controls: DynamicControl[];
-  periodSets = periodSets;
   form: FormGroup;
   button = Button.primary().setName('Create and apply to this plan');
 
-  set submitting(yes: boolean) {
-    if (yes) {
-      this.form.disable();
-      this.button.start();
-    } else {
-      this.form.enable();
-      this.button.stop();
-    }
-  }
-
   constructor(
-    private controlService: DynamicControlService
+    private formService: FormService,
+    private toast: ToastService,
+    private route: ActivatedRoute,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
     this.controls = buildDiscountControls(this.plan.price);
 
-    this.form = this.controlService.toFormGroup(this.controls);
+    this.formService.formSubmitted$.subscribe(data => {
+      const formData: DiscountForm = JSON.parse(data);
 
-    periodSets.forEach(grp => {
-      this.form.addControl(grp.groupName, this.controlService.toFormGroup(grp.controls));
+      const reqData: DiscountReq = buildDiscountReq(formData, this.timezone);
+
+      this.create(reqData);
     });
-  }
-
-  onSubmit() {
-    const formData: DiscountForm = this.form.value;
-
-    const reqData: DiscountReq = buildDiscountReq(formData, this.timezone);
-
-    this.submitting = true;
-    this.create(reqData);
   }
 
   private create(reqData: DiscountReq) {

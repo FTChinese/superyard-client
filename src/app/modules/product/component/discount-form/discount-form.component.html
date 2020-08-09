@@ -7,21 +7,7 @@
   <dd><span class="badge badge-info">{{timezone}}</span></dd>
 </dl>
 
-<form [formGroup]="form"
-  (ngSubmit)="onSubmit()">
+<app-dynamic-form
+  [controls]="controls"
+  [button]="button"></app-dynamic-form>
 
-  <app-dynamic-control
-    *ngFor="let control of controls"
-    [control]="control"
-    [form]="form"></app-dynamic-control>
-
-  <app-form-row
-    *ngFor="let set of periodSets"
-    [fieldset]="set"
-    [form]="form"></app-form-row>
-
-  <app-progress-btn
-    [button]="button"
-    [disabled]="!form.valid"></app-progress-btn>
-
-</form>
