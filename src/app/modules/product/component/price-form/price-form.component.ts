@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { buildPlanControls } from '../../schema/control-builder';
+import { buildPlanControls, PlanForm, PlanReq } from '../../schema/control-builder';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
-import { PlanForm, PlanReq } from 'src/app/data/schema/form-data';
 import { Product, Plan } from 'src/app/data/schema/product';
 import { genPlan } from 'src/app/data/schema/mocker';
 import { ToastService } from 'src/app/shared/service/toast.service';

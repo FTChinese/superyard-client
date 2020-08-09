@@ -3,36 +3,22 @@ import {
   DropdownControl,
   InputControl,
   TextareaControl,
-  FieldsetControl
+  FieldsetControl,
+  GroupControl
 } from 'src/app/shared/widget/control';
 import { Validators } from '@angular/forms';
 import { tierOpts, cycleOpts, Tier } from 'src/app/data/schema/enum';
 import { BaseBanner } from 'src/app/data/schema/paywall';
-import { Discount } from 'src/app/data/schema/product';
+import { Discount, Product, Plan } from 'src/app/data/schema/product';
 import { FormPeriod, Period, buildPeriod } from 'src/app/data/schema/period';
 
+// The field required for a banner.
 export type BannerForm = Pick<BaseBanner, 'heading' | 'subHeading' | 'coverUrl'> & {
   content: string | null;
 };
 
-export type PromoForm = BannerForm & FormPeriod;
-
-export type PromoReq = BannerForm & Period;
-
-export function buildPromoReq(f: PromoForm, zone: string): PromoReq {
-  return {
-    heading: f.heading,
-    subHeading: f.subHeading,
-    coverUrl: f.coverUrl,
-    content: f.content,
-    ...buildPeriod({
-      ...f,
-      zone,
-    })
-  };
-}
-
-export const datetimeControls: DynamicControl[] = [
+// Two controls to hold date and time value.
+const datetimeControls: DynamicControl[] = [
   // Value format: 2020-08-06T00:00
   new InputControl({
     value: '',
@@ -51,19 +37,23 @@ export const datetimeControls: DynamicControl[] = [
   }),
 ];
 
-export const periodSets: FieldsetControl[] = [
-  {
-    groupName: 'startUtc',
-    legend: 'Start Datetime',
-    controls: datetimeControls,
-  },
-  {
-    groupName: 'endUtc',
-    legend: 'End Datetime',
-    controls: datetimeControls,
-  },
+// Nested group controls for start datetime and end datetime.
+const periodControls: DynamicControl[] = [
+  new GroupControl({
+    key: 'startUtc',
+    label: 'Start Datetime',
+    controls: datetimeControls
+  }),
+  new GroupControl({
+    key: 'endUtc',
+    label: 'End Datetime',
+    controls: datetimeControls
+  })
 ];
 
+/**
+ * @description Controls to describe the banner form.
+ */
 export const bannerControls: DynamicControl[] = [
   new InputControl({
     value: '',
@@ -92,6 +82,59 @@ export const bannerControls: DynamicControl[] = [
   }),
 ];
 
+// Promotion form. This is the banner form plus starting and ending time.
+export type PromoForm = BannerForm & FormPeriod;
+
+// Request data to build a promotion.
+// The type for startUtc and endUtc are different from form.
+export type PromoReq = BannerForm & Period;
+
+/**
+ * @description Turn the promotion form to request data.
+ */
+export function buildPromoReq(f: PromoForm, zone: string): PromoReq {
+  return {
+    heading: f.heading,
+    subHeading: f.subHeading,
+    coverUrl: f.coverUrl,
+    content: f.content,
+    ...buildPeriod({
+      ...f,
+      zone,
+    })
+  };
+}
+
+/**
+ * @description Promotion form UI.
+ */
+export function buildPromoControls(): DynamicControl[] {
+  return [
+    ...bannerControls,
+    ...periodControls,
+  ];
+}
+
+// Product form
+type ProductForm = Pick<Product, 'tier' | 'heading' | 'smallPrint'> & {
+  description: string | null;
+};
+
+// Tne form data to create a new product.
+// It contains an array of Plans depending whenther user chose to
+// add it.
+export type CreateProductForm = ProductForm & {
+  plans: Plan[] | null;
+};
+
+// The form data to edit a product. It does not contain plans field.
+export type EditProductForm = Pick<ProductForm, 'heading' | 'smallPrint' | 'description'>;
+
+/**
+ * @description The product form UI. This is both used when creating a product
+ * and updating a product.
+ * When used to create a product, there are additional form array for plans.
+ */
 export function buildProductControls(): DynamicControl[] {
   return [
     new DropdownControl({
@@ -126,6 +169,24 @@ export function buildProductControls(): DynamicControl[] {
   ];
 }
 
+// Plan form
+
+// The data fields when creating a pricing plan.
+// A plan always belongs to a certain product.
+export type PlanForm = Pick<Plan, 'price' | 'cycle' | 'description'>;
+
+// The request data to create a plan.
+// Since a plan always belongs to a product, we get
+// the tier and productId from an existing Product instance.
+export type PlanReq = Pick<Plan, 'price' | 'tier' | 'cycle' | 'description'> & {
+  productId: string;
+};
+
+/**
+ * @description Construct an array of DynamicControl to describe the UI of a Plan form.
+ * @param productTier - Which type of product this plan is built for. If this
+ * value is `premium`, then we should disable the `month` biling cycle.
+ */
 export function buildPlanControls(productTier?: Tier): DynamicControl[] {
   return [
     new InputControl({
@@ -164,10 +225,15 @@ export function buildPlanControls(productTier?: Tier): DynamicControl[] {
   ];
 }
 
+// The form data of a discount.
 export type DiscountForm = Pick<Discount, 'priceOff'> & FormPeriod;
 
+// The request data to create a discount.
 export type DiscountReq = Pick<Discount, 'priceOff'> & Period;
 
+/**
+ * @description Turn discount form data to requst format.
+ */
 export function buildDiscountReq(f: DiscountForm, zone: string): DiscountReq {
   return {
     priceOff: f.priceOff,
@@ -178,6 +244,12 @@ export function buildDiscountReq(f: DiscountForm, zone: string): DiscountReq {
   };
 }
 
+/**
+ * @description Contruct the controls for a discount form.
+ * @param price - the price of the plan this discount belongs to.
+ * This imposes a cap on the limit of discounted price since it is meaningless
+ * if discount price is above the original price.
+ */
 export function buildDiscountControls(price: number): DynamicControl[] {
   return [
     new InputControl({
@@ -191,5 +263,6 @@ export function buildDiscountControls(price: number): DynamicControl[] {
       label: 'Price Off (Required)',
       type: 'number',
     }),
+    ...periodControls,
   ];
 }

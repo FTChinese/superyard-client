@@ -4,10 +4,9 @@ import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { products } from 'src/app/data/schema/mocker';
 import { Product } from 'src/app/data/schema/product';
-import { buildProductControls } from '../../schema/control-builder';
+import { buildProductControls, EditProductForm } from '../../schema/control-builder';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
-import { EditProductForm } from 'src/app/data/schema/form-data';
 
 @Component({
   selector: 'app-edit-product',
