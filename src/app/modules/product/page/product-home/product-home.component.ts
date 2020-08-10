@@ -19,18 +19,4 @@ export class ProductHomeComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  onSetPaywall(prod: Product) {
-    for (const p of this.products) {
-      if (p.tier !== prod.tier) {
-        continue;
-      }
-
-      if (p.id === prod.id) {
-        p.isActive = true;
-      } else {
-        p.isActive = false;
-      }
-    }
-  }
 }
