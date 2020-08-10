@@ -15,20 +15,6 @@ import { Link } from 'src/app/shared/widget/link';
 export class PromoCardComponent implements OnInit {
   @Input() result: LoadingResult<Promo>;
 
-  get link(): Link {
-    if (this.result.notFound) {
-      return {
-        name: 'New',
-        href: 'banners/new'
-      };
-    }
-
-    return {
-      name: 'Edit',
-      href: 'banners/edit'
-    };
-  }
-
   get metaItems(): MetaItem[] {
     if (!this.result || !this.result.value) {
       return [];
