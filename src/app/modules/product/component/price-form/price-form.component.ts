@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { buildPlanControls, PlanForm, PlanReq } from '../../schema/control-builder';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
-import { Product, Plan } from 'src/app/data/schema/product';
+import { PricedProduct, Plan } from 'src/app/data/schema/product';
 import { genPlan } from 'src/app/data/schema/mocker';
 import { ToastService } from 'src/app/shared/service/toast.service';
 
@@ -15,7 +15,7 @@ import { ToastService } from 'src/app/shared/service/toast.service';
 export class PriceFormComponent implements OnInit {
 
   // For which product this price is made.
-  @Input() product: Product;
+  @Input() product: PricedProduct;
   @Output() created = new EventEmitter<Plan>();
 
   controls = buildPlanControls();

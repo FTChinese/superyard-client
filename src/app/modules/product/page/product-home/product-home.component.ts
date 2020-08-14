@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from 'src/app/data/schema/product';
+import { PricedProduct } from 'src/app/data/schema/product';
 import { productStd, productPrm } from 'src/app/data/schema/mocker';
 
 @Component({
@@ -9,7 +9,7 @@ import { productStd, productPrm } from 'src/app/data/schema/mocker';
 })
 export class ProductHomeComponent implements OnInit {
 
-  products: Product[] = [
+  products: PricedProduct[] = [
     productStd,
     productPrm,
   ];

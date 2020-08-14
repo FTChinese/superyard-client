@@ -1,4 +1,4 @@
-import { Product, Plan } from './product';
+import { PricedProduct, Plan } from './product';
 import { AndroidRelease } from './android';
 import { AccountKind } from './enum';
 import { Membership } from './reader';

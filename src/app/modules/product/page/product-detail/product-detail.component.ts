@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Product, Plan, Discount, zeroDiscount } from 'src/app/data/schema/product';
+import { PricedProduct, Plan, Discount, zeroDiscount } from 'src/app/data/schema/product';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -20,7 +20,7 @@ export class ProductDetailComponent implements OnInit {
   private modalRemoveDiscount = 'r';
   private modalNewPrice = 'p';
 
-  product: Product;
+  product: PricedProduct;
   discountTarget: Plan;
 
   get metaItems(): MetaItem[] {

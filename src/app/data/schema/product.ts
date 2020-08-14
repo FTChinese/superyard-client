@@ -1,57 +1,49 @@
 import { Tier, Cycle } from './enum';
-import { cycles, currencySymbols } from './localization';
+import { Period } from './period';
 
 // The discount of a plan. A plan might not have a discount, in which case
 // all field will be null.
-export interface Discount {
+export type Discount = {
   id: string | null;
+  planId: string | null;
   priceOff: number | null;
-  startUtc: string | null;
-  endUtc: string | null;
-  createdUtc: string | null;
-  createdBy: string | null;
-}
+} & Period;
 
 export function zeroDiscount(): Discount {
   return {
     id: null,
+    planId: null,
     priceOff: null,
     startUtc: null,
     endUtc: null,
-    createdUtc: null,
-    createdBy: null
   };
 }
 
 export interface Plan {
   id: string;
+  productId: string;
   price: number;
-  currency: string;
   tier: Tier;
   cycle: Cycle;
   description: string | null;
   isActive: boolean; // Indicates whether this plan is used actually used under a product.
   createdUtc: string;
   createdBy: string;
-  discount: Discount;
-}
-
-export function formatPlanPrice(p: Plan) {
-  return `${currencySymbols[p.currency] || p.currency.toUpperCase()}${p.price}/${cycles[p.cycle]}`;
+  discount?: Discount;
 }
 
 export interface BaseProduct {
   id: string;
   tier: Tier;
   heading: string;
-  description: string[];
+  description: string | null;
   smallPrint: string | null;
   createdUtc: string;
   updatedUtc: string;
   createdBy: string;
 }
 
-export type Product = BaseProduct & {
+export type PricedProduct = BaseProduct & {
   plans: Plan[];
 };
 

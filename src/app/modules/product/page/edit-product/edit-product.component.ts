@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { products } from 'src/app/data/schema/mocker';
-import { Product } from 'src/app/data/schema/product';
+import { PricedProduct } from 'src/app/data/schema/product';
 import { buildProductControls, EditProductForm } from '../../schema/control-builder';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
@@ -16,7 +16,7 @@ import { FormService } from 'src/app/shared/service/form.service';
 })
 export class EditProductComponent implements OnInit {
 
-  product: Product;
+  product: PricedProduct;
   controls = buildProductControls();
   button: Button = Button.primary().setName('Save');
 

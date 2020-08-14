@@ -9,7 +9,7 @@ import {
 import { Validators } from '@angular/forms';
 import { tierOpts, cycleOpts, Tier } from 'src/app/data/schema/enum';
 import { BaseBanner } from 'src/app/data/schema/paywall';
-import { Discount, Product, Plan } from 'src/app/data/schema/product';
+import { Discount, PricedProduct, Plan } from 'src/app/data/schema/product';
 import { FormPeriod, Period, buildPeriod } from 'src/app/data/schema/period';
 
 // The field required for a banner.
@@ -116,7 +116,7 @@ export function buildPromoControls(): DynamicControl[] {
 }
 
 // Product form
-type ProductForm = Pick<Product, 'tier' | 'heading' | 'smallPrint'> & {
+type ProductForm = Pick<PricedProduct, 'tier' | 'heading' | 'smallPrint'> & {
   description: string | null;
 };
 

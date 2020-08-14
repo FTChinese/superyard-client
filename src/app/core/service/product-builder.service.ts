@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Plan, BaseProduct, Product } from 'src/app/data/schema/product';
+import { Plan, BaseProduct, PricedProduct } from 'src/app/data/schema/product';
 import { Cycle, Tier } from 'src/app/data/schema/enum';
 
 @Injectable({
@@ -149,8 +149,8 @@ export class ProductBuilderService {
   }
 
   // Call isValid before build the product.
-  build(): Product {
-    const prod: Product = {
+  build(): PricedProduct {
+    const prod: PricedProduct = {
       ...this.product,
       plans: [
         this.yearlyPlan,
