@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { BannerForm, PromoForm, CreateProductForm, EditProductForm } from '../schema/control-builder';
+import { Observable, of } from 'rxjs';
+import { Banner, Promo } from 'src/app/data/schema/paywall';
+import { switchMap } from 'rxjs/operators';
+import { PricedProduct, BaseProduct } from 'src/app/data/schema/product';
 
 @Injectable({
   providedIn: 'root'
@@ -10,5 +15,36 @@ export class ProductService {
     private http: HttpClient
   ) { }
 
+  createProduct(prod: CreateProductForm): Observable<BaseProduct> {
+    return this.http.post<BaseProduct>(
+      '/api/products',
+      prod,
+    );
+  }
 
+  listPricedProducts(): Observable<PricedProduct[]> {
+    return this.http.get<PricedProduct[]>(
+      '/api/products'
+    );
+  }
+
+  loadProduct(id: string): Observable<BaseProduct> {
+    return this.http.get<BaseProduct>(
+      `/api/products/${id}`
+    );
+  }
+
+  updateProduct(id: string, prod: EditProductForm): Observable<BaseProduct> {
+    return this.http.patch<BaseProduct>(
+      `/api/products/${id}`,
+      prod,
+    );
+  }
+
+  activateProduct(id: string): Observable<BaseProduct> {
+    return this.http.put<BaseProduct>(
+      `/api/products/${id}`,
+      null
+    );
+  }
 }
