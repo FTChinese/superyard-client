@@ -13,9 +13,7 @@ import { Discount, PricedProduct, Plan } from 'src/app/data/schema/product';
 import { FormPeriod, Period, buildPeriod } from 'src/app/data/schema/period';
 
 // The field required for a banner.
-export type BannerForm = Pick<BaseBanner, 'heading' | 'subHeading' | 'coverUrl'> & {
-  content: string | null;
-};
+export type BannerForm = Pick<BaseBanner, 'heading' | 'subHeading' | 'coverUrl' | 'content'>;
 
 // Two controls to hold date and time value.
 const datetimeControls: DynamicControl[] = [
@@ -124,7 +122,7 @@ type ProductForm = Pick<PricedProduct, 'tier' | 'heading' | 'smallPrint'> & {
 // It contains an array of Plans depending whenther user chose to
 // add it.
 export type CreateProductForm = ProductForm & {
-  plans: Plan[] | null;
+  plans: PlanForm[] | null;
 };
 
 // The form data to edit a product. It does not contain plans field.
