@@ -81,7 +81,9 @@ export const bannerControls: DynamicControl[] = [
 ];
 
 // Promotion form. This is the banner form plus starting and ending time.
-export type PromoForm = BannerForm & FormPeriod;
+export type PromoForm = BannerForm & FormPeriod & {
+  terms: string | null;
+};
 
 // Request data to build a promotion.
 // The type for startUtc and endUtc are different from form.
