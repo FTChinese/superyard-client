@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BannerForm, PromoForm } from '../schema/control-builder';
+import { BannerForm } from '../schema/BannerForm';
 import { Observable, of } from 'rxjs';
 import { Banner, Promo } from 'src/app/data/schema/paywall';
 import { switchMap } from 'rxjs/operators';
 import { PricedProduct } from 'src/app/data/schema/product';
+import { PromoForm } from '../schema/PromoForm';
 
 @Injectable({
   providedIn: 'root'

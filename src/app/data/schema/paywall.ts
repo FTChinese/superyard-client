@@ -19,6 +19,7 @@ export type Banner = BaseBanner & {
 
 export type Promo = BaseBanner & {
   id: string;
+  terms: string | null;
   createdUtc: string;
   createdBy: string;
 } & Period;

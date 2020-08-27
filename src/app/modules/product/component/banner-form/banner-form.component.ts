@@ -1,11 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { bannerControls, BannerForm } from '../../schema/control-builder';
+import { bannerControls } from '../../schema/BannerForm';
+import { BannerForm } from "../../schema/BannerForm";
+import { PaywallService } from '../../service/paywall.service';
 import { FormService } from 'src/app/shared/service/form.service';
 import { Button } from 'src/app/shared/widget/button';
 import { Banner } from 'src/app/data/schema/paywall';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from 'src/app/shared/service/toast.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { RequestError } from 'src/app/data/schema/request-result';
 
 @Component({
   selector: 'app-banner-form',
@@ -22,12 +26,18 @@ export class BannerFormComponent implements OnInit {
   button = Button.primary().setName('Save');
   form: FormGroup;
 
+  // If banner is not set, it indicates creating a new one; otherwise it is updating.
+  get isUpdating(): boolean {
+    return !!this.banner;
+  }
+
   get title(): string {
     return this.banner ? 'Edit Paywall Banner' : 'New Paywall Banner';
   }
 
   constructor(
     private formService: FormService,
+    private paywallService: PaywallService,
     private route: ActivatedRoute,
     private router: Router,
     private toast: ToastService
@@ -74,20 +84,45 @@ export class BannerFormComponent implements OnInit {
       heading: this.banner.heading,
       subHeading: this.banner.subHeading,
       coverUrl: this.banner.coverUrl,
-      content: this.banner.content.join('\n')
+      content: this.banner.content
     });
   }
 
   private create(formData: BannerForm) {
     this.toast.info('Saving new banner...');
 
-    this.router.navigate(['../../'], {
-      relativeTo: this.route
-    });
+    this.paywallService.createBanner(formData)
+      .subscribe({
+        next: (b: Banner) => {
+          console.log('Banner created %o', b);
+
+          this.router.navigate(['../../'], {
+            relativeTo: this.route
+          });
+        },
+        error: (err: HttpErrorResponse) => {
+          const respErr = new RequestError(err);
+          this.formService.sendError(respErr);
+        }
+      });
   }
 
   private update(formData: BannerForm) {
     this.toast.info('Updating...');
+
+    this.paywallService.updateBanner(formData)
+      .subscribe({
+        next: (b: Banner) => {
+          console.log('Banner updated %o', b);
+
+          this.toast.info("Banner updated successfully!");
+          this.formService.enable(true);
+        },
+        error: (err: HttpErrorResponse) => {
+          const respErr = new RequestError(err);
+          this.formService.sendError(respErr);
+        }
+      });
 
     this.formService.enable(true);
   }

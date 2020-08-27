@@ -4,7 +4,7 @@ import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { products } from 'src/app/data/schema/mocker';
 import { PricedProduct } from 'src/app/data/schema/product';
-import { buildProductControls, EditProductForm } from '../../schema/control-builder';
+import { buildProductControls, EditProductForm } from '../../schema/ProductForm';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
 

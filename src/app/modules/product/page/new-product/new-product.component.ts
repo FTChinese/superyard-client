@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
 import { Tier } from 'src/app/data/schema/enum';
 import { DynamicControlService } from 'src/app/shared/service/dynamic-control.service';
-import { buildProductControls, buildPlanControls, CreateProductForm } from '../../schema/control-builder';
+import { buildProductControls, CreateProductForm } from '../../schema/ProductForm';
+import { buildPlanControls } from '../../schema/PlanForm';
 
 @Component({
   selector: 'app-new-product',

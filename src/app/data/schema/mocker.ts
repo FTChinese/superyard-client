@@ -1,7 +1,8 @@
 import { Plan, PricedProduct, BaseProduct, Discount } from './product';
 import { Paywall, Banner } from './paywall';
 import { toISODatetimeUtc } from '../formatter/datetime';
-import { BannerForm, DiscountReq, PlanReq } from 'src/app/modules/product/schema/control-builder';
+import { DiscountReq, PlanReq } from 'src/app/modules/product/schema/datetime-controls';
+import { BannerForm } from "src/app/modules/product/schema/BannerForm";
 
 export function randomString(): string {
   return Math.random().toString(36).substring(2, 15);

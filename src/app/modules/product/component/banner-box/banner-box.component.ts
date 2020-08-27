@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Banner, BaseBanner } from 'src/app/data/schema/paywall';
+import { BaseBanner } from 'src/app/data/schema/paywall';
 
 @Component({
   selector: 'app-banner-box',

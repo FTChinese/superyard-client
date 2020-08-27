@@ -1,10 +1,9 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { Plan, Discount } from 'src/app/data/schema/product';
 import { Button } from 'src/app/shared/widget/button';
-import { buildDiscountControls, DiscountForm, DiscountReq, buildDiscountReq } from '../../schema/control-builder';
+import { DiscountForm, buildDiscountControls, DiscountReq, buildDiscountReq } from "../../schema/DiscountForm";
 import { FormGroup } from '@angular/forms';
 import { isoOffset } from 'src/app/data/formatter/datetime';
-import { genDiscount } from 'src/app/data/schema/mocker';
 import { DynamicControl } from 'src/app/shared/widget/control';
 import { FormService } from 'src/app/shared/service/form.service';
 import { ToastService } from 'src/app/shared/service/toast.service';

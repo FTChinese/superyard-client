@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BannerForm, PromoForm, CreateProductForm, EditProductForm } from '../schema/control-builder';
+import {CreateProductForm, EditProductForm } from '../schema/ProductForm';
 import { Observable, of } from 'rxjs';
-import { Banner, Promo } from 'src/app/data/schema/paywall';
-import { switchMap } from 'rxjs/operators';
 import { PricedProduct, BaseProduct } from 'src/app/data/schema/product';
 
 @Injectable({

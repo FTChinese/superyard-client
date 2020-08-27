@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { PromoForm, PromoReq, buildPromoReq, buildPromoControls } from '../../schema/control-builder';
+import { PromoReq, buildPromoReq, buildPromoControls } from '../../schema/PromoForm';
+import { PromoForm } from "../../schema/PromoForm";
 import { Button } from 'src/app/shared/widget/button';
 import { ToastService } from 'src/app/shared/service/toast.service';
 import { ActivatedRoute, Router } from '@angular/router';
