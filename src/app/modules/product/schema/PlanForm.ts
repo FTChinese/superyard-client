@@ -1,4 +1,4 @@
-import { Plan } from 'src/app/data/schema/product';
+import { Plan, Product } from 'src/app/data/schema/product';
 import { Tier, cycleOpts } from 'src/app/data/schema/enum';
 import { DynamicControl, InputControl, DropdownControl } from 'src/app/shared/widget/control';
 import { Validators } from '@angular/forms';
@@ -7,7 +7,9 @@ import { Validators } from '@angular/forms';
 // A plan always belongs to a certain product.
 
 
-export type PlanForm = Pick<Plan, 'price' | 'cycle' | 'description'>;
+export type PlanForm = Pick<Plan, 'cycle' | 'description'> & {
+  price: string;
+};
 
 // The request data to create a plan.
 // Since a plan always belongs to a product, we get
@@ -15,6 +17,16 @@ export type PlanForm = Pick<Plan, 'price' | 'cycle' | 'description'>;
 export type PlanReq = Pick<Plan, 'price' | 'tier' | 'cycle' | 'description'> & {
   productId: string;
 };
+
+export function planFormToReq(product: Product, form: PlanForm): PlanReq {
+  return {
+    productId: product.id,
+    tier: product.tier,
+    cycle: form.cycle,
+    price: Number.parseInt(form.price, 10),
+    description: form.description,
+  };
+}
 
 /**
  * @description Construct an array of DynamicControl to describe the UI of a Plan form.
