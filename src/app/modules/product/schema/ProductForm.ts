@@ -1,10 +1,10 @@
-import { PricedProduct } from 'src/app/data/schema/product';
-import { PlanForm } from "./PlanForm";
+import { ExpandedProduct } from 'src/app/data/schema/product';
+import { PlanForm } from './PlanForm';
 import { DynamicControl, DropdownControl, InputControl, TextareaControl } from 'src/app/shared/widget/control';
 import { Validators } from '@angular/forms';
 import { tierOpts } from 'src/app/data/schema/enum';
 // Product form
-export type ProductForm = Pick<PricedProduct, 'tier' | 'heading' | 'smallPrint'> & {
+export type ProductForm = Pick<ExpandedProduct, 'tier' | 'heading' | 'smallPrint'> & {
   description: string | null;
 };
 
