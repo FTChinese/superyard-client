@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalService } from './shared/service/modal.service';
+import { ProgressService } from './shared/service/progress.service';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,7 @@ import { ModalService } from './shared/service/modal.service';
 export class AppComponent implements OnInit{
   constructor(
     readonly modal: ModalService,
+    readonly progress: ProgressService,
   ) { }
 
   ngOnInit() {
