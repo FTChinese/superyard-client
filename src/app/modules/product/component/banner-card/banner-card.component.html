@@ -3,20 +3,15 @@
     <span>Paywall Banner</span>
 
     <a class="btn btn-link btn-inline"
-      *ngIf="result"
-      [routerLink]="link.href">{{link.name}}</a>
+    routerLink="banner/edit">Edit</a>
   </div>
 
   <div class="card-body">
-    <p *ngIf="!result">Loading...</p>
-    <p *ngIf="result && result.notFound">Paywall banner is not created yet.</p>
     <app-banner-box
-      *ngIf="result && result.value"
-      [banner]="result.value"></app-banner-box>
+      [banner]="banner"></app-banner-box>
   </div>
 
-  <div class="card-footer"
-    *ngIf="result && result.value">
+  <div class="card-footer">
     <app-meta-list
       [metaItems]="metaItems"></app-meta-list>
   </div>
