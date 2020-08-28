@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BannerForm } from '../schema/BannerForm';
 import { Observable, of } from 'rxjs';
-import { Banner, Promo } from 'src/app/data/schema/paywall';
+import { Banner, Promo, Paywall } from 'src/app/data/schema/paywall';
 import { switchMap } from 'rxjs/operators';
-import { PricedProduct } from 'src/app/data/schema/product';
-import { PromoForm } from '../schema/PromoForm';
+import { ExpandedProduct } from 'src/app/data/schema/product';
+import { PromoReq } from '../schema/PromoForm';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,9 @@ export class PaywallService {
     private http: HttpClient
   ) { }
 
+  loadPaywall(): Observable<Paywall> {
+    return this.http.get<Paywall>('/api/paywall');
+  }
 
   createBanner(b: BannerForm): Observable<Banner> {
     return this.http.post<Banner>(
@@ -45,18 +48,10 @@ export class PaywallService {
     .pipe(switchMap(resp => of(resp.status === 204)));
   }
 
-  createPromo(p: PromoForm): Observable<Promo> {
+  createPromo(p: PromoReq): Observable<Promo> {
     return this.http.post<Promo>(
       '/api/paywall/promo',
       p,
     );
-  }
-
-  loadPromo(id: string): Observable<Promo> {
-    return this.http.get<Promo>(`/api/paywall/promo/${id}`);
-  }
-
-  loadProducts(): Observable<PricedProduct[]> {
-    return this.http.get<PricedProduct[]>('/api/paywall/products');
   }
 }
