@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormService } from 'src/app/shared/service/form.service';
-import { ActivatedRoute } from '@angular/router';
-import { mockPaywall } from 'src/app/data/schema/mocker';
-import { switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
 import { Banner } from 'src/app/data/schema/paywall';
+import { PaywallService } from '../../service/paywall.service';
+import { ProgressService } from 'src/app/shared/service/progress.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { RequestError } from 'src/app/data/schema/request-result';
 
 @Component({
   selector: 'app-edit-banner',
@@ -15,23 +15,37 @@ import { Banner } from 'src/app/data/schema/paywall';
 export class EditBannerComponent implements OnInit {
 
   banner: Banner;
+  loadingError: string;
 
   constructor(
-    private route: ActivatedRoute,
-  ) { }
-
-  ngOnInit(): void {
-    this.route.paramMap.pipe(
-      switchMap(params => {
-        const id = params.get('id');
-
-        return of(mockPaywall.banner);
-      })
-    )
-    .subscribe(b => {
-      this.banner = b;
-    });
-
+    private paywallService: PaywallService,
+    private progress: ProgressService,
+  ) {
+    this.progress.start();
   }
 
+  ngOnInit(): void {
+
+
+    this.paywallService.loadBanner()
+      .subscribe({
+        next: (b: Banner) => {
+          this.progress.stop();
+
+          this.banner = b;
+        },
+        error: (err: HttpErrorResponse) => {
+          this.progress.stop();
+
+          const errRes = new RequestError(err);
+
+          if (errRes.notFound) {
+            this.loadingError = 'Not Found';
+            return;
+          }
+
+          this.loadingError = errRes.message;
+        }
+      });
+  }
 }
