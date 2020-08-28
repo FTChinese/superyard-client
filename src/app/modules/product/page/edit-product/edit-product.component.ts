@@ -10,6 +10,7 @@ import { ToastService } from 'src/app/shared/service/toast.service';
 import { ProductService } from '../../service/product.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RequestError } from 'src/app/data/schema/request-result';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-product',
@@ -22,6 +23,7 @@ export class EditProductComponent implements OnInit {
   product: Product;
   controls = buildProductControls();
   button: Button = Button.primary().setName('Save');
+  form: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
@@ -53,6 +55,8 @@ export class EditProductComponent implements OnInit {
     });
 
     this.formService.formCreated$.subscribe(form => {
+      this.form = form;
+
       if (this.product) {
         form.patchValue({
           tier: this.product.tier,
@@ -61,7 +65,7 @@ export class EditProductComponent implements OnInit {
           smallPrint: this.product.smallPrint,
         });
         // Tier field is disabled; thus it won't be submitted.
-        form.get('tier').disable();
+        this.disableTier();
       }
     });
 
@@ -71,6 +75,10 @@ export class EditProductComponent implements OnInit {
 
       this.update(formData);
     });
+  }
+
+  private disableTier() {
+    this.form.get('tier').disable();
   }
 
   /**
@@ -89,12 +97,14 @@ export class EditProductComponent implements OnInit {
         next: product => {
           console.log('Product updated %o', product);
           this.formService.enable(true);
+          this.disableTier();
           this.toast.info('Updated successfully!');
         },
         error: (err: HttpErrorResponse) => {
           const reqErr = new RequestError(err);
           this.toast.error(reqErr.message);
           this.formService.enable(true);
+          this.disableTier();
         }
       });
   }
