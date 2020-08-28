@@ -29,21 +29,29 @@ export interface Plan {
   isActive: boolean; // Indicates whether this plan is used actually used under a product.
   createdUtc: string;
   createdBy: string;
-  discount?: Discount;
 }
 
-export interface BaseProduct {
+export type ExpandedPlan  = Plan & {
+  discount: Discount;
+};
+
+export interface Product {
   id: string;
   tier: Tier;
   heading: string;
   description: string | null;
   smallPrint: string | null;
+  isActive: boolean;
   createdUtc: string;
   updatedUtc: string;
   createdBy: string;
 }
 
-export type PricedProduct = BaseProduct & {
+export type PricedProduct = Product & {
   plans: Plan[];
+};
+
+export type ExpandedProduct = Product & {
+  plans: ExpandedPlan[];
 };
 

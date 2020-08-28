@@ -1,6 +1,5 @@
-import { PricedProduct } from './product';
+import { ExpandedProduct } from './product';
 import { Period } from './period';
-
 
 export interface BaseBanner {
   heading: string;
@@ -27,5 +26,5 @@ export type Promo = BaseBanner & {
 export interface Paywall {
   banner: Banner;
   promo: Promo;
-  products: PricedProduct[];
+  products: ExpandedProduct[];
 }
