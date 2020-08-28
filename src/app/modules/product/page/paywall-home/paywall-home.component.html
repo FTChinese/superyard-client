@@ -1,7 +1,9 @@
 <div class="row pb-3">
   <div class="col-12 text-right">
     <a class="btn btn-link" href="#" target="_blank">Inspect API</a>
-    <button class="btn btn-primary">Rebuild Paywall</button>
+    <button class="btn btn-primary"
+      [disabled]="progress.on"
+      (click)="rebuild()">Rebuild Paywall</button>
   </div>
   <div class="col-12">
     <p>Please click the <span class="badge badge-info">Rebuild Paywall</span> button in case you made any modifications to any part of the following paywall, including modifications made on the Products page; otherwise your modification might not be updated in the Subscription API.</p>
@@ -9,13 +11,25 @@
   </div>
 </div>
 
+<div class="text-danger"
+  *ngIf="loadingError">
+  {{loadingError}}
+</div>
+
+<div *ngIf="notFound">
+  Paywall data is not created yet. Start by  <a routerLink="banner/new">creating a banner</a>.
+</div>
+
 <app-banner-card
-  [result]="bannerResult"></app-banner-card>
+  *ngIf="paywall"
+  [banner]="paywall.banner"></app-banner-card>
 
 <app-promo-card
-  [result]="promoResult"></app-promo-card>
+  *ngIf="paywall"
+  [promo]="paywall.promo"></app-promo-card>
 
-<div class="row justify-content-between">
+<div class="row justify-content-between"
+  *ngIf="paywall">
   <div class="col-lg-5"
     *ngFor="let product of paywall.products">
     <div class="card">
@@ -26,7 +40,7 @@
         </h3>
 
         <ul>
-          <li *ngFor="let item of product.description">
+          <li *ngFor="let item of product.description | line">
             {{item}}
           </li>
         </ul>
