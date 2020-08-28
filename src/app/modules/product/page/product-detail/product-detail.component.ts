@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { PricedProduct, Plan, Discount, zeroDiscount } from 'src/app/data/schema/product';
+import { ExpandedPlan, Discount, zeroDiscount, Product, Plan } from 'src/app/data/schema/product';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
-import { products } from 'src/app/data/schema/mocker';
+import { forkJoin } from 'rxjs';
 import { ModalService } from 'src/app/shared/service/modal.service';
 import { MenuItem, SelectedItem } from 'src/app/shared/widget/menu';
 import { ToastService } from 'src/app/shared/service/toast.service';
 import { MetaItem } from 'src/app/shared/widget/meta-data';
+import { ProgressService } from 'src/app/shared/service/progress.service';
+import { ProductService } from '../../service/product.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { RequestError } from 'src/app/data/schema/request-result';
 
 @Component({
   selector: 'app-product-detail',
@@ -20,8 +23,10 @@ export class ProductDetailComponent implements OnInit {
   private modalRemoveDiscount = 'r';
   private modalNewPrice = 'p';
 
-  product: PricedProduct;
-  discountTarget: Plan;
+  product: Product;
+  plans: ExpandedPlan[];
+
+  discountTarget: ExpandedPlan;
 
   get metaItems(): MetaItem[] {
     if (!this.product) {
@@ -64,14 +69,23 @@ export class ProductDetailComponent implements OnInit {
     return `New pricing for ${this.product.tier} product`;
   }
 
+  /**
+   * Open the creating pricing plan dialog.
+   */
   get priceModalOn(): boolean {
     return this.modal.on && this.modal.id === this.modalNewPrice;
   }
 
+  /**
+   * Open the creating discount dialog.
+   */
   get newDiscountModalOn(): boolean {
     return this.modal.on && this.modal.id === this.modalNewDiscount;
   }
 
+  /**
+   * Open the drop discount dialog
+   */
   get removeDiscountModalOn(): boolean {
     return this.modal.on && this.modal.id === this.modalRemoveDiscount;
   }
@@ -80,18 +94,36 @@ export class ProductDetailComponent implements OnInit {
     private route: ActivatedRoute,
     readonly modal: ModalService,
     private toast: ToastService,
-  ) { }
+    readonly progress: ProgressService,
+    private productService: ProductService
+  ) {
+    this.progress.start();
+   }
 
   ngOnInit(): void {
     this.route.paramMap.pipe(
       switchMap(params => {
-        const id = params.get('id');
+        const productId = params.get('id');
 
-        return of(products.get(id));
+        return forkJoin([
+          this.productService.loadProduct(productId),
+          this.productService.listPlans(productId)
+        ]);
       })
     )
-    .subscribe(prod => {
-      this.product = prod;
+    .subscribe({
+      next: ([prod, plans]) => {
+        this.progress.stop();
+
+        this.product = prod;
+        this.plans = plans;
+      },
+      error: (err: HttpErrorResponse) => {
+        this.progress.stop();
+
+        const reqErr = new RequestError(err);
+        this.toast.error(reqErr.message);
+      }
     });
   }
 
@@ -99,13 +131,14 @@ export class ProductDetailComponent implements OnInit {
   onSelectMenu(position: SelectedItem) {
     console.log('Selected %o', position);
 
-    const plan = this.product.plans[position.sectionIndex];
+    const plan = this.plans[position.sectionIndex];
 
     if (!plan) {
       this.toast.error(`Plan not found at position ${position.sectionIndex}`);
       return;
     }
 
+    // Remember which plan we are manipulating.
     this.discountTarget = plan;
 
     const menuItem = this.menuItems[position.cellIndex];
@@ -135,7 +168,7 @@ export class ProductDetailComponent implements OnInit {
     console.log(discount);
     this.modal.close();
 
-    const plan = this.product.plans
+    const plan = this.plans
       .find(p => p.id === this.discountTarget.id);
     if (plan) {
       plan.discount = discount;
@@ -146,18 +179,31 @@ export class ProductDetailComponent implements OnInit {
 
   // Remove discount from the discountTarget.
   onDropDiscount() {
-    this.modal.close();
+    this.progress.start();
 
-    const plan = this.product.plans
-      .find(p => p.id === this.discountTarget.id);
+    this.productService.dropDiscount(this.discountTarget.id)
+      .subscribe({
+        next: ok => {
+          console.log('Discount droppped %s', ok);
+          const plan = this.plans
+            .find(p => p.id === this.discountTarget.id);
 
-    if (plan) {
-      plan.discount = zeroDiscount();
-    }
+          if (plan) {
+            plan.discount = zeroDiscount();
+          }
 
-    this.discountTarget = undefined;
+          this.discountTarget = undefined;
+          this.toast.info('Discount dropped!');
+          this.progress.stop();
+          this.modal.close();
+        },
+        error: (err: HttpErrorResponse) => {
+          this.progress.stop();
 
-    this.toast.info('Discount dropped!');
+          const reqErr = new RequestError(err);
+          this.toast.error(reqErr.message);
+        }
+      });
   }
 
   // Open new price form dialog.
@@ -165,29 +211,53 @@ export class ProductDetailComponent implements OnInit {
     this.modal.open(this.modalNewPrice);
   }
 
-  // Close price form after created.
+  /**
+   * @description Close price form after created.
+   */
   onPriceCreated(plan: Plan) {
     console.log('New plan: %o', plan);
 
     this.modal.close();
-    this.product.plans.unshift(plan);
+    // API returns a Plan type. We need to fill the missing discount field which is always a zero value.
+    this.plans.unshift({
+      ...plan,
+      discount: zeroDiscount(),
+    });
 
-    console.log(this.product.plans);
+    console.log(this.plans);
   }
 
-  // Put a plan under a product's default list so that it is visible on paywall.
-  // Request data: product_id: string, plan_id: string.
-  onDefaultPlan(plan: Plan) {
-    for (const p of this.product.plans) {
-      if (p.cycle !== plan.cycle) {
-        continue;
-      }
+  /**
+   * @description Put a plan under a product's default list so that it is visible on paywall.
+   * Request data: product_id: string, plan_id: string.
+   */
+  onDefaultPlan(plan: ExpandedPlan) {
+    this.progress.start();
 
-      if (p.id !== plan.id) {
-        p.isActive = false;
-      } else {
-        p.isActive = true;
-      }
-    }
+    this.productService.activatePlan(plan.id)
+      .subscribe({
+        next: () => {
+          this.progress.stop();
+
+          // Change local data's active state.
+          this.plans.forEach(p => {
+            if (p.cycle !== plan.cycle) {
+              return;
+            }
+
+            if (p.id !== plan.id) {
+              p.isActive = false;
+            } else {
+              p.isActive = true;
+            }
+          });
+        },
+        error: (err: HttpErrorResponse) => {
+          this.progress.stop();
+
+          const reqErr = new RequestError(err);
+          this.toast.error(reqErr.message);
+        }
+      });
   }
 }
