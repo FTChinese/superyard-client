@@ -15,6 +15,10 @@
       [preview]="preview"></app-banner-preview>
 
     <dl *ngIf="preview" class="mt-3">
+
+      <div *ngIf="preview.terms"
+        [innerHTML]="preview.terms | marked"></div>
+
       <dt>Start time</dt>
       <dd *ngIf="startTime"
         class="text-danger">{{startTime}}</dd>
