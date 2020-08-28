@@ -4,13 +4,9 @@
     <h2>Edit Product</h2>
 
     <app-dynamic-form
-      *ngIf="product; else loading"
+      *ngIf="product"
       [controls]="controls"
       [button]="button"></app-dynamic-form>
-
-    <ng-template #loading>
-      <div>Loading...</div>
-    </ng-template>
   </div>
 </div>
 
