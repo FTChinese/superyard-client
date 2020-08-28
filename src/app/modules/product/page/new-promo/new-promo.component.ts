@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { PromoReq, buildPromoReq, buildPromoControls } from '../../schema/PromoForm';
-import { PromoForm } from "../../schema/PromoForm";
+import { PromoForm } from '../../schema/PromoForm';
 import { Button } from 'src/app/shared/widget/button';
 import { ToastService } from 'src/app/shared/service/toast.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { isoOffset, concateISODateTime, DateTime } from 'src/app/data/formatter/datetime';
+import { isoOffset } from 'src/app/data/formatter/datetime';
 import { FormService } from 'src/app/shared/service/form.service';
+import { PaywallService } from '../../service/paywall.service';
+import { Promo } from 'src/app/data/schema/paywall';
+import { HttpErrorResponse } from '@angular/common/http';
+import { RequestError } from 'src/app/data/schema/request-result';
 
 @Component({
   selector: 'app-new-promo',
@@ -29,55 +33,39 @@ export class NewPromoComponent implements OnInit {
 
   constructor(
     private formService: FormService,
+    private paywallService: PaywallService,
     private toast: ToastService,
     private route: ActivatedRoute,
     private router: Router,
   ) { }
 
   ngOnInit(): void {
-    this.formService.formCreated$.subscribe(form => {
-      form.valueChanges.subscribe((data: PromoForm) => {
-        this.preview = data;
-        this.startTime = this.formatDatetime(data.startUtc);
-        this.endTime = this.formatDatetime(data.endUtc);
-      });
-    });
 
     this.formService.formSubmitted$.subscribe(data => {
       const formData: PromoForm = JSON.parse(data);
 
       const reqData: PromoReq = buildPromoReq(formData, this.timezone);
 
-      console.log('Submitting promo: %o', reqData);
+      this.create(reqData);
     });
   }
-
-  private formatDatetime(dt: DateTime): string | null {
-    if (!dt.date || !dt.time) {
-      return null;
-    }
-
-    return concateISODateTime({
-      ...dt,
-      zone: this.timezone,
-    });
-  }
-
-  // onSubmit() {
-  //   const formData: PromoForm = this.form.value;
-
-  //   this.submitting = true;
-
-  //   const reqData: PromoReq = buildPromoReq(formData, this.timezone);
-
-  //   console.log('Submitting promo: %o', reqData);
-  // }
 
   private create(reqData: PromoReq) {
     this.toast.info('Creating promo...');
 
-    this.router.navigate(['../../'], {
-      relativeTo: this.route
-    });
+    this.paywallService.createPromo(reqData)
+      .subscribe({
+        next: (promo: Promo) => {
+          console.log('Created promo %o', promo);
+
+          this.router.navigate(['../../'], {
+            relativeTo: this.route
+          });
+        },
+        error: (err: HttpErrorResponse) => {
+          const errRes = new RequestError(err);
+          this.formService.sendError(errRes);
+        }
+      });
   }
 }
