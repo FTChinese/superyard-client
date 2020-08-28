@@ -11,7 +11,7 @@
     <h2 class="card-subtitle" *ngIf="banner.subHeading">{{banner.subHeading}}</h2>
 
     <div class="pt-3">
-      <p *ngFor="let p of banner.content">{{p}}</p>
+      <p *ngFor="let line of banner.content | line">{{line}}</p>
     </div>
   </div>
 
