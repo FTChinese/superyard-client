@@ -3,20 +3,29 @@
     <span>Promotion Banner</span>
 
     <a class="btn btn-link btn-inline"
-      *ngIf="result"
       routerLink="promo">New</a>
   </div>
 
   <div class="card-body">
-    <p *ngIf="!result">Loading...</p>
-    <p *ngIf="result && result.notFound">The banner does not have a promotion version yet.</p>
-    <app-banner-box
-      *ngIf="result && result.value"
-      [banner]="result.value"></app-banner-box>
+    <p *ngIf="isEmpty; else content">The paywall does not have a promotion yet.</p>
+
+    <ng-template #content>
+      <app-banner-box
+        [banner]="promo"></app-banner-box>
+
+      <div class="text-muted"
+        *ngIf="promo.terms">
+        <h6>Termsn and Conditions</h6>
+        <ul>
+          <li *ngFor="let line of termsAndConditions">{{line}}</li>
+        </ul>
+      </div>
+
+    </ng-template>
+
   </div>
 
-  <div class="card-footer"
-    *ngIf="result && result.value">
+  <div class="card-footer">
     <app-meta-list
     [metaItems]="metaItems"></app-meta-list>
   </div>
