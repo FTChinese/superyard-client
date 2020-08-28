@@ -1,13 +1,15 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
-import { Plan, Discount } from 'src/app/data/schema/product';
+import { ExpandedPlan, Discount } from 'src/app/data/schema/product';
 import { Button } from 'src/app/shared/widget/button';
-import { DiscountForm, buildDiscountControls, DiscountReq, buildDiscountReq } from "../../schema/DiscountForm";
+import { DiscountForm, buildDiscountControls, DiscountReq, buildDiscountReq } from '../../schema/DiscountForm';
 import { FormGroup } from '@angular/forms';
 import { isoOffset } from 'src/app/data/formatter/datetime';
 import { DynamicControl } from 'src/app/shared/widget/control';
 import { FormService } from 'src/app/shared/service/form.service';
 import { ToastService } from 'src/app/shared/service/toast.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ProductService } from '../../service/product.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { RequestError } from 'src/app/data/schema/request-result';
 
 @Component({
   selector: 'app-discount-form',
@@ -17,7 +19,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class DiscountFormComponent implements OnInit {
 
-  @Input() plan: Plan;
+  @Input() plan: ExpandedPlan;
   @Output() created = new EventEmitter<Discount>();
 
   timezone = isoOffset(new Date());
@@ -29,8 +31,7 @@ export class DiscountFormComponent implements OnInit {
   constructor(
     private formService: FormService,
     private toast: ToastService,
-    private route: ActivatedRoute,
-    private router: Router,
+    private productService: ProductService
   ) { }
 
   ngOnInit(): void {
@@ -48,6 +49,19 @@ export class DiscountFormComponent implements OnInit {
   private create(reqData: DiscountReq) {
     console.log(reqData);
 
-    this.created.emit(genDiscount(reqData));
+    this.productService.createDiscount(
+      this.plan.id,
+      reqData
+    ).subscribe({
+      next: discount => {
+        this.toast.info('Discount created successfully');
+
+        this.created.emit(discount);
+      },
+      error: (err: HttpErrorResponse) => {
+        const reqErr = new RequestError(err);
+        this.formService.sendError(reqErr);
+      }
+    });
   }
 }
