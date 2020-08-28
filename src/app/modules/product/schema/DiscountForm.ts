@@ -2,15 +2,12 @@ import { Discount } from 'src/app/data/schema/product';
 import { FormPeriod, Period, buildPeriod } from 'src/app/data/schema/period';
 import { DynamicControl, InputControl } from 'src/app/shared/widget/control';
 import { Validators } from '@angular/forms';
+import { periodControls } from './datetime-controls';
+
 // The form data of a discount.
-
-
-
-
-export type DiscountForm = Pick<Discount, 'priceOff'> & FormPeriod;
-
-
-
+export type DiscountForm = {
+  priceOff: string,
+} & FormPeriod;
 
 // The request data to create a discount.
 export type DiscountReq = Pick<Discount, 'priceOff'> & Period;
@@ -20,7 +17,7 @@ export type DiscountReq = Pick<Discount, 'priceOff'> & Period;
  */
 export function buildDiscountReq(f: DiscountForm, zone: string): DiscountReq {
   return {
-    priceOff: f.priceOff,
+    priceOff: Number.parseInt(f.priceOff, 10),
     ...buildPeriod({
       ...f,
       zone,
