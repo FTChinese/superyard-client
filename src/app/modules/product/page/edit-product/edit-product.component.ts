@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
-import { products } from 'src/app/data/schema/mocker';
-import { PricedProduct } from 'src/app/data/schema/product';
+import { Product } from 'src/app/data/schema/product';
 import { buildProductControls, EditProductForm } from '../../schema/ProductForm';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
+import { ProgressService } from 'src/app/shared/service/progress.service';
+import { ToastService } from 'src/app/shared/service/toast.service';
+import { ProductService } from '../../service/product.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { RequestError } from 'src/app/data/schema/request-result';
 
 @Component({
   selector: 'app-edit-product',
@@ -16,25 +19,37 @@ import { FormService } from 'src/app/shared/service/form.service';
 })
 export class EditProductComponent implements OnInit {
 
-  product: PricedProduct;
+  product: Product;
   controls = buildProductControls();
   button: Button = Button.primary().setName('Save');
 
   constructor(
     private route: ActivatedRoute,
-    private formService: FormService
-  ) { }
+    private formService: FormService,
+    readonly progress: ProgressService,
+    private toast: ToastService,
+    private productService: ProductService
+  ) {
+    this.progress.start();
+  }
 
   ngOnInit(): void {
     this.route.paramMap.pipe(
       switchMap(params => {
         const id = params.get('id');
-
-        return of(products.get(id));
+        return this.productService.loadProduct(id);
       })
     )
-    .subscribe(prod => {
-      this.product = prod;
+    .subscribe({
+      next: product => {
+        this.progress.stop();
+        this.product = product;
+      },
+      error: (err: HttpErrorResponse) => {
+        this.progress.stop();
+        const reqErr = new RequestError(err);
+        this.toast.error(reqErr.message);
+      }
     });
 
     this.formService.formCreated$.subscribe(form => {
@@ -42,10 +57,10 @@ export class EditProductComponent implements OnInit {
         form.patchValue({
           tier: this.product.tier,
           heading: this.product.heading,
-          description: this.product.description.join('\n'),
+          description: this.product.description,
           smallPrint: this.product.smallPrint,
         });
-        // Tier field is disabled; thus is won't be submitted.
+        // Tier field is disabled; thus it won't be submitted.
         form.get('tier').disable();
       }
     });
@@ -58,7 +73,29 @@ export class EditProductComponent implements OnInit {
     });
   }
 
-  private update(p: EditProductForm) {
-    console.log(p);
+  /**
+   * @todo disabled tier control even after updated.
+   */
+  private update(formData: EditProductForm) {
+
+    this.productService.updateProduct(
+      this.product.id,
+      {
+        tier: this.product.tier,
+        ...formData
+      }
+    )
+      .subscribe({
+        next: product => {
+          console.log('Product updated %o', product);
+          this.formService.enable(true);
+          this.toast.info('Updated successfully!');
+        },
+        error: (err: HttpErrorResponse) => {
+          const reqErr = new RequestError(err);
+          this.toast.error(reqErr.message);
+          this.formService.enable(true);
+        }
+      });
   }
 }
