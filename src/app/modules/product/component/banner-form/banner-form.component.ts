@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { bannerControls } from '../../schema/BannerForm';
-import { BannerForm } from "../../schema/BannerForm";
+import { BannerForm } from '../../schema/BannerForm';
 import { PaywallService } from '../../service/paywall.service';
 import { FormService } from 'src/app/shared/service/form.service';
 import { Button } from 'src/app/shared/widget/button';
@@ -62,10 +62,11 @@ export class BannerFormComponent implements OnInit {
 
         console.log('Sumbitting banner form %o', formData);
 
+        // If banner exists, it is updating; otherwise it is creating.
         if (this.banner) {
-          this.create(formData);
-        } else {
           this.update(formData);
+        } else {
+          this.create(formData);
         }
       });
 
@@ -89,13 +90,14 @@ export class BannerFormComponent implements OnInit {
   }
 
   private create(formData: BannerForm) {
-    this.toast.info('Saving new banner...');
+    this.toast.info('Creating new banner...');
 
     this.paywallService.createBanner(formData)
       .subscribe({
         next: (b: Banner) => {
           console.log('Banner created %o', b);
 
+          // Redirect back to paywall page once created.
           this.router.navigate(['../../'], {
             relativeTo: this.route
           });
@@ -115,7 +117,7 @@ export class BannerFormComponent implements OnInit {
         next: (b: Banner) => {
           console.log('Banner updated %o', b);
 
-          this.toast.info("Banner updated successfully!");
+          this.toast.info('Banner updated successfully!');
           this.formService.enable(true);
         },
         error: (err: HttpErrorResponse) => {
