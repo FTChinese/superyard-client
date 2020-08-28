@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PlanForm, buildPlanControls, PlanReq, planFormToReq } from '../../schema/PlanForm';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
-import { ExpandedPlan, Product, Plan } from 'src/app/data/schema/product';
+import { Product, Plan } from 'src/app/data/schema/product';
 import { ToastService } from 'src/app/shared/service/toast.service';
 import { ProgressService } from 'src/app/shared/service/progress.service';
 import { ProductService } from '../../service/product.service';
