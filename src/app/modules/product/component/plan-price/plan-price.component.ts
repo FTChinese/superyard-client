@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Plan } from 'src/app/data/schema/product';
+import { ExpandedPlan } from 'src/app/data/schema/product';
 
 @Component({
   selector: 'app-plan-price',
@@ -7,7 +7,7 @@ import { Plan } from 'src/app/data/schema/product';
   styleUrls: ['./plan-price.component.scss']
 })
 export class PlanPriceComponent implements OnInit {
-  @Input() plan: Plan;
+  @Input() plan: ExpandedPlan;
 
   constructor() { }
 
