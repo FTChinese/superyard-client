@@ -19,6 +19,7 @@ import { ModalCancelComponent } from './modal-cancel/modal-cancel.component';
 import { MenuComponent } from './menu/menu.component';
 import { ProgressBtnComponent } from './progress-btn/progress-btn.component';
 import { DynamicGroupComponent } from './dynamic-group/dynamic-group.component';
+import { LinePipe } from './pipes/line.pipe';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { DynamicGroupComponent } from './dynamic-group/dynamic-group.component';
     MenuComponent,
     ProgressBtnComponent,
     DynamicGroupComponent,
+    LinePipe,
   ],
   imports: [
     CommonModule,
@@ -55,6 +57,7 @@ import { DynamicGroupComponent } from './dynamic-group/dynamic-group.component';
     CyclePipe,
     OrderKindPipe,
     PayMethodPipe,
+    LinePipe,
     SearchFormComponent,
     DynamicFormComponent,
     DynamicControlComponent,
