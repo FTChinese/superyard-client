@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
 import { Tier } from 'src/app/data/schema/enum';
 import { DynamicControlService } from 'src/app/shared/service/dynamic-control.service';
-import { buildProductControls, CreateProductForm } from '../../schema/ProductForm';
+import { buildProductControls, ProductCreationForm } from '../../schema/ProductForm';
 import { buildPlanControls } from '../../schema/PlanForm';
 
 @Component({
@@ -57,7 +57,7 @@ export class NewProductComponent implements OnInit {
   }
 
   onSubmit() {
-    const formData: CreateProductForm = this.form.value;
+    const formData: ProductCreationForm = this.form.value;
 
     console.log(formData);
   }

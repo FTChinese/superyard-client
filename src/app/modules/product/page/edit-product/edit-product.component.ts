@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { Product } from 'src/app/data/schema/product';
-import { buildProductControls, EditProductForm } from '../../schema/ProductForm';
+import { buildProductControls, ProductEditForm } from '../../schema/ProductForm';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
 import { ProgressService } from 'src/app/shared/service/progress.service';
@@ -67,7 +67,7 @@ export class EditProductComponent implements OnInit {
 
     this.formService.formSubmitted$.subscribe(data => {
       console.log(data);
-      const formData: EditProductForm = JSON.parse(data);
+      const formData: ProductEditForm = JSON.parse(data);
 
       this.update(formData);
     });
@@ -76,7 +76,7 @@ export class EditProductComponent implements OnInit {
   /**
    * @todo disabled tier control even after updated.
    */
-  private update(formData: EditProductForm) {
+  private update(formData: ProductEditForm) {
 
     this.productService.updateProduct(
       this.product.id,

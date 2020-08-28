@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { PlanForm, buildPlanControls, PlanReq, planFormToReq } from '../../schema/PlanForm';
+import { PlanForm, buildPlanControls, PlanReq, buildPlanReq } from '../../schema/PlanForm';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
 import { Product, Plan } from 'src/app/data/schema/product';
@@ -38,7 +38,7 @@ export class PriceFormComponent implements OnInit {
     this.formService.formSubmitted$.subscribe(data => {
       const formData: PlanForm = JSON.parse(data);
 
-      this.create(formData);
+      this.create(buildPlanReq(this.product, formData));
     });
   }
 
@@ -46,8 +46,7 @@ export class PriceFormComponent implements OnInit {
    * @description Create a new pricing plan.
    * Pay attention to the price which should be a number but the form submitted is a string.
    */
-  private create(formData: PlanForm) {
-    const reqData: PlanReq = planFormToReq(this.product, formData);
+  private create(reqData: PlanReq) {
 
     console.log('Plan request: %o', reqData);
 
