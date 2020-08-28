@@ -1,7 +1,9 @@
+<div class="text-danger"
+  *ngIf="loadingError">
+  {{loadingError}}
+</div>
+
 <app-banner-form
-  *ngIf="banner; else loading"
+  *ngIf="banner"
   [banner]="banner"></app-banner-form>
 
-<ng-template #loading>
-  <div>Loading...</div>
-</ng-template>
