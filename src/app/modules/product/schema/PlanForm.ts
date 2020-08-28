@@ -2,11 +2,10 @@ import { Plan, Product } from 'src/app/data/schema/product';
 import { Tier, cycleOpts } from 'src/app/data/schema/enum';
 import { DynamicControl, InputControl, DropdownControl } from 'src/app/shared/widget/control';
 import { Validators } from '@angular/forms';
+
 // Plan form
 // The data fields when creating a pricing plan.
 // A plan always belongs to a certain product.
-
-
 export type PlanForm = Pick<Plan, 'cycle' | 'description'> & {
   price: string;
 };

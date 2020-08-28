@@ -1,4 +1,4 @@
-import { ExpandedProduct } from 'src/app/data/schema/product';
+import { ExpandedProduct, Plan } from 'src/app/data/schema/product';
 import { PlanForm } from './PlanForm';
 import { DynamicControl, DropdownControl, InputControl, TextareaControl } from 'src/app/shared/widget/control';
 import { Validators } from '@angular/forms';
@@ -8,13 +8,39 @@ export type ProductForm = Pick<ExpandedProduct, 'tier' | 'heading' | 'smallPrint
   description: string | null;
 };
 
-
-// Tne form data to create a new product.
+// The form data to create a new product.
 // It contains an array of Plans depending whenther user chose to
 // add it.
 export type CreateProductForm = ProductForm & {
   plans: PlanForm[] | null;
 };
+
+/**
+ * The data type used to creating form request.
+ */
+type PlanReq = Pick<Plan, 'cycle' | 'description' | 'price'>;
+
+export type CreateProductReq = ProductForm & {
+  plans: PlanReq[];
+};
+
+function castProductPlan(form: PlanForm): PlanReq {
+  return {
+    price: Number.parseInt(form.price, 10),
+    cycle: form.cycle,
+    description: form.description
+  };
+}
+
+export function buildCreateProductReq(form: CreateProductForm): CreateProductReq {
+  return {
+    tier: form.tier,
+    heading: form.heading,
+    description: form.description,
+    smallPrint: form.smallPrint,
+    plans: form.plans.map(p => castProductPlan(p))
+  };
+}
 
 // The form data to edit a product. It does not contain plans field.
 export type EditProductForm = Pick<ProductForm, 'heading' | 'smallPrint' | 'description'>;
