@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { BannerForm } from "../../schema/BannerForm";
+import { BannerForm } from '../../schema/BannerForm';
 
 @Component({
   selector: 'app-banner-preview',
