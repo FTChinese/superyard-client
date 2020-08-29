@@ -9,7 +9,6 @@ import { SearchFormComponent } from './search-form/search-form.component';
 import { ToastComponent } from './toast/toast.component';
 import { CyclePipe } from './pipes/cycle.pipe';
 import { TierPipe } from './pipes/tier.pipe';
-import { ControlFeedbackComponent } from './control-feedback/control-feedback.component';
 import { DropdownComponent } from './dropdown/dropdown.component';
 import { RouterModule } from '@angular/router';
 import { OrderKindPipe } from './pipes/order-kind.pipe';
@@ -31,7 +30,6 @@ import { LinePipe } from './pipes/line.pipe';
     AlertComponent,
     SearchFormComponent,
     ToastComponent,
-    ControlFeedbackComponent,
     DropdownComponent,
     OrderKindPipe,
     PayMethodPipe,
@@ -63,7 +61,6 @@ import { LinePipe } from './pipes/line.pipe';
     DynamicControlComponent,
     ProgressBtnComponent,
     ToastComponent,
-    ControlFeedbackComponent,
     DropdownComponent,
     MenuComponent,
     ModalHeaderComponent,
