@@ -44,6 +44,7 @@ export class DynamicControl {
   type: InputType; // <input>'s type attribute.
   options: OptionElement[]; // <option> tag inside <select>.
   groupedControls: DynamicControl[]; // For nested group.
+  rows: number; // For textarea.
 
   constructor(opts: ControlOptions) {
     this.value = opts.value || null;
@@ -112,11 +113,27 @@ export class DropdownControl extends DynamicControl {
   }
 }
 
+interface TextareaControlOptions extends ControlOptions {
+  rows?: number;
+}
+
+/**
+ * @example
+ * new TextareaControl({
+ *  value: null,
+ *  key: 'description',
+ *  validators: [Validators.required],
+ *  label: 'Description',
+ *  desc: 'Required',
+ *  rows: 30
+ * });
+ */
 export class TextareaControl extends DynamicControl {
   controlType: ControlType = 'textarea';
 
-  constructor(opts: ControlOptions) {
+  constructor(opts: TextareaControlOptions) {
     super(opts);
+    this.rows = opts.rows || 10;
   }
 }
 
