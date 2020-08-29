@@ -21,7 +21,7 @@ export class BannerCardComponent implements OnInit {
         value: this.banner.createdBy
       },
       {
-        label: 'Create at',
+        label: 'Created at',
         value: this.banner.createdUtc
       },
       {
