@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormArray } from '@angular/forms';
+import { FormGroup, FormArray, AbstractControl } from '@angular/forms';
 import { Tier } from 'src/app/data/schema/enum';
 import { DynamicControlService } from 'src/app/shared/service/dynamic-control.service';
 import { buildProductControls, ProductCreationForm, ProductCreationReq, buildProductCreationReq } from '../../schema/ProductForm';
@@ -55,12 +55,59 @@ export class NewProductComponent implements OnInit {
     });
   }
 
+  /**
+   * Get the plan controls as a FormArray.
+   * To get a specific control:
+   * planGroups.at(index).get(name).
+   * If API status code is 422, the response body
+   * might have to be:
+   * field: 'plans.0.price',
+   * code: 'invalid'
+   */
   get plansGroups() {
     return this.form.get('plans') as FormArray;
   }
 
   addPlan() {
     this.plansGroups.push(this.controlService.toFormGroup(this.planControls));
+  }
+
+  private setControlError(err: RequestError) {
+    if (!err.unprocessable) {
+      this.toast.error(err.message)
+      return;
+    }
+
+    // if (!err.unprocessable.field.startsWith("plans")) {
+    //   this.form.get(err.unprocessable.field).setErrors({
+    //     [err.unprocessable.code]: err.message
+    //   })
+    // }
+
+    // For plans controls, unprocessable.field might be `plans.0.price`
+    const path = err.unprocessable.field.split('.')
+
+    const ctrl = this.getControl(path);
+    ctrl.setErrors({
+      [err.unprocessable.code]: err.message
+    });
+  }
+
+  private getControl(path: string[]): AbstractControl {
+    let curr: AbstractControl = this.form;
+
+    for (let item of path) {
+      console.log('Getting control %s', item);
+
+      const num = Number.parseInt(item)
+      if (Number.isNaN(num)) {
+        curr = curr.get(item);
+      } else {
+        curr = (curr as FormArray).at(num)
+      }
+    }
+
+    return curr
   }
 
   onRemovePrice(i: number) {
@@ -95,7 +142,7 @@ export class NewProductComponent implements OnInit {
           this.form.enable();
 
           const reqErr = new RequestError(err);
-          this.toast.error(reqErr.message);
+          this.setControlError(reqErr);
         }
       })
   }
