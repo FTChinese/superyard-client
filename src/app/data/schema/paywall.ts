@@ -1,5 +1,4 @@
 import { ExpandedProduct } from './product';
-import { Period } from './period';
 
 export interface BaseBanner {
   heading: string;
@@ -8,7 +7,7 @@ export interface BaseBanner {
   content: string | null;
 }
 
-export type Banner = BaseBanner & {
+export interface Banner extends BaseBanner {
   id: number;
   createdUtc: string | null;
   updatedUtc: string | null;
@@ -16,12 +15,15 @@ export type Banner = BaseBanner & {
   promoId: string | null;
 };
 
-export type Promo = BaseBanner & {
-  id: string;
+export interface Promo extends BaseBanner {
+  id: string | null;
+  heading: string | null; // Override.
   terms: string | null;
-  createdUtc: string;
-  createdBy: string;
-} & Period;
+  startUtc: string | null;
+  endUtc: string | null;
+  createdUtc: string | null;
+  createdBy: string | null;
+};
 
 export interface Paywall {
   banner: Banner;

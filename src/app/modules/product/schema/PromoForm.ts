@@ -1,11 +1,34 @@
 import { FormPeriod, Period, buildPeriod } from 'src/app/data/schema/period';
-import { BannerForm, bannerControls } from './BannerForm';
+import { bannerControls } from './BannerForm';
 import { DynamicControl, TextareaControl } from 'src/app/shared/widget/control';
 import { periodControls } from './datetime-controls';
-import { Promo, BaseBanner } from 'src/app/data/schema/paywall';
-// Promotion form. This is the banner form plus starting and ending time.
+import { Promo } from 'src/app/data/schema/paywall';
 
-type PromoSharedFields = Omit<Promo, 'id' | 'createdUtc' | 'createdBy' | 'startUtc' | 'endUtc'>;
+export function zeroPromo(): Promo {
+  return {
+    id: null,
+    heading: null,
+    subHeading: null,
+    coverUrl: null,
+    content: null,
+    terms: null,
+    startUtc: null,
+    endUtc: null,
+    createdUtc: null,
+    createdBy: null,
+  }
+}
+
+/**
+ * Common fields for both promo form and request body.
+ * You cannot simply build upon the Promo type
+ * since the nullability of heading field is different.
+ * At least you should provide a heading for a promo; otherwise it is meanningless to make
+ * everything optional.
+ */
+type PromoSharedFields = {
+  heading: string;
+} & Pick<Promo, 'subHeading' | 'coverUrl' | 'content' | 'terms'>
 
 export type PromoForm = PromoSharedFields & FormPeriod;
 
