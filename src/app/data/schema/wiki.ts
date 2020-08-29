@@ -1,12 +1,12 @@
 export interface Article {
   id: number;
   author: string;
-  createdUtc: string;
-  updatedUtc: string;
+  createdUtc: string | null;
+  updatedUtc: string | null;
   title: string;
-  summary: string;
-  keyword?: string;
-  body: string;
+  summary: string | null;
+  keyword: string | null;
+  body: string | null;
 }
 
 export type ArticleForm = Pick<Article, 'title' | 'summary' | 'keyword' | 'body'>;
