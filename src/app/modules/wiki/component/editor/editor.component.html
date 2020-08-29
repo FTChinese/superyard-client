@@ -1,46 +1,23 @@
 <div class="row">
   <div class="col-md-6">
-    <form [formGroup]="form"
-      (ngSubmit)="onSubmit()">
 
-      <div class="form-group">
-        <label for="title" class="form-label">Title</label>
-        <input #title
-          class="form-control"
-          id="title"
-          type="text"
-          formControlName="title">
-      </div>
+    <h2>{{pageTitle}}</h2>
 
-      <div class="form-group">
-        <label for="summary" class="form-label">Summary</label>
-        <textarea #summary
-          class="form-control"
-          id="summary"
-          formControlName="summary"
-          rows="3"></textarea>
-      </div>
+    <app-dynamic-form
+      [controls]="controls"
+      [button]="button"></app-dynamic-form>
 
-      <div class="form-group">
-        <label for="body" class="form-label">Body</label>
-        <textarea #body
-          class="form-control"
-          id="body"
-          formControlName="body"
-          rows="30"></textarea>
-      </div>
-
-      <div class="d-flex justify-content-between">
-        <button
-          class="btn btn-primary"
-          type="submit"
-          [disabled]="!form.valid">Save</button>
-      </div>
-    </form>
   </div>
+
   <div class="col-md-6">
-    <h5 class="text-center">{{title.value}}</h5>
-    <div [innerHTML]="body.value | marked"></div>
+    <div *ngIf="preview">
+      <h5 class="text-center"
+        *ngIf="preview.title">{{preview.title}}</h5>
+
+      <div *ngIf="preview.body"
+        [innerHTML]="preview.body | marked"></div>
+    </div>
   </div>
+
 </div>
 

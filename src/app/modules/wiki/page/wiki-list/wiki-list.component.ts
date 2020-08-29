@@ -1,5 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ArticleTeaser} from 'src/app/data/schema/wiki';
+import { ToastService } from 'src/app/shared/service/toast.service';
+import { ProgressService } from 'src/app/shared/service/progress.service';
+import { WikiService } from '../../service/wiki.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
+import { Paging, getPaging } from 'src/app/shared/widget/paging';
+import { RequestError } from 'src/app/data/schema/request-result';
 
 @Component({
   selector: 'app-wiki-list',
@@ -8,28 +16,39 @@ import { ArticleTeaser} from 'src/app/data/schema/wiki';
 })
 export class WikiListComponent implements OnInit {
 
-  teasers: ArticleTeaser[] = [
-    {
-      id: 1,
-      author: 'weiguo.ni',
-      createdUtc: '2020-07-16T14:15:00+08:00',
-      updatedUtc: '2020-07-16T14:15:00+08:00',
-      title: 'Rain village computer recover own form church interpretation silver place',
-      summary: 'Audience college environment brown link cast attack ball maintain unemployment challenge failure survey do afford control need front belief hall home satisfy damage plan respect return bishop represent sheet invite',
-    },
-    {
-      id: 2,
-      author: 'weiguo.ni',
-      createdUtc: '2020-07-16T14:15:00+08:00',
-      updatedUtc: '2020-07-16T14:15:00+08:00',
-      title: 'Rain village computer recover own form church interpretation silver place',
-      summary: 'Audience college environment brown link cast attack ball maintain unemployment challenge failure survey do afford control need front belief hall home satisfy damage plan respect return bishop represent sheet invite',
-    }
-  ];
+  teasers: ArticleTeaser[];
 
-  constructor() { }
+  constructor(
+    private wikiService: WikiService,
+    private toast: ToastService,
+    private progress: ProgressService,
+    private route: ActivatedRoute,
+  ) {
+    this.progress.start();
+  }
 
   ngOnInit(): void {
+    this.route.paramMap.pipe(
+      switchMap(params => {
+        return this.wikiService.listArticles(getPaging(params));
+      })
+    )
+    .subscribe({
+      next: teasers => {
+        console.log('Article list: %o', teasers);
+
+        this.progress.stop();
+
+        this.teasers = teasers;
+      },
+      error: (err: HttpErrorResponse) => {
+        this.progress.stop();
+
+        const reqErr = new RequestError(err);
+
+        this.toast.error(reqErr.message);
+      }
+    });
   }
 
 }
