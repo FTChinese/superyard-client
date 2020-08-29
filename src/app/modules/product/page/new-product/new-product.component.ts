@@ -2,8 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
 import { Tier } from 'src/app/data/schema/enum';
 import { DynamicControlService } from 'src/app/shared/service/dynamic-control.service';
-import { buildProductControls, ProductCreationForm } from '../../schema/ProductForm';
+import { buildProductControls, ProductCreationForm, ProductCreationReq, buildProductCreationReq } from '../../schema/ProductForm';
 import { buildPlanControls } from '../../schema/PlanForm';
+import { ProgressService } from 'src/app/shared/service/progress.service';
+import { ProductService } from '../../service/product.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { RequestError } from 'src/app/data/schema/request-result';
+import { ToastService } from 'src/app/shared/service/toast.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-product',
@@ -19,7 +25,12 @@ export class NewProductComponent implements OnInit {
   form: FormGroup;
 
   constructor(
-    readonly controlService: DynamicControlService
+    readonly controlService: DynamicControlService,
+    private productService: ProductService,
+    readonly progress: ProgressService,
+    private toast: ToastService,
+    private route: ActivatedRoute,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -59,6 +70,33 @@ export class NewProductComponent implements OnInit {
   onSubmit() {
     const formData: ProductCreationForm = this.form.value;
 
-    console.log(formData);
+    this.progress.start();
+    this.form.disable();
+
+    this.create(buildProductCreationReq(formData));
+  }
+
+  private create(reqData: ProductCreationReq) {
+
+    console.log('Creating product %o', reqData);
+
+    this.productService.createProduct(reqData)
+      .subscribe({
+        next: () => {
+          this.progress.stop();
+          this.toast.info('Product created successfully!');
+
+          this.router.navigate(['../'], {
+            relativeTo: this.route
+          });
+        },
+        error: (err: HttpErrorResponse) => {
+          this.progress.start();
+          this.form.enable();
+
+          const reqErr = new RequestError(err);
+          this.toast.error(reqErr.message);
+        }
+      })
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {ProductCreationForm, ProductForm } from '../schema/ProductForm';
+import {ProductCreationForm, ProductForm, ProductCreationReq } from '../schema/ProductForm';
 import { Observable, of } from 'rxjs';
 import { Product, PricedProduct, ExpandedPlan, Plan, Discount } from 'src/app/data/schema/product';
 import { PlanReq } from '../schema/PlanForm';
@@ -16,7 +16,7 @@ export class ProductService {
     private http: HttpClient
   ) { }
 
-  createProduct(prod: ProductCreationForm): Observable<Product> {
+  createProduct(prod: ProductCreationReq): Observable<Product> {
     return this.http.post<Product>(
       '/api/products',
       prod,
