@@ -4,7 +4,6 @@ import { BannerForm } from '../schema/BannerForm';
 import { Observable, of } from 'rxjs';
 import { Banner, Promo, Paywall } from 'src/app/data/schema/paywall';
 import { switchMap } from 'rxjs/operators';
-import { ExpandedProduct } from 'src/app/data/schema/product';
 import { PromoReq } from '../schema/PromoForm';
 
 @Injectable({
