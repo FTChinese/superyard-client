@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { WikiListComponent } from './page/wiki-list/wiki-list.component';
-import { NewArticleComponent } from './page/new-article/new-article.component';
 import { EditArticleComponent } from './page/edit-article/edit-article.component';
+import { EditorComponent } from './component/editor/editor.component';
 
 const routes: Routes = [
   {
@@ -11,7 +11,7 @@ const routes: Routes = [
   },
   {
     path: 'new',
-    component: NewArticleComponent
+    component: EditorComponent
   },
   {
     path: ':id',
