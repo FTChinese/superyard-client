@@ -2,8 +2,14 @@
   <div class="card-header d-flex justify-content-between">
     <span>Promotion Banner</span>
 
-    <a class="btn btn-link btn-inline"
+    <div>
+      <button
+        class="btn btn-danger btn-inline"
+        *ngIf="!isEmpty"
+        (click)="openModal()">Drop</button>
+      <a class="btn btn-primary btn-inline ml-3"
       routerLink="promo">New</a>
+    </div>
   </div>
 
   <div class="card-body">
@@ -13,11 +19,11 @@
       <app-banner-box
         [banner]="promo"></app-banner-box>
 
-      <div class="text-muted"
+      <div class="text-muted mt-3"
         *ngIf="promo.terms">
-        <h6>Termsn and Conditions</h6>
+        <h6 class="text-center">Terms and Conditions</h6>
         <ul>
-          <li *ngFor="let line of termsAndConditions">{{line}}</li>
+          <li *ngFor="let line of promo.terms | line">{{line}}</li>
         </ul>
       </div>
 
@@ -25,8 +31,31 @@
 
   </div>
 
-  <div class="card-footer">
+  <div class="card-footer"
+    *ngIf="!isEmpty">
     <app-meta-list
     [metaItems]="metaItems"></app-meta-list>
+  </div>
+</div>
+
+<div *ngIf="modal.on"
+  class="modal fade show">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <app-modal-header
+        title="Remove Promo"></app-modal-header>
+
+      <div class="modal-body">
+        <p>
+          Are you sure you want to drop this promotion from paywall?
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-danger"
+          type="button"
+          (click)="onDrop()">Drop</button>
+      </div>
+    </div>
   </div>
 </div>

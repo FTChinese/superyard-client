@@ -5,6 +5,7 @@ import { ToastService } from 'src/app/shared/service/toast.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RequestError } from 'src/app/data/schema/request-result';
 import { ProgressService } from 'src/app/shared/service/progress.service';
+import { zeroPromo } from '../../schema/PromoForm';
 
 @Component({
   selector: 'app-paywall-home',
@@ -56,5 +57,9 @@ export class PaywallHomeComponent implements OnInit {
   rebuild() {
     this.toast.info('Refreshing Subscription API Cache...');
     this.progress.start();
+  }
+
+  onPromoDropped() {
+    this.paywall.promo = zeroPromo();
   }
 }
