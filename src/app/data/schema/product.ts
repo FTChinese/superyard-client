@@ -51,6 +51,10 @@ export type PricedProduct = Product & {
   plans: Plan[];
 };
 
+export type ListedProduct = Product & {
+  planCount: number;
+}
+
 export type ExpandedProduct = Product & {
   plans: ExpandedPlan[];
 };
