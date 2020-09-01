@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Membership, isMember } from 'src/app/data/schema/reader';
+import { Membership, isMember } from 'src/app/data/schema/membership';
 import { MenuItem, SelectedItem } from 'src/app/shared/widget/menu';
 import { ModalService } from 'src/app/shared/service/modal.service';
 import { FormService } from 'src/app/shared/service/form.service';

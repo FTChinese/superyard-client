@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { FtcAccount, ReaderAccount, IFtcProfile, IActivity, IWxProfile, IWxLogin, Order, Membership } from 'src/app/data/schema/reader';
+import { JoinedAccount, ReaderAccount, IFtcProfile, IActivity, IWxProfile, IWxLogin, Order, Membership } from 'src/app/data/schema/reader';
 import { ReaderSearchParam, MemberForm } from '../schema/form-data';
 import { switchMap } from 'rxjs/operators';
 
@@ -12,8 +12,8 @@ export class ReaderService {
 
   constructor(private http: HttpClient) { }
 
-  search(p: ReaderSearchParam): Observable<FtcAccount[]> {
-    return this.http.get<FtcAccount[]>(
+  search(p: ReaderSearchParam): Observable<JoinedAccount[]> {
+    return this.http.get<JoinedAccount[]>(
       '/api/search/reader',
       {
         params: {

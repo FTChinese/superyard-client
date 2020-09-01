@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountKind } from 'src/app/data/schema/enum';
 import { HttpErrorResponse } from '@angular/common/http';
-import { FtcAccount } from 'src/app/data/schema/reader';
+import { JoinedAccount } from 'src/app/data/schema/reader';
 import { RequestError } from 'src/app/data/schema/request-result';
 import { ReaderService } from 'src/app/data/service/reader.service';
 import { buildSearchOpts } from 'src/app/shared/widget/control';
@@ -19,7 +19,7 @@ export class ReaderHomeComponent implements OnInit {
 
   searchControl = buildSearchOpts('Email or Wechat nickname');
 
-  accounts: FtcAccount[];
+  accounts: JoinedAccount[];
 
   get notFound(): boolean {
     return this.accounts && this.accounts.length === 0;
@@ -51,7 +51,7 @@ export class ReaderHomeComponent implements OnInit {
   searchAccount(param: ReaderSearchParam) {
     this.readerService.search(param)
       .subscribe({
-        next: (accounts: FtcAccount[]) => {
+        next: (accounts: JoinedAccount[]) => {
           this.formService.enable(true);
           this.accounts = accounts;
         },

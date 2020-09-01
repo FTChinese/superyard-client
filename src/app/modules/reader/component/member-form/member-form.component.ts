@@ -1,12 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Membership, isMember } from 'src/app/data/schema/reader';
-import { Validators, FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
-import { Tier, cycleOpts, tierOpts, paymentMethodOpts, Cycle } from 'src/app/data/schema/enum';
+import { Membership, isMember } from 'src/app/data/schema/membership';
+import { Validators, FormGroup} from '@angular/forms';
+import { Tier, cycleOpts, tierOpts, paymentMethodOpts } from 'src/app/data/schema/enum';
 import { DynamicControl, DropdownControl, InputControl } from 'src/app/shared/widget/control';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
-import { MemberForm } from 'src/app/data/schema/form-data';
-import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-member-form',

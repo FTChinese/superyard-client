@@ -6,7 +6,8 @@ import { SearchForm } from 'src/app/data/schema/form-data';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RequestError, serviceNames } from 'src/app/data/schema/request-result';
 import { ToastService } from 'src/app/shared/service/toast.service';
-import { Order, Membership } from 'src/app/data/schema/reader';
+import { Membership } from 'src/app/data/schema/membership';
+import { Order } from 'src/app/data/schema/order';
 import { ModalService } from 'src/app/shared/service/modal.service';
 
 @Component({

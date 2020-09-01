@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
-import { ReaderAccount, IWxProfile, IFtcProfile, isMember, Membership, zeroMember } from 'src/app/data/schema/reader';
+import { ReaderAccount, IWxProfile, IFtcProfile, zeroMember } from 'src/app/data/schema/reader';
+import { isMember, Membership } from 'src/app/data/schema/membership';
 import { zip } from 'rxjs';
 import { AccountKind } from 'src/app/data/schema/enum';
 import { ReaderService } from 'src/app/data/service/reader.service';

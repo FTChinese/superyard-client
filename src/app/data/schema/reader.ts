@@ -1,14 +1,9 @@
-import { parseISO, isBefore, startOfDay } from 'date-fns';
+import { Membership } from './membership';
 import {
-  Tier,
-  Cycle,
-  PaymentMethod,
-  SubStatus,
   AccountKind,
   Gender,
   Platform,
   ActivityKind,
-  OrderKind,
 } from './enum';
 
 export interface Wechat {
@@ -16,24 +11,8 @@ export interface Wechat {
   avatarUrl: string | null;
 }
 
-export interface Membership {
-  compoundId: string;
-  ftcId: string | null;
-  unionId: string | null;
-  tier: Tier | null;
-  cycle: Cycle | null;
-  expireDate: string | null;
-  payMethod: PaymentMethod | null;
-  autoRenewal: boolean | null;
-  stripeSubsId: string | null;
-  stripePlanId: string | null;
-  status: SubStatus | null;
-  appleSubsId: string | null;
-  b2bLicenceId: string | null;
-}
-
 // Create a zero membership based on current account.
-export function zeroMember(account: FtcAccount): Membership {
+export function zeroMember(account: JoinedAccount): Membership {
   return {
     compoundId: account.ftcId || account.unionId,
     ftcId: account.ftcId,
@@ -42,44 +21,39 @@ export function zeroMember(account: FtcAccount): Membership {
     cycle: null,
     expireDate: null,
     payMethod: null,
-    autoRenewal: null,
+    ftcPlanId: null,
     stripeSubsId: null,
     stripePlanId: null,
+    autoRenewal: null,
     status: null,
     appleSubsId: null,
     b2bLicenceId: null
   };
 }
 
-export function isMember(m: Membership): boolean {
-  return m.tier != null;
-}
-
-export function isMemberExpired(m: Membership): boolean {
-  if (!m.expireDate) {
-    return true;
-  }
-
-  const expireOn = parseISO(m.expireDate);
-  const today = startOfDay(new Date());
-
-  return isBefore(expireOn, today);
-}
-
+/**
+ * @description An email-only account.
+ */
 export interface FtcAccount {
   ftcId: string | null; // null for wechat-only account
   unionId: string | null; // null for ftc-only account
   stripeId: string | null; // null for wechat-only account
   email: string | null; // null for wechat-only account
   userName: string | null; // null for wechat-only account
+}
+
+/**
+ * @description Combines email and wechat account.
+ */
+export type JoinedAccount = FtcAccount & {
   wechat: Wechat;
   kind: AccountKind;
 }
 
 /**
- * @description Definition of a reader's account
+ * @description A reader's full account, email + wechat + membership.
  */
-export type ReaderAccount = FtcAccount & {
+export type ReaderAccount = JoinedAccount & {
   membership: Membership;
 };
 
@@ -137,21 +111,3 @@ export interface IWxLogin extends ClientApp {
   updatedAt: string | null;
 }
 
-export interface Order {
-  id: string;
-  compoundId: string;
-  ftcId: string | null;
-  unionId: string | null;
-  price: number;
-  amount: number;
-  tier: Tier;
-  cycle: Cycle;
-  cycleCount: number;
-  extraDays: number;
-  kind: OrderKind;
-  paymentMethod: PaymentMethod;
-  createdAt: string;
-  confirmedAt: string;
-  startDate: string;
-  endDate: string;
-}
