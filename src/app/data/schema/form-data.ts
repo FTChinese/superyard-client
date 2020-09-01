@@ -1,6 +1,6 @@
 import { AndroidRelease } from './android';
 import { AccountKind } from './enum';
-import { Membership } from './reader';
+import { Membership } from './membership';
 import { AccessToken, OAuthApp } from './oauth';
 
 export interface AccountFields {
