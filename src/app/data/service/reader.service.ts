@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { JoinedAccount, ReaderAccount, IFtcProfile, IActivity, IWxProfile, IWxLogin, Order, Membership } from 'src/app/data/schema/reader';
+import { JoinedAccount, ReaderAccount, IFtcProfile, IActivity, IWxProfile, IWxLogin } from 'src/app/data/schema/reader';
+import { Membership } from 'src/app/data/schema/membership';
+import { Order } from 'src/app/data/schema/order';
 import { ReaderSearchParam, MemberForm } from '../schema/form-data';
 import { switchMap } from 'rxjs/operators';
 
