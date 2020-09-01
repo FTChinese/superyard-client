@@ -70,3 +70,16 @@
   </div>
 </div>
 
+<div *ngIf="pwJson" class="paywall-json">
+  <div class="modal-header">
+    <h5 class="modal-title">Latest paywall data</h5>
+    <button type="button"
+      class="close"
+      (click)="onClose()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <pre>
+    <code>{{pwJson}}</code>
+  </pre>
+</div>
