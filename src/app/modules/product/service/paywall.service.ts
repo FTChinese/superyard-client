@@ -11,35 +11,37 @@ import { PromoReq } from '../schema/PromoForm';
 })
 export class PaywallService {
 
+  private baseUrl = '/api/paywall';
+
   constructor(
     private http: HttpClient
   ) { }
 
   loadPaywall(): Observable<Paywall> {
-    return this.http.get<Paywall>('/api/paywall');
+    return this.http.get<Paywall>(this.baseUrl);
   }
 
   createBanner(b: BannerForm): Observable<Banner> {
     return this.http.post<Banner>(
-      '/api/paywall/banner',
+      `${this.baseUrl}/banner`,
       b,
     );
   }
 
   loadBanner(): Observable<Banner> {
-    return this.http.get<Banner>('/api/paywall/banner');
+    return this.http.get<Banner>(`${this.baseUrl}/banner`);
   }
 
   updateBanner(b: BannerForm): Observable<Banner> {
     return this.http.patch<Banner>(
-      '/api/paywall/banner',
+      `${this.baseUrl}/banner`,
       b
     );
   }
 
   dropPromo(): Observable<boolean> {
     return this.http.delete(
-      '/api/paywall/banner/promo',
+      `${this.baseUrl}/banner/promo`,
       {
         observe: 'response'
       }
@@ -49,8 +51,17 @@ export class PaywallService {
 
   createPromo(p: PromoReq): Observable<Promo> {
     return this.http.post<Promo>(
-      '/api/paywall/promo',
+      `${this.baseUrl}/promo`,
       p,
+    );
+  }
+
+  rebuild(): Observable<string> {
+    return this.http.get(
+      `${this.baseUrl}/build`,
+      {
+        responseType: 'text'
+      }
     );
   }
 }
