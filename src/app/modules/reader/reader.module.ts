@@ -10,6 +10,7 @@ import { MemberFormComponent } from './component/member-form/member-form.compone
 import { OrdersComponent } from './page/orders/orders.component';
 import { MemberCardComponent } from './component/member-card/member-card.component';
 import { AccountCardComponent } from './component/account-card/account-card.component';
+import { SandboxComponent } from './page/sandbox/sandbox.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { AccountCardComponent } from './component/account-card/account-card.comp
     OrdersComponent,
     MemberCardComponent,
     AccountCardComponent,
+    SandboxComponent,
   ],
   imports: [
     CommonModule,
