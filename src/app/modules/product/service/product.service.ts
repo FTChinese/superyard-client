@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {ProductCreationForm, ProductForm, ProductCreationReq } from '../schema/ProductForm';
 import { Observable, of } from 'rxjs';
-import { Product, PricedProduct, ExpandedPlan, Plan, Discount } from 'src/app/data/schema/product';
+import { Product, PricedProduct, ExpandedPlan, Plan, Discount, ListedProduct } from 'src/app/data/schema/product';
 import { PlanReq } from '../schema/PlanForm';
 import { DiscountReq } from '../schema/DiscountForm';
 import { switchMap } from 'rxjs/operators';
@@ -23,8 +23,8 @@ export class ProductService {
     );
   }
 
-  listProducts(): Observable<PricedProduct[]> {
-    return this.http.get<PricedProduct[]>(
+  listProducts(): Observable<ListedProduct[]> {
+    return this.http.get<ListedProduct[]>(
       '/api/products'
     );
   }

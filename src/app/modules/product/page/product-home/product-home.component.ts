@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PricedProduct } from 'src/app/data/schema/product';
+import { ListedProduct } from 'src/app/data/schema/product';
 import { ProductService } from '../../service/product.service';
 import { ProgressService } from 'src/app/shared/service/progress.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -13,7 +13,7 @@ import { ToastService } from 'src/app/shared/service/toast.service';
 })
 export class ProductHomeComponent implements OnInit {
 
-  products: PricedProduct[];
+  products: ListedProduct[];
 
   constructor(
     private productService: ProductService,
