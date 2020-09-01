@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-md-8">
+    <ng-container
+      *ngIf="article">
+      <h2 class="text-center mt-3 mb-3">
+        <a routerLink="./edit" title="Edit this article">{{article.title}}</a>
+      </h2>
+
+      <div [innerHTML]="article.body | marked"></div>
+
+    </ng-container>
+  </div>
+
+  <div class="col-md-4">
+    <dl>
+      <dt>By</dt>
+      <dd>{{article.author}}</dd>
+
+      <dt>Created</dt>
+      <dd>{{article.createdUtc}}</dd>
+
+      <dt>Last updated</dt>
+      <dd>{{article.updatedUtc}}</dd>
+    </dl>
+  </div>
+</div>

@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { Article } from 'src/app/data/schema/wiki';
-import { ActivatedRoute } from '@angular/router';
 import { ProgressService } from 'src/app/shared/service/progress.service';
 import { ToastService } from 'src/app/shared/service/toast.service';
 import { WikiService } from '../../service/wiki.service';
 import { switchMap } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RequestError } from 'src/app/data/schema/request-result';
+import { Article } from 'src/app/data/schema/wiki';
 
 @Component({
-  selector: 'app-edit-article',
-  templateUrl: './edit-article.component.html',
-  styleUrls: ['./edit-article.component.scss']
+  selector: 'app-reading',
+  templateUrl: './reading.component.html',
+  styleUrls: ['./reading.component.scss']
 })
-export class EditArticleComponent implements OnInit {
+export class ReadingComponent implements OnInit {
 
   article: Article;
 
@@ -47,4 +47,6 @@ export class EditArticleComponent implements OnInit {
       }
     });
   }
+
+
 }
