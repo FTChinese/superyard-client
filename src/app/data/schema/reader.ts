@@ -43,6 +43,22 @@ export interface FtcAccount {
 }
 
 /**
+ * @description A sandbox user account.
+ */
+export type SandboxUser = FtcAccount & {
+  createdBy: string;
+  createdUtc: string | null;
+  updatedUtc: string | null;
+};
+
+/**
+ * @description Details have an extra password field.
+ */
+export type SandboxUserDetail = SandboxUser & {
+  password: string;
+};
+
+/**
  * @description Combines email and wechat account.
  */
 export type JoinedAccount = FtcAccount & {
