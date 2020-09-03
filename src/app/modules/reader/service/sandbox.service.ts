@@ -5,6 +5,7 @@ import { Observable, ObservableLike, of } from 'rxjs';
 import { SandboxUser } from 'src/app/data/schema/reader';
 import { switchMap } from 'rxjs/operators';
 import { Membership } from 'src/app/data/schema/membership';
+import { Paging, pagingParams } from 'src/app/shared/widget/paging';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,10 @@ export class SandboxService {
     );
   }
 
-  listUsers(): Observable<SandboxUser[]> {
-    return this.http.get<SandboxUser[]>(this.basePath);
+  listUsers(p: Paging): Observable<SandboxUser[]> {
+    return this.http.get<SandboxUser[]>(this.basePath, {
+      params: pagingParams(p)
+    });
   }
 
   loadAccount(id: string): Observable<SandboxUser> {

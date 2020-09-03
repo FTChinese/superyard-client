@@ -1,1 +1,27 @@
-<p>sandbox works!</p>
+<div class="row justify-content-center">
+  <div class="col-md-12 col-lg-8">
+    <div class="d-flex justify-content-between">
+      <h2 class="mb-3">Sandbox Account</h2>
+      <button class="btn btn-primary align-self-center">New</button>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th class="text-right">Created UTC</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>
+            <a [routerLink]="user.ftcId">{{user.email}}</a>
+          </td>
+          <td class="text-right">
+            {{user.createdUtc}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
