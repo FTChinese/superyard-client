@@ -11,6 +11,7 @@ import { OrdersComponent } from './page/orders/orders.component';
 import { MemberCardComponent } from './component/member-card/member-card.component';
 import { AccountCardComponent } from './component/account-card/account-card.component';
 import { SandboxComponent } from './page/sandbox/sandbox.component';
+import { SandboxDetailComponent } from './page/sandbox-detail/sandbox-detail.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { SandboxComponent } from './page/sandbox/sandbox.component';
     MemberCardComponent,
     AccountCardComponent,
     SandboxComponent,
+    SandboxDetailComponent,
   ],
   imports: [
     CommonModule,

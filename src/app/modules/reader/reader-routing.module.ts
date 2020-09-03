@@ -4,6 +4,7 @@ import { AccountDetailComponent } from './page/account-detail/account-detail.com
 import { ReaderHomeComponent } from './page/reader-home/reader-home.component';
 import { OrdersComponent } from './page/orders/orders.component';
 import { SandboxComponent } from './page/sandbox/sandbox.component';
+import { SandboxDetailComponent } from './page/sandbox-detail/sandbox-detail.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: 'sandbox',
     component: SandboxComponent,
+  },
+  {
+    path: 'sandbox/:id',
+    component: SandboxDetailComponent,
   }
 ];
 
