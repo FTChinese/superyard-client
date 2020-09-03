@@ -43,6 +43,10 @@ export class NavComponent implements OnInit {
         {
           name: 'Orders',
           href: `/${siteBaseUrl.readers}/orders`,
+        },
+        {
+          name: 'Sandbox User',
+          href: `/${siteBaseUrl.readers}/sandbox`,
         }
       ]
     },
