@@ -1,45 +1,13 @@
-<div class="row">
-  <div class="col-md-12">
-    <div class="d-flex justify-content-between">
-      <h2 class="mb-3">{{user.email}}</h2>
-      <button class="btn btn-primary align-self-center">Delete</button>
-    </div>
-
-    <table class="table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>User Name</th>
-          <th>Created</th>
-          <th>Last Updated</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <dl>
-              <dt>FTC</dt>
-              <dd>{{user.ftcId}}</dd>
-
-              <dt>Wechat Union</dt>
-              <dd>{{user.unionId}}</dd>
-
-              <dt>Stripe Customer</dt>
-              <dd>{{user.stripeId}}</dd>
-            </dl>
-          </td>
-          <td>
-            {{user.userName}}
-          </td>
-          <td>
-            <div>by {{user.createdUtc}}</div>
-            <div>at {{user.createdUtc}}</div>
-          </td>
-          <td>
-            {{user.updatedUtc}}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<div class="d-flex justify-content-between">
+  <h2 class="mb-3">{{account.email}}</h2>
+  <button class="btn btn-danger align-self-center">Delete</button>
 </div>
+
+<app-account-card
+  *ngIf="account"
+  [account]="account"></app-account-card>
+
+<app-member-card
+  *ngIf="account"
+  [member]="account.membership"></app-member-card>
+

@@ -10,6 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { RequestError, serviceNames } from 'src/app/data/schema/request-result';
 import { ToastService } from 'src/app/shared/service/toast.service';
 import { Link } from 'src/app/shared/widget/link';
+import { ProgressService } from 'src/app/shared/service/progress.service';
 
 @Component({
   selector: 'app-account-detail',
@@ -51,7 +52,10 @@ export class AccountDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private readerService: ReaderService,
     private toast: ToastService,
-  ) { }
+    private progress: ProgressService,
+  ) {
+    this.progress.start()
+   }
 
   get isFtc(): boolean {
     return (this.account && this.account.ftcId) ? true : false;
@@ -82,10 +86,12 @@ export class AccountDetailComponent implements OnInit {
       .subscribe({
         next: data => {
           console.log(data);
+          this.progress.stop();
 
           this.account = data;
         },
         error: (err: HttpErrorResponse) => {
+          this.progress.start();
 
           const errRes = new RequestError(err, serviceNames.reader);
 

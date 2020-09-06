@@ -5,23 +5,12 @@
       <button class="btn btn-primary align-self-center">New</button>
     </div>
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Email</th>
-          <th class="text-right">Created UTC</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of users">
-          <td>
-            <a [routerLink]="user.ftcId">{{user.email}}</a>
-          </td>
-          <td class="text-right">
-            {{user.createdUtc}}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <ul class="list-group">
+      <li *ngFor="let user of users"
+        class="list-group-item">
+        <a [routerLink]="user.ftcId">{{user.email}}</a>
+      </li>
+    </ul>
+
   </div>
 </div>

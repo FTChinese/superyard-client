@@ -3,7 +3,7 @@ import { ProgressService } from 'src/app/shared/service/progress.service';
 import { ToastService } from 'src/app/shared/service/toast.service';
 import { SandboxService } from '../../service/sandbox.service'
 import { SandboxUserForm } from '../../schema/sandbox-form';
-import { SandboxUser } from 'src/app/data/schema/reader';
+import { FtcAccount } from 'src/app/data/schema/reader';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { getPaging } from 'src/app/shared/widget/paging';
@@ -17,7 +17,7 @@ import { RequestError } from 'src/app/data/schema/request-result';
 })
 export class SandboxComponent implements OnInit {
 
-  users: SandboxUser[];
+  users: FtcAccount[];
 
   constructor(
     private sandboxService: SandboxService,
