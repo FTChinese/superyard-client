@@ -8,6 +8,7 @@ import { ReaderService } from 'src/app/data/service/reader.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from 'src/app/shared/service/toast.service';
 import { RequestError } from 'src/app/data/schema/request-result';
+import { PropertyItem } from 'src/app/shared/widget/property-list';
 
 @Component({
   selector: 'app-member-card',
@@ -22,6 +23,23 @@ export class MemberCardComponent implements OnInit {
   // A fallback message visible when membership data is not available.
   @Input() status = 'It seems this account does not have a membership yet.';
   @Input() showMenu = true;
+
+  get memberProperties(): PropertyItem[] {
+    return [
+      {
+        label: 'Expiration',
+        value: this.member.expireDate,
+      },
+      {
+        label: 'Paid via',
+        value: this.member.payMethod,
+      },
+      {
+        label: 'Auto Renwal',
+        value: this.member.autoRenewal ? 'Yes' : 'No',
+      }
+    ]
+  }
 
   get menuItems(): MenuItem[] {
     if (!this.member) {
@@ -49,18 +67,6 @@ export class MemberCardComponent implements OnInit {
     return this.hasMember
       ? 'Modify membership'
       : 'Create membership';
-  }
-
-  get isStripe(): boolean {
-    return this.hasMember && this.member.payMethod === 'stripe';
-  }
-
-  get isIAP(): boolean {
-    return this.hasMember && this.member.payMethod === 'apple';
-  }
-
-  get isB2B(): boolean {
-    return this.hasMember && this.member.payMethod === 'b2b';
   }
 
   constructor(

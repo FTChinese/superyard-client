@@ -1,38 +1,50 @@
 <div class="card mb-3">
-  <div class="card-header">Account details</div>
+  <div class="card-header">
+    Account Details
+  </div>
+
   <div class="card-body">
-    <div class="media">
-      <div class="media-body">
-        <table class="table">
+    <div class="row">
+
+      <div class="col-md-6 border-right">
+        <table class="table table-borderless table-sm">
+          <caption>FTC</caption>
           <tbody>
             <tr>
-              <th>Kind</th>
-              <td>{{account.kind | uppercase}}</td>
-            </tr>
-            <tr>
-              <th>Email</th>
+              <td>Email</td>
               <td>{{account.email || 'N/A'}}</td>
             </tr>
             <tr>
-              <th>User name</th>
+              <td>User name</td>
               <td>{{account.userName || 'N/A'}}</td>
             </tr>
             <tr>
-              <th>Stripe Customer ID</th>
+              <td>Stripe Customer ID</td>
               <td>{{account.stripeId || 'N/A'}}</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <figure *ngIf="hasWechat" class="figure text-center">
-        <h6>Wechat</h6>
-        <img class="figure-img"
-          [src]="account.wechat.avatarUrl">
-        <figcaption
-          class="figure-caption">{{account.wechat.nickname}}</figcaption>
-      </figure>
+      <div class="col-md-6">
+        <h6 class="mb-3 text-center text-muted">Wechat</h6>
+        <figure *ngIf="hasWechat; else noWechat"
+          class="figure">
+          <img class="figure-img"
+            [src]="account.wechat.avatarUrl">
+          <figcaption
+            class="figure-caption">{{account.wechat.nickname}}</figcaption>
+        </figure>
+
+        <ng-template #noWechat>
+          <div>N/A</div>
+        </ng-template>
+      </div>
+
     </div>
   </div>
-
 </div>
+
+
+
+

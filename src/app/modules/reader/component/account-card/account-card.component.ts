@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ReaderAccount } from 'src/app/data/schema/reader';
+import { ReaderAccount, JoinedAccount } from 'src/app/data/schema/reader';
 
 @Component({
   selector: 'app-account-card',
@@ -8,7 +8,7 @@ import { ReaderAccount } from 'src/app/data/schema/reader';
 })
 export class AccountCardComponent implements OnInit {
 
-  @Input() account: ReaderAccount;
+  @Input() account: JoinedAccount;
 
   get hasWechat(): boolean {
     return !!(this.account && this.account.unionId);
