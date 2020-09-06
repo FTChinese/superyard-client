@@ -19,6 +19,7 @@ import { MenuComponent } from './menu/menu.component';
 import { ProgressBtnComponent } from './progress-btn/progress-btn.component';
 import { DynamicGroupComponent } from './dynamic-group/dynamic-group.component';
 import { LinePipe } from './pipes/line.pipe';
+import { PropertyListComponent } from './property-list/property-list.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { LinePipe } from './pipes/line.pipe';
     ProgressBtnComponent,
     DynamicGroupComponent,
     LinePipe,
+    PropertyListComponent,
   ],
   imports: [
     CommonModule,
@@ -65,6 +67,7 @@ import { LinePipe } from './pipes/line.pipe';
     MenuComponent,
     ModalHeaderComponent,
     ModalCancelComponent,
+    PropertyListComponent,
   ]
 })
 export class SharedModule { }
