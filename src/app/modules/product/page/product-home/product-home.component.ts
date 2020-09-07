@@ -62,6 +62,6 @@ export class ProductHomeComponent implements OnInit {
           const reqErr = new RequestError(err);
           this.toast.error(reqErr.message);
         }
-      })
+      });
   }
 }
