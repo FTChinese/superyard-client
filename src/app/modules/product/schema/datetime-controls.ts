@@ -1,7 +1,7 @@
 import {
   DynamicControl,
   InputControl,
-  GroupControl
+  RowControl
 } from 'src/app/shared/widget/control';
 import { Validators } from '@angular/forms';
 
@@ -27,12 +27,12 @@ const datetimeControls: DynamicControl[] = [
 
 // Nested group controls for start datetime and end datetime.
 export const periodControls: DynamicControl[] = [
-  new GroupControl({
+  new RowControl({
     key: 'startUtc',
     label: 'Start Datetime',
     controls: datetimeControls
   }),
-  new GroupControl({
+  new RowControl({
     key: 'endUtc',
     label: 'End Datetime',
     controls: datetimeControls
