@@ -10,13 +10,15 @@
     *ngFor="let ctrl of controls"
     [ngSwitch]="ctrl.controlType">
 
-    <ng-container
-      *ngSwitchCase="'group'">
+    <app-dynamic-group
+      *ngSwitchCase="'row'"
+      [control]="ctrl"
+      [form]="form"></app-dynamic-group>
 
-      <app-dynamic-group
-        [control]="ctrl"
-        [form]="form"></app-dynamic-group>
-    </ng-container>
+    <app-input-group
+      *ngSwitchCase="'group'"
+      [control]="ctrl"
+      [form]="form"></app-input-group>
 
     <app-dynamic-control
       *ngSwitchDefault
