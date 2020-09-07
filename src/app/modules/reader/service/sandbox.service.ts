@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { SandboxUserForm, SandboxPasswordForm, SandboxMemberForm } from '../schema/sandbox-form';
+import { SandboxUserForm, SandboxPasswordForm } from '../schema/sandbox-form';
 import { Observable, of } from 'rxjs';
 import { FtcAccount, ReaderAccount } from 'src/app/data/schema/reader';
 import { switchMap } from 'rxjs/operators';
-import { Membership } from 'src/app/data/schema/membership';
 import { Paging, pagingParams } from 'src/app/shared/widget/paging';
 
 @Injectable({
@@ -46,20 +45,20 @@ export class SandboxService {
     .pipe(switchMap(resp => of(resp.status === 204)));
   }
 
-  updateMembership(id: string, data: SandboxMemberForm): Observable<Membership> {
-    return this.http.patch<Membership>(
-      `${this.basePath}/${id}/membership`,
-      data
-    );
-  }
+  // updateMembership(id: string, data: SandboxMemberForm): Observable<Membership> {
+  //   return this.http.patch<Membership>(
+  //     `${this.basePath}/${id}/membership`,
+  //     data
+  //   );
+  // }
 
-  deleteMembership(id: string): Observable<boolean> {
-    return this.http.delete<boolean>(
-      `${this.basePath}/${id}/membership`,
-      {
-        observe: 'response'
-      }
-    )
-    .pipe(switchMap(resp => of(resp.status === 204)));
-  }
+  // deleteMembership(id: string): Observable<boolean> {
+  //   return this.http.delete<boolean>(
+  //     `${this.basePath}/${id}/membership`,
+  //     {
+  //       observe: 'response'
+  //     }
+  //   )
+  //   .pipe(switchMap(resp => of(resp.status === 204)));
+  // }
 }

@@ -7,7 +7,7 @@ export interface SandboxPasswordForm {
   password: string;
 }
 
-export interface SandboxMemberForm {
+export interface FtcMemberForm {
   ftcPlanId: string;
   expireDate: string;
   payMethod: string;

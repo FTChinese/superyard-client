@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProgressService } from 'src/app/shared/service/progress.service';
 import { ToastService } from 'src/app/shared/service/toast.service';
-import { SandboxService } from '../../service/sandbox.service'
-import { SandboxUserForm } from '../../schema/sandbox-form';
+import { SandboxService } from '../../service/sandbox.service';
 import { FtcAccount } from 'src/app/data/schema/reader';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
