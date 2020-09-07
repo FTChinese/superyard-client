@@ -7,7 +7,7 @@ import { Validators } from '@angular/forms';
  * A plan may be created together with a product,
  * or separately. Each case has slightly
  * different input and request body. Here are
- * the common fiels used in all scenarios.
+ * the common fields used in all scenarios.
  */
 export type PlanFormShared = Pick<Plan, 'cycle' | 'description'>;
 
@@ -21,12 +21,12 @@ export type PlanForm = {
 } & PlanFormShared;
 
 /**
- * Plan form with price corrently set to number.
+ * Plan form with price correctly set to number.
  */
 export type PlanFormCasted = Pick<Plan, 'price'> & PlanFormShared;
 
 /**
- * Cast the submited form's price field to number.
+ * Cast the submitted form's price field to number.
  */
 export function castPlanForm(form: PlanForm): PlanFormCasted {
   return {
@@ -54,7 +54,7 @@ export function buildPlanReq(product: Product, form: PlanForm): PlanReq {
 /**
  * @description Construct an array of DynamicControl to describe the UI of a Plan form.
  * @param productTier - Which type of product this plan is built for. If this
- * value is `premium`, then we should disable the `month` biling cycle.
+ * value is `premium`, then we should disable the `month` billing cycle.
  */
 export function buildPlanControls(productTier?: Tier): DynamicControl[] {
   return [

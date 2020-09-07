@@ -2,7 +2,8 @@
   <div class="col-md-12 col-lg-8">
     <div class="d-flex justify-content-between">
       <h2 class="mb-3">Sandbox Account</h2>
-      <button class="btn btn-primary align-self-center">New</button>
+      <button class="btn btn-primary align-self-center"
+        (click)="modalOn()">New</button>
     </div>
 
     <ul class="list-group">
@@ -13,4 +14,22 @@
     </ul>
 
   </div>
+</div>
+
+
+<div *ngIf="modal.on"
+  class="modal fade show">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <app-modal-header
+        title="New Sandbox Account"></app-modal-header>
+
+      <div class="modal-body">
+        <app-dynamic-form
+          [controls]="controls"
+          [button]="button"></app-dynamic-form>
+      </div>
+    </div>
+  </div>
+
 </div>
