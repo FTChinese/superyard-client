@@ -1,7 +1,7 @@
 import { FormGroup, ValidatorFn, ValidationErrors } from '@angular/forms';
 
 /**
- * @description Validates whether two control fields have the same value. This is mostly used by password upating.
+ * @description Validates whether two control fields have the same value. This is mostly used by password updating.
  * @param fieldA - control field name
  * @param fieldB - the repeated control field name
  */
