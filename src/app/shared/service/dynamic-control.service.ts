@@ -16,8 +16,8 @@ export class DynamicControlService {
     const group: {[key: string]: AbstractControl} = {};
 
     for (const control of configs) {
-      if (control.controlType === 'group') {
-        group[control.key] = this.toFormGroup(control.groupedControls);
+      if (control.controlType === 'row') {
+        group[control.key] = this.toFormGroup(control.rowControls);
       } else {
         group[control.key] = new FormControl(
           {

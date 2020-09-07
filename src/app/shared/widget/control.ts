@@ -1,7 +1,7 @@
 import { ValidatorFn, Validators, AbstractControl } from '@angular/forms';
 import { SelectOption } from 'src/app/data/schema/enum';
 
-type ControlType = 'textbox' | 'dropdown' | 'textarea' | 'group';
+type ControlType = 'textbox' | 'dropdown' | 'textarea' | 'group' | 'row';
 type InputType = 'text' | 'email' | 'password' | 'number' | 'url' | 'search' | 'date' | 'datetime-local' | 'time';
 
 /**
@@ -41,10 +41,21 @@ export class DynamicControl {
   readonly: boolean;
 
   // Overridable
-  type: InputType; // <input>'s type attribute.
-  options: OptionElement[]; // <option> tag inside <select>.
-  groupedControls: DynamicControl[]; // For nested group.
-  rows: number; // For textarea.
+  // <input>'s type attribute.
+  type: InputType;
+
+  // <option> tag inside <select>.
+  options: OptionElement[];
+
+  // For form rows.
+  rowControls: DynamicControl[];
+
+  // For textarea.
+  rows: number;
+
+  // For input group.
+  prepend: string;
+  append: string;
 
   constructor(opts: ControlOptions) {
     this.value = opts.value || null;
@@ -96,6 +107,35 @@ export class InputControl extends DynamicControl {
       placeholder,
       type: 'search'
     });
+  }
+}
+
+interface InputGroupOptions extends ControlOptions {
+  type: InputType;
+  prepend?: string;
+  append?: string;
+}
+
+/**
+ * @example
+ * new InputGroupControl({
+ *  value: '',
+ *  key: '',
+ *  label: '',
+ *  prepend: '',
+ *  append: '',
+ *  type: 'text'
+ * });
+ */
+export class InputGroupControl extends DynamicControl {
+  controlType: ControlType = 'group';
+  type: InputType;
+
+  constructor(opts: InputGroupOptions) {
+    super(opts);
+    this.type = opts.type;
+    this.prepend = opts.prepend;
+    this.append = opts.append;
   }
 }
 
@@ -160,12 +200,12 @@ interface GroupControlOptions extends ControlOptions {
  *  ],
  * });
  */
-export class GroupControl extends DynamicControl {
-  controlType: ControlType = 'group';
+export class RowControl extends DynamicControl {
+  controlType: ControlType = 'row';
 
   constructor(opts: GroupControlOptions) {
     super(opts);
-    this.groupedControls = opts.controls;
+    this.rowControls = opts.controls;
   }
 }
 

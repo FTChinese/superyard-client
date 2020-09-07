@@ -20,6 +20,7 @@ import { ProgressBtnComponent } from './progress-btn/progress-btn.component';
 import { DynamicGroupComponent } from './dynamic-group/dynamic-group.component';
 import { LinePipe } from './pipes/line.pipe';
 import { PropertyListComponent } from './property-list/property-list.component';
+import { InputGroupComponent } from './input-group/input-group.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { PropertyListComponent } from './property-list/property-list.component';
     DynamicGroupComponent,
     LinePipe,
     PropertyListComponent,
+    InputGroupComponent,
   ],
   imports: [
     CommonModule,

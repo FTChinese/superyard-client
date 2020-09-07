@@ -1,0 +1,32 @@
+<div class="form-group" [formGroup]="form">
+  <label
+    *ngIf="control.label"
+    class="form-label"
+    [attr.for]="control.key">{{control.label}}</label>
+
+  <div class="input-group">
+    <div class="input-group-prepend"
+      *ngIf="control.prepend">
+      <span class="input-group-text">{{control.prepend}}</span>
+    </div>
+
+    <input
+      class="form-control"
+      [id]="control.key"
+      [type]="control.type"
+      [placeholder]="control.placeholder"
+      [formControlName]="control.key"
+      [readonly]="control.readonly"/>
+
+    <div class="input-group-append"
+      *ngIf="control.append">
+      <span class="input-group-text">{{control.append}}</span>
+    </div>
+  </div>
+
+
+  <div *ngIf="isInvalid" class="invalid-feedback">{{errMsg}}</div>
+
+  <small *ngIf="control.desc" class="form-text text-muted">{{control.desc}}</small>
+</div>
+
