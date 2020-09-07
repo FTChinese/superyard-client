@@ -67,7 +67,6 @@ export class MemberCardComponent implements OnInit {
   constructor(
     readonly modal: ModalService,
     private toast: ToastService,
-    private progress: ProgressService,
     private formService: FormService,
     private readerService: ReaderService
   ) { }
@@ -90,26 +89,7 @@ export class MemberCardComponent implements OnInit {
   }
 
   showFtcForm() {
-    this.progress.start();
-    this.toast.info('Loading active pricing plans...');
-    this.readerService.listPaywallPlans().subscribe({
-      next: plans => {
-        this.progress.stop();
-        this.plans = plans;
-        console.log(plans);
-
-        this.modal.open(this.idFtc);
-      },
-      error: (err: HttpErrorResponse) => {
-        this.progress.stop();
-        const reqErr = new RequestError(err);
-        console.log(reqErr);
-
-        this.toast.info('Cannot load active plans now. You can copy plan id from the paywall section');
-
-        this.modal.open(this.idFtc);
-      }
-    });
+    this.modal.open(this.idFtc);
   }
 
   private create(form: MemberForm) {

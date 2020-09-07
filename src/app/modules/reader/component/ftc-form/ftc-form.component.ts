@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Membership, isMember } from 'src/app/data/schema/membership';
 import { DynamicControl, DropdownControl, InputControl } from 'src/app/shared/widget/control';
 import { Validators } from '@angular/forms';
-import { tierOpts, paymentMethodOpts } from 'src/app/data/schema/enum';
+import { tierOpts, paymentMethodOpts, cycleOpts } from 'src/app/data/schema/enum';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
 import { ToastService } from 'src/app/shared/service/toast.service';
@@ -20,17 +20,18 @@ export class FtcFormComponent implements OnInit {
 
   controls: DynamicControl[] = [
     new DropdownControl({
-      value: null,
-      key: 'planId',
+      value: '',
+      key: 'tier',
       validators: [Validators.required],
-      label: 'Plan ID',
-      options: this.plans.map(p => {
-        return {
-          disabled: false,
-          name: `${p.id} ${p.tier}/${p.cycle}`,
-          value: p.id
-        };
-      })
+      label: 'Tier',
+      options: tierOpts
+    }),
+    new DropdownControl({
+      value: '',
+      key: 'cycle',
+      validators: [Validators.required],
+      label: 'Billing Cycle',
+      options: cycleOpts
     }),
     new InputControl({
       value: null,
