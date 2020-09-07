@@ -36,7 +36,7 @@ export class SandboxComponent implements OnInit {
       ],
       label: 'Email *',
       type: 'text',
-      append: '.sandbox@ftchinese.com'
+      append: this.suffix,
     }),
     new InputControl({
       value: '',
@@ -99,6 +99,7 @@ export class SandboxComponent implements OnInit {
     this.formService.formSubmitted$.subscribe(data => {
       const formData: SandboxUserForm = JSON.parse(data);
 
+      formData.email = formData.email + this.suffix;
       this.createAccount(formData);
     });
   }
