@@ -9,8 +9,8 @@ import { getPaging } from 'src/app/shared/widget/paging';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RequestError } from 'src/app/data/schema/request-result';
 import { ModalService } from 'src/app/shared/service/modal.service';
-import { DynamicControl, InputControl } from 'src/app/shared/widget/control';
-import { Validators } from '@angular/forms';
+import { DynamicControl, InputControl, InputGroupControl } from 'src/app/shared/widget/control';
+import { Validators, FormGroup } from '@angular/forms';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
 import { SandboxUserForm } from '../../schema/sandbox-form';
@@ -23,18 +23,20 @@ import { SandboxUserForm } from '../../schema/sandbox-form';
 })
 export class SandboxComponent implements OnInit {
 
+  private readonly suffix = '.sandbox@ftchinese.com';
+
   users: FtcAccount[];
 
   controls: DynamicControl[] = [
-    new InputControl({
+    new InputGroupControl({
       value: '',
       key: 'email',
       validators: [
         Validators.required,
-        Validators.email,
       ],
       label: 'Email *',
       type: 'text',
+      append: '.sandbox@ftchinese.com'
     }),
     new InputControl({
       value: '',
@@ -42,7 +44,7 @@ export class SandboxComponent implements OnInit {
       validators: [
         Validators.required
       ],
-      label: 'Password',
+      label: 'Password *',
       type: 'text',
     })
   ];
@@ -82,6 +84,16 @@ export class SandboxComponent implements OnInit {
 
         this.toast.error(reqErr.message);
       }
+    });
+
+    this.formService.formCreated$.subscribe(form => {
+      const ctrl = form.get('email');
+
+      ctrl.valueChanges.subscribe((v: string) => {
+        if (v.includes('@')) {
+          ctrl.setValue(v.split('@')[0]);
+        }
+      });
     });
 
     this.formService.formSubmitted$.subscribe(data => {
