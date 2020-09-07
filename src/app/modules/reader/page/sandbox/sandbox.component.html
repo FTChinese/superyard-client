@@ -1,4 +1,4 @@
-<div class="row justify-content-center">
+<div class="row">
   <div class="col-md-12 col-lg-8">
     <div class="d-flex justify-content-between">
       <h2 class="mb-3">Sandbox Account</h2>
@@ -6,13 +6,27 @@
         (click)="modalOn()">New</button>
     </div>
 
-    <ul class="list-group">
-      <li *ngFor="let user of users"
-        class="list-group-item">
-        <a [routerLink]="user.ftcId">{{user.email}}</a>
-      </li>
-    </ul>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Created by</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>
+            <a [routerLink]="user.ftcId">{{user.email}}</a>
+          </td>
+          <td>{{user.createdBy}}</td>
+      </tr>
+      </tbody>
+    </table>
 
+  </div>
+
+  <div class="col-md-12 col-lg-4">
+    <p>Create a sandbox account, log in with it and you can test payment using sandbox price.</p>
   </div>
 </div>
 
