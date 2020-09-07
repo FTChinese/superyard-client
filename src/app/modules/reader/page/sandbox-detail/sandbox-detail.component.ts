@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SandboxAccount } from 'src/app/data/schema/reader';
+import { ReaderAccount } from 'src/app/data/schema/reader';
 import { SandboxService } from '../../service/sandbox.service';
 import { ProgressService } from 'src/app/shared/service/progress.service';
 import { ToastService } from 'src/app/shared/service/toast.service';
@@ -15,7 +15,7 @@ import { RequestError } from 'src/app/data/schema/request-result';
 })
 export class SandboxDetailComponent implements OnInit {
 
-  account: SandboxAccount
+  account: ReaderAccount;
 
   constructor(
     private sandboxService: SandboxService,

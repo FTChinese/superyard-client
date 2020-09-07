@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ReaderAccount, JoinedAccount } from 'src/app/data/schema/reader';
+import { JoinedAccount } from 'src/app/data/schema/reader';
 
 @Component({
   selector: 'app-account-card',

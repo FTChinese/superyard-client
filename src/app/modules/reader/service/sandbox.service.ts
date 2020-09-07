@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SandboxUserForm, SandboxPasswordForm, SandboxMemberForm } from '../schema/sandbox-form';
 import { Observable, of } from 'rxjs';
-import { FtcAccount, SandboxAccount } from 'src/app/data/schema/reader';
+import { FtcAccount, ReaderAccount } from 'src/app/data/schema/reader';
 import { switchMap } from 'rxjs/operators';
 import { Membership } from 'src/app/data/schema/membership';
 import { Paging, pagingParams } from 'src/app/shared/widget/paging';
@@ -31,8 +31,8 @@ export class SandboxService {
     });
   }
 
-  loadAccount(id: string): Observable<SandboxAccount> {
-    return this.http.get<SandboxAccount>(`${this.basePath}/${id}`);
+  loadAccount(id: string): Observable<ReaderAccount> {
+    return this.http.get<ReaderAccount>(`${this.basePath}/${id}`);
   }
 
   changePassword(id: string, data: SandboxPasswordForm): Observable<boolean> {

@@ -40,6 +40,8 @@ export interface FtcAccount {
   stripeId: string | null; // null for wechat-only account
   email: string | null; // null for wechat-only account
   userName: string | null; // null for wechat-only account
+  password?: string; // Only exists for sandbox account.
+  createdBy?: string; // Only exists for sandbox account.
 }
 
 /**
@@ -48,23 +50,13 @@ export interface FtcAccount {
 export type JoinedAccount = FtcAccount & {
   wechat: Wechat;
   kind: AccountKind;
-}
+};
 
 /**
  * @description A reader's full account, email + wechat + membership.
  */
 export type ReaderAccount = JoinedAccount & {
   membership: Membership;
-};
-
-/**
- * @description Details have an extra password field.
- */
-export type SandboxAccount = ReaderAccount & {
-  password: string;
-  createdBy: string;
-  createdUtc: string | null;
-  updatedUtc: string | null;
 };
 
 export interface IFtcProfile {
