@@ -7,7 +7,6 @@ import { authUrls } from 'src/app/layout/sitemap';
 import { DynamicControl, InputControl } from 'src/app/shared/widget/control';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
-import { switchMap } from 'rxjs/operators';
 import { Credentials } from 'src/app/data/schema/form-data';
 import { StaffService } from 'src/app/data/service/staff.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -55,11 +54,11 @@ export class LoginComponent implements OnInit{
     // Here I meet a problem I didn't understand.
     // If I write codes this way:
     // this.formService.formSubmitted$
-    //  .pipe( ... return this.staffService.login())//  .subsicrbe(...)
+    //  .pipe( ... return this.staffService.login())//  .subscribe(...)
     // If there is error in subscribe, and you re-submitted
-    // the data, the form cannot receive the submmited
+    // the data, the form cannot receive the submitted
     // data.
-    // It seems we must subsribe on formSubmitted$ directly.
+    // It seems we must subscribe on formSubmitted$ directly.
     this.formService.formSubmitted$.subscribe(data => {
       console.log('LoginComponent: received form data');
       const credentials: Credentials = JSON.parse(data);
