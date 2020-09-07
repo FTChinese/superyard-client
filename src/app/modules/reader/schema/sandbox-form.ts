@@ -1,5 +1,6 @@
 import { InputControl } from 'src/app/shared/widget/control';
 import { Validators } from '@angular/forms';
+import { Tier, Cycle } from 'src/app/data/schema/enum';
 
 export const sandboxSuffix = '.sandbox@ftchinese.com';
 
@@ -13,7 +14,10 @@ export interface SandboxPasswordForm {
 }
 
 export interface FtcMemberForm {
-  ftcPlanId: string;
+  ftcId?: string;
+  unionId?: string;
+  tier: Tier;
+  cycle: Cycle;
   expireDate: string;
   payMethod: string;
 }

@@ -7,6 +7,9 @@ import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
 import { ToastService } from 'src/app/shared/service/toast.service';
 import { Plan } from 'src/app/data/schema/product';
+import { FtcMemberForm } from '../../schema/sandbox-form';
+import { ReaderService } from '../../service/reader.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-ftc-form',
@@ -15,7 +18,6 @@ import { Plan } from 'src/app/data/schema/product';
 })
 export class FtcFormComponent implements OnInit {
 
-  @Input() plans: Plan[] = [];
   @Input() member: Membership;
 
   controls: DynamicControl[] = [
@@ -52,6 +54,7 @@ export class FtcFormComponent implements OnInit {
 
   constructor(
     private formService: FormService,
+    private readerService: ReaderService,
     private toast: ToastService,
   ) { }
 
@@ -68,6 +71,22 @@ export class FtcFormComponent implements OnInit {
           payMethod: this.member.payMethod,
         });
       });
+
+    this.formService.formSubmitted$.subscribe(data => {
+      const formData: FtcMemberForm = JSON.parse(data);
+      formData.ftcId = "";
+      formData.unionId = "";
+    });
   }
 
+  private upsertFtcSubs(form: FtcMemberForm) {
+    this.readerService.upsertFtcMembership(form).subscribe({
+      next: m => {
+
+      },
+      error: (err: HttpErrorResponse) => {
+
+      }
+    });
+  }
 }

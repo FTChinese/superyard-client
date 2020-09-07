@@ -7,6 +7,7 @@ import { Order } from 'src/app/data/schema/order';
 import { ReaderSearchParam, MemberForm } from '../../../data/schema/form-data';
 import { switchMap } from 'rxjs/operators';
 import { Plan } from 'src/app/data/schema/product';
+import { FtcMemberForm } from '../schema/sandbox-form';
 
 @Injectable({
   providedIn: 'root'
@@ -72,34 +73,10 @@ export class ReaderService {
     return this.http.get<Membership>(`/api/search/membership/${userId}`);
   }
 
-  // Refresh membership after modification.
-  refreshMembership(compoundId: string): Observable<Membership> {
-    return this.http.get<Membership>(`/api/memberships/${compoundId}`);
-  }
-
-  createMembership(m: Membership): Observable<boolean> {
-    return this.http.post(
+  upsertFtcMembership(data: FtcMemberForm): Observable<Membership> {
+    return this.http.post<Membership>(
       '/api/memberships',
-      m,
-      {
-        observe: 'response'
-      }
-    )
-    .pipe(switchMap(resp => of(resp.status === 204)));
-  }
-
-  updateMembership(compoundId: string, m: MemberForm): Observable<boolean> {
-    return this.http.patch(
-      `/api/memberships/${compoundId}`,
-      m,
-      {
-        observe: 'response',
-      }
-    )
-    .pipe(switchMap(resp => of(resp.status === 204)));
-  }
-
-  listPaywallPlans(): Observable<Plan[]> {
-    return this.http.get<Plan[]>('/api/paywall/plans');
+      data
+    );
   }
 }

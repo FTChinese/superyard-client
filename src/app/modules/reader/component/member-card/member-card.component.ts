@@ -1,28 +1,17 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Membership, isMember } from 'src/app/data/schema/membership';
-import { MenuItem, SelectedItem } from 'src/app/shared/widget/menu';
 import { ModalService } from 'src/app/shared/service/modal.service';
-import { FormService } from 'src/app/shared/service/form.service';
-import { MemberForm } from 'src/app/data/schema/form-data';
-import { ReaderService } from '../../service/reader.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import { ToastService } from 'src/app/shared/service/toast.service';
-import { RequestError } from 'src/app/data/schema/request-result';
 import { PropertyItem } from 'src/app/shared/widget/property-list';
 import { Plan } from 'src/app/data/schema/product';
-import { ProgressService } from 'src/app/shared/service/progress.service';
 
 @Component({
   selector: 'app-member-card',
   templateUrl: './member-card.component.html',
   styleUrls: ['./member-card.component.scss'],
-  providers: [FormService]
 })
 export class MemberCardComponent implements OnInit {
 
   private idFtc = 'f';
-  private idApple = 'a';
-  private idStripe = 's';
 
   // The membership's compoundId should always exists if if the hasMember is false.
   @Input() member: Membership;
@@ -66,89 +55,12 @@ export class MemberCardComponent implements OnInit {
 
   constructor(
     readonly modal: ModalService,
-    private toast: ToastService,
-    private formService: FormService,
-    private readerService: ReaderService
   ) { }
 
   ngOnInit(): void {
-    this.formService.formSubmitted$
-      .subscribe(data => {
-        const formData: MemberForm = JSON.parse(data);
-
-        console.log(formData);
-
-        if (this.hasMember) {
-          // Update membership
-          this.update(formData);
-        } else {
-          // create membership.
-          this.create(formData);
-        }
-      });
   }
 
   showFtcForm() {
     this.modal.open(this.idFtc);
-  }
-
-  private create(form: MemberForm) {
-    const m: Membership = Object.assign({}, this.member, form);
-
-    this.readerService.createMembership(m)
-      .subscribe({
-        next: ok => {
-          if (ok) {
-            this.modal.close();
-            this.toast.info('Created successfully. Refreshing data...');
-            this.refresh();
-          } else {
-            this.toast.error('Unknow error occurred');
-            this.formService.enable(true);
-          }
-        },
-        error: (err: HttpErrorResponse) => {
-          const errRes = new RequestError(err);
-          this.formService.sendError(errRes);
-          this.toast.error(errRes.message);
-        }
-      });
-  }
-
-  private update(form: MemberForm) {
-    this.readerService.updateMembership(this.member.compoundId, form)
-      .subscribe({
-        next: ok => {
-          if (ok) {
-            this.modal.close();
-            this.toast.info('Updated successfully. Refreshing data...');
-
-            this.refresh();
-          } else {
-            this.toast.error('Unknown error occurred!');
-            this.formService.enable(true);
-          }
-        },
-        error: (err: HttpErrorResponse) => {
-          const errRes = new RequestError(err);
-          this.formService.sendError(errRes);
-          this.toast.error(errRes.message);
-        }
-      });
-  }
-
-  private refresh() {
-
-    this.readerService.refreshMembership(this.member.compoundId)
-      .subscribe({
-        next: m => {
-          this.member = m;
-          this.toast.info('Data refreshed');
-        },
-        error: (err: HttpErrorResponse) => {
-          const errRes = new RequestError(err);
-          this.toast.error(errRes.message);
-        }
-      });
   }
 }
