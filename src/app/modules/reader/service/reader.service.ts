@@ -4,8 +4,9 @@ import { Observable, of } from 'rxjs';
 import { JoinedAccount, ReaderAccount, IFtcProfile, IActivity, IWxProfile, IWxLogin } from 'src/app/data/schema/reader';
 import { Membership } from 'src/app/data/schema/membership';
 import { Order } from 'src/app/data/schema/order';
-import { ReaderSearchParam, MemberForm } from '../schema/form-data';
+import { ReaderSearchParam, MemberForm } from '../../../data/schema/form-data';
 import { switchMap } from 'rxjs/operators';
+import { Plan } from 'src/app/data/schema/product';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +35,7 @@ export class ReaderService {
     return this.http.get<IFtcProfile>(`/api/readers/ftc/${id}/profile`);
   }
 
-  loadActivties(id: string): Observable<IActivity[]> {
+  loadActivities(id: string): Observable<IActivity[]> {
     return this.http.get<IActivity[]>(`/api/readers/ftc/${id}/activities`);
   }
 
@@ -96,5 +97,9 @@ export class ReaderService {
       }
     )
     .pipe(switchMap(resp => of(resp.status === 204)));
+  }
+
+  listPaywallPlans(): Observable<Plan[]> {
+    return this.http.get<Plan[]>('/api/paywall/plans');
   }
 }

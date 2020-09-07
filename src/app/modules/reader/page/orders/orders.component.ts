@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { buildSearchOpts } from 'src/app/shared/widget/control';
-import { ReaderService } from 'src/app/data/service/reader.service';
+import { ReaderService } from '../../service/reader.service';
 import { FormService } from 'src/app/shared/service/form.service';
 import { SearchForm } from 'src/app/data/schema/form-data';
 import { HttpErrorResponse } from '@angular/common/http';

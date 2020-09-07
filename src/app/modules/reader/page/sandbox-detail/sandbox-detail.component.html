@@ -1,6 +1,19 @@
-<div class="d-flex justify-content-between">
+<div class="d-flex justify-content-between"
+  *ngIf="account">
   <h2 class="mb-3">{{account.email}}</h2>
-  <button class="btn btn-danger align-self-center">Delete</button>
+  <button class="btn btn-danger align-self-center"
+    (click)="showDelete()">Delete</button>
+</div>
+
+<div *ngIf="account">
+  <dl>
+    <dt>Password</dt>
+    <dd>
+      <code>{{account.password}}</code>
+      <button class="btn btn-link btn-inline"
+        (click)="showPwBox()">Change</button>
+    </dd>
+  </dl>
 </div>
 
 <app-account-card
@@ -11,3 +24,40 @@
   *ngIf="account"
   [member]="account.membership"></app-member-card>
 
+<div *ngIf="deleteOn"
+  class="modal fade show">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <app-modal-header
+      title="Delete Account"></app-modal-header>
+
+      <div class="modal-body">
+        <p>Are you sure you want to delete this sandbox account? All data under this account, including membership, will be deleted.</p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-danger"
+          type="button"
+          [disabled]="progress.on"
+          (click)="deleteAccount()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="pwOn"
+  class="modal fade show">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <app-modal-header
+      title="Change Password"></app-modal-header>
+
+      <div class="modal-body">
+        <app-dynamic-form
+          [controls]="pwControls"
+          [button]="button"></app-dynamic-form>
+      </div>
+
+    </div>
+  </div>
+</div>

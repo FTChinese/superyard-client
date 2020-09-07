@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ReaderService } from 'src/app/data/service/reader.service';
+import { ReaderService } from '../../service/reader.service';
 
 @Component({
   selector: 'app-profile',

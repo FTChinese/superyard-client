@@ -4,11 +4,13 @@ import { MenuItem, SelectedItem } from 'src/app/shared/widget/menu';
 import { ModalService } from 'src/app/shared/service/modal.service';
 import { FormService } from 'src/app/shared/service/form.service';
 import { MemberForm } from 'src/app/data/schema/form-data';
-import { ReaderService } from 'src/app/data/service/reader.service';
+import { ReaderService } from '../../service/reader.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from 'src/app/shared/service/toast.service';
 import { RequestError } from 'src/app/data/schema/request-result';
 import { PropertyItem } from 'src/app/shared/widget/property-list';
+import { Plan } from 'src/app/data/schema/product';
+import { ProgressService } from 'src/app/shared/service/progress.service';
 
 @Component({
   selector: 'app-member-card',
@@ -18,11 +20,14 @@ import { PropertyItem } from 'src/app/shared/widget/property-list';
 })
 export class MemberCardComponent implements OnInit {
 
+  private idFtc = 'f';
+  private idApple = 'a';
+  private idStripe = 's';
+
   // The membership's compoundId should always exists if if the hasMember is false.
   @Input() member: Membership;
-  // A fallback message visible when membership data is not available.
-  @Input() status = 'It seems this account does not have a membership yet.';
-  @Input() showMenu = true;
+
+  plans: Plan[];
 
   get memberProperties(): PropertyItem[] {
     return [
@@ -35,28 +40,14 @@ export class MemberCardComponent implements OnInit {
         value: this.member.payMethod,
       },
       {
-        label: 'Auto Renwal',
+        label: 'Auto Renewal',
         value: this.member.autoRenewal ? 'Yes' : 'No',
       }
-    ]
+    ];
   }
 
-  get menuItems(): MenuItem[] {
-    if (!this.member) {
-      return [
-        {
-          id: 'create',
-          name: 'Create'
-        }
-      ];
-    }
-
-    return [
-      {
-        id: 'modify',
-        name: 'Modify'
-      }
-    ];
+  get isWxOrAliPay(): boolean {
+    return this.hasMember && (this.member.payMethod === 'alipay' || this.member.payMethod === 'wechat');
   }
 
   get hasMember(): boolean {
@@ -69,9 +60,14 @@ export class MemberCardComponent implements OnInit {
       : 'Create membership';
   }
 
+  get ftcFormOn(): boolean {
+    return this.modal.on && this.modal.id === this.idFtc;
+  }
+
   constructor(
     readonly modal: ModalService,
     private toast: ToastService,
+    private progress: ProgressService,
     private formService: FormService,
     private readerService: ReaderService
   ) { }
@@ -91,6 +87,29 @@ export class MemberCardComponent implements OnInit {
           this.create(formData);
         }
       });
+  }
+
+  showFtcForm() {
+    this.progress.start();
+    this.toast.info('Loading active pricing plans...');
+    this.readerService.listPaywallPlans().subscribe({
+      next: plans => {
+        this.progress.stop();
+        this.plans = plans;
+        console.log(plans);
+
+        this.modal.open(this.idFtc);
+      },
+      error: (err: HttpErrorResponse) => {
+        this.progress.stop();
+        const reqErr = new RequestError(err);
+        console.log(reqErr);
+
+        this.toast.info('Cannot load active plans now. You can copy plan id from the paywall section');
+
+        this.modal.open(this.idFtc);
+      }
+    });
   }
 
   private create(form: MemberForm) {
@@ -151,11 +170,5 @@ export class MemberCardComponent implements OnInit {
           this.toast.error(errRes.message);
         }
       });
-  }
-
-  // Show the form to create/update membership.
-  // Which item is selected does no actually matter herer.
-  onMenuSelected(item: SelectedItem) {
-    this.modal.open();
   }
 }

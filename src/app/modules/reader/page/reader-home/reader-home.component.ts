@@ -3,7 +3,7 @@ import { AccountKind } from 'src/app/data/schema/enum';
 import { HttpErrorResponse } from '@angular/common/http';
 import { JoinedAccount } from 'src/app/data/schema/reader';
 import { RequestError } from 'src/app/data/schema/request-result';
-import { ReaderService } from 'src/app/data/service/reader.service';
+import { ReaderService } from '../../service/reader.service';
 import { buildSearchOpts } from 'src/app/shared/widget/control';
 import { SearchForm, ReaderSearchParam } from 'src/app/data/schema/form-data';
 import { FormService } from 'src/app/shared/service/form.service';

@@ -34,6 +34,13 @@ export class SandboxService {
     return this.http.get<ReaderAccount>(`${this.basePath}/${id}`);
   }
 
+  deleteAccount(id: string): Observable<boolean> {
+    return this.http.delete<boolean>(`${this.basePath}/${id}`, {
+      observe: 'response',
+    })
+    .pipe(switchMap(resp => of(resp.status === 204)));
+  }
+
   changePassword(id: string, data: SandboxPasswordForm): Observable<boolean> {
     return this.http.patch<boolean>(
       `${this.basePath}/${id}/password`,

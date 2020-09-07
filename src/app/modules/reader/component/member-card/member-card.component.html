@@ -4,18 +4,29 @@
   </div>
 
   <div class="card-body">
-    <h5 class="card-title">{{member.tier | tier}}/{{member.cycle | cycle}}</h5>
-  </div>
+    <ng-container
+      *ngIf="hasMember; else noMember">
 
-  <div class="card-footer">
-    <app-property-list
-      *ngIf="hasMember; else noMember"
-      [items]="memberProperties"></app-property-list>
+      <div class="d-flex justify-content-between">
+        <h5 class="card-title">{{member.tier | tier}}/{{member.cycle | cycle}}</h5>
+
+        <button class="btn btn-primary align-self-center"
+          *ngIf="isWxOrAliPay">Modify</button>
+      </div>
+
+      <app-property-list
+        [items]="memberProperties"></app-property-list>
+
+    </ng-container>
 
     <ng-template #noMember>
-      <div *ngIf="status">
-        Not a member yet.
-      </div>
+      <p>This account does not have membership yet. You can <button class="btn btn-link btn-inline" (click)="showFtcForm()">Create</button> one if you really need to. However you  are recommended against creating a membership directly.</p>
+      <ul>
+        <li>For Alipay or Wechat pay, find the order user created and confirm it if you find it is paid but failed to confirm;</li>
+        <li>For Apple IAP, add the original transaction. If it already exists, you can click the refresh button;</li>
+        <li>For stripe, add the subscription and plan id you find at Stripe dashboard.</li>
+      </ul>
+      <p>Those three subscription sources are mutually exclusive.</p>
     </ng-template>
   </div>
 
@@ -37,10 +48,14 @@
               <td>FTC Plan ID</td>
               <td>{{member.ftcPlanId || 'N/A'}}</td>
               <td>
-                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                </svg>
+                <button class="btn btn-link btn-inline"
+                  (click)="showFtcForm()">
+                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                  </svg>
+                </button>
+
               </td>
             </tr>
 
@@ -94,9 +109,7 @@
 </div>
 
 
-
-
-<div *ngIf="modal.on"
+<div *ngIf="ftcFormOn"
   class="modal fade show">
 
   <div class="modal-dialog">
@@ -105,8 +118,9 @@
         [title]="modalTitle"></app-modal-header>
 
       <div class="modal-body">
-        <app-member-form
-          [member]="member"></app-member-form>
+        <app-ftc-form
+          [plans]="plans"
+          [member]="member"></app-ftc-form>
       </div>
     </div>
   </div>

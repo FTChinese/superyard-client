@@ -42,6 +42,8 @@ export interface FtcAccount {
   userName: string | null; // null for wechat-only account
   password?: string; // Only exists for sandbox account.
   createdBy?: string; // Only exists for sandbox account.
+  createdUtc: string | null;
+  updatedUtc: string | null;
 }
 
 /**

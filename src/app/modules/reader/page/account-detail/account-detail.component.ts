@@ -5,12 +5,13 @@ import { ReaderAccount, IWxProfile, IFtcProfile, zeroMember } from 'src/app/data
 import { isMember, Membership } from 'src/app/data/schema/membership';
 import { zip } from 'rxjs';
 import { AccountKind } from 'src/app/data/schema/enum';
-import { ReaderService } from 'src/app/data/service/reader.service';
+import { ReaderService } from '../../service/reader.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RequestError, serviceNames } from 'src/app/data/schema/request-result';
 import { ToastService } from 'src/app/shared/service/toast.service';
 import { Link } from 'src/app/shared/widget/link';
 import { ProgressService } from 'src/app/shared/service/progress.service';
+import { sandboxSuffix } from '../../schema/sandbox-form';
 
 @Component({
   selector: 'app-account-detail',
@@ -31,6 +32,10 @@ export class AccountDetailComponent implements OnInit {
     }
 
     return zeroMember(this.account);
+  }
+
+  get isSandbox(): boolean {
+    return this.account && this.account.email.endsWith(sandboxSuffix);
   }
 
   navTabs: Link[] = [

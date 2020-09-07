@@ -13,7 +13,7 @@ import { DynamicControl, InputControl, InputGroupControl } from 'src/app/shared/
 import { Validators, FormGroup } from '@angular/forms';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
-import { SandboxUserForm } from '../../schema/sandbox-form';
+import { SandboxUserForm, pwControl, sandboxSuffix } from '../../schema/sandbox-form';
 
 @Component({
   selector: 'app-sandbox',
@@ -22,8 +22,6 @@ import { SandboxUserForm } from '../../schema/sandbox-form';
   providers: [FormService]
 })
 export class SandboxComponent implements OnInit {
-
-  private readonly suffix = '.sandbox@ftchinese.com';
 
   users: FtcAccount[];
 
@@ -36,22 +34,14 @@ export class SandboxComponent implements OnInit {
       ],
       label: 'Email *',
       type: 'text',
-      append: this.suffix,
+      append: sandboxSuffix,
     }),
-    new InputControl({
-      value: '',
-      key: 'password',
-      validators: [
-        Validators.required
-      ],
-      label: 'Password *',
-      type: 'text',
-    })
+    pwControl,
   ];
 
   button: Button = Button
     .primary()
-    .setName('Login');
+    .setName('Create');
 
   constructor(
     private sandboxService: SandboxService,
@@ -99,7 +89,7 @@ export class SandboxComponent implements OnInit {
     this.formService.formSubmitted$.subscribe(data => {
       const formData: SandboxUserForm = JSON.parse(data);
 
-      formData.email = formData.email + this.suffix;
+      formData.email = formData.email + sandboxSuffix;
       this.createAccount(formData);
     });
   }
@@ -115,6 +105,7 @@ export class SandboxComponent implements OnInit {
           this.users.unshift(account);
           this.toast.info('Sandbox account created!');
           this.modal.close();
+          this.formService.enable(true);
         },
         error: (err: HttpErrorResponse) => {
           const reqErr = new RequestError(err);
