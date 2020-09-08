@@ -5,11 +5,7 @@ import { Validators } from '@angular/forms';
 import { tierOpts, paymentMethodOpts, cycleOpts } from 'src/app/data/schema/enum';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
-import { ToastService } from 'src/app/shared/service/toast.service';
-import { Plan } from 'src/app/data/schema/product';
 import { FtcMemberForm } from '../../schema/sandbox-form';
-import { ReaderService } from '../../service/reader.service';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-ftc-form',
@@ -54,8 +50,6 @@ export class FtcFormComponent implements OnInit {
 
   constructor(
     private formService: FormService,
-    private readerService: ReaderService,
-    private toast: ToastService,
   ) { }
 
   ngOnInit(): void {
@@ -79,14 +73,4 @@ export class FtcFormComponent implements OnInit {
     });
   }
 
-  private upsertFtcSubs(form: FtcMemberForm) {
-    this.readerService.upsertFtcMembership(form).subscribe({
-      next: m => {
-
-      },
-      error: (err: HttpErrorResponse) => {
-
-      }
-    });
-  }
 }
