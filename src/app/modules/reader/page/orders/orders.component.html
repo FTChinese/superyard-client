@@ -7,79 +7,73 @@
       [disabled]="disabledSearch"
       (submitted)="onKeyword($event)"></app-search-form>
 
-    <div *ngIf="notFound">
-      Not Found
-    </div>
-
-    <div *ngIf="order">
-      <div class="card mb-3">
-        <div class="card-header">
-          Order Details
-        </div>
-        <table class="table">
-          <tbody>
-            <tr>
-              <th>Edition</th>
-              <td>{{order.tier | tier}}/{{order.cycle | cycle}}</td>
-            </tr>
-            <tr>
-              <th>Kind</th>
-              <td>{{order.kind | orderKind}}</td>
-            </tr>
-            <tr>
-              <th>Amount</th>
-              <td>{{order.amount}}</td>
-            </tr>
-            <tr>
-              <th>Payment method</th>
-              <td>{{order.paymentMethod | payMethod}}</td>
-            </tr>
-            <tr>
-              <th>Created UTC</th>
-              <td>{{order.createdAt}}</td>
-            </tr>
-
-            <tr>
-              <th>Confirmation time</th>
-
-              <td
-                *ngIf="order.confirmedAt; else confirmButton">
-                {{order.confirmedAt}}
-              </td>
-
-              <ng-template #confirmButton>
-                <td>
-                  You can
-                  <button
-                    class="btn btn-primary"
-                    [disabled]="confirming"
-                    (click)="showDialog()">
-                    Confirm
-                  </button>
-                  this order if you are sure it was paid successfully.
-                </td>
-              </ng-template>
-            </tr>
-
-            <tr>
-              <th>Purchased Period</th>
-              <td *ngIf="order.startDate; else noPeriod">
-                {{order.startDate}} to {{order.endDate}}
-              </td>
-              <ng-template #noPeriod>
-                <td>N/A</td>
-              </ng-template>
-            </tr>
-          </tbody>
-        </table>
+    <div class="card mb-3"
+      *ngIf="order">
+      <div class="card-header">
+        Order Details
       </div>
+      <table class="table">
+        <tbody>
+          <tr>
+            <th>Edition</th>
+            <td>{{order.tier | tier}}/{{order.cycle | cycle}}</td>
+          </tr>
+          <tr>
+            <th>Kind</th>
+            <td>{{order.kind | orderKind}}</td>
+          </tr>
+          <tr>
+            <th>Amount</th>
+            <td>{{order.amount}}</td>
+          </tr>
+          <tr>
+            <th>Payment method</th>
+            <td>{{order.paymentMethod | payMethod}}</td>
+          </tr>
+          <tr>
+            <th>Created UTC</th>
+            <td>{{order.createdAt}}</td>
+          </tr>
 
-      <!-- <app-member-card
-        *ngIf="order"
-        [member]="member"></app-member-card> -->
+          <tr>
+            <th>Confirmation time</th>
+
+            <td
+              *ngIf="order.confirmedAt; else confirmButton">
+              {{order.confirmedAt}}
+            </td>
+
+            <ng-template #confirmButton>
+              <td>
+                You can
+                <button
+                  class="btn btn-primary"
+                  [disabled]="progress.on"
+                  (click)="showDialog()">
+                  Confirm
+                </button>
+                this order if you are sure it was paid successfully.
+              </td>
+            </ng-template>
+          </tr>
+
+          <tr>
+            <th>Purchased Period</th>
+            <td *ngIf="order.startDate; else noPeriod">
+              {{order.startDate}} to {{order.endDate}}
+            </td>
+            <ng-template #noPeriod>
+              <td>N/A</td>
+            </ng-template>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <router-outlet></router-outlet>
+    <app-member-card
+      *ngIf="account"
+      [account]="account"></app-member-card>
+
   </div>
 </div>
 
@@ -101,8 +95,6 @@
           class="btn btn-primary"
           (click)="confirm()">
           Confirm
-          <span *ngIf="confirming"
-            class="spinner-border spinner-border-sm"></span>
         </button>
       </div>
     </div>

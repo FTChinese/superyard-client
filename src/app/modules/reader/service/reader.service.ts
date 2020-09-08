@@ -7,6 +7,7 @@ import { Order } from 'src/app/data/schema/order';
 import { ReaderSearchParam } from '../../../data/schema/form-data';
 import { switchMap } from 'rxjs/operators';
 import { FtcMemberForm } from '../schema/sandbox-form';
+import { AccountKind } from 'src/app/data/schema/enum';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +42,15 @@ export class ReaderService {
 
   loadWxAccount(id: string): Observable<ReaderAccount> {
     return this.http.get<ReaderAccount>(`/api/readers/wx/${id}`);
+  }
+
+  loadAccount(id: string, kind: AccountKind): Observable<ReaderAccount> {
+    switch (kind) {
+      case 'ftc':
+        return this.loadFtcAccount(id);
+      case 'wechat':
+        return this.loadWxAccount(id);
+    }
   }
 
   loadWxProfile(id: string): Observable<IWxProfile> {
