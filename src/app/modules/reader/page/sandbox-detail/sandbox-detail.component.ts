@@ -59,7 +59,9 @@ export class SandboxDetailComponent implements OnInit {
     private toast: ToastService,
     private route: ActivatedRoute,
     private router: Router,
-  ) { }
+  ) {
+    this.progress.start();
+  }
 
   ngOnInit(): void {
     this.route.paramMap.pipe(
@@ -71,8 +73,6 @@ export class SandboxDetailComponent implements OnInit {
     )
     .subscribe({
       next: account => {
-        console.log('Sandbox users: %o', account);
-
         this.progress.stop();
         this.account = account;
       },

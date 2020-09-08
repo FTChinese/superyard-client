@@ -7,18 +7,11 @@
     </div>
 
     <table class="table">
-      <thead>
-        <tr>
-          <th>Email</th>
-          <th>Created by</th>
-        </tr>
-      </thead>
       <tbody>
         <tr *ngFor="let user of users">
           <td>
             <a [routerLink]="user.ftcId">{{user.email}}</a>
           </td>
-          <td>{{user.createdBy}}</td>
       </tr>
       </tbody>
     </table>

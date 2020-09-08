@@ -78,23 +78,6 @@ export class OrdersComponent implements OnInit {
   getMembership(userId: string) {
     this.memberLoading = 'Loading membership data...';
     this.member = undefined;
-
-    this.readerService.findMembership(userId)
-      .subscribe({
-        next: m => {
-          this.memberLoading = undefined;
-          this.member = m;
-        },
-        error: (err: HttpErrorResponse) => {
-          const errRes = new RequestError(err);
-
-          if (errRes.notFound) {
-            this.memberLoading = 'It seems there is no membership data associated with the account which created this order';
-            return;
-          }
-          this.memberLoading = errRes.message;
-        }
-      });
   }
 
 

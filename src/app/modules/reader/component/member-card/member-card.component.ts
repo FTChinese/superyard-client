@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Membership, isMember } from 'src/app/data/schema/membership';
 import { ModalService } from 'src/app/shared/service/modal.service';
 import { PropertyItem } from 'src/app/shared/widget/property-list';
-import { Plan } from 'src/app/data/schema/product';
+import { ReaderAccount } from 'src/app/data/schema/reader';
 
 @Component({
   selector: 'app-member-card',
@@ -12,11 +12,28 @@ import { Plan } from 'src/app/data/schema/product';
 export class MemberCardComponent implements OnInit {
 
   private idFtc = 'f';
+  private idApple = 'a';
+  private idStripe = 's';
 
-  // The membership's compoundId should always exists if if the hasMember is false.
-  @Input() member: Membership;
+  @Input() account: ReaderAccount;
 
-  plans: Plan[];
+  get member(): Membership {
+    return this.account.membership;
+  }
+
+  get hasMember(): boolean {
+    return this.account && isMember(this.account.membership);
+  }
+
+  get isWxOrAliPay(): boolean {
+    return this.hasMember && (this.account.membership.payMethod === 'alipay' || this.account.membership.payMethod === 'wechat');
+  }
+
+  get modalTitle(): string {
+    return this.hasMember
+      ? 'Modify membership'
+      : 'Create membership';
+  }
 
   get memberProperties(): PropertyItem[] {
     return [
@@ -35,22 +52,16 @@ export class MemberCardComponent implements OnInit {
     ];
   }
 
-  get isWxOrAliPay(): boolean {
-    return this.hasMember && (this.member.payMethod === 'alipay' || this.member.payMethod === 'wechat');
-  }
-
-  get hasMember(): boolean {
-    return this.member && isMember(this.member);
-  }
-
-  get modalTitle(): string {
-    return this.hasMember
-      ? 'Modify membership'
-      : 'Create membership';
-  }
-
   get ftcFormOn(): boolean {
     return this.modal.on && this.modal.id === this.idFtc;
+  }
+
+  get appleFormOn(): boolean {
+    return this.modal.on && this.modal.id === this.idApple;
+  }
+
+  get stripeFormOn(): boolean {
+    return this.modal.on && this.modal.id === this.idStripe;
   }
 
   constructor(
@@ -62,5 +73,18 @@ export class MemberCardComponent implements OnInit {
 
   showFtcForm() {
     this.modal.open(this.idFtc);
+  }
+
+  showAppleForm() {
+    this.modal.open(this.idApple);
+  }
+
+  showStripeForm() {
+    this.modal.open(this.idStripe);
+  }
+
+  onMemberUpdated(m: Membership) {
+    this.account.membership = m;
+    this.modal.close();
   }
 }

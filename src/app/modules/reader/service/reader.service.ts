@@ -69,10 +69,6 @@ export class ReaderService {
     );
   }
 
-  findMembership(userId: string): Observable<Membership> {
-    return this.http.get<Membership>(`/api/search/membership/${userId}`);
-  }
-
   upsertFtcMembership(data: FtcMemberForm): Observable<Membership> {
     return this.http.post<Membership>(
       '/api/memberships',

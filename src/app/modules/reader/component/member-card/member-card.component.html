@@ -10,8 +10,8 @@
       <div class="d-flex justify-content-between">
         <h5 class="card-title">{{member.tier | tier}}/{{member.cycle | cycle}}</h5>
 
-        <button class="btn btn-primary align-self-center"
-          *ngIf="isWxOrAliPay">Modify</button>
+        <button class="btn btn-danger align-self-center"
+          *ngIf="hasMember">Delete</button>
       </div>
 
       <app-property-list
@@ -20,19 +20,13 @@
     </ng-container>
 
     <ng-template #noMember>
-      <p>This account does not have membership yet. You can <button class="btn btn-link btn-inline" (click)="showFtcForm()">Create</button> one if you really need to. However you  are recommended against creating a membership directly.</p>
-      <ul>
-        <li>For Alipay or Wechat pay, find the order user created and confirm it if you find it is paid but failed to confirm;</li>
-        <li>For Apple IAP, add the original transaction. If it already exists, you can click the refresh button;</li>
-        <li>For stripe, add the subscription and plan id you find at Stripe dashboard.</li>
-      </ul>
-      <p>Those three subscription sources are mutually exclusive.</p>
+      <p>This account does not have membership yet.
     </ng-template>
   </div>
 
 </div>
 
-<div class="card">
+<div class="card mb-3">
   <div class="card-header">
     Subscription Details
   </div>
@@ -108,6 +102,17 @@
   </div>
 </div>
 
+<div>
+  <p>You can create/modify membership if you really need to. However, you  are recommended against creating a membership directly. You'd better create/update membership via its purchase sources.</p>
+
+  <p>Currently we have 3 sources, and they are mutually exclusive.</p>
+
+  <ul>
+    <li>FTC plans, purchased via Wechat or Alipay. The recommended approach is to find the order user created, and if it is not confirmed yet, you can confirm it and the API will contact the providers' API to check the payment status, and create or update membership based the result.</li>
+    <li>Apple IAP. You have to find out Apple's original transaction id to link the subscription to this user. If the original transaction id already exists, you can click the refresh button, and the user's invoice will be updated together with membership.</li>
+    <li>Stripe. Add the subscription id and plan id you find at Stripe dashboard for this user.</li>
+  </ul>
+</div>
 
 <div *ngIf="ftcFormOn"
   class="modal fade show">
@@ -119,7 +124,8 @@
 
       <div class="modal-body">
         <app-ftc-form
-          [member]="member"></app-ftc-form>
+          (succeeded)="onMemberUpdated($event)"
+          [account]="account"></app-ftc-form>
       </div>
     </div>
   </div>
