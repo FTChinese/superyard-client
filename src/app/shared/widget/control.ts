@@ -74,19 +74,6 @@ interface InputControlOptions extends ControlOptions {
   type: InputType;
 }
 
-export function buildSearchOpts(placeholder: string): ControlOptions {
-  return {
-    value: '',
-    key: 'keyword',
-    validators: [
-      Validators.required,
-      Validators.maxLength(64)
-    ],
-    placeholder,
-  };
-}
-
-
 export class InputControl extends DynamicControl {
   controlType: ControlType = 'textbox';
   type: InputType;
@@ -94,19 +81,6 @@ export class InputControl extends DynamicControl {
   constructor(opts: InputControlOptions) {
     super(opts);
     this.type = opts.type;
-  }
-
-  static search(placeholder: string): InputControl {
-    return new InputControl({
-      value: '',
-      key: 'keyword',
-      validators: [
-        Validators.required,
-        Validators.maxLength(64)
-      ],
-      placeholder,
-      type: 'search'
-    });
   }
 }
 

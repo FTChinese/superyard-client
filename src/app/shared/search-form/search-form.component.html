@@ -5,29 +5,22 @@
     <div class="input-group">
       <div class="form-control">
         <input
-          [id]="control.key"
+          id="keyword"
           type="search"
-          [placeholder]="control.placeholder"
-          [formControlName]="control.key"
-          (focus)="clearError()"/>
-
-        <div *ngIf="inProgress" class="spinner-wrapper">
-          <span class="spinner-border spinner-border-sm" role="status"></span>
-        </div>
+          [placeholder]="placeholder"
+          formControlName="keyword"/>
       </div>
 
 
       <div class="input-group-append">
         <button
-          [disabled]="inProgress"
+          [disabled]="!form.valid"
           class="btn btn-primary"
-          type="submit">Search</button>
+          type="submit">{{buttonName}}</button>
       </div>
 
     </div>
 
-    <div *ngIf="errMsg" class="text-danger">{{errMsg}}</div>
-
-    <small *ngIf="control.desc" class="form-text text-muted">{{control.desc}}</small>
+    <div *ngIf="isInvalid" class="text-danger">{{errMsg}}</div>
   </div>
 </form>

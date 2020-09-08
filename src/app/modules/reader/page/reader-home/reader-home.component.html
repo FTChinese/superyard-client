@@ -3,7 +3,9 @@
     <h2>Find a Reader</h2>
 
     <app-search-form
-      [control]="searchControl"></app-search-form>
+      placeholder="Email or Wechat nickname"
+      [disabled]="disableSearch"
+      (submitted)="onKeyword($event)"></app-search-form>
 
     <div *ngIf="notFound">
       Not Found

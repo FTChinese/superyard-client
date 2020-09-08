@@ -1,7 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ControlOptions } from '../widget/control';
-import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
-import { FormService } from '../service/form.service';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { ControlOptions, transformErrMsg } from '../widget/control';
+import { FormGroup, FormControl, AbstractControl, Validators } from '@angular/forms';
+import { Search } from '../widget/search';
 
 @Component({
   selector: 'app-search-form',
@@ -11,58 +11,48 @@ import { FormService } from '../service/form.service';
 export class SearchFormComponent implements OnInit {
 
   @Input() control: ControlOptions;
-
-  form: FormGroup;
-  inProgress = false;
-  errMsg: string;
-
-  constructor(
-    private formService: FormService
-  ) {}
-
-  ngOnInit(): void {
-    this.form = new FormGroup({
-      [this.control.key]: new FormControl(this.control.value, this.control.validators)
-    });
-
-    this.formService.errorReceived$.subscribe(reqErr => {
+  @Input() placeholder = '';
+  @Input() buttonName = 'Search';
+  @Input()
+  set disabled(yes: boolean) {
+    console.log('Disabled form %s', yes);
+    if (yes) {
+      this.form.disable();
+    } else {
       this.form.enable();
-      this.inProgress = false;
-      if (reqErr.notFound) {
-        this.errMsg = 'No result';
-        return;
-      }
-
-      this.errMsg = reqErr.message;
-    });
-
-    this.formService.formEnabled$.subscribe(ok => {
-      this.inProgress = false;
-    });
+    }
   }
 
+  @Output() submitted = new EventEmitter<string>();
+
+  form: FormGroup = new FormGroup({
+    keyword: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(64)
+    ]),
+  });
+
+  constructor() {}
+
+  ngOnInit(): void {}
+
   get formControl(): AbstractControl {
-    return this.form.get(this.control.key);
+    return this.form.get('keyword');
   }
 
   get isInvalid(): boolean {
-    return this.formControl.invalid;
+    return this.formControl.invalid && (this.formControl.dirty || this.formControl.touched);
+  }
+
+  get errMsg(): string {
+    console.log(this.formControl.errors);
+
+    return transformErrMsg('Keyword', this.formControl.errors);
   }
 
   submit() {
-    if (this.isInvalid) {
-      console.log('Invalid search');
-
-      this.errMsg = 'Please specify a valid keyword to search';
-      return;
-    }
-
-    this.clearError();
-    this.inProgress = true;
-    this.formService.submit(JSON.stringify(this.form.getRawValue()));
+    const data: Search = this.form.value;
+    this.submitted.emit(data.keyword);
   }
 
-  clearError() {
-    this.errMsg = '';
-  }
 }

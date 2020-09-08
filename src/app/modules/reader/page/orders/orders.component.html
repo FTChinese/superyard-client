@@ -3,7 +3,9 @@
     <h2>Search an Order</h2>
 
     <app-search-form
-      [control]="searchControl"></app-search-form>
+      placeholder="Order ID"
+      [disabled]="disabledSearch"
+      (submitted)="onKeyword()"></app-search-form>
 
     <div *ngIf="notFound">
       Not Found

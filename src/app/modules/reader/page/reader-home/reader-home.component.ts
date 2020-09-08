@@ -4,22 +4,18 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { JoinedAccount } from 'src/app/data/schema/reader';
 import { RequestError } from 'src/app/data/schema/request-result';
 import { ReaderService } from '../../service/reader.service';
-import { buildSearchOpts } from 'src/app/shared/widget/control';
-import { SearchForm, ReaderSearchParam } from 'src/app/data/schema/form-data';
-import { FormService } from 'src/app/shared/service/form.service';
+import { ReaderSearchParam } from 'src/app/data/schema/form-data';
 import { ToastService } from 'src/app/shared/service/toast.service';
 
 @Component({
   selector: 'app-reader-home',
   templateUrl: './reader-home.component.html',
   styleUrls: ['./reader-home.component.scss'],
-  providers: [FormService],
 })
 export class ReaderHomeComponent implements OnInit {
 
-  searchControl = buildSearchOpts('Email or Wechat nickname');
-
   accounts: JoinedAccount[];
+  disableSearch = false;
 
   get notFound(): boolean {
     return this.accounts && this.accounts.length === 0;
@@ -27,24 +23,22 @@ export class ReaderHomeComponent implements OnInit {
 
   constructor(
     private readerService: ReaderService,
-    private formService: FormService,
     private toast: ToastService
   ) {
   }
 
   ngOnInit(): void {
-    this.formService.formSubmitted$.subscribe(data => {
-      const search: SearchForm = JSON.parse(data);
+  }
 
-      const isEmail = search.keyword.indexOf('@') > 0;
-      const kind: AccountKind = isEmail
-        ? 'ftc'
-        : 'wechat';
+  onKeyword(k: string) {
+    const isEmail = k.indexOf('@') > 0;
+    const kind: AccountKind = isEmail
+      ? 'ftc'
+      : 'wechat';
 
-      this.searchAccount({
-        q: search.keyword,
-        kind,
-      });
+    this.searchAccount({
+      q: k,
+      kind,
     });
   }
 
@@ -52,7 +46,6 @@ export class ReaderHomeComponent implements OnInit {
     this.readerService.search(param)
       .subscribe({
         next: (accounts: JoinedAccount[]) => {
-          this.formService.enable(true);
           this.accounts = accounts;
         },
         error: (err: HttpErrorResponse) => {

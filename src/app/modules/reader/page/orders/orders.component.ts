@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { buildSearchOpts } from 'src/app/shared/widget/control';
 import { ReaderService } from '../../service/reader.service';
-import { FormService } from 'src/app/shared/service/form.service';
-import { SearchForm } from 'src/app/data/schema/form-data';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RequestError, serviceNames } from 'src/app/data/schema/request-result';
 import { ToastService } from 'src/app/shared/service/toast.service';
@@ -14,11 +11,10 @@ import { ModalService } from 'src/app/shared/service/modal.service';
   selector: 'app-orders',
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss'],
-  providers: [FormService],
 })
 export class OrdersComponent implements OnInit {
 
-  searchControl = buildSearchOpts('Order ID');
+  disabledSearch = false;
   notFound = false;
   order: Order;
   member: Membership;
@@ -29,17 +25,15 @@ export class OrdersComponent implements OnInit {
 
   constructor(
     private readerService: ReaderService,
-    private formService: FormService,
     private toast: ToastService,
     readonly modal: ModalService,
   ) { }
 
   ngOnInit(): void {
-    this.formService.formSubmitted$
-      .subscribe(data => {
-        const search: SearchForm = JSON.parse(data);
-        this.getOrder(search.keyword);
-      });
+  }
+
+  onKeyword(kw: string) {
+    this.getOrder(kw);
   }
 
   showDialog() {
@@ -50,18 +44,18 @@ export class OrdersComponent implements OnInit {
     this.modal.close();
   }
 
-  getOrder(id: string) {
+  private getOrder(id: string) {
     this.readerService.loadOrder(id)
       .subscribe({
         next: o => {
           this.notFound = false;
-          this.formService.enable(true);
+          this.disabledSearch = false;
           this.order = o;
 
-          this.getMembership(o.compoundId);
+          this.getMembership();
         },
         error: (err: HttpErrorResponse) => {
-          this.formService.enable(true);
+          this.disabledSearch = false;
 
           const errRes = new RequestError(err, serviceNames.reader);
 
@@ -75,7 +69,7 @@ export class OrdersComponent implements OnInit {
       });
   }
 
-  getMembership(userId: string) {
+  getMembership() {
     this.memberLoading = 'Loading membership data...';
     this.member = undefined;
   }
