@@ -11,7 +11,8 @@
         <h5 class="card-title">{{member.tier | tier}}/{{member.cycle | cycle}}</h5>
 
         <button class="btn btn-danger align-self-center"
-          *ngIf="hasMember">Delete</button>
+          *ngIf="hasMember"
+          (click)="confirmDelete()">Delete</button>
       </div>
 
       <app-property-list
@@ -126,6 +127,30 @@
         <app-ftc-form
           (succeeded)="onMemberUpdated($event)"
           [account]="account"></app-ftc-form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="deleteMemberOn"
+  class="modal fade show">
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <app-modal-header
+      title="Delete Membership"></app-modal-header>
+
+      <div class="modal-body">
+        <p>Are you sure you want to delete this user's membership?</p>
+
+        <p>We are strongly recommend <strong>NOT</strong> deleting any user's membership! It's better to change the expiration date to any past time to deny user's access to paid content</p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-danger"
+          type="button"
+          [disabled]="progress.on"
+          (click)="onDeleteMember()">Delete</button>
       </div>
     </div>
   </div>

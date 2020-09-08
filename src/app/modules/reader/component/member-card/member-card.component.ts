@@ -2,7 +2,12 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Membership, isMember } from 'src/app/data/schema/membership';
 import { ModalService } from 'src/app/shared/service/modal.service';
 import { PropertyItem } from 'src/app/shared/widget/property-list';
-import { ReaderAccount } from 'src/app/data/schema/reader';
+import { ReaderAccount, zeroMember } from 'src/app/data/schema/reader';
+import { ProgressService } from 'src/app/shared/service/progress.service';
+import { ReaderService } from '../../service/reader.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { RequestError } from 'src/app/data/schema/request-result';
+import { ToastService } from 'src/app/shared/service/toast.service';
 
 @Component({
   selector: 'app-member-card',
@@ -14,6 +19,7 @@ export class MemberCardComponent implements OnInit {
   private idFtc = 'f';
   private idApple = 'a';
   private idStripe = 's';
+  private idDelMember = 'dm';
 
   @Input() account: ReaderAccount;
 
@@ -64,8 +70,15 @@ export class MemberCardComponent implements OnInit {
     return this.modal.on && this.modal.id === this.idStripe;
   }
 
+  get deleteMemberOn(): boolean {
+    return this.modal.on && this.modal.id === this.idDelMember;
+  }
+
   constructor(
-    readonly modal: ModalService,
+    private modal: ModalService,
+    readonly progress: ProgressService,
+    private readerService: ReaderService,
+    private toast: ToastService,
   ) { }
 
   ngOnInit(): void {
@@ -83,8 +96,33 @@ export class MemberCardComponent implements OnInit {
     this.modal.open(this.idStripe);
   }
 
+  confirmDelete() {
+    this.modal.open(this.idDelMember);
+  }
+
   onMemberUpdated(m: Membership) {
     this.account.membership = m;
     this.modal.close();
+  }
+
+  onDeleteMember() {
+    this.progress.start();
+
+    this.readerService.deleteMember(this.member.compoundId)
+      .subscribe({
+        next: ok => {
+          this.progress.stop();
+          this.modal.close();
+
+          this.toast.info('Membership dropped!');
+          this.account.membership = zeroMember();
+        },
+        error: (err: HttpErrorResponse) => {
+          this.progress.stop();
+
+          const reqErr = new RequestError(err);
+          this.toast.error(reqErr.message);
+        }
+      });
   }
 }
