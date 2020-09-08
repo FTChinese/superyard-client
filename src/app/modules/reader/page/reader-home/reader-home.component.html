@@ -11,27 +11,26 @@
       Not Found
     </div>
 
-    <div *ngIf="accounts && accounts.length > 0">
-      <div *ngFor="let account of accounts"
-        class="card mb-3">
-        <ul class="list-group list-group-flush">
-          <li *ngIf="account.ftcId"
-            class="list-group-item">
-            Email:
-            <a [routerLink]="['/readers/ftc', account.ftcId]">{{account.email}}</a>
-          </li>
-          <li *ngIf="account.userName"
-            class="list-group-item">
-            User name: {{account.userName}}
-          </li>
-          <li *ngIf="account.unionId"
-            class="list-group-item">
-            Wechat Nickname:
-            <a [routerLink]="['/readers/wechat', account.unionId]">{{account.wechat.nickname}}</a>
-          </li>
-        </ul>
-      </div> <!-- End card -->
-    </div>
+    <dl class="mb-3 pb-3 border-bottom"
+      *ngFor="let account of accounts">
+      <dt>FTC</dt>
+      <dd>
+        <a *ngIf="account.email"
+          [routerLink]="['/readers/ftc', account.ftcId]">{{account.email}}</a>
+        <span *ngIf="account.userName">
+          ({{account.userName}})
+        </span>
+      </dd>
+
+      <dt *ngIf="account.unionId">Wechat</dt>
+      <dd>
+        <a *ngIf="account.wechat.nickname"
+          [routerLink]="['/readers/wechat', account.unionId]">
+          {{account.wechat.nickname}}
+        </a>
+      </dd>
+    </dl>
+
   </div>
 </div>
 

@@ -6,6 +6,7 @@ import { RequestError } from 'src/app/data/schema/request-result';
 import { ReaderService } from '../../service/reader.service';
 import { ReaderSearchParam } from 'src/app/data/schema/form-data';
 import { ToastService } from 'src/app/shared/service/toast.service';
+import { ProgressService } from 'src/app/shared/service/progress.service';
 
 @Component({
   selector: 'app-reader-home',
@@ -23,7 +24,8 @@ export class ReaderHomeComponent implements OnInit {
 
   constructor(
     private readerService: ReaderService,
-    private toast: ToastService
+    private toast: ToastService,
+    private progress: ProgressService,
   ) {
   }
 
@@ -43,12 +45,18 @@ export class ReaderHomeComponent implements OnInit {
   }
 
   searchAccount(param: ReaderSearchParam) {
+    this.progress.start();
+
     this.readerService.search(param)
       .subscribe({
         next: (accounts: JoinedAccount[]) => {
+          this.progress.stop();
+
           this.accounts = accounts;
         },
         error: (err: HttpErrorResponse) => {
+          this.progress.stop();
+
           console.log(err);
           const errRes = new RequestError(err);
           this.toast.error(errRes.message);
