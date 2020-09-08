@@ -75,7 +75,7 @@ export function buildPlanControls(productTier?: Tier): DynamicControl[] {
       label: 'Billing Cycle (Required)',
       options: cycleOpts.map(opt => {
         return {
-          // Diable month for premium.
+          // Disable month for premium.
           disabled: (opt.value === 'month' && productTier === 'premium') ? true : opt.disabled,
           name: opt.name,
           value: opt.value
