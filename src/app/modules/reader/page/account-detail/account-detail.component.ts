@@ -22,18 +22,6 @@ export class AccountDetailComponent implements OnInit {
 
   account: ReaderAccount;
 
-  // Create a zero membership if it does not exists
-  // so that we could pass compound id to MemberCardComponent;
-  // otherwise when we calling ReaderService.createMembership
-  // we won't know whose membership we are creating.
-  get member(): Membership {
-    if (isMember(this.account.membership)) {
-      return this.account.membership;
-    }
-
-    return zeroMember(this.account);
-  }
-
   get isSandbox(): boolean {
     return this.account && this.account.email.endsWith(sandboxSuffix);
   }
