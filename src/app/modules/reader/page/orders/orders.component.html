@@ -49,7 +49,7 @@
                 <button
                   class="btn btn-primary"
                   [disabled]="progress.on"
-                  (click)="showDialog()">
+                  (click)="showConfirm()">
                   Confirm
                 </button>
                 this order if you are sure it was paid successfully.
@@ -72,12 +72,13 @@
 
     <app-member-card
       *ngIf="account"
+      [modifiable]="permitModify"
       [account]="account"></app-member-card>
 
   </div>
 </div>
 
-<div *ngIf="modal.on"
+<div *ngIf="confirmOn"
   class="modal fade show">
   <div class="modal-dialog">
     <div class="modal-content">

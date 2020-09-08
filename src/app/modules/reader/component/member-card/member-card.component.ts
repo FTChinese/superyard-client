@@ -16,11 +16,19 @@ import { ToastService } from 'src/app/shared/service/toast.service';
 })
 export class MemberCardComponent implements OnInit {
 
-  private idFtc = 'f';
-  private idApple = 'a';
-  private idStripe = 's';
-  private idDelMember = 'dm';
+  // ID for dialog to show ftc subs form
+  private idFtc = 'f_ftc';
+  // ID for dialog to show the apple subs form
+  private idApple = 'f_iap';
+  // ID for dialog to show the stripe subs form
+  private idStripe = 'f_stripe';
+  // ID to show confirmation of deleting membership.
+  private idDelMember = 'c_d_m';
 
+  // Determine read-only mode.
+  // This component is also used as part of the order component and we don't want
+  // membership data modified directly in such case.
+  @Input() modifiable = true;
   @Input() account: ReaderAccount;
 
   get member(): Membership {

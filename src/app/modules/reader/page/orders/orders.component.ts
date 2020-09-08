@@ -17,18 +17,26 @@ import { AccountKind } from 'src/app/data/schema/enum';
 })
 export class OrdersComponent implements OnInit {
 
+  // ID for order confirm dialog.
+  private idCfm = 'oc';
+
   disabledSearch = false;
   order: Order;
   account: ReaderAccount;
+  permitModify = false;
 
   get accountKind(): AccountKind {
     return this.order.ftcId ? 'ftc' : 'wechat';
   }
 
+  get confirmOn(): boolean {
+    return this.modal.on && this.modal.id === this.idCfm;
+  }
+
   constructor(
     private readerService: ReaderService,
     private toast: ToastService,
-    readonly modal: ModalService,
+    private modal: ModalService,
     readonly progress: ProgressService
   ) { }
 
@@ -39,8 +47,8 @@ export class OrdersComponent implements OnInit {
     this.loadOrder(kw);
   }
 
-  showDialog() {
-    this.modal.open();
+  showConfirm() {
+    this.modal.open(this.idCfm);
   }
 
   closeDialog() {
