@@ -12,11 +12,11 @@ export interface Wechat {
 }
 
 // Create a zero membership based on current account.
-export function zeroMember(account: JoinedAccount): Membership {
+export function zeroMember(): Membership {
   return {
-    compoundId: account.ftcId || account.unionId,
-    ftcId: account.ftcId,
-    unionId: account.unionId,
+    compoundId: null,
+    ftcId: null,
+    unionId: null,
     tier: null,
     cycle: null,
     expireDate: null,
