@@ -22,8 +22,8 @@ import { Validators } from '@angular/forms';
 })
 export class SandboxDetailComponent implements OnInit {
 
-  private idDelete = 'd';
-  private idPw = 'p';
+  private idDelete = 'da';
+  private idPw = 'cp';
 
   pwControls: DynamicControl[] = [
     new InputControl({
