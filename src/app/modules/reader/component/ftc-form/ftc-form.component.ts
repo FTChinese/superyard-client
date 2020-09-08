@@ -97,7 +97,7 @@ export class FtcFormComponent implements OnInit {
   }
 
   private upsert(form: FtcMemberForm) {
-    this.readerService.upsertFtcMembership(form)
+    this.readerService.upsertFtcMember(form)
       .subscribe({
         next: m => {
           this.toast.info('Modification succeeded');

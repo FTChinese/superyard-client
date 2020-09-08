@@ -4,9 +4,8 @@ import { Observable, of } from 'rxjs';
 import { JoinedAccount, ReaderAccount, IFtcProfile, IActivity, IWxProfile, IWxLogin } from 'src/app/data/schema/reader';
 import { Membership } from 'src/app/data/schema/membership';
 import { Order } from 'src/app/data/schema/order';
-import { ReaderSearchParam, MemberForm } from '../../../data/schema/form-data';
+import { ReaderSearchParam } from '../../../data/schema/form-data';
 import { switchMap } from 'rxjs/operators';
-import { Plan } from 'src/app/data/schema/product';
 import { FtcMemberForm } from '../schema/sandbox-form';
 
 @Injectable({
@@ -69,10 +68,20 @@ export class ReaderService {
     );
   }
 
-  upsertFtcMembership(data: FtcMemberForm): Observable<Membership> {
+  upsertFtcMember(data: FtcMemberForm): Observable<Membership> {
     return this.http.post<Membership>(
       '/api/memberships',
       data
     );
+  }
+
+  deleteMember(id: string): Observable<boolean> {
+    return this.http.delete<boolean>(
+      `/api/memberships/${id}`,
+      {
+        observe: 'response'
+      }
+    )
+    .pipe(switchMap(resp => of(resp.status === 204)));
   }
 }
