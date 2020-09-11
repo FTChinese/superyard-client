@@ -2,7 +2,7 @@ import { InputControl, DropdownControl } from 'src/app/shared/widget/control';
 import { Validators } from '@angular/forms';
 import { Tier, Cycle, cycleOpts } from 'src/app/data/schema/enum';
 
-export const sandboxSuffix = '.sandbox@ftchinese.com';
+export const testAccountSuffix = '.test@ftchinese.com';
 
 export interface SandboxUserForm {
   email: string;

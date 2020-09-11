@@ -11,7 +11,7 @@ import { RequestError, serviceNames } from 'src/app/data/schema/request-result';
 import { ToastService } from 'src/app/shared/service/toast.service';
 import { Link } from 'src/app/shared/widget/link';
 import { ProgressService } from 'src/app/shared/service/progress.service';
-import { sandboxSuffix } from '../../schema/sandbox-form';
+import { testAccountSuffix } from '../../schema/sandbox-form';
 
 @Component({
   selector: 'app-account-detail',
@@ -23,7 +23,7 @@ export class AccountDetailComponent implements OnInit {
   account: ReaderAccount;
 
   get isSandbox(): boolean {
-    return this.account && this.account.email.endsWith(sandboxSuffix);
+    return this.account && this.account.email.endsWith(testAccountSuffix);
   }
 
   navTabs: Link[] = [

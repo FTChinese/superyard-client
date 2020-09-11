@@ -13,7 +13,7 @@ import { DynamicControl, InputControl, InputGroupControl } from 'src/app/shared/
 import { Validators, FormGroup } from '@angular/forms';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
-import { SandboxUserForm, pwControl, sandboxSuffix } from '../../schema/sandbox-form';
+import { SandboxUserForm, pwControl, testAccountSuffix } from '../../schema/sandbox-form';
 
 @Component({
   selector: 'app-sandbox',
@@ -34,7 +34,7 @@ export class SandboxComponent implements OnInit {
       ],
       label: 'Email *',
       type: 'text',
-      append: sandboxSuffix,
+      append: testAccountSuffix,
     }),
     pwControl,
   ];
@@ -89,7 +89,7 @@ export class SandboxComponent implements OnInit {
     this.formService.formSubmitted$.subscribe(data => {
       const formData: SandboxUserForm = JSON.parse(data);
 
-      formData.email = formData.email + sandboxSuffix;
+      formData.email = formData.email + testAccountSuffix;
       this.createAccount(formData);
     });
   }
