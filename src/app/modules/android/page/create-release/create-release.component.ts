@@ -85,7 +85,7 @@ export class CreateReleaseComponent {
           console.log(ok)
         },
         error: (errResp: HttpErrorResponse) => {
-          const err = RequestError.fromResponse(errResp);
+          const err = new RequestError(errResp);
 
           console.log(err);
         },

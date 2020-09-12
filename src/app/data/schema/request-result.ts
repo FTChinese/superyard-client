@@ -60,19 +60,7 @@ export class RequestError {
    *
    * If the error neither come from Angular nor from API, for example, the server
    * is down, then the `error` field will be a string.
-   */
-  static fromResponse(
-    errResp: HttpErrorResponse,
-    serviceName: string = ''
-  ): RequestError {
-
-    return new RequestError(
-      errResp,
-      serviceName,
-    );
-  }
-
-  /**
+   *
    * @example
    * HTTPErrorResponse:
    * error: "Error occured while trying to proxy to: localhost:4200/api/login"

@@ -78,7 +78,7 @@ export class ProfileFormComponent implements OnInit {
         this.toast.show('Saved!')
       },
       error: err => {
-        this.formService.sendError(RequestError.fromResponse(err));
+        this.formService.sendError(new RequestError(err));
       }
     });
   }
