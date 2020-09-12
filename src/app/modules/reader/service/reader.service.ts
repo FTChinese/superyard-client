@@ -14,11 +14,13 @@ import { AccountKind } from 'src/app/data/schema/enum';
 })
 export class ReaderService {
 
+  private readonly basePath = '/api/readers';
+
   constructor(private http: HttpClient) { }
 
   search(p: ReaderSearchParam): Observable<JoinedAccount[]> {
     return this.http.get<JoinedAccount[]>(
-      '/api/search/reader',
+      `${this.basePath}/search`,
       {
         params: {
           q: p.q,
@@ -29,19 +31,19 @@ export class ReaderService {
   }
 
   loadFtcAccount(id: string): Observable<ReaderAccount> {
-    return this.http.get<ReaderAccount>(`/api/readers/ftc/${id}`);
+    return this.http.get<ReaderAccount>(`${this.basePath}/ftc/${id}`);
   }
 
   loadFtcProfile(id: string): Observable<IFtcProfile> {
-    return this.http.get<IFtcProfile>(`/api/readers/ftc/${id}/profile`);
+    return this.http.get<IFtcProfile>(`${this.basePath}/ftc/${id}/profile`);
   }
 
   loadActivities(id: string): Observable<IActivity[]> {
-    return this.http.get<IActivity[]>(`/api/readers/ftc/${id}/activities`);
+    return this.http.get<IActivity[]>(`${this.basePath}/ftc/${id}/activities`);
   }
 
   loadWxAccount(id: string): Observable<ReaderAccount> {
-    return this.http.get<ReaderAccount>(`/api/readers/wx/${id}`);
+    return this.http.get<ReaderAccount>(`${this.basePath}/wx/${id}`);
   }
 
   loadAccount(id: string, kind: AccountKind): Observable<ReaderAccount> {
@@ -54,11 +56,11 @@ export class ReaderService {
   }
 
   loadWxProfile(id: string): Observable<IWxProfile> {
-    return this.http.get<IWxProfile>(`/api/readers/wx/${id}/profile`);
+    return this.http.get<IWxProfile>(`${this.basePath}/wx/${id}/profile`);
   }
 
   loadWxLogin(id: string): Observable<IWxLogin[]> {
-    return this.http.get<IWxLogin[]>(`/api/readers/wx/${id}/login`);
+    return this.http.get<IWxLogin[]>(`${this.basePath}/wx/${id}/login`);
   }
 
   loadOrder(id: string): Observable<Order> {
