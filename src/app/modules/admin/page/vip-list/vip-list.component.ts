@@ -113,7 +113,8 @@ export class VipListComponent implements OnInit {
       const email = formData.email + vipEmailSuffix;
 
       if (this.vips.findIndex(v => v.email === email) > -1) {
-        this.warning = `${email} is already gratned vip`;
+        this.formService.enable(true);
+        this.warning = `${email} is already granted vip`;
         return;
       }
 
