@@ -46,7 +46,7 @@
           [controls]="controls"
           [button]="button"></app-dynamic-form>
 
-        <p *ngIf="emailNotFound" class="text-danger">The email you entered is not found.</p>
+        <p *ngIf="warning" class="text-danger">{{warning}}</p>
       </div>
 
     </div>

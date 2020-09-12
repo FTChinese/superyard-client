@@ -5,7 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { FtcAccount } from 'src/app/data/schema/reader';
 import { RequestError } from 'src/app/data/schema/request-result';
-import { ReaderService } from 'src/app/modules/reader/service/reader.service';
 import { ModalService } from 'src/app/shared/service/modal.service';
 import { ProgressService } from 'src/app/shared/service/progress.service';
 import { ToastService } from 'src/app/shared/service/toast.service';
@@ -32,7 +31,7 @@ export class VipListComponent implements OnInit {
   paged: Paged;
 
   revokeIndex: number;
-  emailNotFound = false;
+  warning: string;
 
   controls: DynamicControl[] = [
     new InputGroupControl({
@@ -66,7 +65,6 @@ export class VipListComponent implements OnInit {
     private toast: ToastService,
     private progress: ProgressService,
     private adminService: AdminService,
-    private readerService: ReaderService,
     private modal: ModalService,
     private formService: FormService
   ) {
@@ -114,6 +112,11 @@ export class VipListComponent implements OnInit {
       const formData: GrantForm = JSON.parse(data);
       const email = formData.email + vipEmailSuffix;
 
+      if (this.vips.findIndex(v => v.email === email) > -1) {
+        this.warning = `${email} is already gratned vip`;
+        return;
+      }
+
       this.onGrant(email);
     });
   }
@@ -124,28 +127,17 @@ export class VipListComponent implements OnInit {
   }
 
   showGrant() {
-    this.emailNotFound = false;
+    this.warning = undefined;
     this.modal.open(this.idGrant);
   }
 
   onGrant(email: string) {
-    this.emailNotFound = false;
+    this.warning = undefined;
 
-    this.readerService.search({
-      q: email,
-      kind: 'ftc'
-    })
+    this.adminService.findFtcAccount(email)
     .subscribe({
-      next: accounts => {
-        const a = accounts.find(a => a.email === email);
-        console.log('Search result %o', a);
-
-        if (a) {
-          this.grant(a.ftcId);
-        } else {
-          this.formService.enable(true);
-          this.emailNotFound = true;
-        }
+      next: account => {
+        this.grant(account.ftcId);
       },
       error: (err: HttpErrorResponse) => {
         this.formService.enable(true);
@@ -172,7 +164,7 @@ export class VipListComponent implements OnInit {
         this.formService.enable(true);
         const reqErr = new RequestError(err);
         if (reqErr.notFound) {
-          this.emailNotFound = true;
+          this.warning = 'The email you entered is not found.';
           return;
         }
         this.toast.error(reqErr.message);

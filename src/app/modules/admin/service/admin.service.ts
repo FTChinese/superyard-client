@@ -29,6 +29,17 @@ export class AdminService {
     });
   }
 
+  findFtcAccount(email: string): Observable<FtcAccount> {
+    return this.http.get<FtcAccount>(
+      `/api/readers/ftc`,
+      {
+        params: {
+          q: email
+        }
+      }
+    );
+  }
+
   grantVip(ftcId: string): Observable<FtcAccount> {
     return this.http.put<FtcAccount>(`${this.basePath}/vip/${ftcId}`, null);
   }
