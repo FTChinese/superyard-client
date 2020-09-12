@@ -53,6 +53,10 @@ export class NavComponent implements OnInit {
         {
           name: 'Test Account',
           href: `/${siteBaseUrl.readers}/sandbox`,
+        },
+        {
+          name: 'IAP Subs',
+          href: `/${siteBaseUrl.readers}/iap`,
         }
       ]
     },

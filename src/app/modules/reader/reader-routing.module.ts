@@ -5,6 +5,7 @@ import { ReaderHomeComponent } from './page/reader-home/reader-home.component';
 import { OrdersComponent } from './page/orders/orders.component';
 import { SandboxComponent } from './page/sandbox/sandbox.component';
 import { SandboxDetailComponent } from './page/sandbox-detail/sandbox-detail.component';
+import { IapListComponent } from './page/iap-list/iap-list.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,10 @@ const routes: Routes = [
   {
     path: 'sandbox/:id',
     component: SandboxDetailComponent,
+  },
+  {
+    path: 'iap',
+    component: IapListComponent
   }
 ];
 
