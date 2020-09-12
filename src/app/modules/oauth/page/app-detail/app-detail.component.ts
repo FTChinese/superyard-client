@@ -7,6 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { RequestError } from 'src/app/data/schema/request-result';
 import { ToastService } from 'src/app/shared/service/toast.service';
 import { ModalService } from 'src/app/shared/service/modal.service';
+import { ProgressService } from 'src/app/shared/service/progress.service';
 
 @Component({
   selector: 'app-app-detail',
@@ -25,10 +26,14 @@ export class AppDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private oauthService: OAuthService,
     private toast: ToastService,
-    private modal: ModalService
-  ) { }
+    private modal: ModalService,
+    private progress: ProgressService,
+  ) {
+    progress.start();
+   }
 
   ngOnInit(): void {
+
     this.route.paramMap.pipe(
       switchMap(params => {
         const clientId = params.get('clientId');
@@ -38,10 +43,12 @@ export class AppDetailComponent implements OnInit {
     )
     .subscribe({
       next: app => {
+        this.progress.stop();
         this.app = app;
         this.loadTokens(app.clientId);
       },
       error: (err: HttpErrorResponse) => {
+        this.progress.stop();
         const errRes = new RequestError(err);
         this.toast.info(errRes.message);
       },

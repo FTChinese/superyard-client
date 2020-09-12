@@ -1,6 +1,6 @@
 <div class="row border-bottom ">
   <div class="col-md-12 col-lg-8">
-    <section *ngIf="app; else loadingApp"
+    <section *ngIf="app"
       class="pb-3">
       <h2>{{app.name}}</h2>
 
@@ -31,10 +31,6 @@
         [app]="app"></app-app-form>
 
     </section>
-
-    <ng-template #loadingApp>
-      <div>Loading app details...</div>
-    </ng-template>
   </div>
 
   <div class="col-md-12 col-lg-4">

@@ -1,7 +1,11 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AccessToken } from 'src/app/data/schema/oauth';
+import { RequestError } from 'src/app/data/schema/request-result';
 import { OAuthService } from 'src/app/data/service/oauth.service';
 import { ModalService } from 'src/app/shared/service/modal.service';
+import { ProgressService } from 'src/app/shared/service/progress.service';
+import { ToastService } from 'src/app/shared/service/toast.service';
 
 @Component({
   selector: 'app-personal-keys',
@@ -18,16 +22,26 @@ export class PersonalKeysComponent implements OnInit {
 
   constructor(
     private oauthServcie: OAuthService,
-    readonly modal: ModalService
-  ) { }
+    readonly modal: ModalService,
+    private progress: ProgressService,
+    private toast: ToastService,
+  ) {
+    progress.start();
+   }
 
   // TODO: use async pipe.
   ngOnInit(): void {
     this.oauthServcie.listPersonalKeys().subscribe({
       next: keys => {
+        this.progress.stop();
+
         this.keys = keys;
       },
-      error: err => console.log(err),
+      error: (err: HttpErrorResponse) => {
+        this.progress.stop();
+        const reqErr = new RequestError(err);
+        this.toast.error(reqErr.message);
+      },
     });
   }
 

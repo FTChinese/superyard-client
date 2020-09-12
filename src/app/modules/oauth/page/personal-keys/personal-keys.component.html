@@ -8,14 +8,10 @@
     </div>
 
     <ng-container
-      *ngIf="keys; else loading">
+      *ngIf="keys">
       <app-token-list
         [tokens]="keys"></app-token-list>
     </ng-container>
-
-    <ng-template #loading>
-      <div>Loading...</div>
-    </ng-template>
   </div>
 
   <div class="col-md-12 col-lg-4">
