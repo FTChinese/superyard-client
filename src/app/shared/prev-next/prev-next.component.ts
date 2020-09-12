@@ -1,5 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Paging } from '../widget/paging';
+import { Paged, Paging } from '../widget/paging';
+
+interface PagingParam {
+  page: number;
+}
 
 @Component({
   selector: 'app-prev-next',
@@ -8,33 +12,49 @@ import { Paging } from '../widget/paging';
 })
 export class PrevNextComponent implements OnInit {
 
-  @Input() items = 0;
+  @Input() paged: Paged;
 
-  @Input()
-  set current(p: Paging) {
-    if (p.page > 1) {
-      this.previous = {
-        page: p.page - 1,
-      };
-    } else {
-      this.previous = undefined;
+  get previous(): PagingParam | null {
+    if (!this.paged) {
+      return null
     }
 
-    if (this.items >= p.perPage) {
-      this.next = {
-        page: p.page + 1
-      };
-    } else {
-      this.next = undefined;
+    if (this.paged.page === 1) {
+      return null;
     }
+
+    if (this.paged.count === 0) {
+      return null;
+    }
+
+    return {
+      page: this.paged.page - 1,
+    };
   }
 
-  previous: Paging;
-  next: Paging;
+  get next(): PagingParam | null {
+    if (!this.paged) {
+      return null;
+    }
+
+    if (this.paged.count === 0) {
+      return null;
+    }
+
+    if (this.paged.count < this.paged.perPage) {
+      return null;
+    }
+
+    return {
+      page: this.paged.page + 1,
+    };
+  }
 
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.previous)
+    console.log(this.next)
   }
 
 }
