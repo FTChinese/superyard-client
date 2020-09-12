@@ -10,6 +10,7 @@ export type AccountKind = 'ftc' | 'wechat';
 export type ApiKeyKind = 'app' | 'personal';
 export type ActivityKind = 'login' | 'signup' | 'email_verification' | 'password_reset';
 export type Currency = 'cny' | 'eur' | 'gbp' | 'hkd' | 'jpy' | 'usd';
+export type Environment = 'Production' | 'Sandbox';
 
 export interface SelectOption<T> {
   disabled: boolean;

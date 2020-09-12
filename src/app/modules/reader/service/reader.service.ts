@@ -8,6 +8,8 @@ import { ReaderSearchParam } from '../../../data/schema/form-data';
 import { switchMap } from 'rxjs/operators';
 import { FtcMemberForm } from '../schema/sandbox-form';
 import { AccountKind } from 'src/app/data/schema/enum';
+import { Paging, pagingParams } from 'src/app/shared/widget/paging';
+import { IAPSubs } from 'src/app/data/schema/iap';
 
 @Injectable({
   providedIn: 'root'
@@ -95,5 +97,11 @@ export class ReaderService {
       }
     )
     .pipe(switchMap(resp => of(resp.status === 204)));
+  }
+
+  listIAP(p: Paging): Observable<IAPSubs[]> {
+    return this.http.get<IAPSubs[]>(`/api/iap`, {
+      params: pagingParams(p)
+    });
   }
 }

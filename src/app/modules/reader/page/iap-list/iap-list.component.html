@@ -1,1 +1,56 @@
-<p>iap-list works!</p>
+<div class="d-flex justify-content-between">
+  <h2 class="mb-3">Apple IAP Subscriptions</h2>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Environment</th>
+      <th>Transaction IDs</th>
+      <th>Purchase/Expires</th>
+      <th>Edition</th>
+      <th>Auto Renewal</th>
+      <th>Creation Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let s of subs">
+      <td>
+        {{s.environment}}
+      </td>
+      <td>
+        <dl>
+          <dt>Original</dt>
+          <dd>{{s.originalTransactionId}}</dd>
+
+          <dt>Last</dt>
+          <dd>{{s.lastTransactionId}}</dd>
+        </dl>
+      </td>
+      <td>
+        <dl>
+          <dt>Purchased UTC</dt>
+          <dd>{{s.purchaseDateUtc}}</dd>
+
+          <dt>Expires UTC</dt>
+          <dd>{{s.expiresDateUtc}}</dd>
+        </dl>
+      </td>
+      <td>{{s.tier | tier}}/{{s.cycle | cycle}}</td>
+      <td>{{s.autoRenewal}}</td>
+      <td>
+        <dl>
+          <dt>Created UTC</dt>
+          <dd>{{s.createdUtc}}</dd>
+
+          <dt>Updated UTC</dt>
+          <dd>{{s.updatedUtc}}</dd>
+        </dl>
+      </td>
+  </tr>
+  </tbody>
+</table>
+
+<app-prev-next
+  *ngIf="paged"
+  [paged]="paged"></app-prev-next>
