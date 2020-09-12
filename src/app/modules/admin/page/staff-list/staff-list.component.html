@@ -1,0 +1,29 @@
+<div class="row justify-content-center">
+  <div class="col-md-12 col-lg-8">
+
+    <app-search-form
+      placeholder="User name"
+      [disabled]=false
+      (submitted)="onKeyword($event)"></app-search-form>
+
+    <table class="table table-striped" *ngIf="staff">
+      <thead>
+        <tr>
+          <th>用户名</th>
+          <th>邮箱</th>
+          <th>Active</th>
+          <th>昵称</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let s of staff">
+          <td><a [routerLink]="['./', s.id]">{{s.userName}}</a></td>
+          <td>{{s.email}}</td>
+          <td>{{s.isActive}}</td>
+          <td>{{s.displayName}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
