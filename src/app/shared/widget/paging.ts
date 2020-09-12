@@ -3,7 +3,11 @@ import { ParamMap } from '@angular/router';
 
 export interface Paging {
   page: number;
-  perPage?: number;
+  perPage: number;
+}
+
+export type Paged = Paging & {
+  count: number;
 }
 
 /**
@@ -25,5 +29,5 @@ export function getPaging(params: ParamMap, perPage: number = 10): Paging {
 export function pagingParams(p: Paging): HttpParams {
   return new HttpParams()
     .set('page', p.page.toFixed())
-    .set('per_page', p.perPage?.toFixed() || '20');
+    .set('per_page', p.perPage?.toFixed() || '10');
 }

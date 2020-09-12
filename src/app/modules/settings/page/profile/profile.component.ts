@@ -38,7 +38,7 @@ export class ProfileComponent implements OnInit {
         this.profile = profile;
       },
       error: (errResp: HttpErrorResponse) => {
-        const err = RequestError.fromResponse(errResp);
+        const err = new RequestError(errResp);
         this.toast.show(err.toString());
       },
     });
