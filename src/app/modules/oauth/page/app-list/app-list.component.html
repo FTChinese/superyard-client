@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-md-12 col-lg-8">
 
-    <ng-container *ngIf="apps; else loading">
+    <ng-container *ngIf="apps">
       <div class="d-flex justify-content-between mb-3">
         <h2>Registered Apps</h2>
         <button class="btn btn-primary"
@@ -14,12 +14,8 @@
         *ngFor="let app of apps"
         [app]="app"></app-app-item>
 
-
     </ng-container>
 
-    <ng-template #loading>
-      <div>Loading...</div>
-    </ng-template>
   </div>
 
   <div class="col-md-12 col-lg-4">
