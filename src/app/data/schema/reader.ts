@@ -44,6 +44,7 @@ export interface FtcAccount {
   createdBy?: string; // Only exists for sandbox account.
   createdUtc: string | null;
   updatedUtc: string | null;
+  vip: boolean;
 }
 
 /**
