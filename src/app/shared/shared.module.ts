@@ -21,6 +21,7 @@ import { DynamicGroupComponent } from './dynamic-group/dynamic-group.component';
 import { LinePipe } from './pipes/line.pipe';
 import { PropertyListComponent } from './property-list/property-list.component';
 import { InputGroupComponent } from './input-group/input-group.component';
+import { PrevNextComponent } from './prev-next/prev-next.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { InputGroupComponent } from './input-group/input-group.component';
     LinePipe,
     PropertyListComponent,
     InputGroupComponent,
+    PrevNextComponent,
   ],
   imports: [
     CommonModule,
@@ -70,6 +72,7 @@ import { InputGroupComponent } from './input-group/input-group.component';
     ModalHeaderComponent,
     ModalCancelComponent,
     PropertyListComponent,
+    PrevNextComponent,
   ]
 })
 export class SharedModule { }

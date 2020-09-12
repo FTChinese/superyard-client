@@ -11,6 +11,10 @@
       *ngIf="keys">
       <app-token-list
         [tokens]="keys"></app-token-list>
+
+      <app-prev-next
+        [current]="paging"
+        [items]="keys.length"></app-prev-next>
     </ng-container>
   </div>
 

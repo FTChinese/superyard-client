@@ -1,0 +1,13 @@
+<div class="d-flex justify-content-between">
+  <div>
+    <a *ngIf="previous"
+      routerLink="./"
+      [queryParams]="previous">Previous</a>
+  </div>
+
+  <div>
+    <a *ngIf="next"
+      routerLink="./"
+      [queryParams]="next">Next</a>
+  </div>
+</div>

@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { OAuthApp, AccessToken } from 'src/app/data/schema/oauth';
 import { PersonalKeyForm, OAuthAppForm, AppTokenReq } from '../schema/form-data';
+import { Paging, pagingParams } from 'src/app/shared/widget/paging';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +26,10 @@ export class OAuthService {
     private http: HttpClient,
   ) { }
 
-  listApps(): Observable<OAuthApp[]> {
-    return this.http.get<OAuthApp[]>(this.urlApps);
+  listApps(p: Paging): Observable<OAuthApp[]> {
+    return this.http.get<OAuthApp[]>(this.urlApps, {
+      params: pagingParams(p)
+    });
   }
 
   createApp(app: OAuthAppForm): Observable<OAuthApp> {
@@ -84,9 +87,12 @@ export class OAuthService {
       );
   }
 
-  listPersonalKeys(): Observable<AccessToken[]> {
+  listPersonalKeys(p: Paging): Observable<AccessToken[]> {
     return this.http.get<AccessToken[]>(
-      this.urlTokens
+      this.urlTokens,
+      {
+        params: pagingParams(p)
+      }
     );
   }
 

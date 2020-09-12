@@ -5,7 +5,7 @@ import { SandboxService } from '../../service/sandbox.service';
 import { FtcAccount } from 'src/app/data/schema/reader';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
-import { getPaging } from 'src/app/shared/widget/paging';
+import { getPaging, Paging } from 'src/app/shared/widget/paging';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RequestError } from 'src/app/data/schema/request-result';
 import { ModalService } from 'src/app/shared/service/modal.service';
@@ -24,6 +24,8 @@ import { SandboxUserForm, pwControl, testAccountSuffix } from '../../schema/sand
 export class SandboxComponent implements OnInit {
 
   users: FtcAccount[];
+
+  paging: Paging;
 
   controls: DynamicControl[] = [
     new InputGroupControl({
@@ -55,9 +57,12 @@ export class SandboxComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.paramMap.pipe(
+    this.route.queryParamMap.pipe(
       switchMap(params => {
-        return this.sandboxService.listUsers(getPaging(params));
+        const paging = getPaging(params);
+        this.paging = paging;
+
+        return this.sandboxService.listUsers(paging);
       })
     )
     .subscribe({
