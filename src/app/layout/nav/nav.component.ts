@@ -13,6 +13,12 @@ export class NavComponent implements OnInit {
     {
       name: 'Admin',
       href: '/' + siteBaseUrl.admin,
+      children: [
+        {
+          name: 'VIP',
+          href: `/${siteBaseUrl.admin}/vip`
+        }
+      ]
     },
     {
       name: 'Push Notification',
