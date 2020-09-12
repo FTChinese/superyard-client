@@ -5,6 +5,7 @@ import { RequestError } from 'src/app/data/schema/request-result';
 import { OAuthService } from 'src/app/data/service/oauth.service';
 import { ToastService } from 'src/app/shared/service/toast.service';
 import { ModalService } from 'src/app/shared/service/modal.service';
+import { ProgressService } from 'src/app/shared/service/progress.service';
 
 @Component({
   selector: 'app-app-list',
@@ -18,16 +19,23 @@ export class AppListComponent implements OnInit {
   constructor(
     private oauthService: OAuthService,
     private toast: ToastService,
-    readonly modal: ModalService
-  ) { }
+    readonly modal: ModalService,
+    private progress: ProgressService,
+  ) {
+    progress.start();
+  }
 
   ngOnInit(): void {
     this.oauthService.listApps().subscribe({
       next: data => {
+        this.progress.stop();
+
         console.log(data);
         this.apps = data;
       },
       error: (err: HttpErrorResponse) => {
+        this.progress.stop();
+
         const errRes = new RequestError(err);
 
         this.toast.error(errRes.message);
