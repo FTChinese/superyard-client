@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, ObservableLike, of } from 'rxjs';
 import { JoinedAccount, ReaderAccount, IFtcProfile, IActivity, IWxProfile, IWxLogin } from 'src/app/data/schema/reader';
 import { Membership } from 'src/app/data/schema/membership';
 import { Order } from 'src/app/data/schema/order';
@@ -10,6 +10,7 @@ import { FtcMemberForm } from '../schema/sandbox-form';
 import { AccountKind } from 'src/app/data/schema/enum';
 import { Paging, pagingParams } from 'src/app/shared/widget/paging';
 import { IAPSubs } from 'src/app/data/schema/iap';
+import { IAPForm } from '../schema/iap-form';
 
 @Injectable({
   providedIn: 'root'
@@ -105,5 +106,20 @@ export class ReaderService {
     return this.http.get<IAPSubs[]>(`/api/iap`, {
       params: pagingParams(p)
     });
+  }
+
+  refreshIAP(originalTxId: string): Observable<IAPSubs> {
+    return this.http.patch<IAPSubs>(`/api/iap/${originalTxId}`, null)
+  }
+
+  linkIAP(ftcId: string, to: IAPForm): Observable<Membership> {
+    return this.http.patch<Membership>(`/api/memberships/${ftcId}/apple`, to);
+  }
+
+  unlinkIAP(ftcId: string, from: IAPForm): Observable<boolean> {
+    return this.http.delete<boolean>(`/api/memberships/${ftcId}/apple`, {
+      observe: 'response'
+    })
+    .pipe(switchMap(resp => of(resp.status === 204)));
   }
 }

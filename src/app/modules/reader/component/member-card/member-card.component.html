@@ -65,7 +65,8 @@
                 (click)="onRefreshIAP()">Refresh</button>
 
               <button class="btn btn-outline-primary"
-                (click)="showIAPForm()">Link/Modify</button>
+                [disabled]="isIAP"
+                (click)="showIAPForm()">Link</button>
 
               <button class="btn btn-danger"
                 [disabled]="!isIAP">Unlink</button>
