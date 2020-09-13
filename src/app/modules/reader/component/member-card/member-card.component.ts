@@ -23,7 +23,7 @@ export class MemberCardComponent implements OnInit {
   // ID for dialog to show the stripe subs form
   private idStripe = 'f_stripe';
   // ID to show confirmation of deleting membership.
-  private idDelMember = 'c_d_m';
+  private idDelMember = 'd_m';
 
   // Determine read-only mode.
   // This component is also used as part of the order component and we don't want
@@ -43,7 +43,15 @@ export class MemberCardComponent implements OnInit {
     return this.hasMember && (this.account.membership.payMethod === 'alipay' || this.account.membership.payMethod === 'wechat');
   }
 
-  get modalTitle(): string {
+  get isIAP(): boolean {
+    return this.hasMember && this.account.membership.payMethod === 'apple';
+  }
+
+  get isStripe(): boolean {
+    return this.hasMember && this.account.membership.payMethod === 'stripe';
+  }
+
+  get ftcFormTitle(): string {
     return this.hasMember
       ? 'Modify membership'
       : 'Create membership';
@@ -70,7 +78,7 @@ export class MemberCardComponent implements OnInit {
     return this.modal.on && this.modal.id === this.idFtc;
   }
 
-  get appleFormOn(): boolean {
+  get iapFormOn(): boolean {
     return this.modal.on && this.modal.id === this.idApple;
   }
 
@@ -96,7 +104,7 @@ export class MemberCardComponent implements OnInit {
     this.modal.open(this.idFtc);
   }
 
-  showAppleForm() {
+  showIAPForm() {
     this.modal.open(this.idApple);
   }
 
@@ -132,5 +140,9 @@ export class MemberCardComponent implements OnInit {
           this.toast.error(reqErr.message);
         }
       });
+  }
+
+  onRefreshIAP() {
+
   }
 }

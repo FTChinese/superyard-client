@@ -13,6 +13,7 @@ import { SandboxComponent } from './page/sandbox/sandbox.component';
 import { SandboxDetailComponent } from './page/sandbox-detail/sandbox-detail.component';
 import { FtcFormComponent } from './component/ftc-form/ftc-form.component';
 import { IapListComponent } from './page/iap-list/iap-list.component';
+import { IapFormComponent } from './component/iap-form/iap-form.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { IapListComponent } from './page/iap-list/iap-list.component';
     SandboxDetailComponent,
     FtcFormComponent,
     IapListComponent,
+    IapFormComponent,
   ],
   imports: [
     CommonModule,

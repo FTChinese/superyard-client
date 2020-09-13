@@ -9,10 +9,6 @@
 
       <div class="d-flex justify-content-between">
         <h5 class="card-title">{{member.tier | tier}}/{{member.cycle | cycle}}</h5>
-
-        <button class="btn btn-danger align-self-center"
-          *ngIf="modifiable && hasMember"
-          (click)="confirmDelete()">Delete</button>
       </div>
 
       <app-property-list
@@ -29,79 +25,82 @@
 
 <ng-container *ngIf="modifiable">
   <div class="card mb-3">
-    <div class="card-header">
+    <div class="card-header d-flex justify-content-between">
       Subscription Details
     </div>
 
-    <div class="card-body">
-      <div class="row">
+    <table class="table">
+      <tbody>
+        <tr>
+          <td>FTC Plan ID</td>
+          <td>{{member.ftcPlanId || 'N/A'}}</td>
+          <td class="text-right">
+            <div class="btn-group"
+             *ngIf="!hasMember || isWxOrAliPay">
+              <button class="btn btn-outline-primary"
+                (click)="showFtcForm()">
+                Add/Modify
+              </button>
+              <button class="btn btn-danger"
+                [disabled]="!isWxOrAliPay"
+                (click)="confirmDelete()">
+                Delete
+              </button>
+            </div>
 
-        <div class="col-md-6 border-right">
+          </td>
+        </tr>
 
-          <table class="table">
-            <tbody>
-              <tr>
-                <td>FTC Plan ID</td>
-                <td>{{member.ftcPlanId || 'N/A'}}</td>
-                <td>
-                  <button class="btn btn-link btn-inline"
-                    (click)="showFtcForm()">
-                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                      <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                    </svg>
-                  </button>
+        <tr>
+          <td>
+            Apple Original Transaction ID
+          </td>
+          <td>{{member.appleSubsId || 'N/A'}}</td>
+          <td class="text-right">
+            <div class="btn-group"
+              *ngIf="!hasMember || member.appleSubsId">
 
-                </td>
-              </tr>
+              <button class="btn btn-outline-primary"
+                [disabled]="!isIAP"
+                (click)="onRefreshIAP()">Refresh</button>
 
-              <tr>
-                <td>
-                  <div>Apple</div>
-                  <div>Original Transaction ID</div>
-                </td>
-                <td>{{member.appleSubsId || 'N/A'}}</td>
-                <td>
-                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-clockwise" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
-                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
-                  </svg>
-                </td>
-              </tr>
+              <button class="btn btn-outline-primary"
+                (click)="showIAPForm()">Link/Modify</button>
 
-              <tr>
-                <td>B2B Licence ID</td>
-                <td>{{member.b2bLicenceId || 'N/A'}}</td>
-              </tr>
-            </tbody>
-          </table>
+              <button class="btn btn-danger"
+                [disabled]="!isIAP">Unlink</button>
+            </div>
+          </td>
+        </tr>
 
-        </div>
+        <tr>
+          <td>B2B Licence ID</td>
+          <td>{{member.b2bLicenceId || 'N/A'}}</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
 
-        <div class="col-md-6">
-          <table class="table table-borderless table-sm">
-            <caption>Stripe</caption>
-            <tbody>
+    <table class="table">
+      <caption>Stripe</caption>
+      <tbody>
 
-              <tr>
-                <td>Subscription ID</td>
-                <td>{{member.stripeSubsId}}</td>
-              </tr>
+        <tr>
+          <td>Subscription ID</td>
+          <td>{{member.stripeSubsId}}</td>
+        </tr>
 
-              <tr>
-                <td>Plan ID</td>
-                <td>{{member.stripePlanId}}</td>
-              </tr>
+        <tr>
+          <td>Plan ID</td>
+          <td>{{member.stripePlanId}}</td>
+        </tr>
 
-              <tr>
-                <td>Status</td>
-                <td>{{member.status}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+        <tr>
+          <td>Status</td>
+          <td>{{member.status}}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <div>
@@ -122,12 +121,31 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <app-modal-header
-          [title]="modalTitle"></app-modal-header>
+          [title]="ftcFormTitle"></app-modal-header>
 
         <div class="modal-body">
           <app-ftc-form
             (succeeded)="onMemberUpdated($event)"
             [account]="account"></app-ftc-form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="iapFormOn"
+    class="modal fade show">
+
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <app-modal-header
+          title="Link IAP"></app-modal-header>
+
+        <div class="modal-body">
+          <p>Enter apple in-app-purchase original transaction id to link it to this account. If an original transaction id already exists, change it to another one will link this account to another IAP.</p>
+          <p class="text-danger">Be careful when you perform this action. Ideally you should never touch this part as the linking the should done on user's devices.</p>
+          <app-iap-form
+            (succeeded)="onMemberUpdated($event)"
+            [account]="account"></app-iap-form>
         </div>
       </div>
     </div>

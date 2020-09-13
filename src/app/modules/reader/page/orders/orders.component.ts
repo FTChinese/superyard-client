@@ -23,7 +23,6 @@ export class OrdersComponent implements OnInit {
   disabledSearch = false;
   order: Order;
   account: ReaderAccount;
-  permitModify = false;
 
   get accountKind(): AccountKind {
     return this.order.ftcId ? 'ftc' : 'wechat';
