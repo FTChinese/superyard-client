@@ -83,6 +83,10 @@ export class ReaderService {
     );
   }
 
+  /**
+   * @description Create a new membership for a user if not having one,
+   * or update if already present.
+   */
   upsertFtcMember(data: FtcMemberForm): Observable<Membership> {
     return this.http.post<Membership>(
       '/api/memberships',
@@ -90,6 +94,9 @@ export class ReaderService {
     );
   }
 
+  /**
+   * @description Delete a membership.
+   */
   deleteMember(id: string): Observable<boolean> {
     return this.http.delete<boolean>(
       `/api/memberships/${id}`,
@@ -101,7 +108,10 @@ export class ReaderService {
   }
 
 
-
+  /**
+   * @description Show a list of Apple IAP subscription.
+   * @param p - Pagination parameters.
+   */
   listIAP(p: Paging): Observable<IAPSubs[]> {
     return this.http.get<IAPSubs[]>(`/api/iap`, {
       params: pagingParams(p)
@@ -109,16 +119,30 @@ export class ReaderService {
   }
 
   refreshIAP(originalTxId: string): Observable<IAPSubs> {
-    return this.http.patch<IAPSubs>(`/api/iap/${originalTxId}`, null)
+    return this.http.patch<IAPSubs>(`/api/iap/${originalTxId}`, null);
   }
 
+  loadIAPMember(origTxId): Observable<Membership> {
+    return this.http.get<Membership>(`/api/iap/${origTxId}`);
+  }
+
+  /**
+   * @description Link an IAP subscription to an ftc account.
+   * @param ftcId - the ftc user id
+   * @param to - the form data to collect original transaction id.
+   */
   linkIAP(ftcId: string, to: IAPForm): Observable<Membership> {
-    return this.http.patch<Membership>(`/api/memberships/${ftcId}/apple`, to);
+    return this.http.put<Membership>(`/api/iap/${to.originalTxId}/link`, {
+      ftcId,
+    });
   }
 
   unlinkIAP(ftcId: string, from: IAPForm): Observable<boolean> {
-    return this.http.delete<boolean>(`/api/memberships/${ftcId}/apple`, {
-      observe: 'response'
+    return this.http.delete<boolean>(`/api/iap/${from.originalTxId}/link`, {
+      observe: 'response',
+      params: {
+        ftc_id: ftcId,
+      }
     })
     .pipe(switchMap(resp => of(resp.status === 204)));
   }

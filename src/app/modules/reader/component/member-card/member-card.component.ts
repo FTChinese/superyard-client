@@ -8,6 +8,7 @@ import { ReaderService } from '../../service/reader.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RequestError } from 'src/app/data/schema/request-result';
 import { ToastService } from 'src/app/shared/service/toast.service';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-member-card',
@@ -116,11 +117,17 @@ export class MemberCardComponent implements OnInit {
     this.modal.open(this.idDelMember);
   }
 
+  /**
+   * @description handle membership upated event from child component.
+   */
   onMemberUpdated(m: Membership) {
     this.account.membership = m;
     this.modal.close();
   }
 
+  /**
+   * @description Delete FTC member.
+   */
   onDeleteMember() {
     this.progress.start();
 
@@ -143,6 +150,45 @@ export class MemberCardComponent implements OnInit {
   }
 
   onRefreshIAP() {
+    this.progress.start();
+    this.readerService
+      .refreshIAP(this.account.membership.appleSubsId)
+      .pipe(switchMap(subs => {
+        return this.readerService.loadIAPMember(subs.originalTransactionId);
+      }))
+      .subscribe({
+        next: m => {
+          this.progress.stop();
+          this.account.membership = m;
+        },
+        error: (err: HttpErrorResponse) => {
+          this.progress.stop();
+          const reqErr = new RequestError(err);
+          this.toast.error(reqErr.message);
+        }
+      });
+  }
 
+  onUnlinkIAP() {
+    this.progress.start();
+
+    this.readerService.unlinkIAP(this.account.ftcId, {
+      originalTxId: this.account.membership.appleSubsId
+    })
+    .subscribe({
+      next: ok => {
+        this.progress.stop();
+        if (ok) {
+          this.account.membership = zeroMember();
+        } else {
+          this.toast.error('Unlinking failed');
+        }
+      },
+      error: (err: HttpErrorResponse) => {
+        this.progress.stop();
+        const reqErr = new RequestError(err);
+        this.toast.error(reqErr.message);
+      }
+    });
   }
 }

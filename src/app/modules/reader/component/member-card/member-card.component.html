@@ -142,8 +142,7 @@
           title="Link IAP"></app-modal-header>
 
         <div class="modal-body">
-          <p>Enter apple in-app-purchase original transaction id to link it to this account. If an original transaction id already exists, change it to another one will link this account to another IAP.</p>
-          <p class="text-danger">Be careful when you perform this action. Ideally you should never touch this part as the linking the should done on user's devices.</p>
+          <p>Enter apple in-app-purchase original transaction id to link it to this account. </p>
           <app-iap-form
             (succeeded)="onMemberUpdated($event)"
             [account]="account"></app-iap-form>
