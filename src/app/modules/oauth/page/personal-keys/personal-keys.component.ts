@@ -8,7 +8,7 @@ import { OAuthService } from 'src/app/data/service/oauth.service';
 import { ModalService } from 'src/app/shared/service/modal.service';
 import { ProgressService } from 'src/app/shared/service/progress.service';
 import { ToastService } from 'src/app/shared/service/toast.service';
-import { getPaging, Paged, Paging } from 'src/app/shared/widget/paging';
+import { buildPrevNext, getPaging, Paging, PrevNextLink } from 'src/app/shared/widget/paging';
 
 @Component({
   selector: 'app-personal-keys',
@@ -19,7 +19,7 @@ export class PersonalKeysComponent implements OnInit {
 
   keys: AccessToken[];
   private paging: Paging;
-  paged: Paged;
+  prevNext: PrevNextLink;
 
   get keyFormOpend(): boolean {
     return this.modal.on && this.modal.id === 'key';
@@ -50,10 +50,10 @@ export class PersonalKeysComponent implements OnInit {
         this.progress.stop();
 
         this.keys = keys;
-        this.paged = {
-          ...this.paging,
-          count: keys.length,
-        }
+        this.prevNext = buildPrevNext(
+          this.paging,
+          keys.length,
+        );
       },
       error: (err: HttpErrorResponse) => {
         this.progress.stop();

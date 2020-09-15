@@ -14,7 +14,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let s of subs">
+    <tr *ngFor="let s of subs.data">
       <td>
         {{s.environment}}
       </td>
@@ -52,5 +52,5 @@
 </table>
 
 <app-prev-next
-  *ngIf="paged"
-  [paged]="paged"></app-prev-next>
+  *ngIf="prevNext"
+  [link]="prevNext"></app-prev-next>

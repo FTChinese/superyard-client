@@ -6,25 +6,48 @@ export interface Paging {
   perPage: number;
 }
 
-export type Paged = Paging & {
-  count: number;
+export interface PrevNextLink {
+  prev?: {
+    page: number;
+  };
+  next?: {
+    page: number;
+  };
+}
+
+export function buildPrevNext(p: Paging, actualItem: number): PrevNextLink {
+  return {
+    // If current page number is 1, do not show the previous button;
+    // If actual array length is 0, do not show previous button.
+    prev: (p.page === 1 || actualItem === 0)
+      ? null
+      : {
+        page: p.page - 1
+      },
+    // If no item fetched, or total item is less than limit per page, do not show the next button.
+    next: (actualItem === 0 || actualItem < p.perPage)
+      ? null
+      : {
+        page: p.page + 1
+      }
+  };
 }
 
 /**
  * Build a Paging type from query parameter.
- * A page has 10 item by default. Current page is aquired from query parameter
+ * A page has 10 item by default. Current page is acquired from query parameter
  * `page`.
  * If the value of `page` is not a number, it is set to 1.
  */
 export function getPaging(params: ParamMap, perPage: number = 10): Paging {
   return {
-    page: Number.parseInt(params.get('page')) || 1,
+    page: Number.parseInt(params.get('page'), 10) || 1,
     perPage,
-  }
+  };
 }
 
 /**
- * @description Build the pagination query parameters.
+ * @description Build the pagination query parameters for a request.
  */
 export function pagingParams(p: Paging): HttpParams {
   return new HttpParams()

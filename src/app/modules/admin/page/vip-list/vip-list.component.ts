@@ -9,7 +9,7 @@ import { ModalService } from 'src/app/shared/service/modal.service';
 import { ProgressService } from 'src/app/shared/service/progress.service';
 import { ToastService } from 'src/app/shared/service/toast.service';
 import { DynamicControl, InputGroupControl } from 'src/app/shared/widget/control';
-import { getPaging, Paged, Paging } from 'src/app/shared/widget/paging';
+import { buildPrevNext, getPaging, Paging, PrevNextLink } from 'src/app/shared/widget/paging';
 import { AdminService } from '../../service/admin.service';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
@@ -28,7 +28,7 @@ export class VipListComponent implements OnInit {
 
   vips: FtcAccount[];
   private paging: Paging;
-  paged: Paged;
+  prevNext: PrevNextLink;
 
   revokeIndex: number;
   warning: string;
@@ -84,10 +84,7 @@ export class VipListComponent implements OnInit {
       next: vips => {
         this.progress.stop();
         this.vips = vips;
-        this.paged = {
-          ...this.paging,
-          count: vips.length,
-        };
+        this.prevNext = buildPrevNext(this.paging, vips.length);
       },
       error: (err: HttpErrorResponse) => {
         this.progress.stop();

@@ -8,7 +8,7 @@ import { ModalService } from 'src/app/shared/service/modal.service';
 import { ProgressService } from 'src/app/shared/service/progress.service';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
-import { getPaging, Paged, Paging } from 'src/app/shared/widget/paging';
+import { buildPrevNext, getPaging, Paging, PrevNextLink } from 'src/app/shared/widget/paging';
 
 @Component({
   selector: 'app-app-list',
@@ -20,7 +20,7 @@ export class AppListComponent implements OnInit {
   apps: OAuthApp[];
 
   private paging: Paging;
-  paged: Paged;
+  prevNext: PrevNextLink;
 
   constructor(
     private oauthService: OAuthService,
@@ -47,10 +47,8 @@ export class AppListComponent implements OnInit {
 
         console.log(apps);
         this.apps = apps;
-        this.paged = {
-          ...this.paging,
-          count: apps.length,
-        };
+        this.prevNext = buildPrevNext(this.paging
+          , apps.length);
       },
       error: (err: HttpErrorResponse) => {
         this.progress.stop();

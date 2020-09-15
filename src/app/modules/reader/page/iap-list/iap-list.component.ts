@@ -1,13 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { sub } from 'date-fns';
 import { switchMap } from 'rxjs/operators';
-import { IAPSubs } from 'src/app/data/schema/iap';
+import { IAPSubs, IAPSubsList } from 'src/app/data/schema/iap';
 import { RequestError } from 'src/app/data/schema/request-result';
 import { ProgressService } from 'src/app/shared/service/progress.service';
 import { ToastService } from 'src/app/shared/service/toast.service';
-import { getPaging, Paged, Paging } from 'src/app/shared/widget/paging';
+import { buildPrevNext, getPaging, Paging, PrevNextLink } from 'src/app/shared/widget/paging';
 import { ReaderService } from '../../service/reader.service';
 
 @Component({
@@ -17,9 +16,9 @@ import { ReaderService } from '../../service/reader.service';
 })
 export class IapListComponent implements OnInit {
 
-  subs: IAPSubs[];
+  subs: IAPSubsList;
   private paging: Paging;
-  paged: Paged;
+  prevNext: PrevNextLink;
 
   constructor(
     private progress: ProgressService,
@@ -46,10 +45,7 @@ export class IapListComponent implements OnInit {
         this.progress.stop();
         this.subs = subs;
 
-        this.paged = {
-          ...this.paging,
-          count: subs.length
-        }
+        this.prevNext = buildPrevNext(this.paging, subs.data.length);
       },
       error: (err: HttpErrorResponse) => {
         this.progress.stop();

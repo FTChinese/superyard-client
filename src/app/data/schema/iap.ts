@@ -13,3 +13,10 @@ export interface IAPSubs {
   createdUtc: string | null;
   updatedUtc: string | null;
 }
+
+export interface IAPSubsList {
+  total: number;
+  page: 1;
+  limit: 20;
+  data: IAPSubs[];
+}

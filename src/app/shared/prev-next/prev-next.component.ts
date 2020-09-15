@@ -1,9 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Paged, Paging } from '../widget/paging';
-
-interface PagingParam {
-  page: number;
-}
+import { PrevNextLink } from '../widget/paging';
 
 @Component({
   selector: 'app-prev-next',
@@ -12,49 +8,11 @@ interface PagingParam {
 })
 export class PrevNextComponent implements OnInit {
 
-  @Input() paged: Paged;
-
-  get previous(): PagingParam | null {
-    if (!this.paged) {
-      return null
-    }
-
-    if (this.paged.page === 1) {
-      return null;
-    }
-
-    if (this.paged.count === 0) {
-      return null;
-    }
-
-    return {
-      page: this.paged.page - 1,
-    };
-  }
-
-  get next(): PagingParam | null {
-    if (!this.paged) {
-      return null;
-    }
-
-    if (this.paged.count === 0) {
-      return null;
-    }
-
-    if (this.paged.count < this.paged.perPage) {
-      return null;
-    }
-
-    return {
-      page: this.paged.page + 1,
-    };
-  }
+  @Input() link: PrevNextLink;
 
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.previous)
-    console.log(this.next)
   }
 
 }

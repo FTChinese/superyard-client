@@ -5,12 +5,12 @@ import { SandboxService } from '../../service/sandbox.service';
 import { FtcAccount } from 'src/app/data/schema/reader';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
-import { getPaging, Paged, Paging } from 'src/app/shared/widget/paging';
+import { buildPrevNext, getPaging, Paging, PrevNextLink } from 'src/app/shared/widget/paging';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RequestError } from 'src/app/data/schema/request-result';
 import { ModalService } from 'src/app/shared/service/modal.service';
-import { DynamicControl, InputControl, InputGroupControl } from 'src/app/shared/widget/control';
-import { Validators, FormGroup } from '@angular/forms';
+import { DynamicControl, InputGroupControl } from 'src/app/shared/widget/control';
+import { Validators } from '@angular/forms';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
 import { SandboxUserForm, pwControl, testAccountSuffix } from '../../schema/sandbox-form';
@@ -26,7 +26,7 @@ export class SandboxComponent implements OnInit {
   users: FtcAccount[];
 
   private paging: Paging;
-  paged: Paged;
+  prevNext: PrevNextLink;
 
   controls: DynamicControl[] = [
     new InputGroupControl({
@@ -72,10 +72,7 @@ export class SandboxComponent implements OnInit {
 
         this.progress.stop();
         this.users = users;
-        this.paged = {
-          ...this.paging,
-          count: users.length,
-        };
+        this.prevNext = buildPrevNext(this.paging, users.length);
       },
       error: (err: HttpErrorResponse) => {
         this.progress.stop();

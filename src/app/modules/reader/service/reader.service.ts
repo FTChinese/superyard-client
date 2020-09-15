@@ -9,7 +9,7 @@ import { switchMap } from 'rxjs/operators';
 import { FtcMemberForm, FtcNewMemberReq } from '../schema/ftc-form';
 import { AccountKind } from 'src/app/data/schema/enum';
 import { Paging, pagingParams } from 'src/app/shared/widget/paging';
-import { IAPSubs } from 'src/app/data/schema/iap';
+import { IAPSubs, IAPSubsList } from 'src/app/data/schema/iap';
 import { IAPForm } from '../schema/iap-form';
 
 @Injectable({
@@ -116,8 +116,8 @@ export class ReaderService {
    * @description Show a list of Apple IAP subscription.
    * @param p - Pagination parameters.
    */
-  listIAP(p: Paging): Observable<IAPSubs[]> {
-    return this.http.get<IAPSubs[]>(`/api/iap`, {
+  listIAP(p: Paging): Observable<IAPSubsList> {
+    return this.http.get<IAPSubsList>(`/api/iap`, {
       params: pagingParams(p)
     });
   }
