@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { Membership } from 'src/app/data/schema/membership';
+import { isMember, Membership } from 'src/app/data/schema/membership';
 import { DynamicControl, DropdownControl, InputControl } from 'src/app/shared/widget/control';
 import { Validators } from '@angular/forms';
 import { tierOpts, paymentMethodOpts, Tier, Cycle } from 'src/app/data/schema/enum';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
-import { FtcMemberForm, buildCycleDropdown } from '../../schema/sandbox-form';
+import { FtcMemberForm, buildCycleDropdown, FtcNewMemberReq } from '../../schema/ftc-form';
 import { ReaderService } from '../../service/reader.service';
 import { ToastService } from 'src/app/shared/service/toast.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -86,18 +86,46 @@ export class FtcFormComponent implements OnInit {
       });
 
     this.formService.formSubmitted$.subscribe(data => {
+      console.log('Ftc membership form: %s', data);
+
       const formData: FtcMemberForm = JSON.parse(data);
-      formData.ftcId = this.account.ftcId;
-      formData.unionId = this.account.unionId;
 
-      console.log('Updating membership: %o', formData);
+      if (isMember(this.account.membership)) {
+        this.update(formData);
+      } else {
 
-      this.upsert(formData);
+        this.create(formData);
+      }
+
     });
   }
 
-  private upsert(form: FtcMemberForm) {
-    this.readerService.upsertFtcMember(form)
+  private update(form: FtcMemberForm) {
+    this.readerService.updateFtcMember(
+      this.account.ftcId || this.account.unionId,
+      form
+    )
+    .subscribe({
+      next: m => {
+        this.toast.info('Membership created!');
+        this.formService.enable(true);
+        this.succeeded.emit(m);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(err);
+
+        const reqErr = new RequestError(err);
+        this.formService.sendError(reqErr);
+      }
+    });
+  }
+
+  private create(form: FtcMemberForm) {
+    this.readerService.createFtcMember({
+        ...form,
+        ftcId: this.account.ftcId,
+        unionId: this.account.unionId,
+      })
       .subscribe({
         next: m => {
           this.toast.info('Modification succeeded');

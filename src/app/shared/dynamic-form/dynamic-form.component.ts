@@ -78,9 +78,17 @@ export class DynamicFormComponent implements OnInit {
     // Use the Unprocessable#field to find which field goes wrong.
     // Use the Unprocessable#code as ValidationErrors' key,
     // and API error response message as fallback error message.
-    this.form.get(err.unprocessable.field).setErrors({
-      [err.unprocessable.code]: err.message
-    });
+    this.form.get(err.unprocessable.field);
+
+    const ctrl = this.form.get(err.unprocessable.field);
+    if (ctrl) {
+      ctrl.setErrors({
+        [err.unprocessable.code]: err.message
+      });
+    } else {
+      // The error might not be caused invalid form data.
+      this.alert = Alert.danger(err.message);
+    }
   }
 
   onDismissAlert() {

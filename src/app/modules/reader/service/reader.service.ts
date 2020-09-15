@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, ObservableLike, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { JoinedAccount, ReaderAccount, IFtcProfile, IActivity, IWxProfile, IWxLogin } from 'src/app/data/schema/reader';
 import { Membership } from 'src/app/data/schema/membership';
 import { Order } from 'src/app/data/schema/order';
 import { ReaderSearchParam } from '../../../data/schema/form-data';
 import { switchMap } from 'rxjs/operators';
-import { FtcMemberForm } from '../schema/sandbox-form';
+import { FtcMemberForm, FtcNewMemberReq } from '../schema/ftc-form';
 import { AccountKind } from 'src/app/data/schema/enum';
 import { Paging, pagingParams } from 'src/app/shared/widget/paging';
 import { IAPSubs } from 'src/app/data/schema/iap';
@@ -87,19 +87,23 @@ export class ReaderService {
    * @description Create a new membership for a user if not having one,
    * or update if already present.
    */
-  upsertFtcMember(data: FtcMemberForm): Observable<Membership> {
+  createFtcMember(data: FtcNewMemberReq): Observable<Membership> {
     return this.http.post<Membership>(
       '/api/memberships',
       data
     );
   }
 
+  updateFtcMember(compoundID: string, data: FtcMemberForm): Observable<Membership> {
+    return this.http.patch<Membership>(`/api/memberships/${compoundID}`, data);
+  }
+
   /**
    * @description Delete a membership.
    */
-  deleteMember(id: string): Observable<boolean> {
+  deleteFtcMember(compoundID: string): Observable<boolean> {
     return this.http.delete<boolean>(
-      `/api/memberships/${id}`,
+      `/api/memberships/${compoundID}`,
       {
         observe: 'response'
       }

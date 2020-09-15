@@ -131,7 +131,7 @@ export class MemberCardComponent implements OnInit {
   onDeleteMember() {
     this.progress.start();
 
-    this.readerService.deleteMember(this.member.compoundId)
+    this.readerService.deleteFtcMember(this.member.compoundId)
       .subscribe({
         next: ok => {
           this.progress.stop();
