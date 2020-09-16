@@ -1,6 +1,6 @@
 # SuperyardClient
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.4.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.1.
 
 ## Versioning
 
@@ -9,6 +9,12 @@ The version is kept in sync with [Superyard](https://github.com/FTChinese/supery
 ## Template Inheritance
 
 It seems Angular does not have the concept of template inheritance as the serve-side jinja2-linke template engines. I'm using nested `RouteOutlet` to acheive the same result. See this article [How to reuse common layouts in Angular using Router](https://medium.com/angular-in-depth/angular-routing-reusing-common-layout-for-pages-from-different-modules-440a23f86b57)
+
+## Issues
+
+* Executing ts file with ts-node.
+
+Use `--skip-project` to skip loading tsconfig. Angular's configuration does not work on backend.
 
 ---
 
