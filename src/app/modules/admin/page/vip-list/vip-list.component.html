@@ -1,12 +1,14 @@
 <div class="row justify-content-center">
-  <div class="col-md-12 col-lg-8">
+  <div class="col-md-12 col-lg-8"
+    *ngIf="vips">
 
     <div class="d-flex justify-content-between">
       <h2>FTC VIPs</h2>
       <button class="btn btn-primary align-self-center"
         (click)="showGrant()">Grant</button>
     </div>
-    <table class="table table-striped" *ngIf="vips">
+
+    <table class="table table-striped" >
       <thead>
         <tr>
           <th>邮箱</th>
@@ -15,7 +17,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let v of vips; let i=index">
+        <tr *ngFor="let v of vips.data; let i=index">
           <td>{{v.email}}</td>
           <td>{{v.vip}}</td>
           <td class="text-right">
@@ -28,7 +30,8 @@
 
     <app-prev-next
       *ngIf="prevNext"
-      [link]="prevNext"></app-prev-next>
+      [paged]="prevNext"
+      (navigated)="onNavigate()"></app-prev-next>
   </div>
 
 </div>

@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { FtcAccount, ReaderAccount } from 'src/app/data/schema/reader';
 import { switchMap } from 'rxjs/operators';
 import { Paging, pagingParams } from 'src/app/shared/widget/paging';
+import { PagedData } from 'src/app/data/schema/paged-data';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,8 @@ export class SandboxService {
     );
   }
 
-  listUsers(p: Paging): Observable<FtcAccount[]> {
-    return this.http.get<FtcAccount[]>(this.basePath, {
+  listUsers(p: Paging): Observable<PagedData<FtcAccount>> {
+    return this.http.get<PagedData<FtcAccount>>(this.basePath, {
       params: pagingParams(p)
     });
   }
@@ -51,21 +52,4 @@ export class SandboxService {
     )
     .pipe(switchMap(resp => of(resp.status === 204)));
   }
-
-  // updateMembership(id: string, data: SandboxMemberForm): Observable<Membership> {
-  //   return this.http.patch<Membership>(
-  //     `${this.basePath}/${id}/membership`,
-  //     data
-  //   );
-  // }
-
-  // deleteMembership(id: string): Observable<boolean> {
-  //   return this.http.delete<boolean>(
-  //     `${this.basePath}/${id}/membership`,
-  //     {
-  //       observe: 'response'
-  //     }
-  //   )
-  //   .pipe(switchMap(resp => of(resp.status === 204)));
-  // }
 }

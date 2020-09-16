@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { IAPSubs, IAPSubsList } from 'src/app/data/schema/iap';
+import { PagedData } from 'src/app/data/schema/paged-data';
 import { RequestError } from 'src/app/data/schema/request-result';
 import { ProgressService } from 'src/app/shared/service/progress.service';
 import { ToastService } from 'src/app/shared/service/toast.service';
@@ -16,8 +17,7 @@ import { ReaderService } from '../../service/reader.service';
 })
 export class IapListComponent implements OnInit {
 
-  subs: IAPSubsList;
-  private paging: Paging;
+  subs: PagedData<IAPSubs>;
   prevNext: PrevNextLink;
 
   constructor(
@@ -33,7 +33,6 @@ export class IapListComponent implements OnInit {
     this.route.queryParamMap.pipe(
       switchMap(params => {
         const paging = getPaging(params, 20);
-        this.paging = paging;
 
         return this.readerService.listIAP(paging);
       })
@@ -45,7 +44,7 @@ export class IapListComponent implements OnInit {
         this.progress.stop();
         this.subs = subs;
 
-        this.prevNext = buildPrevNext(this.paging, subs.data.length);
+        this.prevNext = buildPrevNext(subs);
       },
       error: (err: HttpErrorResponse) => {
         this.progress.stop();
@@ -57,4 +56,7 @@ export class IapListComponent implements OnInit {
     });
   }
 
+  onNavigate() {
+    this.progress.start();
+  }
 }

@@ -1,13 +1,17 @@
 <div class="d-flex justify-content-between">
   <div>
-    <a *ngIf="link.prev"
+    <a *ngIf="paged.prev"
       routerLink="./"
-      [queryParams]="link.prev">Previous</a>
+      [queryParams]="paged.prev"
+      (click)="navigate()">Previous</a>
   </div>
 
   <div>
-    <a *ngIf="link.next"
+    <a *ngIf="paged.next"
       routerLink="./"
-      [queryParams]="link.next">Next</a>
+      [queryParams]="paged.next"
+      (click)="navigate()">Next</a>
   </div>
 </div>
+
+<div class="text-center mt-3">Total items {{paged.total}}. Page {{paged.page}}/{{totalPages}}</div>

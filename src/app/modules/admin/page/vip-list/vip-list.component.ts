@@ -14,6 +14,7 @@ import { AdminService } from '../../service/admin.service';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
 import { GrantForm, vipEmailSuffix } from '../../schema/form-data';
+import { PagedData } from 'src/app/data/schema/paged-data';
 
 @Component({
   selector: 'app-vip-list',
@@ -26,8 +27,7 @@ export class VipListComponent implements OnInit {
   private idRevoke = 'r';
   private idGrant = 'g';
 
-  vips: FtcAccount[];
-  private paging: Paging;
+  vips: PagedData<FtcAccount>;
   prevNext: PrevNextLink;
 
   revokeIndex: number;
@@ -68,15 +68,13 @@ export class VipListComponent implements OnInit {
     private modal: ModalService,
     private formService: FormService
   ) {
-    progress.start();
+    this.progress.start();
   }
 
   ngOnInit(): void {
     this.route.queryParamMap.pipe(
       switchMap(params => {
         const paging = getPaging(params, 20);
-        this.paging = paging;
-
         return this.adminService.listVip(paging);
       })
     )
@@ -84,7 +82,7 @@ export class VipListComponent implements OnInit {
       next: vips => {
         this.progress.stop();
         this.vips = vips;
-        this.prevNext = buildPrevNext(this.paging, vips.length);
+        this.prevNext = buildPrevNext(vips);
       },
       error: (err: HttpErrorResponse) => {
         this.progress.stop();
@@ -109,7 +107,7 @@ export class VipListComponent implements OnInit {
       const formData: GrantForm = JSON.parse(data);
       const email = formData.email + vipEmailSuffix;
 
-      if (this.vips.findIndex(v => v.email === email) > -1) {
+      if (this.vips.data.findIndex(v => v.email === email) > -1) {
         this.formService.enable(true);
         this.warning = `${email} is already granted vip`;
         return;
@@ -117,6 +115,10 @@ export class VipListComponent implements OnInit {
 
       this.onGrant(email);
     });
+  }
+
+  onNavigate() {
+    this.progress.start();
   }
 
   showRevoke(i: number) {
@@ -154,7 +156,7 @@ export class VipListComponent implements OnInit {
   private grant(ftcId: string) {
     this.adminService.grantVip(ftcId).subscribe({
       next: a => {
-        this.vips.unshift(a);
+        this.vips.data.unshift(a);
         this.modal.close();
         this.formService.enable(true);
       },
@@ -183,7 +185,7 @@ export class VipListComponent implements OnInit {
     this.adminService.revokeVip(a.ftcId).subscribe({
       next: () => {
         this.progress.stop();
-        this.vips.splice(this.revokeIndex, 1);
+        this.vips.data.splice(this.revokeIndex, 1);
         this.revokeIndex = undefined;
         this.modal.close();
       },

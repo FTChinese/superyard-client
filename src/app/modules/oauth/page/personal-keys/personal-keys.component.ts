@@ -8,7 +8,6 @@ import { OAuthService } from 'src/app/data/service/oauth.service';
 import { ModalService } from 'src/app/shared/service/modal.service';
 import { ProgressService } from 'src/app/shared/service/progress.service';
 import { ToastService } from 'src/app/shared/service/toast.service';
-import { buildPrevNext, getPaging, Paging, PrevNextLink } from 'src/app/shared/widget/paging';
 
 @Component({
   selector: 'app-personal-keys',
@@ -18,8 +17,6 @@ import { buildPrevNext, getPaging, Paging, PrevNextLink } from 'src/app/shared/w
 export class PersonalKeysComponent implements OnInit {
 
   keys: AccessToken[];
-  private paging: Paging;
-  prevNext: PrevNextLink;
 
   get keyFormOpened(): boolean {
     return this.modal.on && this.modal.id === 'key';
@@ -39,10 +36,8 @@ export class PersonalKeysComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParamMap.pipe(
       switchMap(params => {
-        const paging = getPaging(params);
-        this.paging = paging;
 
-        return this.oauthService.listPersonalKeys(paging);
+        return this.oauthService.listPersonalKeys();
       })
     )
     .subscribe({
@@ -50,10 +45,6 @@ export class PersonalKeysComponent implements OnInit {
         this.progress.stop();
 
         this.keys = keys;
-        this.prevNext = buildPrevNext(
-          this.paging,
-          keys.length,
-        );
       },
       error: (err: HttpErrorResponse) => {
         this.progress.stop();

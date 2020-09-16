@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PrevNextLink } from '../widget/paging';
 
 @Component({
@@ -8,11 +8,18 @@ import { PrevNextLink } from '../widget/paging';
 })
 export class PrevNextComponent implements OnInit {
 
-  @Input() link: PrevNextLink;
+  @Input() paged: PrevNextLink;
+  @Output() navigated = new EventEmitter();
 
+  get totalPages(): number {
+    return Math.ceil(this.paged.total / this.paged.limit);
+  }
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  navigate() {
+    this.navigated.emit();
+  }
 }

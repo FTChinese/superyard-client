@@ -53,4 +53,5 @@
 
 <app-prev-next
   *ngIf="prevNext"
-  [link]="prevNext"></app-prev-next>
+  [paged]="prevNext"
+  (navigated)="onNavigate()"></app-prev-next>

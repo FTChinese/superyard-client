@@ -8,7 +8,7 @@
 
     <table class="table">
       <tbody>
-        <tr *ngFor="let user of users">
+        <tr *ngFor="let user of users.data">
           <td>
             <a [routerLink]="user.ftcId">{{user.email}}</a>
           </td>
@@ -18,7 +18,8 @@
 
     <app-prev-next
       *ngIf="prevNext"
-      [link]="prevNext"></app-prev-next>
+      [paged]="prevNext"
+      (navigated)="onNavigate()"></app-prev-next>
   </div>
 
   <div class="col-md-12 col-lg-4">

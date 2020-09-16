@@ -1,5 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { ParamMap } from '@angular/router';
+import { PagedData } from 'src/app/data/schema/paged-data';
 
 export interface Paging {
   page: number;
@@ -13,9 +14,14 @@ export interface PrevNextLink {
   next?: {
     page: number;
   };
+  total: number; // Total items in db.
+  page: number; // Current page number.
+  limit: number; // Item should be shown per page.
 }
 
-export function buildPrevNext(p: Paging, actualItem: number): PrevNextLink {
+export function buildPrevNext<T>(p: PagedData<T>): PrevNextLink {
+  const actualItem = p.data.length;
+
   return {
     // If current page number is 1, do not show the previous button;
     // If actual array length is 0, do not show previous button.
@@ -25,11 +31,14 @@ export function buildPrevNext(p: Paging, actualItem: number): PrevNextLink {
         page: p.page - 1
       },
     // If no item fetched, or total item is less than limit per page, do not show the next button.
-    next: (actualItem === 0 || actualItem < p.perPage)
+    next: (actualItem === 0 || actualItem < p.limit)
       ? null
       : {
         page: p.page + 1
-      }
+      },
+    total: p.total,
+    page: p.page,
+    limit: p.limit,
   };
 }
 

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { FunctionCall } from '@angular/compiler';
 import { Injectable } from '@angular/core';
-import { Observable, ObservableLike } from 'rxjs';
+import { Observable, } from 'rxjs';
+import { PagedData } from 'src/app/data/schema/paged-data';
 import { FtcAccount } from 'src/app/data/schema/reader';
 import { StaffAccount } from 'src/app/data/schema/staff';
 import { Paging, pagingParams } from 'src/app/shared/widget/paging';
@@ -23,8 +23,8 @@ export class AdminService {
     });
   }
 
-  listVip(p: Paging): Observable<FtcAccount[]> {
-    return this.http.get<FtcAccount[]>(this.basePath + '/vip', {
+  listVip(p: Paging): Observable<PagedData<FtcAccount>> {
+    return this.http.get<PagedData<FtcAccount>>(this.basePath + '/vip', {
       params: pagingParams(p)
     });
   }

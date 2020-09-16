@@ -11,12 +11,13 @@
       </div>
 
       <app-app-item
-        *ngFor="let app of apps"
+        *ngFor="let app of apps.data"
         [app]="app"></app-app-item>
 
       <app-prev-next
         *ngIf="prevNext"
-        [link]="prevNext"></app-prev-next>
+        [paged]="prevNext"
+        (navigated)="onNavigate()"></app-prev-next>
     </ng-container>
 
   </div>

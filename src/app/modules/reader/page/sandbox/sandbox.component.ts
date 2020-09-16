@@ -14,6 +14,7 @@ import { Validators } from '@angular/forms';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
 import { SandboxUserForm, pwControl, testAccountSuffix } from '../../schema/sandbox-form';
+import { PagedData } from 'src/app/data/schema/paged-data';
 
 @Component({
   selector: 'app-sandbox',
@@ -23,9 +24,7 @@ import { SandboxUserForm, pwControl, testAccountSuffix } from '../../schema/sand
 })
 export class SandboxComponent implements OnInit {
 
-  users: FtcAccount[];
-
-  private paging: Paging;
+  users: PagedData<FtcAccount>;
   prevNext: PrevNextLink;
 
   controls: DynamicControl[] = [
@@ -61,7 +60,6 @@ export class SandboxComponent implements OnInit {
     this.route.queryParamMap.pipe(
       switchMap(params => {
         const paging = getPaging(params);
-        this.paging = paging;
 
         return this.sandboxService.listUsers(paging);
       })
@@ -72,7 +70,7 @@ export class SandboxComponent implements OnInit {
 
         this.progress.stop();
         this.users = users;
-        this.prevNext = buildPrevNext(this.paging, users.length);
+        this.prevNext = buildPrevNext(users);
       },
       error: (err: HttpErrorResponse) => {
         this.progress.stop();
@@ -101,6 +99,10 @@ export class SandboxComponent implements OnInit {
     });
   }
 
+  onNavigate() {
+    this.progress.start();
+  }
+
   modalOn() {
     this.modal.open();
   }
@@ -109,7 +111,7 @@ export class SandboxComponent implements OnInit {
     this.sandboxService.createUser(form)
       .subscribe({
         next: account => {
-          this.users.unshift(account);
+          this.users.data.unshift(account);
           this.toast.info('Sandbox account created!');
           this.modal.close();
           this.formService.enable(true);

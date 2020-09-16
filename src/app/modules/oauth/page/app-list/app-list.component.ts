@@ -8,7 +8,8 @@ import { ModalService } from 'src/app/shared/service/modal.service';
 import { ProgressService } from 'src/app/shared/service/progress.service';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
-import { buildPrevNext, getPaging, Paging, PrevNextLink } from 'src/app/shared/widget/paging';
+import { buildPrevNext, getPaging, PrevNextLink } from 'src/app/shared/widget/paging';
+import { PagedData } from 'src/app/data/schema/paged-data';
 
 @Component({
   selector: 'app-app-list',
@@ -17,9 +18,7 @@ import { buildPrevNext, getPaging, Paging, PrevNextLink } from 'src/app/shared/w
 })
 export class AppListComponent implements OnInit {
 
-  apps: OAuthApp[];
-
-  private paging: Paging;
+  apps: PagedData<OAuthApp>;
   prevNext: PrevNextLink;
 
   constructor(
@@ -36,7 +35,6 @@ export class AppListComponent implements OnInit {
     this.route.queryParamMap.pipe(
       switchMap(params => {
         const paging = getPaging(params);
-        this.paging = paging;
 
         return this.oauthService.listApps(paging);
       })
@@ -47,8 +45,7 @@ export class AppListComponent implements OnInit {
 
         console.log(apps);
         this.apps = apps;
-        this.prevNext = buildPrevNext(this.paging
-          , apps.length);
+        this.prevNext = buildPrevNext(apps);
       },
       error: (err: HttpErrorResponse) => {
         this.progress.stop();
@@ -60,12 +57,15 @@ export class AppListComponent implements OnInit {
     });
   }
 
+  onNavigate() {
+    this.progress.start();
+  }
   showDialog() {
     this.modal.open();
   }
 
   onCreated(app: OAuthApp) {
     this.modal.close();
-    this.apps.unshift(app);
+    this.apps.data.unshift(app);
   }
 }
