@@ -10,7 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build-go": "ts-node --skip-project ./bin/build-go.ts",
-    "copy-static": "ts-node copyStaticAssets.ts",
+    "copy-static": "ts-node --skip-project copyStaticAssets.ts",
     "deploy-dev": "ng build && npm run build-go && npm run copy-static",
     "deploy": "ng build --prod && npm run build-go -- --prod && npm run copy-static -- --prod"
   },
