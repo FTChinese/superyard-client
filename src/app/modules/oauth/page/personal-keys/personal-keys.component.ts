@@ -21,7 +21,7 @@ export class PersonalKeysComponent implements OnInit {
   private paging: Paging;
   prevNext: PrevNextLink;
 
-  get keyFormOpend(): boolean {
+  get keyFormOpened(): boolean {
     return this.modal.on && this.modal.id === 'key';
   }
 

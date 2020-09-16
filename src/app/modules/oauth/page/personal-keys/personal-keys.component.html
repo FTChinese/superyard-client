@@ -13,7 +13,7 @@
         [tokens]="keys"></app-token-list>
 
       <app-prev-next
-        [paged]="paged"></app-prev-next>
+        [link]="prevNext"></app-prev-next>
     </ng-container>
   </div>
 
@@ -27,7 +27,7 @@
   </div>
 </div>
 
-<div *ngIf="keyFormOpend"
+<div *ngIf="keyFormOpened"
   class="modal fade show">
   <div class="modal-dialog">
     <div class="modal-content">
