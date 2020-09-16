@@ -1,6 +1,6 @@
 {
   "name": "superyard-client",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "scripts": {
     "postversion": "git push && git push --tags",
     "ng": "ng",
