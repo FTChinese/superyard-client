@@ -17,8 +17,8 @@ export class AdminService {
     private http: HttpClient
   ) { }
 
-  listStaff(p: Paging): Observable<StaffAccount[]> {
-    return this.http.get<StaffAccount[]>(this.basePath + '/staff', {
+  listStaff(p: Paging): Observable<PagedData<StaffAccount>> {
+    return this.http.get<PagedData<StaffAccount>>(this.basePath + '/staff', {
       params: pagingParams(p)
     });
   }

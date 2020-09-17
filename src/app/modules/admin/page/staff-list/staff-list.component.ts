@@ -2,12 +2,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
-import { SearchForm } from 'src/app/data/schema/form-data';
+import { PagedData } from 'src/app/data/schema/paged-data';
 import { RequestError } from 'src/app/data/schema/request-result';
 import { StaffAccount } from 'src/app/data/schema/staff';
 import { ProgressService } from 'src/app/shared/service/progress.service';
 import { ToastService } from 'src/app/shared/service/toast.service';
-import { getPaging, Paging } from 'src/app/shared/widget/paging';
+import { buildPrevNext, getPaging, Paging, PrevNextLink } from 'src/app/shared/widget/paging';
 import { AdminService } from '../../service/admin.service';
 
 @Component({
@@ -17,8 +17,8 @@ import { AdminService } from '../../service/admin.service';
 })
 export class StaffListComponent implements OnInit {
 
-  staff: StaffAccount[];
-  paging: Paging;
+  staffList: PagedData<StaffAccount>;
+  prevNext: PrevNextLink;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,22 +26,22 @@ export class StaffListComponent implements OnInit {
     private progress: ProgressService,
     private adminService: AdminService,
   ) {
-    progress.start
+    progress.start();
   }
 
   ngOnInit(): void {
     this.route.queryParamMap.pipe(
       switchMap(params => {
-        const paging = getPaging(params);
-        this.paging = paging;
 
-        return this.adminService.listStaff(paging);
+        return this.adminService.listStaff(getPaging(params));
       })
     )
     .subscribe({
-      next: staff => {
+      next: list => {
         this.progress.stop();
-        this.staff = staff;
+        this.staffList = list;
+
+        this.prevNext = buildPrevNext(list);
       },
       error: (err: HttpErrorResponse) => {
         this.progress.stop();
@@ -54,5 +54,9 @@ export class StaffListComponent implements OnInit {
 
   onKeyword(kw: string) {
 
+  }
+
+  onNavigate() {
+    this.progress.start();
   }
 }

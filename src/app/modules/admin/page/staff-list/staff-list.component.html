@@ -1,12 +1,12 @@
 <div class="row justify-content-center">
   <div class="col-md-12 col-lg-8">
 
-    <app-search-form
+    <!-- <app-search-form
       placeholder="User name"
       [disabled]=false
-      (submitted)="onKeyword($event)"></app-search-form>
+      (submitted)="onKeyword($event)"></app-search-form> -->
 
-    <table class="table table-striped" *ngIf="staff">
+    <table class="table table-striped" *ngIf="staffList">
       <thead>
         <tr>
           <th>用户名</th>
@@ -16,7 +16,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let s of staff">
+        <tr *ngFor="let s of staffList.data">
           <td><a [routerLink]="['./', s.id]">{{s.userName}}</a></td>
           <td>{{s.email}}</td>
           <td>{{s.isActive}}</td>
@@ -24,6 +24,11 @@
         </tr>
       </tbody>
     </table>
+
+    <app-prev-next
+      *ngIf="prevNext"
+      [paged]="prevNext"
+      (navigated)="onNavigate()"></app-prev-next>
   </div>
 
 </div>

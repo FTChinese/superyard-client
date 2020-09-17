@@ -8,7 +8,7 @@ import { RequestError } from 'src/app/data/schema/request-result';
 import { ModalService } from 'src/app/shared/service/modal.service';
 import { ProgressService } from 'src/app/shared/service/progress.service';
 import { ToastService } from 'src/app/shared/service/toast.service';
-import { DynamicControl, InputGroupControl } from 'src/app/shared/widget/control';
+import { DynamicControl, InputControl, InputGroupControl } from 'src/app/shared/widget/control';
 import { buildPrevNext, getPaging, Paging, PrevNextLink } from 'src/app/shared/widget/paging';
 import { AdminService } from '../../service/admin.service';
 import { Button } from 'src/app/shared/widget/button';
@@ -34,16 +34,15 @@ export class VipListComponent implements OnInit {
   warning: string;
 
   controls: DynamicControl[] = [
-    new InputGroupControl({
+    new InputControl({
       value: '',
       key: 'email',
       validators: [
         Validators.required,
+        Validators.email,
       ],
       label: 'Email *',
       type: 'text',
-      append: vipEmailSuffix,
-      desc: 'Only emails signed up with ftchinese.com are accepted'
     }),
   ];
 
@@ -92,20 +91,9 @@ export class VipListComponent implements OnInit {
       }
     });
 
-    // Forbid entering email domain part.
-    this.formService.formCreated$.subscribe(form => {
-      const ctrl = form.get('email');
-
-      ctrl.valueChanges.subscribe((v: string) => {
-        if (v.includes('@')) {
-          ctrl.setValue(v.split('@')[0]);
-        }
-      });
-    });
-
     this.formService.formSubmitted$.subscribe(data => {
       const formData: GrantForm = JSON.parse(data);
-      const email = formData.email + vipEmailSuffix;
+      const email = formData.email;
 
       if (this.vips.data.findIndex(v => v.email === email) > -1) {
         this.formService.enable(true);
