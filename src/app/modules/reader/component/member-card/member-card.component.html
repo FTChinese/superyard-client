@@ -69,7 +69,8 @@
                 (click)="showIAPForm()">Link</button>
 
               <button class="btn btn-danger"
-                [disabled]="!isIAP">Unlink</button>
+                [disabled]="!isIAP"
+                (click)="onUnlinkIAP()">Unlink</button>
             </div>
           </td>
         </tr>
