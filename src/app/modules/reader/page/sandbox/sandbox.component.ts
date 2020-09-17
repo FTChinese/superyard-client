@@ -5,7 +5,7 @@ import { SandboxService } from '../../service/sandbox.service';
 import { FtcAccount } from 'src/app/data/schema/reader';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
-import { buildPrevNext, getPaging, Paging, PrevNextLink } from 'src/app/shared/widget/paging';
+import { buildPrevNext, getPaging,  PrevNextLink } from 'src/app/shared/widget/paging';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RequestError } from 'src/app/data/schema/request-result';
 import { ModalService } from 'src/app/shared/service/modal.service';

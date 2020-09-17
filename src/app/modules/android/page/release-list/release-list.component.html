@@ -1,9 +1,13 @@
 <div class="row justify-content-center">
-  <div class="col-md-12 col-lg-9">
+  <div class="col-md-12 col-lg-9" *ngIf="list">
 
-    <h2>Released Versions</h2>
+    <div class="d-flex justify-content-between">
+      <h2>Released Versions</h2>
+      <a class="btn btn-primary align-self-center"
+        routerLink="./new">New</a>
+    </div>
 
-    <div class="pb-3" *ngFor="let release of releases">
+    <div class="pb-3" *ngFor="let release of list.data">
       <div class="release-header">
         <h3>
           <a [routerLink]="['./releases', release.versionName]">{{release.versionName}}</a>
@@ -15,16 +19,20 @@
 
       </div>
 
-      <details class="pt-2" open>
+      <details class="pt-2">
         <summary>
           <span>Download URL</span>
         </summary>
         <div class="pt-2">
-          <a class="" href="{{release.apkUrl}}">{{release.apkUrl}}</a>
+          <a href="{{release.apkUrl}}">{{release.apkUrl}}</a>
         </div>
 
       </details>
     </div>
+
+    <app-prev-next
+      [paged]="prevNext"
+      (navigated)="onNavigate()"></app-prev-next>
   </div>
 
 </div>

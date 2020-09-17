@@ -4,6 +4,8 @@ import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AndroidRelease } from '../schema/android';
 import { ReleaseForm } from '../schema/form-data';
+import { PagedData } from '../schema/paged-data';
+import { Paging, pagingParams } from 'src/app/shared/widget/paging';
 
 @Injectable({
   providedIn: 'root'
@@ -50,8 +52,10 @@ export class AndroidService {
   /**
    * @description Show all android releases.
    */
-  listReleases(): Observable<AndroidRelease[]> {
-    return this.http.get<AndroidRelease[]>('/api/android/releases');
+  listReleases(p: Paging): Observable<PagedData<AndroidRelease>> {
+    return this.http.get<PagedData<AndroidRelease>>('/api/android/releases', {
+      params: pagingParams(p)
+    });
   }
 
   loadRelease(tag: string): Observable<AndroidRelease> {

@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AndroidHomeComponent } from './page/android-home/android-home.component';
 import { CreateReleaseComponent } from './page/create-release/create-release.component';
+import { ReleaseListComponent } from './page/release-list/release-list.component';
 import { UpdateReleaseComponent } from './page/update-release/update-release.component';
 
 
 const routes: Routes = [
   {
     path: '',
-    component: AndroidHomeComponent,
+    component: ReleaseListComponent,
   },
   {
     path: 'releases/:tag',
