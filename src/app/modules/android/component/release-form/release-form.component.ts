@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, OnInit} from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 import { AndroidRelease } from 'src/app/data/schema/android';
 import { Validators } from '@angular/forms';
 import { DynamicControl, InputControl, TextareaControl } from 'src/app/shared/widget/control';
@@ -10,12 +10,9 @@ import { Button } from 'src/app/shared/widget/button';
   styleUrls: ['./release-form.component.scss'],
 })
 export class ReleaseFormComponent implements OnInit {
-  // tslint:disable-next-line:variable-name
-  private _release: AndroidRelease;
 
   @Input()
   set release(release: AndroidRelease) {
-    this._release = release;
 
     this.dynamicControls.forEach((ctrl, i) => {
       const v = release[ctrl.key];
@@ -23,10 +20,6 @@ export class ReleaseFormComponent implements OnInit {
         this.dynamicControls[i].value = v;
       }
     });
-  }
-
-  get release(): AndroidRelease {
-    return this._release;
   }
 
   dynamicControls: DynamicControl[] = [

@@ -74,15 +74,9 @@ export class NewProductComponent implements OnInit {
 
   private setControlError(err: RequestError) {
     if (!err.unprocessable) {
-      this.toast.error(err.message)
+      this.toast.error(err.message);
       return;
     }
-
-    // if (!err.unprocessable.field.startsWith("plans")) {
-    //   this.form.get(err.unprocessable.field).setErrors({
-    //     [err.unprocessable.code]: err.message
-    //   })
-    // }
 
     // For plans controls, unprocessable.field might be `plans.0.price`
     const path = err.unprocessable.field.split('.')
@@ -96,18 +90,18 @@ export class NewProductComponent implements OnInit {
   private getControl(path: string[]): AbstractControl {
     let curr: AbstractControl = this.form;
 
-    for (let item of path) {
+    for (const item of path) {
       console.log('Getting control %s', item);
 
-      const num = Number.parseInt(item)
+      const num = Number.parseInt(item, 10);
       if (Number.isNaN(num)) {
         curr = curr.get(item);
       } else {
-        curr = (curr as FormArray).at(num)
+        curr = (curr as FormArray).at(num);
       }
     }
 
-    return curr
+    return curr;
   }
 
   onRemovePrice(i: number) {
@@ -138,12 +132,12 @@ export class NewProductComponent implements OnInit {
           });
         },
         error: (err: HttpErrorResponse) => {
-          this.progress.start();
+          this.progress.stop();
           this.form.enable();
 
           const reqErr = new RequestError(err);
           this.setControlError(reqErr);
         }
-      })
+      });
   }
 }

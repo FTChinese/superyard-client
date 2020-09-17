@@ -1,14 +1,16 @@
-import { Component } from '@angular/core';
-import { switchMap } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
 import { AndroidRelease } from 'src/app/data/schema/android';
-import { Button } from 'src/app/shared/widget/button';
-import { ControlOptions } from 'src/app/shared/widget/control';
-import { Validators } from '@angular/forms';
 import { FormService } from 'src/app/shared/service/form.service';
-import { SearchForm, ReleaseForm } from 'src/app/data/schema/form-data';
+import { ReleaseForm } from '../../schema/release-form';
 import { AndroidService } from 'src/app/data/service/android.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RequestError } from 'src/app/data/schema/request-result';
+import { ProgressService } from 'src/app/shared/service/progress.service';
+import { ToastService } from 'src/app/shared/service/toast.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { buildReleaseControls } from '../../schema/release-form';
+import { Button } from 'src/app/shared/widget/button';
+import { DynamicControl } from 'src/app/shared/widget/control';
 
 @Component({
   selector: 'app-create-release',
@@ -16,78 +18,100 @@ import { RequestError } from 'src/app/data/schema/request-result';
   styleUrls: ['./create-release.component.scss'],
   providers: [FormService],
 })
-export class CreateReleaseComponent {
-
-  searchControl: ControlOptions = {
-    value: '',
-    key: 'keyword',
-    validators: [Validators.required, Validators.maxLength(64)],
-    placeholder: '1.0.0',
-    desc: ''
-  };
-
-  button: Button = Button
-    .primary()
-    .setName('Find');
+export class CreateReleaseComponent implements OnInit {
 
   release: AndroidRelease;
+
+  controls: DynamicControl[];
+  button: Button = Button.primary().setName('Save');
 
   constructor(
     private androidService: AndroidService,
     private formService: FormService,
+    readonly progress: ProgressService,
+    private toast: ToastService,
+    private route: ActivatedRoute,
+    private router: Router,
   ) {
+  }
 
-    // Watch search form.
-    this.formService.formSubmitted$.pipe(
-      switchMap(data => {
-        const search: SearchForm = JSON.parse(data);
-        console.log(search);
-        return this.androidService.ghRelease(search.keyword);
-      })
-    ).subscribe({
-      next: data => {
-        console.log(data);
-        this.release = data;
-      },
-      error: err => {
-        console.log(err);
-      }
+  ngOnInit() {
+    // release-form
+    this.formService.formSubmitted$.subscribe(data => {
+      const formData: ReleaseForm = JSON.parse(data);
+      console.log('Release data %o', formData);
+
+      this.create(formData);
     });
   }
 
-  // onSearch(control: AbstractControl) {
+  /**
+   * @description Handle search form.
+   * @param kw - version tag.
+   */
+  onSearch(kw: string) {
 
-  //   this.service.ghRelease(control.value)
-  //     .subscribe({
-  //       next: data => {
-  //         console.log(data);
-  //         this.release = data;
-  //       },
-  //       error: err => {
-  //         console.log(err);
-  //       }
-  //     });
-  // }
+    if (!kw.startsWith('v')) {
+      kw = '' + kw;
+    }
 
-  getLatestRelease() {
-    this.androidService.ghLatest()
+    this.progress.start();
+    this.androidService.ghRelease(kw)
       .subscribe({
-        next: data => this.release = data,
-        error: err => console.log(err),
+        next: data => {
+          console.log(data);
+          this.progress.stop();
+          // Show form.
+          this.release = data;
+
+          this.controls = buildReleaseControls(data);
+        },
+        error: err => {
+          this.progress.stop();
+          const reqErr = new RequestError(err);
+          console.log(err);
+
+          this.toast.error(reqErr.message);
+        }
       });
   }
 
-  onSubmit(release: ReleaseForm) {
-    console.log(release);
+  getLatestRelease() {
+    this.progress.start();
+
+    this.androidService.ghLatest()
+      .subscribe({
+        next: data => {
+          console.log(data);
+          this.progress.stop();
+          // Show form.
+          this.release = data;
+
+          this.controls = buildReleaseControls(data);
+        },
+        error: err => {
+          this.progress.stop();
+          const reqErr = new RequestError(err);
+          console.log(err);
+
+          this.toast.error(reqErr.message);
+        }
+      });
+  }
+
+  private create(release: ReleaseForm) {
     this.androidService.createRelease(release)
       .subscribe({
         next: ok => {
-          console.log(ok)
+          this.router.navigate(['../'], {
+            relativeTo: this.route,
+          });
         },
-        error: (errResp: HttpErrorResponse) => {
-          const err = new RequestError(errResp);
-
+        error: (err: HttpErrorResponse) => {
           console.log(err);
+          const reqErr = new RequestError(err);
+
+          this.formService.sendError(reqErr);
         },
       });
   }

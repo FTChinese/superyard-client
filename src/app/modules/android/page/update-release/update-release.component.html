@@ -2,9 +2,20 @@
   <div class="col-md-12 col-lg-9">
     <h2>Edit release</h2>
 
-    <app-release-form
-      *ngIf="release"
-      [release]="release"></app-release-form>
+    <div>
+      <dl>
+        <dt>Created UTC</dt>
+        <dd>{{release.createdAt}}</dd>
+
+        <dt>Updated UTC</dt>
+        <dd>{{release.updatedAt}}</dd>
+      </dl>
+    </div>
+
+    <app-dynamic-form
+      *ngIf="controls"
+      [controls]="controls"
+      [button]="button"></app-dynamic-form>
   </div>
 </div>
 

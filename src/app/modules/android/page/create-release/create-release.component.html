@@ -1,22 +1,23 @@
-<div class="row">
+<div class="row justify-content-center">
   <div class="col-md-12 col-lg-8">
     <h2>Draft new release</h2>
 
-    <app-release-form
-      *ngIf="release"
-      [release]="release"
-      (submitted)="onSubmit($event)"></app-release-form>
-  </div>
-
-  <div class="col-md-12 col-lg-4">
-    <p>The version should already exist on <a href="https://github.com/FTChinese/ftc-android-kotlin/releases" target="_blank">GitHub releases</a> from where the release data will be fetched. Enter version tag to seee if it is released</p>
+    <p>The version should already exist on <a href="https://github.com/FTChinese/ftc-android-kotlin/releases" target="_blank">GitHub releases</a> from where the release data will be fetched. Enter version tag to see if it is released</p>
 
     <app-search-form
-        [control]="searchControl"></app-search-form>
+        placeholder="v1.0.0"
+        [disabled]="progress.on"
+        (submitted)="onSearch($event)"></app-search-form>
 
     <div class="mb-3">
       <button type="button" class="btn btn-link" (click)="getLatestRelease()">Or pull data directly from GitHub's latest release</button>
     </div>
+
+    <app-dynamic-form
+      *ngIf="controls"
+      [controls]="controls"
+      [button]="button"></app-dynamic-form>
+
   </div>
 </div>
 

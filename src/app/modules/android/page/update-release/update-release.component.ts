@@ -8,6 +8,10 @@ import { ToastService } from 'src/app/shared/service/toast.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ReleaseForm } from 'src/app/data/schema/form-data';
 import { FormService } from 'src/app/shared/service/form.service';
+import { ProgressService } from 'src/app/shared/service/progress.service';
+import { DynamicControl } from 'src/app/shared/widget/control';
+import { Button } from 'src/app/shared/widget/button';
+import { buildReleaseControls } from '../../schema/release-form';
 
 @Component({
   selector: 'app-update-release',
@@ -19,13 +23,19 @@ export class UpdateReleaseComponent implements OnInit {
 
   release: AndroidRelease;
 
+  controls: DynamicControl[];
+  button: Button = Button.primary().setName('Save');
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private androidService: AndroidService,
     private formService: FormService,
-    private toast: ToastService
-  ) {}
+    private toast: ToastService,
+    private progress: ProgressService,
+  ) {
+    this.progress.start();
+  }
 
   ngOnInit(): void {
     // Get path parameter.
@@ -36,11 +46,17 @@ export class UpdateReleaseComponent implements OnInit {
         return this.androidService.loadRelease(tag);
       })
     ).subscribe({
-      next: data => this.release = data,
+      next: data => {
+        this.progress.stop();
+        this.release = data;
+
+        this.controls = buildReleaseControls(data);
+      },
       error: (err: HttpErrorResponse) => {
+        this.progress.stop();
         const errReq = new RequestError(err, serviceNames.android);
 
-        this.toast.error(errReq.toString());
+        this.toast.error(errReq.message);
       },
     });
 
@@ -49,12 +65,12 @@ export class UpdateReleaseComponent implements OnInit {
       .subscribe(data => {
         const formData: ReleaseForm = JSON.parse(data);
 
-        this.onSubmit(formData);
+        this.update(formData);
       });
   }
 
   // Submit the data
-  onSubmit(release: ReleaseForm) {
+  private update(release: ReleaseForm) {
 
     this.androidService
       .updateRelease(release)
