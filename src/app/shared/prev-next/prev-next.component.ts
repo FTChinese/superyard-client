@@ -11,9 +11,6 @@ export class PrevNextComponent implements OnInit {
   @Input() paged: PrevNextLink;
   @Output() navigated = new EventEmitter();
 
-  get totalPages(): number {
-    return Math.ceil(this.paged.total / this.paged.limit);
-  }
   constructor() { }
 
   ngOnInit(): void {

@@ -14,31 +14,32 @@ export interface PrevNextLink {
   next?: {
     page: number;
   };
-  total: number; // Total items in db.
-  page: number; // Current page number.
+  totalItems: number;
   limit: number; // Item should be shown per page.
+  currentPage: number;
+  totalPages: number;
 }
 
 export function buildPrevNext<T>(p: PagedData<T>): PrevNextLink {
-  const actualItem = p.data.length;
-
+  const totalPages = Math.ceil(p.total / p.limit);
   return {
     // If current page number is 1, do not show the previous button;
     // If actual array length is 0, do not show previous button.
-    prev: (p.page === 1 || actualItem === 0)
+    prev: (totalPages === 0 || p.page === 1)
       ? null
       : {
         page: p.page - 1
       },
     // If no item fetched, or total item is less than limit per page, do not show the next button.
-    next: (actualItem === 0 || actualItem < p.limit)
+    next: (totalPages === 0 || p.page >= totalPages)
       ? null
       : {
         page: p.page + 1
       },
-    total: p.total,
-    page: p.page,
+    totalItems: p.total,
     limit: p.limit,
+    currentPage: p.page,
+    totalPages,
   };
 }
 
