@@ -65,11 +65,12 @@
         title="Revoke VIP"></app-modal-header>
 
       <div class="modal-body">
-        <p>Are you sure you want to revoke VIP from account <strong>{{vips[revokeIndex].email}}</strong>?</p>
+        <p>Are you sure you want to revoke VIP from account <strong>{{vips.data[revokeIndex].email}}</strong>?</p>
       </div>
 
       <div class="modal-footer">
         <button class="btn btn-danger"
+          [disabled]="progress.on"
           (click)="onRevoke()">Revoke</button>
       </div>
     </div>

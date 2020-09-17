@@ -8,12 +8,12 @@ import { RequestError } from 'src/app/data/schema/request-result';
 import { ModalService } from 'src/app/shared/service/modal.service';
 import { ProgressService } from 'src/app/shared/service/progress.service';
 import { ToastService } from 'src/app/shared/service/toast.service';
-import { DynamicControl, InputControl, InputGroupControl } from 'src/app/shared/widget/control';
-import { buildPrevNext, getPaging, Paging, PrevNextLink } from 'src/app/shared/widget/paging';
+import { DynamicControl, InputControl } from 'src/app/shared/widget/control';
+import { buildPrevNext, getPaging, PrevNextLink } from 'src/app/shared/widget/paging';
 import { AdminService } from '../../service/admin.service';
 import { Button } from 'src/app/shared/widget/button';
 import { FormService } from 'src/app/shared/service/form.service';
-import { GrantForm, vipEmailSuffix } from '../../schema/form-data';
+import { GrantForm } from '../../schema/form-data';
 import { PagedData } from 'src/app/data/schema/paged-data';
 
 @Component({
@@ -62,7 +62,7 @@ export class VipListComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private toast: ToastService,
-    private progress: ProgressService,
+    readonly progress: ProgressService,
     private adminService: AdminService,
     private modal: ModalService,
     private formService: FormService
@@ -161,7 +161,10 @@ export class VipListComponent implements OnInit {
   }
 
   onRevoke() {
-    const a = this.vips[this.revokeIndex];
+    const a = this.vips.data[this.revokeIndex];
+
+    console.log('Revoking VIP from %o', a);
+
     if (!a) {
       this.toast.error('Selected user not found!');
 
