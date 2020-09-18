@@ -84,7 +84,7 @@ export class AccountDetailComponent implements OnInit {
           this.account = data;
         },
         error: (err: HttpErrorResponse) => {
-          this.progress.start();
+          this.progress.stop();
 
           const errRes = new RequestError(err, serviceNames.reader);
 
