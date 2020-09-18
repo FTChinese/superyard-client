@@ -160,6 +160,7 @@ export class MemberCardComponent implements OnInit {
         next: m => {
           this.progress.stop();
           this.account.membership = m;
+          console.log('IAP refreshed membership %o', m)
         },
         error: (err: HttpErrorResponse) => {
           this.progress.stop();

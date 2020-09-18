@@ -37,12 +37,13 @@
           <td class="text-right">
             <div class="btn-group"
              *ngIf="!hasMember || isWxOrAliPay">
+
               <button class="btn btn-outline-primary"
                 (click)="showFtcForm()">
                 Add/Modify
               </button>
               <button class="btn btn-danger"
-                [disabled]="!isWxOrAliPay"
+                [disabled]="!isWxOrAliPay || progress.on"
                 (click)="confirmDelete()">
                 Delete
               </button>
@@ -61,15 +62,15 @@
               *ngIf="!hasMember || member.appleSubsId">
 
               <button class="btn btn-outline-primary"
-                [disabled]="!isIAP"
+                [disabled]="!isIAP || progress.on"
                 (click)="onRefreshIAP()">Refresh</button>
 
               <button class="btn btn-outline-primary"
-                [disabled]="isIAP"
+                [disabled]="isIAP || progress.on"
                 (click)="showIAPForm()">Link</button>
 
               <button class="btn btn-danger"
-                [disabled]="!isIAP"
+                [disabled]="!isIAP || progress.on"
                 (click)="onUnlinkIAP()">Unlink</button>
             </div>
           </td>

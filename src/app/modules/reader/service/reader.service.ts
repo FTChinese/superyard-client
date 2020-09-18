@@ -127,7 +127,7 @@ export class ReaderService {
   }
 
   loadIAPMember(origTxId): Observable<Membership> {
-    return this.http.get<Membership>(`/api/iap/${origTxId}`);
+    return this.http.get<Membership>(`/api/iap/${origTxId}/link`);
   }
 
   /**
