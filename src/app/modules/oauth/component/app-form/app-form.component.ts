@@ -179,5 +179,5 @@ export class AppFormComponent implements OnInit {
 }
 
 function slugify(str: string): string {
-  return str.toLowerCase().replace(' ', '-');
+  return str.toLowerCase().replace(/\s+/g, '-');
 }
