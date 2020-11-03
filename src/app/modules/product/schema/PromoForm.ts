@@ -16,7 +16,7 @@ export function zeroPromo(): Promo {
     endUtc: null,
     createdUtc: null,
     createdBy: null,
-  }
+  };
 }
 
 /**
@@ -28,7 +28,7 @@ export function zeroPromo(): Promo {
  */
 type PromoSharedFields = {
   heading: string;
-} & Pick<Promo, 'subHeading' | 'coverUrl' | 'content' | 'terms'>
+} & Pick<Promo, 'subHeading' | 'coverUrl' | 'content' | 'terms'>;
 
 export type PromoForm = PromoSharedFields & FormPeriod;
 

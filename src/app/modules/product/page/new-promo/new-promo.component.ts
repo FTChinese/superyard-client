@@ -10,6 +10,7 @@ import { PaywallService } from '../../service/paywall.service';
 import { Promo } from 'src/app/data/schema/paywall';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RequestError } from 'src/app/data/schema/request-result';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-new-promo',
@@ -31,6 +32,8 @@ export class NewPromoComponent implements OnInit {
 
   timezone = isoOffset(new Date());
 
+  form: FormGroup;
+
   constructor(
     private formService: FormService,
     private paywallService: PaywallService,
@@ -40,6 +43,13 @@ export class NewPromoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+    this.formService.formCreated$.subscribe(form => {
+      form.valueChanges.subscribe((data: PromoForm) => {
+        console.log('Banner form data %o', data);
+        this.preview = data;
+      });
+    });
 
     this.formService.formSubmitted$.subscribe(data => {
       const formData: PromoForm = JSON.parse(data);
@@ -58,7 +68,7 @@ export class NewPromoComponent implements OnInit {
         next: (promo: Promo) => {
           console.log('Created promo %o', promo);
 
-          this.router.navigate(['../../'], {
+          this.router.navigate(['../'], {
             relativeTo: this.route
           });
         },
