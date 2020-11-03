@@ -13,7 +13,7 @@ export interface Banner extends BaseBanner {
   updatedUtc: string | null;
   createdBy: string | null;
   promoId: string | null;
-};
+}
 
 export interface Promo extends BaseBanner {
   id: string | null;
@@ -23,7 +23,7 @@ export interface Promo extends BaseBanner {
   endUtc: string | null;
   createdUtc: string | null;
   createdBy: string | null;
-};
+}
 
 export interface Paywall {
   banner: Banner;
