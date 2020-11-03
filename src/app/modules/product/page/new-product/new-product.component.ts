@@ -79,7 +79,7 @@ export class NewProductComponent implements OnInit {
     }
 
     // For plans controls, unprocessable.field might be `plans.0.price`
-    const path = err.unprocessable.field.split('.')
+    const path = err.unprocessable.field.split('.');
 
     const ctrl = this.getControl(path);
     ctrl.setErrors({
