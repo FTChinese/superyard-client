@@ -75,6 +75,7 @@ export class OrdersComponent implements OnInit {
   }
 
   loadAccount() {
+    this.toast.info('Loading membership of this order...');
     this.readerService.loadAccount(this.order.compoundId, this.accountKind)
       .subscribe({
         next: account => {
@@ -89,8 +90,6 @@ export class OrdersComponent implements OnInit {
   }
 
   // Confirm an order if it is not confirmed yet.
-  // TODO: it's better to check against Ali or Wechat
-  // API to ensure the money is actually charged.
   confirm() {
     if (!this.order) {
       this.toast.error('No order to confirmed!');
