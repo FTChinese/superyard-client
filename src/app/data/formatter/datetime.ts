@@ -20,7 +20,11 @@ export interface DateTime {
   time: string;
 }
 
-export function concateISODateTime(dtz: DateTime & { zone: string }): string {
+export function concatISODateTime(dtz: DateTime & { zone: string }): string {
+  if (!dtz.date  || !dtz.time || !dtz.zone) {
+    return '';
+  }
+
   return `${dtz.date}T${normalizeTime(dtz.time)}${dtz.zone}`;
 }
 

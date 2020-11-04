@@ -4,7 +4,7 @@ import { PromoForm } from '../../schema/PromoForm';
 import { Button } from 'src/app/shared/widget/button';
 import { ToastService } from 'src/app/shared/service/toast.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { isoOffset } from 'src/app/data/formatter/datetime';
+import { concatISODateTime, isoOffset } from 'src/app/data/formatter/datetime';
 import { FormService } from 'src/app/shared/service/form.service';
 import { PaywallService } from '../../service/paywall.service';
 import { Promo } from 'src/app/data/schema/paywall';
@@ -48,6 +48,14 @@ export class NewPromoComponent implements OnInit {
       form.valueChanges.subscribe((data: PromoForm) => {
         console.log('Banner form data %o', data);
         this.preview = data;
+        this.startTime = concatISODateTime({
+          ...this.preview.startUtc,
+          zone: this.timezone
+        });
+        this.endTime = concatISODateTime({
+          ...this.preview.endUtc,
+          zone: this.timezone,
+        });
       });
     });
 
