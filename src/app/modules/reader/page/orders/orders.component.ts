@@ -104,6 +104,8 @@ export class OrdersComponent implements OnInit {
     this.readerService.confirmOrder(this.order.id)
       .subscribe({
         next: ok => {
+          this.closeDialog();
+
           this.progress.stop();
 
           if (ok) {
@@ -117,8 +119,9 @@ export class OrdersComponent implements OnInit {
           }
         },
         error: (err: HttpErrorResponse) => {
-          this.progress.stop();
+          this.closeDialog();
 
+          this.progress.stop();
           const errRes = new RequestError(err);
           this.toast.error(errRes.message);
         }
