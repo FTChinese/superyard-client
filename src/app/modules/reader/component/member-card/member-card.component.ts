@@ -29,6 +29,7 @@ export class MemberCardComponent implements OnInit {
   // Determine read-only mode.
   // This component is also used as part of the order component and we don't want
   // membership data modified directly in such case.
+  // Use [modifiable]=false to set values since its initial value is true.
   @Input() modifiable = true;
   @Input() account: ReaderAccount;
 
@@ -99,6 +100,7 @@ export class MemberCardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log(this.modifiable);
   }
 
   showFtcForm() {

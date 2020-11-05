@@ -3,7 +3,6 @@ import { ReaderService } from '../../service/reader.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RequestError, serviceNames } from 'src/app/data/schema/request-result';
 import { ToastService } from 'src/app/shared/service/toast.service';
-import { Membership } from 'src/app/data/schema/membership';
 import { Order } from 'src/app/data/schema/order';
 import { ModalService } from 'src/app/shared/service/modal.service';
 import { ProgressService } from 'src/app/shared/service/progress.service';
@@ -42,6 +41,7 @@ export class OrdersComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  // Receive search keyword
   onKeyword(kw: string) {
     this.loadOrder(kw);
   }
@@ -58,6 +58,7 @@ export class OrdersComponent implements OnInit {
     this.readerService.loadOrder(id)
       .subscribe({
         next: o => {
+          console.log('Order loaded. Enable form')
           this.disabledSearch = false;
           this.order = o;
 

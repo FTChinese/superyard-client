@@ -52,7 +52,7 @@ export class SearchFormComponent implements OnInit {
 
   submit() {
     const data: Search = this.form.value;
-    this.disabled = true;
+    // this.disabled = true;
     this.submitted.emit(data.keyword.trim());
   }
 
