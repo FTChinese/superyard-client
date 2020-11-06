@@ -37,24 +37,7 @@
 
           <tr>
             <th>Confirmation time</th>
-
-            <td
-              *ngIf="order.confirmedAt; else confirmButton">
-              {{order.confirmedAt}}
-            </td>
-
-            <ng-template #confirmButton>
-              <td>
-                You can
-                <button
-                  class="btn btn-primary"
-                  [disabled]="progress.on"
-                  (click)="showConfirm()">
-                  Confirm
-                </button>
-                this order if you are sure it was paid successfully.
-              </td>
-            </ng-template>
+            <td>{{order.confirmedAt}}</td>
           </tr>
 
           <tr>
@@ -68,11 +51,17 @@
           </tr>
         </tbody>
       </table>
+      <div class="card-body text-right">
+        <p>You can verify payment result if you believe this order was paid but not confirmed.</p>
+        <button class="btn btn-primary"
+          (click)="verifyPayment()">Verify Payment</button>
+      </div>
     </div>
 
-    <div>
+    <app-pay-result
+      *ngIf="paymentResult"
+      [result]="paymentResult"></app-pay-result>
 
-    </div>
     <app-member-card
       *ngIf="account"
       [modifiable]=false
@@ -81,27 +70,4 @@
   </div>
 </div>
 
-<div *ngIf="confirmOn"
-  class="modal fade show">
-  <div class="modal-dialog">
-    <div class="modal-content">
-
-      <app-modal-header></app-modal-header>
-
-      <div class="modal-body">
-        <p>Are you sure you to confirm this order is actually paid? User's membership will be created/renewed/upgraded accordingly.</p>
-      </div>
-      <div class="modal-footer">
-
-        <app-modal-cancel></app-modal-cancel>
-
-        <button type="button"
-          class="btn btn-primary"
-          (click)="confirm()">
-          Confirm
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
 

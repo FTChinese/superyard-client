@@ -4,6 +4,7 @@ import {
   PaymentMethod,
   OrderKind,
 } from './enum';
+import { Membership } from './membership';
 
 export interface Order {
   id: string;
@@ -26,4 +27,21 @@ export interface Order {
   confirmedAt: string;
   startDate: string;
   endDate: string;
+}
+
+
+export interface PaymentResult {
+  paymentState: 'WAIT_BUYER_PAY' | 'TRADE_CLOSED' | 'TRADE_SUCCESS' | 'TRADE_FINISHED' | 'SUCCESS' | 'REFUND' | 'NOTPAY' | 'CLOSED' | 'REVOKED' | 'USERPAYING' | 'PAYERROR';
+  paymentStateDesc: string;
+  totalFee: number | null;
+  transactionId: string;
+  ftcOrderId: string;
+  paidAt: string | null;
+  payMethod: PaymentMethod;
+}
+
+export interface ConfirmationResult {
+  order: Order;
+  membership: Membership;
+  payment: PaymentResult;
 }

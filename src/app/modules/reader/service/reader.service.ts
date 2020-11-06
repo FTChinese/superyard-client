@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { JoinedAccount, ReaderAccount, IFtcProfile, IActivity, IWxProfile, IWxLogin } from 'src/app/data/schema/reader';
 import { Membership } from 'src/app/data/schema/membership';
-import { Order } from 'src/app/data/schema/order';
+import { ConfirmationResult, Order } from 'src/app/data/schema/order';
 import { ReaderSearchParam } from '../../../data/schema/form-data';
 import { switchMap } from 'rxjs/operators';
 import { FtcMemberForm, FtcNewMemberReq } from '../schema/ftc-form';
@@ -70,16 +70,10 @@ export class ReaderService {
     return this.http.get<Order>(`/api/orders/${id}`);
   }
 
-  confirmOrder(id: string): Observable<boolean> {
-    return this.http.patch(
-      `/api/orders/${id}`,
+  verifyPayment(orderId: string): Observable<ConfirmationResult> {
+    return this.http.patch<ConfirmationResult>(
+      `/api/orders/${orderId}`,
       null,
-      {
-        observe: 'response'
-      }
-    )
-    .pipe(
-      switchMap(resp => of(resp.status === 204))
     );
   }
 
