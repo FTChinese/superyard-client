@@ -29,7 +29,7 @@ export class OrdersComponent implements OnInit {
   }
 
   get loadingAlWh(): boolean {
-    if (this.order && this.order.paymentMethod === 'alipay' && !this.aliPayload) {
+    if (this.order && this.order.payMethod === 'alipay' && !this.aliPayload) {
       return true;
     }
 
@@ -37,7 +37,7 @@ export class OrdersComponent implements OnInit {
   }
 
   get loadingWxWh(): boolean {
-    if (this.order && this.order.paymentMethod === 'wechat' && !this.wxPayload) {
+    if (this.order && this.order.payMethod === 'wechat' && !this.wxPayload) {
       return true;
     }
 
@@ -85,7 +85,7 @@ export class OrdersComponent implements OnInit {
           // After order loaded, load the membership of this user.
           this.loadAccount();
 
-          switch (this.order.paymentMethod) {
+          switch (this.order.payMethod) {
             case 'alipay':
               this.loadAliWebhook();
               break;

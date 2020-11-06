@@ -19,8 +19,8 @@ export interface Order {
   cycle: Cycle;
   cycleCount: number;
   extraDays: number;
-  kind: OrderKind;
-  paymentMethod: PaymentMethod;
+  kind: OrderKind; // Subscription-api uses usageType
+  payMethod: PaymentMethod; // Subscription api uses payMethod.
   totalBalance: number;
   wxAppId: string | null;
   createdAt: string;
