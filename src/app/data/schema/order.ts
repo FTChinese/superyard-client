@@ -45,3 +45,28 @@ export interface ConfirmationResult {
   membership: Membership;
   payment: PaymentResult;
 }
+
+export interface AliPayload {
+  transactionId: string;
+  ftcOrderId: string;
+  tradeStatus: string;
+  totalAmount: string;
+  receiptAmount: string | null;
+  notifiedCst: string;
+  createdCst: string;
+  paidCst: string;
+  closedCst: string | null;
+}
+
+export interface WxPayload {
+  transactionId: string;
+  ftcOrderId: string;
+  tradeType: string;
+  totalAmount: number;
+  paidCst: string;
+  returnCode: string;
+  returnMessage: string | null;
+  resultCode: string;
+  errorCode: string | null;
+  errorDesc: string | null;
+}

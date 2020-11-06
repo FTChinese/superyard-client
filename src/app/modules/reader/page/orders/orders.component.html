@@ -4,7 +4,6 @@
 
     <app-search-form
       placeholder="Order ID"
-      [disabled]="disabledSearch"
       (submitted)="onKeyword($event)"></app-search-form>
 
     <div class="card mb-3"
@@ -62,6 +61,74 @@
       *ngIf="paymentResult"
       [result]="paymentResult"></app-pay-result>
 
+    <div *ngIf="loadingAlWh || loadingWxWh"
+      class="mb-3">
+      Loading webhook payload for this order...
+    </div>
+    <div class="card mb-3"
+      *ngIf="aliPayload">
+      <div class="card-header">
+        Alipay Webhook Payload
+      </div>
+      <table class="table">
+        <thead>
+          <th>Trade Status</th>
+          <th>Total Amount</th>
+          <th>Receipt Amount</th>
+          <th>Notified CST</th>
+          <th>Created CST</th>
+          <th>Paid CST</th>
+          <th>Closed CST</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of aliPayload">
+            <td>{{row.tradeStatus}}</td>
+            <td>{{row.totalAmount}}</td>
+            <td>{{row.receiptAmount}}</td>
+            <td>{{row.notifiedCst}}</td>
+            <td>{{row.createdCst}}</td>
+            <td>{{row.paidCst}}</td>
+            <td>{{row.closedCst}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card mb-3"
+      *ngIf="wxPayload">
+      <div class="card-header">
+        Wechat Webhook Payload
+      </div>
+      <table class="table">
+        <thead>
+          <th>Trade Type</th>
+          <th>Total Amount</th>
+          <th>Paid CST</th>
+          <th>Return Code</th>
+          <th>Return Message</th>
+          <th>Result Code</th>
+          <th>Error Code</th>
+          <th>Error Description</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of wxPayload">
+            <td>{{row.tradeType}}</td>
+            <td>{{row.totalAmount}}</td>
+            <td>{{row.paidCst}}</td>
+            <td>{{row.returnCode}}</td>
+            <td>{{row.returnMessage}}</td>
+            <td>{{row.resultCode}}</td>
+            <td>{{row.errorCode}}</td>
+            <td>{{row.errorDesc}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="loadingAccount"
+      class="mb-3">
+      Loading membership linked to this order...
+    </div>
     <app-member-card
       *ngIf="account"
       [modifiable]=false

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { JoinedAccount, ReaderAccount, IFtcProfile, IActivity, IWxProfile, IWxLogin } from 'src/app/data/schema/reader';
 import { Membership } from 'src/app/data/schema/membership';
-import { ConfirmationResult, Order } from 'src/app/data/schema/order';
+import { AliPayload, ConfirmationResult, Order, WxPayload } from 'src/app/data/schema/order';
 import { ReaderSearchParam } from '../../../data/schema/form-data';
 import { switchMap } from 'rxjs/operators';
 import { FtcMemberForm, FtcNewMemberReq } from '../schema/ftc-form';
@@ -75,6 +75,14 @@ export class ReaderService {
       `/api/orders/${orderId}`,
       null,
     );
+  }
+
+  aliWebhookPayload(orderId: string): Observable<AliPayload[]> {
+    return this.http.get<AliPayload[]>(`/api/orders/${orderId}/webhook/alipay`);
+  }
+
+  wxWebhookPayload(orderId: string): Observable<WxPayload[]> {
+    return this.http.get<WxPayload[]>(`/api/orders/${orderId}/webhook/wechat`);
   }
 
   /**
