@@ -9,6 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { RequestError } from 'src/app/data/schema/request-result';
 import { ToastService } from 'src/app/shared/service/toast.service';
 import { switchMap } from 'rxjs/operators';
+import { PaymentMethod } from 'src/app/data/schema/enum';
 
 @Component({
   selector: 'app-member-card',
@@ -25,6 +26,7 @@ export class MemberCardComponent implements OnInit {
   private idStripe = 'f_stripe';
   // ID to show confirmation of deleting membership.
   private idDelMember = 'd_m';
+  private aliWxPay: PaymentMethod[] = ['alipay', 'wechat'];
 
   // Determine read-only mode.
   // This component is also used as part of the order component and we don't want
@@ -42,7 +44,7 @@ export class MemberCardComponent implements OnInit {
   }
 
   get isWxOrAliPay(): boolean {
-    return this.hasMember && (this.account.membership.payMethod === 'alipay' || this.account.membership.payMethod === 'wechat');
+    return this.hasMember && (this.aliWxPay.includes(this.account.membership.payMethod) || this.account.membership.payMethod == null);
   }
 
   get isIAP(): boolean {
