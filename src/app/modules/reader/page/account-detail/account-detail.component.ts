@@ -38,6 +38,10 @@ export class AccountDetailComponent implements OnInit {
     {
       href: 'snapshots',
       name: 'Membership Snapshots'
+    },
+    {
+      href: 'iap-subs',
+      name: 'IAP Subscriptions'
     }
   ];
 
@@ -47,7 +51,7 @@ export class AccountDetailComponent implements OnInit {
     private toast: ToastService,
     private progress: ProgressService,
   ) {
-    this.progress.start()
+    this.progress.start();
    }
 
   get isFtc(): boolean {
