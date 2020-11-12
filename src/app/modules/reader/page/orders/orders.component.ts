@@ -72,6 +72,7 @@ export class OrdersComponent implements OnInit {
 
   // Receive search keyword
   onKeyword(kw: string) {
+    this.progress.start();
     this.loadOrder(kw);
     this.clearData();
   }
@@ -80,6 +81,8 @@ export class OrdersComponent implements OnInit {
     this.readerService.loadOrder(id)
       .subscribe({
         next: o => {
+          this.progress.stop();
+
           this.order = o;
 
           // After order loaded, load the membership of this user.
@@ -96,6 +99,7 @@ export class OrdersComponent implements OnInit {
           }
         },
         error: (err: HttpErrorResponse) => {
+          this.progress.stop();
 
           const errRes = new RequestError(err, serviceNames.reader);
 
@@ -112,6 +116,7 @@ export class OrdersComponent implements OnInit {
           this.account = account;
         },
         error: (err: HttpErrorResponse) => {
+
           const reqErr = new RequestError(err);
 
           if (reqErr.notFound) {
@@ -131,7 +136,6 @@ export class OrdersComponent implements OnInit {
           this.aliPayload = data;
         },
         error: (err: HttpErrorResponse) => {
-          this.progress.stop();
           const errRes = new RequestError(err);
           this.toast.error(errRes.message);
         }
@@ -145,7 +149,6 @@ export class OrdersComponent implements OnInit {
           this.wxPayload = data;
         },
         error: (err: HttpErrorResponse) => {
-          this.progress.stop();
           const errRes = new RequestError(err);
           this.toast.error(errRes.message);
         }
