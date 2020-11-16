@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { PaywallHomeComponent } from './paywall-home.component';
 
@@ -6,7 +6,7 @@ describe('PaywallHomeComponent', () => {
   let component: PaywallHomeComponent;
   let fixture: ComponentFixture<PaywallHomeComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ PaywallHomeComponent ]
     })

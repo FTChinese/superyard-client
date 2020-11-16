@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TokenListComponent } from './token-list.component';
 
@@ -6,7 +6,7 @@ describe('TokenListComponent', () => {
   let component: TokenListComponent;
   let fixture: ComponentFixture<TokenListComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ TokenListComponent ]
     })

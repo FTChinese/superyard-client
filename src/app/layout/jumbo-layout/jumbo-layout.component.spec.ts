@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { JumboLayoutComponent } from './jumbo-layout.component';
 
@@ -6,7 +6,7 @@ describe('JumboLayoutComponent', () => {
   let component: JumboLayoutComponent;
   let fixture: ComponentFixture<JumboLayoutComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ JumboLayoutComponent ]
     })

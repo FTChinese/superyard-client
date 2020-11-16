@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MetaListComponent } from './meta-list.component';
 
@@ -6,7 +6,7 @@ describe('MetaListComponent', () => {
   let component: MetaListComponent;
   let fixture: ComponentFixture<MetaListComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ MetaListComponent ]
     })

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ModalCancelComponent } from './modal-cancel.component';
 
@@ -6,7 +6,7 @@ describe('ModalCancelComponent', () => {
   let component: ModalCancelComponent;
   let fixture: ComponentFixture<ModalCancelComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ModalCancelComponent ]
     })
