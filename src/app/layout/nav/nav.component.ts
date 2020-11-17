@@ -51,13 +51,17 @@ export class NavComponent implements OnInit {
           href: `/${siteBaseUrl.readers}/orders`,
         },
         {
+          name: 'Confirmation Failure',
+          href: `/${siteBaseUrl.readers}/wh-unconfirmed`
+        },
+        {
           name: 'Test Account',
           href: `/${siteBaseUrl.readers}/sandbox`,
         },
-        {
-          name: 'IAP Subs',
-          href: `/${siteBaseUrl.readers}/iap`,
-        }
+        // {
+        //   name: 'IAP Subs',
+        //   href: `/${siteBaseUrl.readers}/iap`,
+        // }
       ]
     },
     {
