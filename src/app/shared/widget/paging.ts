@@ -7,6 +7,35 @@ export interface Paging {
   perPage: number;
 }
 
+/**
+ * Build a Paging type from query parameter.
+ * A page has 10 item by default. Current page is acquired from query parameter
+ * `page`.
+ * If the value of `page` is not a number, it is set to 1.
+ */
+export function getPaging(params: ParamMap, perPage: number = 20): Paging {
+  return {
+    page: Number.parseInt(params.get('page'), 10) || 1,
+    perPage,
+  };
+}
+
+export function defaultPaging(): Paging {
+  return {
+    page: 1,
+    perPage: 20,
+  };
+}
+
+/**
+ * @description Build the pagination query parameters for a request.
+ */
+export function pagingParams(p: Paging): HttpParams {
+  return new HttpParams()
+    .set('page', p.page.toFixed())
+    .set('per_page', p.perPage?.toFixed() || '20');
+}
+
 export interface PrevNextLink {
   prev?: {
     page: number;
@@ -43,24 +72,3 @@ export function buildPrevNext<T>(p: PagedData<T>): PrevNextLink {
   };
 }
 
-/**
- * Build a Paging type from query parameter.
- * A page has 10 item by default. Current page is acquired from query parameter
- * `page`.
- * If the value of `page` is not a number, it is set to 1.
- */
-export function getPaging(params: ParamMap, perPage: number = 20): Paging {
-  return {
-    page: Number.parseInt(params.get('page'), 10) || 1,
-    perPage,
-  };
-}
-
-/**
- * @description Build the pagination query parameters for a request.
- */
-export function pagingParams(p: Paging): HttpParams {
-  return new HttpParams()
-    .set('page', p.page.toFixed())
-    .set('per_page', p.perPage?.toFixed() || '20');
-}
