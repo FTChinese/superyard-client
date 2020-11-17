@@ -6,6 +6,8 @@ import { OrdersComponent } from './page/orders/orders.component';
 import { SandboxComponent } from './page/sandbox/sandbox.component';
 import { SandboxDetailComponent } from './page/sandbox-detail/sandbox-detail.component';
 import { IapListComponent } from './page/iap-list/iap-list.component';
+import { UnconfirmedComponent } from './page/unconfirmed/unconfirmed.component';
+import { UnconfirmedListComponent } from './page/unconfirmed-list/unconfirmed-list.component';
 
 const routes: Routes = [
   {
@@ -25,6 +27,22 @@ const routes: Routes = [
   {
     path: 'orders',
     component: OrdersComponent,
+  },
+  {
+    path: 'wh-unconfirmed',
+    component: UnconfirmedComponent,
+    children: [
+      {
+        path: 'ali',
+        component: UnconfirmedListComponent,
+        data: { payMethod: 'alipay' }
+      },
+      {
+        path: 'wx',
+        component: UnconfirmedListComponent,
+        data: { payMethod: 'wechat' }
+      }
+    ]
   },
   {
     path: 'sandbox',

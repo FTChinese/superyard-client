@@ -15,6 +15,8 @@ import { FtcFormComponent } from './component/ftc-form/ftc-form.component';
 import { IapListComponent } from './page/iap-list/iap-list.component';
 import { IapFormComponent } from './component/iap-form/iap-form.component';
 import { PayResultComponent } from './component/pay-result/pay-result.component';
+import { UnconfirmedComponent } from './page/unconfirmed/unconfirmed.component';
+import { UnconfirmedListComponent } from './page/unconfirmed-list/unconfirmed-list.component';
 
 
 @NgModule({
@@ -31,6 +33,8 @@ import { PayResultComponent } from './component/pay-result/pay-result.component'
     IapListComponent,
     IapFormComponent,
     PayResultComponent,
+    UnconfirmedComponent,
+    UnconfirmedListComponent,
   ],
   imports: [
     CommonModule,
