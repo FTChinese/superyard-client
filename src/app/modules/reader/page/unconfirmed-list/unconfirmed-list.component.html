@@ -1,0 +1,42 @@
+<table class="table table-striped"
+  *ngIf="orderList">
+  <thead>
+    <tr>
+      <th>Order ID</th>
+      <th>Amount</th>
+      <th>Tier</th>
+      <th>Cycle</th>
+      <th>Kind</th>
+      <th>Confirmed UTC</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Payment State</th>
+      <th>Paid CST</th>
+      <th>Member Tier</th>
+      <th>Member Cycle</th>
+      <th>Member Expires</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let o of orderList.data">
+      <td>{{o.orderId}}</td>
+      <td>{{o.orderAmount}}</td>
+      <td>{{o.orderTier}}</td>
+      <td>{{o.orderCycle}}</td>
+      <td>{{o.kind}}</td>
+      <td>{{o.confirmedUtc}}</td>
+      <td>{{o.startDate}}</td>
+      <td>{{o.endDate}}</td>
+      <td>{{o.paymentState}}</td>
+      <td>{{o.paidCst}}</td>
+      <td>{{o.memberTier}}</td>
+      <td>{{o.memberCycle}}</td>
+      <td>{{o.expireDate}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<app-prev-next
+  *ngIf="prevNext"
+  [paged]="prevNext"
+  (navigated)="onNavigate()"></app-prev-next>
