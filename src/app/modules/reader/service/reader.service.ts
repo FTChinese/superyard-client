@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { JoinedAccount, ReaderAccount, IFtcProfile, IActivity, IWxProfile, IWxLogin } from 'src/app/data/schema/reader';
 import { Membership } from 'src/app/data/schema/membership';
-import { AliPayload, ConfirmationResult, Order, WxPayload } from 'src/app/data/schema/order';
+import { AliPayload, ConfirmationResult, Order, UnconfirmedOrder, WxPayload } from 'src/app/data/schema/order';
 import { ReaderSearchParam } from '../../../data/schema/form-data';
 import { switchMap } from 'rxjs/operators';
 import { FtcMemberForm, FtcNewMemberReq } from '../schema/ftc-form';
@@ -11,6 +11,7 @@ import { AccountKind } from 'src/app/data/schema/enum';
 import { Paging, pagingParams } from 'src/app/shared/widget/paging';
 import { IAPSubs, IAPSubsList } from 'src/app/data/schema/iap';
 import { IAPForm } from '../schema/iap-form';
+import { PagedData } from 'src/app/data/schema/paged-data';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,8 @@ import { IAPForm } from '../schema/iap-form';
 export class ReaderService {
 
   private readonly basePath = '/api/readers';
+  private readonly whBase = '/api/webhook';
+  private readonly orderBase = '/api/orders';
 
   constructor(private http: HttpClient) { }
 
@@ -83,6 +86,18 @@ export class ReaderService {
 
   wxWebhookPayload(orderId: string): Observable<WxPayload[]> {
     return this.http.get<WxPayload[]>(`/api/orders/${orderId}/webhook/wechat`);
+  }
+
+  listAliUnconfirmed(p: Paging): Observable<PagedData<UnconfirmedOrder>> {
+    return this.http.get<PagedData<UnconfirmedOrder>>(`${this.whBase}/failure/alipay`, {
+      params: pagingParams(p)
+    });
+  }
+
+  listWxUnconfirmed(p: Paging): Observable<PagedData<UnconfirmedOrder>> {
+    return this.http.get<PagedData<UnconfirmedOrder>>(`${this.whBase}/failure/wechat`, {
+      params: pagingParams(p)
+    });
   }
 
   /**
