@@ -70,3 +70,20 @@ export interface WxPayload {
   errorCode: string | null;
   errorDesc: string | null;
 }
+
+export interface UnconfirmedOrder {
+  orderId: string;
+  orderAmount: number;
+  orderTier: Tier;
+  orderCycle: Cycle;
+  kind: OrderKind;
+  confirmedUtc: string | null;
+  createdUtc: string | null;
+  startDate: string | null;
+  endDate: string | null;
+  paymentState: string;
+  paidCst: string;
+  memberTier: Tier | null;
+  memberCycle: Cycle | null;
+  expireDate: string | null;
+}
