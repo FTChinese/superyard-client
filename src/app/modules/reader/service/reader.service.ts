@@ -133,8 +133,11 @@ export class ReaderService {
    * @description Show a list of Apple IAP subscription.
    * @param p - Pagination parameters.
    */
-  listIAP(p: Paging): Observable<IAPSubsList> {
+  listIAP(ftcId: string, p: Paging): Observable<IAPSubsList> {
     return this.http.get<IAPSubsList>(`/api/iap`, {
+      headers: {
+        'X-User-Id': ftcId,
+      },
       params: pagingParams(p)
     });
   }
@@ -144,7 +147,7 @@ export class ReaderService {
   }
 
   loadIAPMember(origTxId): Observable<Membership> {
-    return this.http.get<Membership>(`/api/iap/${origTxId}/link`);
+    return this.http.get<Membership>(`/api/iap/${origTxId}/membership`);
   }
 
   /**

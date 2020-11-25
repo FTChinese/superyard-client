@@ -2,12 +2,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
-import { IAPSubs, IAPSubsList } from 'src/app/data/schema/iap';
+import { IAPSubs } from 'src/app/data/schema/iap';
 import { PagedData } from 'src/app/data/schema/paged-data';
 import { RequestError } from 'src/app/data/schema/request-result';
 import { ProgressService } from 'src/app/shared/service/progress.service';
 import { ToastService } from 'src/app/shared/service/toast.service';
-import { buildPrevNext, getPaging, Paging, PrevNextLink } from 'src/app/shared/widget/paging';
+import { buildPrevNext, getPaging, PrevNextLink } from 'src/app/shared/widget/paging';
 import { ReaderService } from '../../service/reader.service';
 
 @Component({
@@ -34,7 +34,10 @@ export class IapListComponent implements OnInit {
       switchMap(params => {
         const paging = getPaging(params, 20);
 
-        return this.readerService.listIAP(paging);
+        /**
+         * @todo: user id.
+         */
+        return this.readerService.listIAP('', paging);
       })
     )
     .subscribe({
