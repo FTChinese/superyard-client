@@ -158,12 +158,11 @@ export class ReaderService {
     });
   }
 
-  unlinkIAP(ftcId: string, from: IAPForm): Observable<boolean> {
-    return this.http.post<boolean>(`/api/iap/${from.originalTxId}/unlink`, {
+  unlinkIAP(ftcId: string, form: IAPForm): Observable<boolean> {
+    return this.http.post<boolean>(`/api/iap/${form.originalTxId}/unlink`, {
+      ftcId,
+    }, {
       observe: 'response',
-      params: {
-        ftc_id: ftcId,
-      }
     })
     .pipe(switchMap(resp => of(resp.status === 204)));
   }
