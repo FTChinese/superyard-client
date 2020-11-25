@@ -153,13 +153,13 @@ export class ReaderService {
    * @param to - the form data to collect original transaction id.
    */
   linkIAP(ftcId: string, to: IAPForm): Observable<Membership> {
-    return this.http.put<Membership>(`/api/iap/${to.originalTxId}/link`, {
+    return this.http.post<Membership>(`/api/iap/${to.originalTxId}/link`, {
       ftcId,
     });
   }
 
   unlinkIAP(ftcId: string, from: IAPForm): Observable<boolean> {
-    return this.http.delete<boolean>(`/api/iap/${from.originalTxId}/link`, {
+    return this.http.post<boolean>(`/api/iap/${from.originalTxId}/unlink`, {
       observe: 'response',
       params: {
         ftc_id: ftcId,
