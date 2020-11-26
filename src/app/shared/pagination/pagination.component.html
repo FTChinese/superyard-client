@@ -1,0 +1,34 @@
+<ul class="pagination justify-content-center">
+  <li class="page-item"
+    [class.disabled]="pg.prev.disabled">
+    <button class="page-link"
+      (click)="gotoPage(pg.prev.page)">
+      <span>&laquo;</span>
+    </button>
+  </li>
+
+  <li *ngFor="let i of pg.totalPages | range"
+    class="page-item"
+    [class.active]="pg.current.page === i + 1">
+    <span class="page-link"
+      *ngIf="pg.current.page === i + 1; else pageBtn">
+      {{i + 1}}
+    </span>
+    <ng-template #pageBtn>
+      <button  class="page-link"
+        (click)="gotoPage(i+1)">
+        {{i + 1}}
+      </button>
+    </ng-template>
+  </li>
+
+  <li class="page-item"
+    [class.disabled]="pg.next.disabled">
+    <button class="page-link"
+      (click)="gotoPage(pg.next.page)">
+      <span>&raquo;</span>
+    </button>
+  </li>
+</ul>
+
+<div class="text-center mt-3">Total items {{pg.totalItems}}. Page {{pg.current.page}}/{{pg.totalPages}}</div>
