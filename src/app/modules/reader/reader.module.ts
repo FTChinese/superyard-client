@@ -12,11 +12,13 @@ import { AccountCardComponent } from './component/account-card/account-card.comp
 import { SandboxComponent } from './page/sandbox/sandbox.component';
 import { SandboxDetailComponent } from './page/sandbox-detail/sandbox-detail.component';
 import { FtcFormComponent } from './component/ftc-form/ftc-form.component';
-import { IapListComponent } from './page/iap-list/iap-list.component';
+import { IapListComponent } from './component/iap-list/iap-list.component';
 import { IapFormComponent } from './component/iap-form/iap-form.component';
 import { PayResultComponent } from './component/pay-result/pay-result.component';
 import { UnconfirmedComponent } from './page/unconfirmed/unconfirmed.component';
 import { UnconfirmedListComponent } from './page/unconfirmed-list/unconfirmed-list.component';
+import { OrderListComponent } from './component/order-list/order-list.component';
+import { SnapshotListComponent } from './component/snapshot-list/snapshot-list.component';
 
 
 @NgModule({
@@ -35,6 +37,8 @@ import { UnconfirmedListComponent } from './page/unconfirmed-list/unconfirmed-li
     PayResultComponent,
     UnconfirmedComponent,
     UnconfirmedListComponent,
+    OrderListComponent,
+    SnapshotListComponent,
   ],
   imports: [
     CommonModule,

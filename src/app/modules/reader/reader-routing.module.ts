@@ -5,7 +5,7 @@ import { ReaderHomeComponent } from './page/reader-home/reader-home.component';
 import { OrdersComponent } from './page/orders/orders.component';
 import { SandboxComponent } from './page/sandbox/sandbox.component';
 import { SandboxDetailComponent } from './page/sandbox-detail/sandbox-detail.component';
-import { IapListComponent } from './page/iap-list/iap-list.component';
+import { IapListComponent } from './component/iap-list/iap-list.component';
 import { UnconfirmedComponent } from './page/unconfirmed/unconfirmed.component';
 import { UnconfirmedListComponent } from './page/unconfirmed-list/unconfirmed-list.component';
 
@@ -22,7 +22,7 @@ const routes: Routes = [
   {
     path: 'wechat/:id',
     component: AccountDetailComponent,
-    data: { kind: 'wechat' }
+    data: { kind: 'wechat' },
   },
   {
     path: 'orders',
