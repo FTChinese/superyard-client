@@ -1,8 +1,4 @@
-<div class="d-flex justify-content-between">
-  <h2 class="mb-3">Apple IAP Subscriptions</h2>
-</div>
-
-<table class="table" *ngIf="subs">
+<table class="table">
   <thead>
     <tr>
       <th>Environment</th>
@@ -14,7 +10,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let s of subs.data">
+    <tr *ngFor="let s of subsList.data">
       <td>
         {{s.environment}}
       </td>
@@ -51,7 +47,7 @@
   </tbody>
 </table>
 
-<app-prev-next
-  *ngIf="prevNext"
-  [paged]="prevNext"
-  (navigated)="onNavigate()"></app-prev-next>
+<app-pagination
+  *ngIf="pagination"
+  [pg]="pagination"
+  (flipped)="onPagination($event)"></app-pagination>

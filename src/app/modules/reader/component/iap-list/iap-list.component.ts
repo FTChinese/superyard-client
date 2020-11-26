@@ -1,13 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
+import { Component, Input, OnInit } from '@angular/core';
 import { IAPSubs } from 'src/app/data/schema/iap';
 import { PagedData } from 'src/app/data/schema/paged-data';
+import { ReaderAccount } from 'src/app/data/schema/reader';
 import { RequestError } from 'src/app/data/schema/request-result';
 import { ProgressService } from 'src/app/shared/service/progress.service';
 import { ToastService } from 'src/app/shared/service/toast.service';
-import { buildPrevNext, getPaging, PrevNextLink } from 'src/app/shared/widget/paging';
+import { buildPagination, buildPrevNext, Pagination, Paging } from 'src/app/shared/widget/paging';
 import { ReaderService } from '../../service/reader.service';
 
 @Component({
@@ -16,38 +15,34 @@ import { ReaderService } from '../../service/reader.service';
   styleUrls: ['./iap-list.component.scss']
 })
 export class IapListComponent implements OnInit {
+  @Input() account: ReaderAccount;
 
-  subs: PagedData<IAPSubs>;
-  prevNext: PrevNextLink;
+  subsList: PagedData<IAPSubs>;
+  pagination: Pagination;
 
   constructor(
     private progress: ProgressService,
     private toast: ToastService,
     private readerService: ReaderService,
-    private route: ActivatedRoute,
   ) {
     progress.start();
   }
 
   ngOnInit(): void {
-    this.route.queryParamMap.pipe(
-      switchMap(params => {
-        const paging = getPaging(params, 20);
+    this.fetchData(1);
+  }
 
-        /**
-         * @todo: user id.
-         */
-        return this.readerService.listIAP('', paging);
-      })
-    )
+  private fetchData(p: number) {
+    this.readerService.listIAP(this.account.ftcId, {
+      page: p,
+      perPage: 20
+    })
     .subscribe({
       next: subs => {
-        console.log('IAP subs: %o', subs);
-
         this.progress.stop();
-        this.subs = subs;
+        this.subsList = subs;
 
-        this.prevNext = buildPrevNext(subs);
+        this.pagination = buildPagination(subs);
       },
       error: (err: HttpErrorResponse) => {
         this.progress.stop();
@@ -59,7 +54,8 @@ export class IapListComponent implements OnInit {
     });
   }
 
-  onNavigate() {
+  onPagination(n: number) {
     this.progress.start();
+    this.fetchData(n);
   }
 }
