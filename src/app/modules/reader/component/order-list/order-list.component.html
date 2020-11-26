@@ -1,0 +1,33 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Price/Paid</th>
+      <th>Edition</th>
+      <th>Kind</th>
+      <th>Pay Method</th>
+      <th>Created UTC</th>
+      <th>Confirmed UTC</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="orderList">
+    <tr *ngFor="let order of orderList.data">
+      <td>{{order.id}}</td>
+      <td>{{order.price}} / {{order.amount}}</td>
+      <td>{{order.tier}} / {{order.cycle}}</td>
+      <td>{{order.kind}}</td>
+      <td>{{order.payMethod}}</td>
+      <td>{{order.createdAt}}</td>
+      <td>{{order.confirmedAt}}</td>
+      <td>{{order.startDate}}</td>
+      <td>{{order.endDate}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<app-pagination
+  *ngIf="pagination"
+  [pg]="pagination"
+  (flipped)="onPagination($event)"></app-pagination>
