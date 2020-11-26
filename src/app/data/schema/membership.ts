@@ -32,3 +32,10 @@ export function isMemberExpired(m: Membership): boolean {
 
   return isBefore(expireOn, today);
 }
+
+export type MemberSnapshot = {
+  id: string;
+  createdBy: string | null;
+  createdUtc: string | null;
+  orderId: string | null;
+} & Membership;
