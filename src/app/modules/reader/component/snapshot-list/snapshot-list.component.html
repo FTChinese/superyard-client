@@ -1,0 +1,60 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>IDs</th>
+      <th>Edition</th>
+      <th>Expiration</th>
+      <th>Pay Method</th>
+      <th>FTC Plan</th>
+      <th>Stripe Subs</th>
+      <th>Status</th>
+      <th>Apple Subs</th>
+      <th>Auto Renew</th>
+      <th>B2B Licence</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="snapList">
+    <tr *ngFor="let s of snapList.data">
+      <td>
+        <dl>
+          <dt>UUID</dt>
+          <dd>{{s.ftcId}}</dd>
+          <dt>Wechat union id</dt>
+          <dd>{{s.unionId || 'NULL'}}</dd>
+        </dl>
+      </td>
+      <td>
+        {{s.tier}}/{{s.cycle}}
+      </td>
+      <td>
+        {{s.expireDate}}
+      </td>
+      <td>
+        {{s.payMethod}}
+      </td>
+      <td>
+        {{s.ftcPlanId}}
+      </td>
+      <td>
+        {{s.stripeSubsId}}
+      </td>
+      <td>
+        {{s.status}}
+      </td>
+      <td>
+        {{s.appleSubsId}}
+      </td>
+      <td>
+        {{s.autoRenewal}}
+      </td>
+      <td>
+        {{s.b2bLicenceId}}
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<app-pagination
+  *ngIf="pagination"
+  [pg]="pagination"
+  (flipped)="onPagination($event)"></app-pagination>
