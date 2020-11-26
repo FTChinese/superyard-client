@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, PartialObserver, zip } from 'rxjs';
+import { Observable, PartialObserver } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { PaymentMethod } from 'src/app/data/schema/enum';
 import { UnconfirmedOrder } from 'src/app/data/schema/order';
