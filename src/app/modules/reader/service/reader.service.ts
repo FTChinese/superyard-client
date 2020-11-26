@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { JoinedAccount, ReaderAccount, IFtcProfile, IActivity, IWxProfile, IWxLogin } from 'src/app/data/schema/reader';
-import { Membership } from 'src/app/data/schema/membership';
+import { JoinedAccount, ReaderAccount, IFtcProfile, IActivity, IWxProfile, IWxLogin, FtcAccount } from 'src/app/data/schema/reader';
+import { Membership, MemberSnapshot } from 'src/app/data/schema/membership';
 import { AliPayload, ConfirmationResult, Order, UnconfirmedOrder, WxPayload } from 'src/app/data/schema/order';
 import { ReaderSearchParam } from '../../../data/schema/form-data';
 import { switchMap } from 'rxjs/operators';
 import { FtcMemberForm, FtcNewMemberReq } from '../schema/ftc-form';
 import { AccountKind } from 'src/app/data/schema/enum';
-import { Paging, pagingParams } from 'src/app/shared/widget/paging';
+import { Paging, pagingParams, userPagingParam } from 'src/app/shared/widget/paging';
 import { IAPSubs, IAPSubsList } from 'src/app/data/schema/iap';
 import { IAPForm } from '../schema/iap-form';
 import { PagedData } from 'src/app/data/schema/paged-data';
@@ -21,6 +21,7 @@ export class ReaderService {
   private readonly basePath = '/api/readers';
   private readonly whBase = '/api/webhook';
   private readonly orderBase = '/api/orders';
+  private readonly snapBase = '/api/snapshots';
 
   constructor(private http: HttpClient) { }
 
@@ -71,6 +72,13 @@ export class ReaderService {
 
   loadOrder(id: string): Observable<Order> {
     return this.http.get<Order>(`/api/orders/${id}`);
+  }
+
+  listOrders(account: FtcAccount, p: Paging): Observable<PagedData<Order>> {
+
+    return this.http.get<PagedData<Order>>(`${this.orderBase}`, {
+      params: userPagingParam(account, p),
+    });
   }
 
   verifyPayment(orderId: string): Observable<ConfirmationResult> {
@@ -128,6 +136,12 @@ export class ReaderService {
     .pipe(switchMap(resp => of(resp.status === 204)));
   }
 
+  listMemberSnapshot(account: FtcAccount, p: Paging): Observable<PagedData<MemberSnapshot>> {
+
+    return this.http.get<PagedData<MemberSnapshot>>(`${this.snapBase}`, {
+      params: userPagingParam(account, p),
+    });
+  }
 
   /**
    * @description Show a list of Apple IAP subscription.
