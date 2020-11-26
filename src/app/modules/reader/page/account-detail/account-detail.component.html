@@ -9,14 +9,22 @@
 <div class="mt-3">
   <ul class="nav nav-tabs">
     <li class="nav-item"
-      *ngFor="let link of navTabs">
-      <a class="list-group-item"
-        [routerLink]="link.href"
-        routerLinkActive="active">{{link.name}}</a>
+      *ngFor="let tab of navTabs">
+      <button class="list-group-item"
+        (click)="onTab(tab.id)"
+        [disabled]="tab.id === currentTabId"
+        >{{tab.name}}</button>
     </li>
   </ul>
 </div>
 
-<router-outlet></router-outlet>
+<div [ngSwitch]="currentTabId">
+  <app-order-list *ngSwitchCase="'order'"
+    [account]="account"></app-order-list>
+  <app-snapshot-list *ngSwitchCase="'snap'"
+    [account]="account"></app-snapshot-list>
+  <app-iap-list *ngSwitchCase="'iap'"
+    [account]="account"></app-iap-list>
+</div>
 
 

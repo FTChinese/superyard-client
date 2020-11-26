@@ -13,10 +13,16 @@ import { Link } from 'src/app/shared/widget/link';
 import { ProgressService } from 'src/app/shared/service/progress.service';
 import { testAccountSuffix } from '../../schema/sandbox-form';
 
+type TabID = 'order' | 'snap' | 'iap';
+
+interface Tab {
+  id: TabID;
+  name: string;
+}
 @Component({
   selector: 'app-account-detail',
   templateUrl: './account-detail.component.html',
-  styleUrls: ['./account-detail.component.scss']
+  styleUrls: ['./account-detail.component.scss'],
 })
 export class AccountDetailComponent implements OnInit {
 
@@ -26,24 +32,22 @@ export class AccountDetailComponent implements OnInit {
     return this.account && this.account.email.endsWith(testAccountSuffix);
   }
 
-  navTabs: Link[] = [
+  navTabs: Tab[] = [
     {
-      href: 'profile',
-      name: 'Profile'
-    },
-    {
-      href: 'orders',
+      id: 'order',
       name: 'Subscription Orders'
     },
     {
-      href: 'snapshots',
+      id: 'snap',
       name: 'Membership Snapshots'
     },
     {
-      href: 'iap-subs',
+      id: 'iap',
       name: 'IAP Subscriptions'
     }
   ];
+
+  currentTabId: TabID;
 
   constructor(
     private route: ActivatedRoute,
@@ -67,6 +71,7 @@ export class AccountDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     zip(this.route.data, this.route.paramMap)
       .pipe(
         switchMap(([data, params]) => {
@@ -123,5 +128,9 @@ export class AccountDetailComponent implements OnInit {
         console.log(err);
       }
     });
+  }
+
+  onTab(id: TabID) {
+    this.currentTabId = id;
   }
 }
