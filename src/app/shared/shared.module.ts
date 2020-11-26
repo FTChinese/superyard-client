@@ -22,6 +22,8 @@ import { LinePipe } from './pipes/line.pipe';
 import { PropertyListComponent } from './property-list/property-list.component';
 import { InputGroupComponent } from './input-group/input-group.component';
 import { PrevNextComponent } from './prev-next/prev-next.component';
+import { PaginationComponent } from './pagination/pagination.component';
+import { RangePipe } from './pipes/range.pipe';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,8 @@ import { PrevNextComponent } from './prev-next/prev-next.component';
     PropertyListComponent,
     InputGroupComponent,
     PrevNextComponent,
+    PaginationComponent,
+    RangePipe,
   ],
   imports: [
     CommonModule,
@@ -62,6 +66,7 @@ import { PrevNextComponent } from './prev-next/prev-next.component';
     OrderKindPipe,
     PayMethodPipe,
     LinePipe,
+    RangePipe,
     SearchFormComponent,
     DynamicFormComponent,
     DynamicControlComponent,
@@ -73,6 +78,7 @@ import { PrevNextComponent } from './prev-next/prev-next.component';
     ModalCancelComponent,
     PropertyListComponent,
     PrevNextComponent,
+    PaginationComponent,
   ]
 })
 export class SharedModule { }
